@@ -1,14 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
 
-private let readMe = """
-  This screen demonstrates the basics of the Composable Architecture in an archetypal counter \
-  application.
-  
-  The domain of the application is modeled using simple data types that correspond to the mutable \
-  state of the application and any actions that can affect that state or the outside world.
-  """
-
 // MARK: - Feature domain
 
 struct Counter: ReducerProtocol {
@@ -24,9 +16,11 @@ struct Counter: ReducerProtocol {
   func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
     switch action {
       case .decrementButtonTapped:
+        print("CounterReducerProtocol: ", action)
         state.count -= 1
         return .none
       case .incrementButtonTapped:
+        print("CounterReducerProtocol: ", action)
         state.count += 1
         return .none
     }
@@ -35,14 +29,15 @@ struct Counter: ReducerProtocol {
 
 struct CounterMiddleware: MiddlewareProtocol {
   func handle(action: Counter.Action, from dispatcher: ActionSource, state: @escaping GetState<Counter.State>) -> IO<Counter.Action> {
-    print(state())
+    print(dispatcher)
+    print("old_state:",state())
     let io = IO<Counter.Action> { output in
-      print(state())
+      print("new_state:",state())
       switch action {
         case .decrementButtonTapped:
-          print(action)
+          print("CounterMiddleware:", action)
         case .incrementButtonTapped:
-          print(action)
+          print("CounterMiddleware:", action)
       }
     }
     return io
@@ -54,26 +49,71 @@ struct CounterMiddleware: MiddlewareProtocol {
 struct CounterView: View {
   let store: StoreOf<Counter>
   
+  @ObservedObject var viewStore: ViewStoreOf<Counter>
+  
+  init(store: StoreOf<Counter>) {
+    self.store = store
+    self.viewStore = ViewStoreOf<Counter>(store)
+  }
+  
   var body: some View {
-    WithViewStore(self.store, observe: { $0 }) { viewStore in
-      HStack {
-        Button {
-          //          viewStore.send(.decrementButtonTapped)
-          store.dispatch(.init(.decrementButtonTapped, dispatcher: .here()))
-        } label: {
-          Image(systemName: "minus")
-        }
-        
-        Text("\(viewStore.count)")
-          .monospacedDigit()
-        
-        Button {
-          //          viewStore.send(.incrementButtonTapped)
-          store.dispatch(.init(.incrementButtonTapped, dispatcher: .here()))
-        } label: {
-          Image(systemName: "plus")
+    ScrollView {
+      VStack {
+        Text("viewStore send")
+        HStack {
+          Button {
+            viewStore.send(.decrementButtonTapped)
+          } label: {
+            Image(systemName: "minus")
+          }
+          Text("\(viewStore.count)")
+            .monospacedDigit()
+          Button {
+            viewStore.send(.incrementButtonTapped)
+          } label: {
+            Image(systemName: "plus")
+          }
         }
       }
+      .padding()
+      
+      VStack {
+        Text("viewStore dispatch")
+        HStack {
+          Button {
+            viewStore.dispatch(.decrementButtonTapped)
+          } label: {
+            Image(systemName: "minus")
+          }
+          Text("\(viewStore.count)")
+            .monospacedDigit()
+          Button {
+            viewStore.dispatch(.incrementButtonTapped)
+          } label: {
+            Image(systemName: "plus")
+          }
+        }
+      }
+      .padding()
+      
+      VStack {
+        Text("store dispatch")
+        HStack {
+          Button {
+            store.dispatch(.decrementButtonTapped)
+          } label: {
+            Image(systemName: "minus")
+          }
+          Text("\(viewStore.count)")
+            .monospacedDigit()
+          Button {
+            store.dispatch(.incrementButtonTapped)
+          } label: {
+            Image(systemName: "plus")
+          }
+        }
+      }
+      .padding()
     }
   }
 }
@@ -82,18 +122,7 @@ struct CounterDemoView: View {
   let store: StoreOf<Counter>
   
   var body: some View {
-    Form {
-      Section {
-        AboutView(readMe: readMe)
-      }
-      
-      Section {
-        CounterView(store: self.store)
-          .frame(maxWidth: .infinity)
-      }
-    }
-    .buttonStyle(.borderless)
-    .navigationTitle("Counter demo")
+    CounterView(store: store)
   }
 }
 

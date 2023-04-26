@@ -127,9 +127,8 @@ public final class ViewStore<ViewState, ViewAction>: ObservableObject {
   ) {
     self._send = { store.send(fromViewAction($0)) }
     self._dispatch = { dispatch in
-      if let action = dispatch.compactMap({fromViewAction($0)}) {
-        store.dispatch(action)
-      }
+      let action = dispatch.map({fromViewAction($0)})
+      store.dispatch(action)
     }
     self._state = CurrentValueRelay(toViewState(store.state.value))
     self.viewCancellable = store.state
@@ -277,10 +276,6 @@ public final class ViewStore<ViewState, ViewAction>: ObservableObject {
   /// Returns the resulting value of a given key path.
   public subscript<Value>(dynamicMember keyPath: KeyPath<ViewState, Value>) -> Value {
     self._state.value[keyPath: keyPath]
-  }
-  
-  public func dispatch(_ dispatchedAction: DispatchedAction<ViewAction>) {
-    _dispatch(dispatchedAction)
   }
 
   /// Sends an action to the store.
@@ -609,6 +604,12 @@ public final class ViewStore<ViewState, ViewAction>: ObservableObject {
         self.send(action.rawValue(newValue))
       }
     }
+  }
+}
+
+extension ViewStore: ActionHandler {
+  public func dispatch(_ dispatchedAction: DispatchedAction<ViewAction>) {
+    _dispatch(dispatchedAction)
   }
 }
 

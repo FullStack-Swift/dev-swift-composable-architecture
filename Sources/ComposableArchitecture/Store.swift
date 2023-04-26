@@ -783,9 +783,11 @@ public typealias StoreOf<R: ReducerProtocol> = Store<R.State, R.Action>
   }
 #endif
 
-extension Store {
+extension Store: ActionHandler {
   @discardableResult
-  public func withMiddleware<M: MiddlewareProtocol>(_ middleware: M) -> Self where M.InputActionType == Action, M.OutputActionType == Action, M.StateType == State {
+  public func withMiddleware<M: MiddlewareProtocol>(
+    _ middleware: M
+  ) -> Self where M.InputActionType == Action, M.OutputActionType == Action, M.StateType == State {
     self.middleware = middleware.eraseToAnyMiddleware()
     return self
   }
