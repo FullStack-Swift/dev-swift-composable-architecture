@@ -1,3 +1,5 @@
+import Foundation
+
 public protocol AsyncActionHandler {
   associatedtype ActionType
 

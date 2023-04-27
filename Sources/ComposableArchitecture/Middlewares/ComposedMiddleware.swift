@@ -1,7 +1,9 @@
 public struct ComposedMiddleware<InputActionType, OutputActionType, StateType>: MiddlewareProtocol {
   var middlewares: [AnyMiddleware<InputActionType, OutputActionType, StateType>] = []
   
-  public init() { }
+  public init(middlewares: [AnyMiddleware<InputActionType, OutputActionType, StateType>] = []) {
+    self.middlewares = middlewares
+  }
   
   public mutating func append<M: MiddlewareProtocol>(middleware: M)
   where M.InputActionType == InputActionType,

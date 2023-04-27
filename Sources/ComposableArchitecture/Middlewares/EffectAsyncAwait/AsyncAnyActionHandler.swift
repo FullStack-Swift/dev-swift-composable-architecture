@@ -1,3 +1,5 @@
+import Foundation
+
 public struct AsyncAnyActionHandler<ActionType>: AsyncActionHandler {
   private let realHandler: (DispatchedAction<ActionType>) async -> Void
   

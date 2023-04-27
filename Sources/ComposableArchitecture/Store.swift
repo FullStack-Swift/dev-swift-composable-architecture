@@ -136,7 +136,7 @@ public final class Store<State, Action> {
     private let mainThreadChecksEnabled: Bool
   #endif
   
-  var middleware: AnyMiddleware<Action, Action, State>?
+  var middlewares: [AnyMiddleware<Action, Action, State>] = []
 
   /// Initializes a store from an initial state and a reducer.
   ///
@@ -788,7 +788,7 @@ extension Store: ActionHandler {
   public func withMiddleware<M: MiddlewareProtocol>(
     _ middleware: M
   ) -> Self where M.InputActionType == Action, M.OutputActionType == Action, M.StateType == State {
-    self.middleware = middleware.eraseToAnyMiddleware()
+    self.middlewares.append(middleware.eraseToAnyMiddleware())
     return self
   }
   
@@ -797,18 +797,22 @@ extension Store: ActionHandler {
   }
   
   private func handleAsap(dispatchedAction: DispatchedAction<Action>) {
-    if let middleware {
-      let io = handle(
-        middleware: middleware,
-        reducer: self.reducer,
-        dispatchedAction: dispatchedAction,
-        state: self.state
-      )
-      Self.runIO(io, handler: { [weak self] dispatchedAction
-        in self?.dispatch(dispatchedAction)
-      })
+    if middlewares.isEmpty {
+      Task { @MainActor in
+        _ = self.send(dispatchedAction.action)
+      }
     } else {
-      _ = self.send(dispatchedAction.action)
+      for middleware in middlewares {
+        let io = handle(
+          middleware: middleware,
+          reducer: self.reducer,
+          dispatchedAction: dispatchedAction,
+          state: self.state
+        )
+        Self.runIO(io, handler: { [weak self] dispatchedAction
+          in self?.dispatch(dispatchedAction)
+        })
+      }
     }
   }
   

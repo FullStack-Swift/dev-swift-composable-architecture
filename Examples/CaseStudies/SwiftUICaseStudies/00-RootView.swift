@@ -15,7 +15,6 @@ struct RootView: View {
                 state: \.counter,
                 action: Root.Action.counter
               )
-              .withMiddleware(CounterMiddleware())
             )
           )
 

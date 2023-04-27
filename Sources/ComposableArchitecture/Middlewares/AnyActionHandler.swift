@@ -1,3 +1,5 @@
+import Foundation
+
 public struct AnyActionHandler<ActionType>: ActionHandler, @unchecked Sendable {
   private let realHandler: (DispatchedAction<ActionType>) -> Void
 

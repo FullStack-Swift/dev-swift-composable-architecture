@@ -9,7 +9,23 @@ public struct DispatchedAction<Action> {
     self.action = action
     self.dispatcher = dispatcher
   }
+}
+
+extension DispatchedAction {
+  public func map<NewAction>(
+    _ transform: (Action) -> NewAction
+  ) -> DispatchedAction<NewAction> {
+    DispatchedAction<NewAction>(transform(action), dispatcher: dispatcher)
+  }
   
+  public func compactMap<NewAction>(
+    _ transform: (Action) -> NewAction?
+  ) -> DispatchedAction<NewAction>? {
+    transform(action).map { DispatchedAction<NewAction>($0, dispatcher: dispatcher) }
+  }
+}
+
+extension DispatchedAction {
   public init(_ action: Action, file: String = #file, function: String = #function, line: UInt = #line, info: String? = nil) {
     self.init(
       action,
@@ -18,17 +34,10 @@ public struct DispatchedAction<Action> {
   }
 }
 
-extension DispatchedAction {
-  public func map<NewAction>(_ transform: (Action) -> NewAction) -> DispatchedAction<NewAction> {
-    DispatchedAction<NewAction>(transform(action), dispatcher: dispatcher)
-  }
-  
-  public func compactMap<NewAction>(_ transform: (Action) -> NewAction?) -> DispatchedAction<NewAction>? {
-    transform(action).map { DispatchedAction<NewAction>($0, dispatcher: dispatcher) }
-  }
-}
-
 extension DispatchedAction: Decodable where Action: Decodable { }
+
 extension DispatchedAction: Encodable where Action: Encodable { }
+
 extension DispatchedAction: Equatable where Action: Equatable { }
+
 extension DispatchedAction: Hashable where Action: Hashable { }

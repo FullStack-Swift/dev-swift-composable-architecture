@@ -3,12 +3,20 @@ import SwiftUI
 
 @main
 struct CaseStudiesApp: App {
-  
+
   let store = Store(
     initialState: Counter.State(),
     reducer: Counter()
   )
-    .withMiddleware(CounterMiddleware())
+    .withMiddleware(
+      ComposedMiddleware(
+        middlewares: [
+          CounterMiddleware().eraseToAnyMiddleware(),
+//          CounterEffectMiddleware().eraseToAnyMiddleware(),
+//          CounterAsyncMiddleware().eraseToAnyMiddleware()
+        ]
+      )
+    )
   
   var body: some Scene {
     WindowGroup {

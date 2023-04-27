@@ -1,6 +1,5 @@
 import Foundation
 
-
 public struct AnyMiddleware<InputActionType, OutputActionType, StateType>: MiddlewareProtocol {
   private let _handle: (InputActionType, ActionSource, @escaping GetState<StateType>) -> IO<OutputActionType>
 
