@@ -62,7 +62,7 @@ import SwiftUI
 /// > all interactions must happen on the _main_ thread. See the documentation of the ``Store``
 /// > class for more information as to why this decision was made.
 @dynamicMemberLookup
-public final class ViewStore<ViewState, ViewAction>: ObservableObject {
+public final class ViewStore<ViewState, ViewAction>: ObservableObject, @unchecked Sendable {
   // N.B. `ViewStore` does not use a `@Published` property, so `objectWillChange`
   // won't be synthesized automatically. To work around issues on iOS 13 we explicitly declare it.
   public private(set) lazy var objectWillChange = ObservableObjectPublisher()

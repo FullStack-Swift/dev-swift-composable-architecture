@@ -1,4 +1,4 @@
-public struct AnyActionHandler<ActionType>: ActionHandler {
+public struct AnyActionHandler<ActionType>: ActionHandler, @unchecked Sendable {
   private let realHandler: (DispatchedAction<ActionType>) -> Void
 
   public init<A: ActionHandler>(_ realHandler: A) where A.ActionType == ActionType {

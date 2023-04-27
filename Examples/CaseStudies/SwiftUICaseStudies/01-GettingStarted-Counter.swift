@@ -36,8 +36,14 @@ struct CounterMiddleware: MiddlewareProtocol {
       switch action {
         case .decrementButtonTapped:
           print("CounterMiddleware:", action)
+          DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            output.dispatch(.decrementButtonTapped)
+          }
         case .incrementButtonTapped:
           print("CounterMiddleware:", action)
+          DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            output.dispatch(.incrementButtonTapped)
+          }
       }
     }
     return io
