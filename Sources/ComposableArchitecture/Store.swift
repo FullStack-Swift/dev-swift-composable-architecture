@@ -792,6 +792,11 @@ extension Store {
     return self
   }
 
+  @discardableResult
+  public func removeAllMiddleware() -> Self {
+    self.middleware.middlewares.removeAll()
+    return self
+  }
 }
 
 // MARK: Store + ActionHandler
@@ -804,12 +809,13 @@ extension Store: ActionHandler {
 // MARK: Store + ActionHandler Utilities
 extension Store {
   private func handleAsap(dispatchedAction: DispatchedAction<Action>) {
-    if middleware.middlewares.isEmpty {
+    let middlewares = middleware.middlewares
+    if middlewares.isEmpty {
       Task { @MainActor in
         _ = self.send(dispatchedAction.action)
       }
     } else {
-      for middleware in middleware.middlewares {
+      for middleware in middlewares {
         let io = handle(
           middleware: middleware,
           reducer: self.reducer,
@@ -834,7 +840,10 @@ extension Store {
       from: dispatchedAction.dispatcher,
       state: { state.value }
     )
-    _ = self.send(dispatchedAction.action)
+    let task = self.send(dispatchedAction.action)
+    defer {
+      task?.cancel()
+    }
     return io
   }
 
@@ -849,7 +858,8 @@ extension Store {
 }
 
 extension Store {
-  var middleware: ComposedMiddleware<Action, Action, State> {
+  // MARK: Properties middleware in storage
+  public var middleware: ComposedMiddleware<Action, Action, State> {
     get {
       self.storage[
         ComposedMiddlewareStorageKey.self,
@@ -863,9 +873,12 @@ extension Store {
 }
 
 extension Store {
+
+  /// Make key ComposedMiddleware StorageKey
   struct ComposedMiddlewareStorageKey: StorageKey {
     public typealias Value = ComposedMiddleware<Action, Action, State>
   }
 }
 
+/// Make ComposedMiddleware is an AnyStorageValue
 extension ComposedMiddleware: AnyStorageValue {}

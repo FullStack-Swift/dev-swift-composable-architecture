@@ -28,7 +28,7 @@ open class EffectMiddleware<InputActionType, OutputActionType, StateType>: Middl
     action: InputActionType,
     state: @escaping GetState<StateType>
   ) -> EffectTask<OutputActionType> {
-    fatalError()
+    return EffectTask(operation: .none)
   }
 }
 

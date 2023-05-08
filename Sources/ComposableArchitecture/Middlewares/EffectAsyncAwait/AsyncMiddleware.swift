@@ -26,6 +26,6 @@ open class AsyncMiddleware<InputActionType, OutputActionType, StateType>: Middle
     action:InputActionType,
     state: @escaping GetState<StateType>
   ) async throws -> OutputActionType? {
-    fatalError()
+    return nil
   }
 }

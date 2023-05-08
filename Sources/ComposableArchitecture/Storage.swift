@@ -1,7 +1,7 @@
 /// A container providing arbitrary storage for extensions of an existing type, designed to obviate
 /// the problem of being unable to add stored properties to a type in an extension. Each stored item
 /// is keyed by a type conforming to ``StorageKey`` protocol.
-public struct Storage {
+public class Storage {
   /// The internal storage area.
   var storage: [ObjectIdentifier: AnyStorageValue]
 
@@ -14,8 +14,8 @@ public struct Storage {
     self.storage = storage
   }
 
-  /// Delete all values from the container. Does _not_ invoke shutdown closures.
-  public mutating func clear() {
+  /// Delete all values from the container.
+  public func clear() {
     self.storage = [:]
   }
 
@@ -34,7 +34,7 @@ public struct Storage {
   /// ``Swift/Dictionary/subscript(key:default:)``. The `defaultValue` autoclosure
   /// is evaluated only when the key does not already exist in the container.
   public subscript<Key>(_ key: Key.Type, default defaultValue: @autoclosure () -> Key.Value) -> Key.Value where Key: StorageKey {
-    mutating get {
+    get {
       if let existing = self[key] { return existing }
       let new = defaultValue()
       self.set(Key.self, to: new)
@@ -56,9 +56,7 @@ public struct Storage {
   }
 
   /// Set or remove a value for a given key, optionally providing a shutdown closure for the value.
-  ///
-  /// If a key that has a shutdown closure is removed by this method, the closure **is** invoked.
-  public mutating func set<Key>(
+  public func set<Key>(
     _ key: Key.Type,
     to value: Key.Value?
   ) where Key: StorageKey {
