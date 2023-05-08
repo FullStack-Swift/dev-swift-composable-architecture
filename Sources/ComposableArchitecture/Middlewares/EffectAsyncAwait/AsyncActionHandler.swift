@@ -1,6 +1,7 @@
 import Foundation
 
 public protocol AsyncActionHandler {
+  
   associatedtype ActionType
 
   func dispatch(_ dispatchedAction: DispatchedAction<ActionType>) async

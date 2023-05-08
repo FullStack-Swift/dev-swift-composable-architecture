@@ -135,9 +135,8 @@ public final class Store<State, Action> {
   #if DEBUG
     private let mainThreadChecksEnabled: Bool
   #endif
-  
-  var middlewares: [AnyMiddleware<Action, Action, State>] = []
 
+  public var storage = Storage()
   /// Initializes a store from an initial state and a reducer.
   ///
   /// - Parameters:
@@ -783,26 +782,34 @@ public typealias StoreOf<R: ReducerProtocol> = Store<R.State, R.Action>
   }
 #endif
 
-extension Store: ActionHandler {
+// MARK: Store + Middleware
+extension Store {
   @discardableResult
   public func withMiddleware<M: MiddlewareProtocol>(
     _ middleware: M
   ) -> Self where M.InputActionType == Action, M.OutputActionType == Action, M.StateType == State {
-    self.middlewares.append(middleware.eraseToAnyMiddleware())
+    self.middleware.append(middleware: middleware.eraseToAnyMiddleware())
     return self
   }
-  
+
+}
+
+// MARK: Store + ActionHandler
+extension Store: ActionHandler {
   public func dispatch(_ dispatchedAction: DispatchedAction<Action>) {
     handleAsap(dispatchedAction: dispatchedAction)
   }
-  
+}
+
+// MARK: Store + ActionHandler Utilities
+extension Store {
   private func handleAsap(dispatchedAction: DispatchedAction<Action>) {
-    if middlewares.isEmpty {
+    if middleware.middlewares.isEmpty {
       Task { @MainActor in
         _ = self.send(dispatchedAction.action)
       }
     } else {
-      for middleware in middlewares {
+      for middleware in middleware.middlewares {
         let io = handle(
           middleware: middleware,
           reducer: self.reducer,
@@ -815,7 +822,7 @@ extension Store: ActionHandler {
       }
     }
   }
-  
+
   private func handle(
     middleware: AnyMiddleware<Action, Action, State>,
     reducer: any ReducerProtocol<State, Action>,
@@ -830,7 +837,7 @@ extension Store: ActionHandler {
     _ = self.send(dispatchedAction.action)
     return io
   }
-  
+
   private static func runIO(
     _ io: IO<Action>,
     handler: @escaping (DispatchedAction<Action>) -> Void
@@ -840,3 +847,25 @@ extension Store: ActionHandler {
     })
   }
 }
+
+extension Store {
+  var middleware: ComposedMiddleware<Action, Action, State> {
+    get {
+      self.storage[
+        ComposedMiddlewareStorageKey.self,
+        default: ComposedMiddleware<Action, Action, State>()
+      ]
+    }
+    set {
+      self.storage[ComposedMiddlewareStorageKey.self] = newValue
+    }
+  }
+}
+
+extension Store {
+  struct ComposedMiddlewareStorageKey: StorageKey {
+    public typealias Value = ComposedMiddleware<Action, Action, State>
+  }
+}
+
+extension ComposedMiddleware: AnyStorageValue {}

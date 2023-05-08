@@ -22,7 +22,10 @@ open class AsyncMiddleware<InputActionType, OutputActionType, StateType>: Middle
   }
 
   @MainActor
-  open func asyncHandle(action:InputActionType, state: @escaping GetState<StateType>) async throws -> OutputActionType? {
+  open func asyncHandle(
+    action:InputActionType,
+    state: @escaping GetState<StateType>
+  ) async throws -> OutputActionType? {
     fatalError()
   }
 }
