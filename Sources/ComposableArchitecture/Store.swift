@@ -782,6 +782,108 @@ public typealias StoreOf<R: ReducerProtocol> = Store<R.State, R.Action>
   }
 #endif
 
+#if compiler(>=5.7)
+extension Store {
+  // MARK: Properties middleware in storage
+  public var middleware: ComposedMiddleware<State, Action> {
+    get {
+      self.storage[
+        ComposedMiddlewareStorageKey.self,
+        default: ComposedMiddleware<State, Action>()
+      ]
+    }
+    set {
+      self.storage[ComposedMiddlewareStorageKey.self] = newValue
+    }
+  }
+}
+
+extension Store {
+  /// Make key ComposedMiddleware StorageKey
+  struct ComposedMiddlewareStorageKey: StorageKey {
+    public typealias Value = ComposedMiddleware<State, Action>
+  }
+}
+
+/// Make ComposedMiddleware is an AnyStorageValue
+extension ComposedMiddleware: AnyStorageValue {}
+
+// MARK: Store + Middleware
+extension Store {
+  @discardableResult
+  public func withMiddleware<M: MiddlewareProtocol<State, Action>>(
+    _ middleware: M
+  ) -> Self where M.State == State, M.Action == Action {
+    self.middleware.append(middleware: middleware.eraseToAnyMiddleware())
+    return self
+  }
+
+  @discardableResult
+  public func removeAllMiddleware() -> Self {
+    self.middleware.middlewares.removeAll()
+    return self
+  }
+}
+
+// MARK: Store + ActionHandler
+extension Store: ActionHandler {
+  public func dispatch(_ dispatchedAction: DispatchedAction<Action>) {
+    handleAsap(dispatchedAction: dispatchedAction)
+  }
+}
+
+// MARK: Store + ActionHandler Utilities
+extension Store {
+  private func handleAsap(dispatchedAction: DispatchedAction<Action>) {
+    let middlewares = middleware.middlewares
+    if middlewares.isEmpty {
+      Task { @MainActor in
+        _ = self.send(dispatchedAction.action)
+      }
+    } else {
+      for middleware in middlewares {
+        let io = handle(
+          middleware: middleware,
+          reducer: self.reducer,
+          dispatchedAction: dispatchedAction,
+          state: self.state
+        )
+        Self.runIO(io, handler: { [weak self] dispatchedAction
+          in self?.dispatch(dispatchedAction)
+        })
+      }
+    }
+  }
+
+  private func handle(
+    middleware: AnyMiddleware<State, Action>,
+    reducer: any ReducerProtocol<State, Action>,
+    dispatchedAction: DispatchedAction<Action>,
+    state: CurrentValueSubject<State, Never>
+  ) -> IO<Action> {
+    let io = middleware.handle(
+      action: dispatchedAction.action,
+      from: dispatchedAction.dispatcher,
+      state: { state.value }
+    )
+    let task = self.send(dispatchedAction.action)
+    defer {
+      task?.cancel()
+    }
+    return io
+  }
+
+  private static func runIO(
+    _ io: IO<Action>,
+    handler: @escaping (DispatchedAction<Action>) -> Void
+  ) {
+    io.run(.init { dispatchedAction in
+      handler(dispatchedAction)
+    })
+  }
+}
+
+#else
 // MARK: Store + Middleware
 extension Store {
   @discardableResult
@@ -882,3 +984,5 @@ extension Store {
 
 /// Make ComposedMiddleware is an AnyStorageValue
 extension ComposedMiddleware: AnyStorageValue {}
+
+#endif
