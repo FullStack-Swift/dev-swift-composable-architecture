@@ -7,10 +7,6 @@ public struct IO<Action> {
     self.runIO = run
   }
 
-  public static func pure() -> IO {
-    IO { _ in }
-  }
-
   public func run(_ output: AnyActionHandler<Action>) {
     runIO(output)
   }
@@ -20,14 +16,16 @@ public struct IO<Action> {
   }
 }
 
-extension IO {
-  public static var identity: IO { .pure() }
-}
-
 public func <> <Action>(lhs: IO<Action>, rhs: IO<Action>) -> IO<Action> {
   .init { handler in
     lhs.run(handler)
     rhs.run(handler)
+  }
+}
+
+extension IO {
+  public static func none() -> IO {
+    IO { _ in }
   }
 }
 

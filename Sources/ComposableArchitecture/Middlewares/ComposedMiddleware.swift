@@ -7,7 +7,7 @@ public struct ComposedMiddleware<State, Action>: MiddlewareProtocol {
   }
 
   public mutating func append<M: MiddlewareProtocol>(middleware: M) where M.State == State, M.Action == Action {
-    if middleware is IdentityMiddleware<State, Action> { return }
+    if middleware is EmptyMiddleware<State, Action> { return }
     if (middleware as? AnyMiddleware<State, Action>)?.isIdentity == true { return }
     if let composedAlready = middleware as? ComposedMiddleware<State, Action> {
       middlewares.append(contentsOf: composedAlready.middlewares)
@@ -21,7 +21,7 @@ public struct ComposedMiddleware<State, Action>: MiddlewareProtocol {
   }
 
   public func handle(action: Action, from dispatcher: ActionSource, state: @escaping GetState<State>) -> IO<Action> {
-    middlewares.reduce(into: IO<Action>.pure()) { effects, middleware in
+    middlewares.reduce(into: IO<Action>.none()) { effects, middleware in
       effects = middleware.handle(action: action, from: dispatcher, state: state) <> effects
     }
   }

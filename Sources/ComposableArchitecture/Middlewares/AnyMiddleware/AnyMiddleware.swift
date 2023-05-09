@@ -41,7 +41,7 @@ public struct AnyMiddleware<State, Action>: MiddlewareProtocol {
             self.init(composed: composed)
             return
         }
-        let isIdentity = realMiddleware is IdentityMiddleware<State, Action>
+        let isIdentity = realMiddleware is EmptyMiddleware<State, Action>
         self.init(handle: realMiddleware.handle, isIdentity: isIdentity)
     }
 
