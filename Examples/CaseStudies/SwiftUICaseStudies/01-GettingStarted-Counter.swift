@@ -20,18 +20,28 @@ struct Counter: ReducerProtocol {
 
   // MARK: Body
   var body: some ReducerProtocolOf<Self> {
-    Reduce { state, action in
+    NoneEffectReducer { state, action in
       switch action {
         case .decrementButtonTapped:
           print("CounterReducerProtocol: ", action)
           state.count -= 1
-          return .none
         case .incrementButtonTapped:
           print("CounterReducerProtocol: ", action)
           state.count += 1
-          return .none
       }
     }
+//    Reduce { state, action in
+//      switch action {
+//        case .decrementButtonTapped:
+//          print("CounterReducerProtocol: ", action)
+//          state.count -= 1
+//          return .none
+//        case .incrementButtonTapped:
+//          print("CounterReducerProtocol: ", action)
+//          state.count += 1
+//          return .none
+//      }
+//    }
   }
 }
 
@@ -70,35 +80,35 @@ struct CounterMiddleware: MiddlewareProtocol {
     }
 
     // MARK: EffectMiddleware
-    EffectMiddleware { action, source, state in
-      print("state:", state)
-      switch action {
-        case .decrementButtonTapped:
-          print("CounterEffectMiddleware:", action)
-          return EffectTask(value: .decrementButtonTapped)
-            .delay(for: 1, scheduler: UIScheduler.shared)
-            .eraseToEffect()
-        case .incrementButtonTapped:
-          print("CounterEffectMiddleware:", action)
-          return EffectTask(value: .incrementButtonTapped)
-            .delay(for: 1, scheduler: UIScheduler.shared)
-            .eraseToEffect()
-      }
-    }
+//    EffectMiddleware { action, source, state in
+//      print("state:", state)
+//      switch action {
+//        case .decrementButtonTapped:
+//          print("CounterEffectMiddleware:", action)
+//          return EffectTask(value: .decrementButtonTapped)
+//            .delay(for: 1, scheduler: UIScheduler.shared)
+//            .eraseToEffect()
+//        case .incrementButtonTapped:
+//          print("CounterEffectMiddleware:", action)
+//          return EffectTask(value: .incrementButtonTapped)
+//            .delay(for: 1, scheduler: UIScheduler.shared)
+//            .eraseToEffect()
+//      }
+//    }
     // MARK: AsyncMiddleware
-    AsyncMiddleware { action, source, state in
-      print("state:",state)
-      switch action {
-        case .decrementButtonTapped:
-          print("CounterAsyncMiddleware:", action)
-          try await Task.sleep(nanoseconds: 1_000_000_000)
-          return .decrementButtonTapped
-        case .incrementButtonTapped:
-          print("CounterAsyncMiddleware:", action)
-          try await Task.sleep(nanoseconds: 1_000_000_000)
-          return .incrementButtonTapped
-      }
-    }
+//    AsyncMiddleware { action, source, state in
+//      print("state:",state)
+//      switch action {
+//        case .decrementButtonTapped:
+//          print("CounterAsyncMiddleware:", action)
+//          try await Task.sleep(nanoseconds: 1_000_000_000)
+//          return .decrementButtonTapped
+//        case .incrementButtonTapped:
+//          print("CounterAsyncMiddleware:", action)
+//          try await Task.sleep(nanoseconds: 1_000_000_000)
+//          return .incrementButtonTapped
+//      }
+//    }
   }
 }
 
