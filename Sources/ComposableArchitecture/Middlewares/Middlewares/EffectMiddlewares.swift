@@ -1,8 +1,6 @@
 import Combine
 import Foundation
 
-fileprivate var _cancellationEffectCancellables = Set<AnyCancellable>()
-
 public struct EffectMiddleware<State, Action>: MiddlewareProtocol {
 
   @usableFromInline
@@ -31,3 +29,5 @@ public struct EffectMiddleware<State, Action>: MiddlewareProtocol {
     return io
   }
 }
+
+fileprivate var _cancellationEffectCancellables = Set<AnyCancellable>()

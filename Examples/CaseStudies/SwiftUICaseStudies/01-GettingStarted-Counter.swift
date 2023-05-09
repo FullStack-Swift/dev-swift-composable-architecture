@@ -60,20 +60,37 @@ struct CounterMiddleware: MiddlewareProtocol {
   // MARK: Body
   var body: some MiddlewareProtocolOf<Self> {
     // MARK: Middleware
-    Middleware { action, source, state in
-      let io = IO<Counter.Action> { output in
-        print("state:",state)
+//    Middleware { action, source, state in
+//      let io = IO<Action> { output in
+//        print("state:",state)
+//        switch action {
+//          case .decrementButtonTapped:
+//            print("CounterMiddleware:", action)
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//              output.dispatch(.decrementButtonTapped)
+//            }
+//          case .incrementButtonTapped:
+//            print("CounterMiddleware:", action)
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//              output.dispatch(.incrementButtonTapped)
+//            }
+//        }
+//      }
+//      return io
+//    }
+
+    // MARK: OutputAsyncMiddleware
+    OutputAsyncMiddleware { action, source, state in
+      let io = AsyncIO<Action> { output in
         switch action {
           case .decrementButtonTapped:
             print("CounterMiddleware:", action)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-              output.dispatch(.decrementButtonTapped)
-            }
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+            output.dispatch(.decrementButtonTapped)
           case .incrementButtonTapped:
             print("CounterMiddleware:", action)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-              output.dispatch(.incrementButtonTapped)
-            }
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+            output.dispatch(.incrementButtonTapped)
         }
       }
       return io

@@ -15,7 +15,7 @@ public struct Middleware<State, Action>: MiddlewareProtocol {
 
   /// Initializes a middleware with a `handle` function.
   ///
-  /// - Parameter reduce: A function that is called when ``handle(action:from::state)`` is invoked.
+  /// - Parameter reduce: A function that is called when ``handle(action:from:state)`` is invoked.
   @inlinable
   public init(_ handle: @escaping (Action, ActionSource, State) -> IO<Action>) {
     self.init(internal: handle)
@@ -23,7 +23,7 @@ public struct Middleware<State, Action>: MiddlewareProtocol {
 
   /// Type-erases a middleware.
   ///
-  /// - Parameter middleware: A middleware that is called when ``handle(action:from::state)`` is invoked.
+  /// - Parameter middleware: A middleware that is called when ``handle(action:from:state)`` is invoked.
   @inlinable
   public init<M: MiddlewareProtocol>(_ middleware: M)
   where M.State == State, M.Action == Action {

@@ -829,7 +829,9 @@ extension Store {
 // MARK: Store + ActionHandler
 extension Store: ActionHandler {
   public func dispatch(_ dispatchedAction: DispatchedAction<Action>) {
-    handleAsap(dispatchedAction: dispatchedAction)
+    Task { @MainActor in
+      handleAsap(dispatchedAction: dispatchedAction)
+    }
   }
 }
 
