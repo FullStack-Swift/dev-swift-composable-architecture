@@ -29,81 +29,68 @@ struct Counter: ReducerProtocol {
 
 #if compiler(>=5.7)
 
-class CounterMiddleware: MiddlewareProtocol {
+struct CounterMiddleware: MiddlewareProtocol {
 
   typealias State = Counter.State
 
   typealias Action = Counter.Action
 
-
-  func handle(action: Action, from dispatcher: ActionSource, state: @escaping GetState<State>) -> IO<Action> {
-    print("old_state:",state())
-    let io = IO<Counter.Action> { output in
-      print("new_state:",state())
-      switch action {
-        case .decrementButtonTapped:
-          print("CounterMiddleware:", action)
-          DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            output.dispatch(.decrementButtonTapped)
-          }
-        case .incrementButtonTapped:
-          print("CounterMiddleware:", action)
-          DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            output.dispatch(.incrementButtonTapped)
-          }
+  var body: some MiddlewareProtocolOf<Self> {
+    Middleware { action, source, state in
+      let io = IO<Counter.Action> { output in
+        print("state:",state())
+        switch action {
+          case .decrementButtonTapped:
+            print("CounterMiddleware:", action)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+              output.dispatch(.decrementButtonTapped)
+            }
+          case .incrementButtonTapped:
+            print("CounterMiddleware:", action)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+              output.dispatch(.incrementButtonTapped)
+            }
+        }
       }
+      return io
     }
-    return io
-  }
 
-}
+//    EffectMiddleware { action, source, state in
+//      print("state:",state())
+//      switch action {
+//        case .decrementButtonTapped:
+//          print("CounterEffectMiddleware:", action)
+//          return EffectTask(value: .decrementButtonTapped)
+//            .delay(for: 1, scheduler: UIScheduler.shared)
+//            .eraseToEffect()
+//        case .incrementButtonTapped:
+//          print("CounterEffectMiddleware:", action)
+//          return EffectTask(value: .incrementButtonTapped)
+//            .delay(for: 1, scheduler: UIScheduler.shared)
+//            .eraseToEffect()
+//      }
+//    }
 
-class CounterEffectMiddleware: EffectMiddleware<Counter.State, Counter.Action> {
-
-  override func effectHandle(action: Counter.Action, state: @escaping GetState<Counter.State>) -> EffectTask<Counter.Action> {
-    print("state:",state())
-    switch action {
-      case .decrementButtonTapped:
-        print("CounterEffectMiddleware:", action)
-        return EffectTask(value: .decrementButtonTapped)
-          .delay(for: 2, scheduler: UIScheduler.shared)
-          .eraseToEffect()
-      case .incrementButtonTapped:
-        print("CounterEffectMiddleware:", action)
-        return EffectTask(value: .incrementButtonTapped)
-          .delay(for: 2, scheduler: UIScheduler.shared)
-          .eraseToEffect()
-    }
-  }
-}
-
-class CounterAsyncMiddleware: AsyncMiddleware<Counter.State, Counter.Action> {
-
-  override func asyncHandle(
-    action: Counter.Action,
-    state: @escaping GetState<Counter.State>
-  ) async throws -> Counter.Action? {
-    switch action {
-      case .decrementButtonTapped:
-        print("CounterAsyncMiddleware:", action)
-        try await Task.sleep(nanoseconds: 2_000_000_000)
-        return .decrementButtonTapped
-      case .incrementButtonTapped:
-        print("CounterAsyncMiddleware:", action)
-        try await Task.sleep(nanoseconds: 2_000_000_000)
-        return .incrementButtonTapped
-    }
+//    AsyncMiddleware { action, source, state in
+//      print("state:",state())
+//      switch action {
+//        case .decrementButtonTapped:
+//          print("CounterAsyncMiddleware:", action)
+//          try await Task.sleep(nanoseconds: 1_000_000_000)
+//          return .decrementButtonTapped
+//        case .incrementButtonTapped:
+//          print("CounterAsyncMiddleware:", action)
+//          try await Task.sleep(nanoseconds: 1_000_000_000)
+//          return .incrementButtonTapped
+//      }
+//    }
   }
 }
 
 #else
 class CounterMiddleware: MiddlewareProtocol {
 
-  func handle(
-    action: Counter.Action,
-    from dispatcher: ActionSource,
-    state: @escaping GetState<Counter.State>
-  ) -> IO<Counter.Action> {
+  func handle(action: Counter.Action, from dispatcher: ActionSource, state: @escaping GetState<Counter.State>) -> IO<Counter.Action> {
     print("old_state:",state())
     let io = IO<Counter.Action> { output in
       print("new_state:",state())
@@ -145,10 +132,7 @@ class CounterEffectMiddleware: EffectMiddleware<Counter.Action, Counter.Action, 
 
 class CounterAsyncMiddleware: AsyncMiddleware<Counter.Action, Counter.Action, Counter.State> {
 
-  override func asyncHandle(
-    action: Counter.Action,
-    state: @escaping GetState<Counter.State>
-  ) async throws -> Counter.Action? {
+  override func asyncHandle(action: Counter.Action, state: @escaping GetState<Counter.State>) async throws -> Counter.Action? {
     switch action {
       case .decrementButtonTapped:
         print("CounterAsyncMiddleware:", action)
@@ -256,7 +240,7 @@ struct CounterView_Previews: PreviewProvider {
           initialState: Counter.State(),
           reducer: Counter()
         )
-//        .withMiddleware([CounterMiddleware(), CounterEffectMiddleware(), CounterAsyncMiddleware()])
+        .withMiddleware(CounterMiddleware())
       )
     }
   }

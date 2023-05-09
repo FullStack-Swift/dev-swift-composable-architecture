@@ -2,35 +2,35 @@ import Combine
 import Foundation
 
 #if compiler(>=5.7)
+public class EffectMiddleware<State, Action>: MiddlewareProtocol {
 
-open class EffectMiddleware<State, Action>: MiddlewareProtocol {
+  private var cancellables = Set<AnyCancellable>()
 
-  public var cancellables = Set<AnyCancellable>()
+  @usableFromInline
+  let handle: (Action, ActionSource, @escaping GetState<State>) -> EffectTask<Action>
 
-  public init() {}
+  @usableFromInline
+  init(
+    internal handle: @escaping (Action, ActionSource, @escaping GetState<State>) -> EffectTask<Action>
+  ) {
+    self.handle = handle
+  }
 
-  open func handle(
-    action: Action,
-    from dispatcher: ActionSource,
-    state: @escaping GetState<State>
-  ) -> IO<Action> {
+  @inlinable
+  public convenience init(_ handle: @escaping (Action, ActionSource, @escaping GetState<State>) -> EffectTask<Action>) {
+    self.init(internal: handle)
+  }
+
+  public func handle(action: Action, from dispatcher: ActionSource, state: @escaping GetState<State>) -> IO<Action> {
     let io = IO<Action> { [weak self] output in
       guard let self else { return }
-      let effect = self.effectHandle(action: action, state: state)
-      effect.sink { inputAction in
-        output.dispatch(inputAction)
+      let effect = self.handle(action, dispatcher, state)
+      effect.sink { input in
+        output.dispatch(input)
       }
       .store(in: &self.cancellables)
     }
     return io
-  }
-
-
-  open func effectHandle(
-    action: Action,
-    state: @escaping GetState<State>
-  ) -> EffectTask<Action> {
-    return EffectTask(operation: .none)
   }
 }
 

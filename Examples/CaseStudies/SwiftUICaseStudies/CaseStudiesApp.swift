@@ -8,15 +8,7 @@ struct CaseStudiesApp: App {
     initialState: Counter.State(),
     reducer: Counter()
   )
-    .withMiddleware(
-      ComposedMiddleware(
-        middlewares: [
-          CounterMiddleware().eraseToAnyMiddleware(),
-//          CounterEffectMiddleware().eraseToAnyMiddleware(),
-//          CounterAsyncMiddleware().eraseToAnyMiddleware()
-        ]
-      )
-    )
+    .withMiddleware(CounterMiddleware())
   
   var body: some Scene {
     WindowGroup {

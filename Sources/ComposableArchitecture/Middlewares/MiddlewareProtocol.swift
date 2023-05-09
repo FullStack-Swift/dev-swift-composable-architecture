@@ -86,7 +86,9 @@ extension MiddlewareProtocol where Body == Never {
 }
 
 extension MiddlewareProtocol where Body: MiddlewareProtocol, Body.State == State, Body.Action == Action {
-
+  public func handle(action: Action, from dispatcher: ActionSource, state: @escaping GetState<State>) -> IO<Action> {
+    self.body.handle(action: action, from: dispatcher, state: state)
+  }
 }
 
 // NB: This is available only in Swift 5.7.1 due to the following bug:
