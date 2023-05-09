@@ -864,7 +864,7 @@ extension Store {
     let io = middleware.handle(
       action: dispatchedAction.action,
       from: dispatchedAction.dispatcher,
-      state: { state.value }
+      state: state.value
     )
     let task = self.send(dispatchedAction.action)
     defer {

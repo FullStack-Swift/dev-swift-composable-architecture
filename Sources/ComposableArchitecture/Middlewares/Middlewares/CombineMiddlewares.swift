@@ -20,7 +20,7 @@ public struct CombineMiddlewares<State, Action, Middlewares: MiddlewareProtocol>
     self.middlewares = middlewares
   }
   
-  public func handle(action: Action, from dispatcher: ActionSource, state: @escaping GetState<State>) -> IO<Action> {
+  public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
     self.middlewares.handle(action: action, from: dispatcher, state: state)
   }
 }

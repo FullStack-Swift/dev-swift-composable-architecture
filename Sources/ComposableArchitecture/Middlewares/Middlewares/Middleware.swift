@@ -4,11 +4,11 @@
 /// a new type that conforms to ``ReducerProtocol``.
 public struct Middleware<State, Action>: MiddlewareProtocol {
   @usableFromInline
-  let handle: (Action, ActionSource, @escaping GetState<State>) -> IO<Action>
+  let handle: (Action, ActionSource, State) -> IO<Action>
 
   @usableFromInline
   init(
-    internal handle: @escaping (Action, ActionSource, @escaping GetState<State>) -> IO<Action>
+    internal handle: @escaping (Action, ActionSource, State) -> IO<Action>
   ) {
     self.handle = handle
   }
@@ -17,7 +17,7 @@ public struct Middleware<State, Action>: MiddlewareProtocol {
   ///
   /// - Parameter reduce: A function that is called when ``handle(action:from::state)`` is invoked.
   @inlinable
-  public init(_ handle: @escaping (Action, ActionSource, @escaping GetState<State>) -> IO<Action>) {
+  public init(_ handle: @escaping (Action, ActionSource, State) -> IO<Action>) {
     self.init(internal: handle)
   }
 
@@ -31,7 +31,7 @@ public struct Middleware<State, Action>: MiddlewareProtocol {
   }
 
   @inlinable
-  public func handle(action: Action, from dispatcher: ActionSource, state: @escaping GetState<State>) -> IO<Action> {
+  public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
     self.handle(action, dispatcher, state)
   }
 }

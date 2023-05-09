@@ -1,5 +1,4 @@
 import Dependencies
-import Dependencies
 
 public struct AsyncIO<Action> {
   private let runIO: (AnyActionHandler<Action>) async -> Void
@@ -10,10 +9,6 @@ public struct AsyncIO<Action> {
         await continuation.yield { await run(anyAction) }
       }
     }
-  }
-  
-  public static func pure() -> AsyncIO {
-    AsyncIO {_ in }
   }
   
   public func run(_ output: AnyActionHandler<Action>) async {
@@ -30,7 +25,9 @@ public struct AsyncIO<Action> {
 }
 
 extension AsyncIO {
-  public static var identity: AsyncIO { .pure() }
+  public static func none() -> AsyncIO {
+    AsyncIO { _ in }
+  }
 }
 
 public func <> <Action>(lhs: AsyncIO<Action>, rhs: AsyncIO<Action>) async -> AsyncIO<Action> {

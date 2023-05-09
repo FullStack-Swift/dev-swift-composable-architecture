@@ -37,7 +37,7 @@ public protocol MiddlewareProtocol<State, Action> {
   /// - Returns: An effect that can communicate with the outside world and feed actions back into
   ///   the system.
 
-  func handle(action: Action, from dispatcher: ActionSource, state: @escaping GetState<State>) -> IO<Action>
+  func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action>
 
   /// The content and behavior of a reducer that is composed from other reducers.
   ///
@@ -86,7 +86,7 @@ extension MiddlewareProtocol where Body == Never {
 }
 
 extension MiddlewareProtocol where Body: MiddlewareProtocol, Body.State == State, Body.Action == Action {
-  public func handle(action: Action, from dispatcher: ActionSource, state: @escaping GetState<State>) -> IO<Action> {
+  public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
     self.body.handle(action: action, from: dispatcher, state: state)
   }
 }

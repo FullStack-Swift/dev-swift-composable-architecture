@@ -3,19 +3,19 @@ import Foundation
 
 public struct AnyMiddleware<State, Action>: MiddlewareProtocol {
 
-    private let _handle: (Action, ActionSource, @escaping GetState<State>) -> IO<Action>
+    private let _handle: (Action, ActionSource, State) -> IO<Action>
 
     let isIdentity: Bool
     let isComposed: ComposedMiddleware<State, Action>?
 
     public init(
-        handle: @escaping (Action, ActionSource, @escaping GetState<State>) -> IO<Action>
+        handle: @escaping (Action, ActionSource, State) -> IO<Action>
     ) {
         self.init(handle: handle, isIdentity: false)
     }
 
     private init(
-        handle: @escaping (Action, ActionSource, @escaping GetState<State>) -> IO<Action>,
+        handle: @escaping (Action, ActionSource, State) -> IO<Action>,
         isIdentity: Bool
     ) {
         self._handle = handle
@@ -45,7 +45,7 @@ public struct AnyMiddleware<State, Action>: MiddlewareProtocol {
         self.init(handle: realMiddleware.handle, isIdentity: isIdentity)
     }
 
-    public func handle(action: Action, from dispatcher: ActionSource, state: @escaping GetState<State>) -> IO<Action> {
+    public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
         _handle(action, dispatcher, state)
     }
 }

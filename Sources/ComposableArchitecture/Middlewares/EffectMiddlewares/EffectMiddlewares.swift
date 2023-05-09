@@ -1,70 +1,33 @@
 import Combine
 import Foundation
 
-#if compiler(>=5.7)
-public class EffectMiddleware<State, Action>: MiddlewareProtocol {
+fileprivate var _cancellationEffectCancellables = Set<AnyCancellable>()
 
-  private var cancellables = Set<AnyCancellable>()
+public struct EffectMiddleware<State, Action>: MiddlewareProtocol {
 
   @usableFromInline
-  let handle: (Action, ActionSource, @escaping GetState<State>) -> EffectTask<Action>
+  let handle: (Action, ActionSource, State) -> EffectTask<Action>
 
   @usableFromInline
   init(
-    internal handle: @escaping (Action, ActionSource, @escaping GetState<State>) -> EffectTask<Action>
+    internal handle: @escaping (Action, ActionSource, State) -> EffectTask<Action>
   ) {
     self.handle = handle
   }
 
   @inlinable
-  public convenience init(_ handle: @escaping (Action, ActionSource, @escaping GetState<State>) -> EffectTask<Action>) {
+  public init(_ handle: @escaping (Action, ActionSource, State) -> EffectTask<Action>) {
     self.init(internal: handle)
   }
 
-  public func handle(action: Action, from dispatcher: ActionSource, state: @escaping GetState<State>) -> IO<Action> {
-    let io = IO<Action> { [weak self] output in
-      guard let self else { return }
+  public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
+    let io = IO<Action> { output in
       let effect = self.handle(action, dispatcher, state)
       effect.sink { input in
         output.dispatch(input)
       }
-      .store(in: &self.cancellables)
+      .store(in: &_cancellationEffectCancellables)
     }
     return io
   }
 }
-
-#else
-
-open class EffectMiddleware<InputActionType, OutputActionType, StateType>: MiddlewareProtocol {
-
-  public var cancellables = Set<AnyCancellable>()
-
-  public init() {}
-
-  open func handle(
-    action: InputActionType,
-    from dispatcher: ActionSource,
-    state: @escaping GetState<StateType>
-  ) -> IO<OutputActionType> {
-    let io = IO<OutputActionType> { [weak self] output in
-      guard let self else { return }
-      let effect = self.effectHandle(action: action, state: state)
-      effect.sink { inputAction in
-        output.dispatch(inputAction)
-      }
-      .store(in: &self.cancellables)
-    }
-    return io
-  }
-
-
-  open func effectHandle(
-    action: InputActionType,
-    state: @escaping GetState<StateType>
-  ) -> EffectTask<OutputActionType> {
-    return EffectTask(operation: .none)
-  }
-}
-
-#endif
