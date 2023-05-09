@@ -1,38 +1,53 @@
 import ComposableArchitecture
 import SwiftUI
 
-// MARK: - Feature domain
-
+// MARK: - Counter
 struct Counter: ReducerProtocol {
+
+  // MARK: State
   struct State: Equatable {
     var count = 0
   }
-  
+
+// MARK: Action
   enum Action: Equatable {
     case decrementButtonTapped
     case incrementButtonTapped
   }
-  
-  func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
-    switch action {
-      case .decrementButtonTapped:
-        print("CounterReducerProtocol: ", action)
-        state.count -= 1
-        return .none
-      case .incrementButtonTapped:
-        print("CounterReducerProtocol: ", action)
-        state.count += 1
-        return .none
+
+  // MARK: Dependency
+  @Dependency(\.uuid) var uuid
+
+  // MARK: Body
+  var body: some ReducerProtocolOf<Self> {
+    Reduce { state, action in
+      switch action {
+        case .decrementButtonTapped:
+          print("CounterReducerProtocol: ", action)
+          state.count -= 1
+          return .none
+        case .incrementButtonTapped:
+          print("CounterReducerProtocol: ", action)
+          state.count += 1
+          return .none
+      }
     }
   }
 }
 
+// MARK: CounterMiddleware
 struct CounterMiddleware: MiddlewareProtocol {
 
+  // MARK: State
   typealias State = Counter.State
 
+  // MARK: Action
   typealias Action = Counter.Action
 
+  // MARK: Dependency
+  @Dependency(\.uuid) var uuid
+
+  // MARK: Body
   var body: some MiddlewareProtocolOf<Self> {
     // MARK: Middleware
     Middleware { action, source, state in
@@ -87,8 +102,7 @@ struct CounterMiddleware: MiddlewareProtocol {
   }
 }
 
-// MARK: - Feature view
-
+// MARK: CounterView
 struct CounterView: View {
   let store: StoreOf<Counter>
   
