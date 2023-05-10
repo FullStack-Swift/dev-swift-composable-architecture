@@ -48,7 +48,7 @@ struct TemplateMiddleware: MiddlewareProtocol {
 
   // MARK: Body
   var body: some MiddlewareProtocolOf<Self> {
-    Middleware { action, source, state in
+    IOMiddleware { action, source, state in
       IO<Action> { output in
         switch action {
           case .viewOnAppear:

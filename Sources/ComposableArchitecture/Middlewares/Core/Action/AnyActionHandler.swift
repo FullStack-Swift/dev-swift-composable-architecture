@@ -21,3 +21,13 @@ extension ActionHandler {
     AnyActionHandler(self)
   }
 }
+
+extension AnyActionHandler {
+  func toAsyncAnyActionHandler() -> AsyncAnyActionHandler<Action> {
+    AsyncAnyActionHandler.init { dispatchedAction in
+      Task {
+        dispatch(dispatchedAction)
+      }
+    }
+  }
+}

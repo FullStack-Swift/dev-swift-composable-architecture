@@ -24,3 +24,18 @@ extension ActionHandler {
     }
   }
 }
+
+// MARK: Support Like ActionHandler
+extension ActionHandler {
+  func asyncDispatch(_ dispatchedAction: DispatchedAction<Action>) async throws {
+    dispatch(dispatchedAction)
+  }
+  public func asyncDispatch(_ action: Action, file: String = #file, function: String = #function, line: UInt = #line, info: String? = nil) async throws {
+    try await self.asyncDispatch(action, from: .init(file: file, function: function, line: line, info: info))
+  }
+
+  public func asyncDispatch(_ action: Action, from dispatcher: ActionSource) async throws {
+    try await self.asyncDispatch(DispatchedAction(action, dispatcher: dispatcher))
+  }
+
+}

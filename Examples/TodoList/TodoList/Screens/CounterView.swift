@@ -52,28 +52,69 @@ struct CounterMiddleware: MiddlewareProtocol {
 
   // MARK: Body
   var body: some MiddlewareProtocolOf<Self> {
-    MiddlewareActionHandler { action, source, state, handler in
+    // MARK: IOMiddleware
+    IOMiddleware { action, source, state in
+      IO<Action> { handler in
+        switch action {
+          case .decrement:
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+              handler.dispatch(.decrement)
+            }
+          case .increment:
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+              handler.dispatch(.increment)
+            }
+          default:
+            break
+        }
+      }
+    }
+
+    // MARK: AsyncIOMiddleware
+    AsyncIOMiddleware { action, source, state in
+      AsyncIO { handler in
+        switch action {
+          case .decrement:
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+            handler.dispatch(.decrement)
+          case .increment:
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+            handler.dispatch(.increment)
+          default:
+            break
+        }
+      }
+    }
+
+    // MARK: ActionHandlerMiddleware
+    ActionHandlerMiddleware { action, source, state, handler in
       switch action {
         case .decrement:
+          DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            handler.dispatch(.decrement)
+          }
+        case .increment:
+          DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            handler.dispatch(.increment)
+          }
+        default:
+          break
+      }
+    }
+
+    // MARK: AsyncActionHandlerMiddleware
+    AsyncActionHandlerMiddleware { action, source, state, handler in
+      switch action {
+        case .decrement:
+          try await Task.sleep(nanoseconds: 1_000_000_000)
           handler.dispatch(.decrement)
         case .increment:
+          try await Task.sleep(nanoseconds: 1_000_000_000)
           handler.dispatch(.increment)
         default:
           break
       }
     }
-//    Middleware { action, source, state in
-//      IO<Action> { output in
-//        switch action {
-//          case .decrement:
-//            break
-//          case .increment:
-//            break
-//          default:
-//            break
-//        }
-//      }
-//    }
   }
   // MARK: End Body
 }

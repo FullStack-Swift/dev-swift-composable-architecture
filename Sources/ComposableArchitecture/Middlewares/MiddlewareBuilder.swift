@@ -55,9 +55,9 @@ public enum MiddlewareBuilder<State, Action> {
   @inlinable
   public static func buildLimitedAvailability<M: MiddlewareProtocol>(
     _ wrapped: M
-  ) -> Middleware<State, Action>
+  ) -> IOMiddleware<State, Action>
   where M.State == State, M.Action == Action {
-    Middleware(wrapped)
+    IOMiddleware(wrapped)
   }
 
   @inlinable
