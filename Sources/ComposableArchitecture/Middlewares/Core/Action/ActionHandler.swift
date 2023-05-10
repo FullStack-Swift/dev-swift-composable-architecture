@@ -18,7 +18,7 @@ extension ActionHandler {
 }
 
 extension ActionHandler {
-  public func contramap<NewActionType>(_ transform: @escaping (NewActionType) -> Action) -> AnyActionHandler<NewActionType> {
+  public func map<NewActionType>(_ transform: @escaping (NewActionType) -> Action) -> AnyActionHandler<NewActionType> {
     AnyActionHandler { dispatchedAction in
       self.dispatch(dispatchedAction.map(transform))
     }

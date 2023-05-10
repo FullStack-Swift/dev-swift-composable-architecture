@@ -34,7 +34,7 @@ extension IO {
     _ transform: @escaping (Action) -> NewAction
   ) -> IO<NewAction> {
     IO<NewAction> { output in
-      self.run(output.contramap(transform))
+      self.run(output.map(transform))
     }
   }
 }

@@ -1,9 +1,9 @@
 import Dependencies
 
 public struct AsyncIO<Action> {
-  private let runIO: (AnyActionHandler<Action>) async throws -> Void
+  private let runIO: (AsyncAnyActionHandler<Action>) async throws -> Void
 
-  public init(_ run: @escaping ((AnyActionHandler<Action>) async throws -> Void)) {
+  public init(_ run: @escaping ((AsyncAnyActionHandler<Action>) async throws -> Void)) {
     self.runIO = withEscapedDependencies { continuation in
       return { anyAction in
         try await continuation.yield { try await run(anyAction) }
@@ -11,16 +11,12 @@ public struct AsyncIO<Action> {
     }
   }
   
-  public func run(_ output: AnyActionHandler<Action>) async throws {
+  public func run(_ output: AsyncAnyActionHandler<Action>) async throws {
     try await runIO(output)
   }
   
-  public func run(_ output: @escaping (DispatchedAction<Action>) -> Void) async  throws {
+  public func run(_ output: @escaping (DispatchedAction<Action>) async throws -> Void) async throws {
     try await runIO(.init(output))
-  }
-  
-  public func performAsync(_ output: AnyActionHandler<Action>) async throws -> () {
-    try await self.runIO(output)
   }
 }
 
@@ -38,9 +34,11 @@ public func <> <Action>(lhs: AsyncIO<Action>, rhs: AsyncIO<Action>) async throws
 }
 
 extension AsyncIO {
-  public func map<NewAction>(_ transform: @escaping(Action) -> NewAction) async throws -> AsyncIO<NewAction> {
+  public func map<NewAction>(
+    _ transform: @escaping(Action) -> NewAction
+  ) async throws -> AsyncIO<NewAction> {
     AsyncIO<NewAction> { newAction in
-      try await self.run(newAction.contramap(transform))
+      try await self.run(newAction.map(transform))
     }
   }
 }
@@ -51,9 +49,7 @@ extension AsyncIO {
   ) -> AsyncIO<NewAction> {
     AsyncIO<NewAction> { newAction in
       try await self.run(.init { action in
-        Task {
-          try await transform(action).run(newAction)
-        }
+        try await transform(action).run(newAction)
       })
     }
   }

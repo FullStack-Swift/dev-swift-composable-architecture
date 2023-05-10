@@ -3,21 +3,21 @@ import SwiftUI
 
 // MARK: - Counter
 struct Counter: ReducerProtocol {
-  
+
   // MARK: State
   struct State: Equatable {
     var count = 0
   }
-  
+
   // MARK: Action
   enum Action: Equatable {
     case decrementButtonTapped
     case incrementButtonTapped
   }
-  
+
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
-  
+
   // MARK: Body
   var body: some ReducerProtocolOf<Self> {
     NoneEffectReducer { state, action in
@@ -47,16 +47,16 @@ struct Counter: ReducerProtocol {
 
 // MARK: CounterMiddleware
 struct CounterMiddleware: MiddlewareProtocol {
-  
+
   // MARK: State
   typealias State = Counter.State
-  
+
   // MARK: Action
   typealias Action = Counter.Action
-  
+
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
-  
+
   // MARK: Body
   var body: some MiddlewareProtocolOf<Self> {
     // MARK: Middleware
@@ -78,7 +78,7 @@ struct CounterMiddleware: MiddlewareProtocol {
       }
       return io
     }
-    
+
     // MARK: AsyncIOMiddleware
     AsyncIOMiddleware { action, source, state in
       let io = AsyncIO<Action> { output in
@@ -86,16 +86,16 @@ struct CounterMiddleware: MiddlewareProtocol {
           case .decrementButtonTapped:
             print("CounterMiddleware:", action)
             try await Task.sleep(nanoseconds: 1_000_000_000)
-            output.dispatch(.decrementButtonTapped)
+            try await output.dispatch(.decrementButtonTapped)
           case .incrementButtonTapped:
             print("CounterMiddleware:", action)
             try await Task.sleep(nanoseconds: 1_000_000_000)
-            output.dispatch(.incrementButtonTapped)
+            try await output.dispatch(.incrementButtonTapped)
         }
       }
       return io
     }
-    
+
     // MARK: EffectMiddleware
     EffectMiddleware { action, source, state in
       print("state:", state)
@@ -112,7 +112,7 @@ struct CounterMiddleware: MiddlewareProtocol {
             .eraseToEffect()
       }
     }
-    
+
     // MARK: AsyncActionMiddleware
     AsyncActionMiddleware { action, source, state in
       print("state:",state)
