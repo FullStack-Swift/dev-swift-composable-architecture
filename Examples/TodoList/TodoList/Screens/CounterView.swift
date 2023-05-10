@@ -1,5 +1,6 @@
 import SwiftUI
 
+// MARK: Reducer
 struct CounterReducer: ReducerProtocol {
 
   // MARK: State
@@ -39,6 +40,7 @@ struct CounterReducer: ReducerProtocol {
   // MARK: End Body
 }
 
+// MARK: Middleware
 struct CounterMiddleware: MiddlewareProtocol {
 
   // MARK: State
@@ -50,8 +52,15 @@ struct CounterMiddleware: MiddlewareProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
 
-  // MARK: Body
+  // MARK: Middleware
   var body: some MiddlewareProtocolOf<Self> {
+    ioMiddleware
+//    asyncIOMiddleware
+//    actionHandlerMiddleware
+//    asyncActionHandlerMiddleware
+  }
+
+  var ioMiddleware: some MiddlewareProtocolOf<Self> {
     // MARK: IOMiddleware
     IOMiddleware { action, source, state in
       IO<Action> { handler in
@@ -69,7 +78,9 @@ struct CounterMiddleware: MiddlewareProtocol {
         }
       }
     }
+  }
 
+  var asyncIOMiddleware: some MiddlewareProtocolOf<Self> {
     // MARK: AsyncIOMiddleware
     AsyncIOMiddleware { action, source, state in
       AsyncIO { handler in
@@ -85,7 +96,9 @@ struct CounterMiddleware: MiddlewareProtocol {
         }
       }
     }
+  }
 
+  var actionHandlerMiddleware: some MiddlewareProtocolOf<Self> {
     // MARK: ActionHandlerMiddleware
     ActionHandlerMiddleware { action, source, state, handler in
       switch action {
@@ -101,7 +114,9 @@ struct CounterMiddleware: MiddlewareProtocol {
           break
       }
     }
+  }
 
+  var asyncActionHandlerMiddleware: some MiddlewareProtocolOf<Self> {
     // MARK: AsyncActionHandlerMiddleware
     AsyncActionHandlerMiddleware { action, source, state, handler in
       switch action {
@@ -119,6 +134,7 @@ struct CounterMiddleware: MiddlewareProtocol {
   // MARK: End Body
 }
 
+// MARK: View
 struct CounterView: View {
 
   private let store: StoreOf<CounterReducer>
@@ -138,19 +154,60 @@ struct CounterView: View {
 
   var body: some View {
     ZStack {
-      HStack {
-        Button {
-//          viewStore.send(.increment)
-          store.dispatch(.increment)
-        } label: {
-          Text("+")
-        }
-        Text(viewStore.count.toString())
-        Button {
-//          viewStore.send(.decrement)
-          store.dispatch(.decrement)
-        } label: {
-          Text("-")
+      ScrollView {
+        VStack {
+          // MARK: store dispatch
+          Group {
+            Text("Store: dispatch()")
+            HStack {
+              Button {
+                store.dispatch(.increment)
+              } label: {
+                Text("+")
+              }
+              Text(viewStore.count.toString())
+              Button {
+                store.dispatch(.decrement)
+              } label: {
+                Text("-")
+              }
+            }
+          }
+          // MARK: viewStore dispatch
+          Group {
+            Text("ViewStore: dispatch()")
+            HStack {
+              Button {
+                viewStore.dispatch(.increment)
+              } label: {
+                Text("+")
+              }
+              Text(viewStore.count.toString())
+              Button {
+                viewStore.dispatch(.decrement)
+              } label: {
+                Text("-")
+              }
+            }
+
+          }
+          // MARK: ViewStore: send()
+          Group {
+            Text("ViewStore: send()")
+            HStack {
+              Button {
+                viewStore.send(.increment)
+              } label: {
+                Text("+")
+              }
+              Text(viewStore.count.toString())
+              Button {
+                viewStore.send(.decrement)
+              } label: {
+                Text("-")
+              }
+            }
+          }
         }
       }
     }
@@ -163,8 +220,12 @@ struct CounterView: View {
   }
 }
 
+// MARK: Previews
 struct CounterView_Previews: PreviewProvider {
   static var previews: some View {
-    CounterView()
+    CounterView(
+      store: Store(initialState: .init(), reducer: CounterReducer())
+        .withMiddleware(CounterMiddleware())
+    )
   }
 }

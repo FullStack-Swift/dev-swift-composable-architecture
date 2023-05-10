@@ -277,13 +277,18 @@ extension MainView {
   }
 
   private var leadingBarItems: some View {
-    CounterView(
-      store: store
-        .scope(
-          state: \.counterState,
-          action: MainReducer.Action.counterAction
-        )
-    )
+    NavigationLink {
+      CounterView(
+        store: store
+          .scope(
+            state: \.counterState,
+            action: MainReducer.Action.counterAction
+          )
+      )
+    } label: {
+      Text("Count")
+    }
+
   }
 
   private var trailingBarItems: some View {
@@ -293,13 +298,6 @@ extension MainView {
       Text("Logout")
         .foregroundColor(Color.blue)
     })
-  }
-
-  func shayHelo() async -> String {
-    print(Date())
-    sleep(3)
-    let reulst = "heello"
-    return reulst
   }
 }
 

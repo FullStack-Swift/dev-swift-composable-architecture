@@ -41,13 +41,22 @@ struct RootReducer: ReducerProtocol {
       return .none
     }
     ._printChanges()
+    authReducer
+    mainReducer
+  }
+
+  var authReducer: some ReducerProtocolOf<Self> {
     Scope(state: \.authState, action: /Action.authAction) {
       AuthReducer()
     }
+  }
+
+  var mainReducer: some ReducerProtocolOf<Self> {
     Scope(state: \.mainState, action: /Action.mainAction) {
       MainReducer()
     }
   }
+
   // MARK: Utilities
   enum RootScreen {
     case main
@@ -57,13 +66,27 @@ struct RootReducer: ReducerProtocol {
 
 struct RootMiddleware: MiddlewareProtocol {
 
+  // MARK: State
   typealias State = RootReducer.State
 
+  // MARK: Action
   typealias Action = RootReducer.Action
 
+  // MARK: Dependency
+  @Dependency(\.uuid) var uuid
+
+  // MARK: Middleware
   var body: some MiddlewareProtocolOf<Self> {
+    ioMiddleware
+    asyncIOMiddleware
+    actionHandlerMiddleware
+    asyncActionHandlerMiddleware
+  }
+
+  var ioMiddleware: some MiddlewareProtocolOf<Self> {
+    // MARK: IOMiddleware
     IOMiddleware { action, source, state in
-      IO<Action> { output in
+      IO<Action> { handler in
         switch action {
           case .viewOnAppear:
             break
@@ -75,9 +98,54 @@ struct RootMiddleware: MiddlewareProtocol {
       }
     }
   }
-  // MARK: End
+
+  var asyncIOMiddleware: some MiddlewareProtocolOf<Self> {
+    // MARK: AsyncIOMiddleware
+    AsyncIOMiddleware { action, source, state in
+      AsyncIO { handler in
+        switch action {
+          case .viewOnAppear:
+            break
+          case .viewOnDisappear:
+            break
+          default:
+            break
+        }
+      }
+    }
+  }
+
+  var actionHandlerMiddleware: some MiddlewareProtocolOf<Self> {
+    // MARK: ActionHandlerMiddleware
+    ActionHandlerMiddleware { action, source, state, handler in
+      switch action {
+        case .viewOnAppear:
+          break
+        case .viewOnDisappear:
+          break
+        default:
+          break
+      }
+    }
+  }
+
+  var asyncActionHandlerMiddleware: some MiddlewareProtocolOf<Self> {
+    // MARK: AsyncActionHandlerMiddleware
+    AsyncActionHandlerMiddleware { action, source, state, handler in
+      switch action {
+        case .viewOnAppear:
+          break
+        case .viewOnDisappear:
+          break
+        default:
+          break
+      }
+    }
+  }
+  // MARK: End Body
 }
 
+// MARK: View
 struct RootView: View {
 
   private let store: StoreOf<RootReducer>
@@ -125,5 +193,15 @@ struct RootView: View {
 #if os(macOS)
     .frame(minWidth: 700, idealWidth: 700, maxWidth: .infinity, minHeight: 500, idealHeight: 500, maxHeight: .infinity, alignment: .center)
 #endif
+  }
+}
+
+// MARK: Previews
+struct RootView_Previews: PreviewProvider {
+  static var previews: some View {
+    RootView(
+      store: Store(initialState: .init(), reducer: RootReducer())
+        .withMiddleware(RootMiddleware())
+    )
   }
 }
