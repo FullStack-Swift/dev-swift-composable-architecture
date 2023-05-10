@@ -1,7 +1,7 @@
 /// Combines multiple reducers into a single reducer.
 ///
-/// `CombineReducers` takes a block that can combine a number of reducers using a
-/// ``ReducerBuilder``.
+/// `CombineMiddlewares` takes a block that can combine a number of reducers using a
+/// ``MiddlewareBuilder``.
 ///
 /// Useful for grouping reducers together and applying reducer modifiers to the result.
 ///
@@ -15,7 +15,8 @@
 ///   .ifLet(\.child, action: /Action.child)
 /// }
 /// ```
-public struct CombineMiddlewares<State, Action, Middlewares: MiddlewareProtocol>: MiddlewareProtocol where State == Middlewares.State, Action == Middlewares.Action {
+public struct CombineMiddlewares<State, Action, Middlewares: MiddlewareProtocol>: MiddlewareProtocol
+where State == Middlewares.State, Action == Middlewares.Action {
   @usableFromInline
   let middlewares: Middlewares
   

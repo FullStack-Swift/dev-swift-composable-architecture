@@ -3,7 +3,7 @@ import Foundation
 public struct AnyActionHandler<ActionType>: ActionHandler, @unchecked Sendable {
   private let realHandler: (DispatchedAction<ActionType>) -> Void
 
-  public init<A: ActionHandler>(_ realHandler: A) where A.ActionType == ActionType {
+  public init<A: ActionHandler>(_ realHandler: A) where A.Action == ActionType {
     self.init(realHandler.dispatch)
   }
 
@@ -17,7 +17,7 @@ public struct AnyActionHandler<ActionType>: ActionHandler, @unchecked Sendable {
 }
 
 extension ActionHandler {
-  public func eraseToAnyActionHandler() -> AnyActionHandler<ActionType> {
+  public func eraseToAnyActionHandler() -> AnyActionHandler<Action> {
     AnyActionHandler(self)
   }
 }

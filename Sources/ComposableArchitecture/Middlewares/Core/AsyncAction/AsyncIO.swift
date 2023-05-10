@@ -2,7 +2,7 @@ import Dependencies
 
 public struct AsyncIO<Action> {
   private let runIO: (AnyActionHandler<Action>) async throws -> Void
-  
+
   public init(_ run: @escaping ((AnyActionHandler<Action>) async throws -> Void)) {
     self.runIO = withEscapedDependencies { continuation in
       return { anyAction in
@@ -15,7 +15,7 @@ public struct AsyncIO<Action> {
     try await runIO(output)
   }
   
-  public func run(_ output: @escaping (DispatchedAction<Action>) -> Void) async  throws{
+  public func run(_ output: @escaping (DispatchedAction<Action>) -> Void) async  throws {
     try await runIO(.init(output))
   }
   

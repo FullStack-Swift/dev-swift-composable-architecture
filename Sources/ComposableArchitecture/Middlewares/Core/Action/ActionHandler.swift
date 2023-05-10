@@ -2,23 +2,23 @@ import Foundation
 
 public protocol ActionHandler {
   
-  associatedtype ActionType
+  associatedtype Action
   
-  func dispatch(_ dispatchedAction: DispatchedAction<ActionType>)
+  func dispatch(_ dispatchedAction: DispatchedAction<Action>)
 }
 
 extension ActionHandler {
-  public func dispatch(_ action: ActionType, file: String = #file, function: String = #function, line: UInt = #line, info: String? = nil) {
+  public func dispatch(_ action: Action, file: String = #file, function: String = #function, line: UInt = #line, info: String? = nil) {
     self.dispatch(action, from: .init(file: file, function: function, line: line, info: info))
   }
 
-  public func dispatch(_ action: ActionType, from dispatcher: ActionSource) {
+  public func dispatch(_ action: Action, from dispatcher: ActionSource) {
     self.dispatch(DispatchedAction(action, dispatcher: dispatcher))
   }
 }
 
 extension ActionHandler {
-  public func contramap<NewActionType>(_ transform: @escaping (NewActionType) -> ActionType) -> AnyActionHandler<NewActionType> {
+  public func contramap<NewActionType>(_ transform: @escaping (NewActionType) -> Action) -> AnyActionHandler<NewActionType> {
     AnyActionHandler { dispatchedAction in
       self.dispatch(dispatchedAction.map(transform))
     }
