@@ -21,7 +21,7 @@ struct CounterReducer: ReducerProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
 
-  // MARK: Reducer
+  // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
     Reduce { state, action in
       switch action {

@@ -1,6 +1,6 @@
-import ComposableArchitecture
 import SwiftUI
 
+// MARK: Reducer
 struct AuthReducer: ReducerProtocol {
 
   // MARK: State
@@ -20,7 +20,7 @@ struct AuthReducer: ReducerProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
 
-  // MARK: Reducer
+  // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
     Reduce { state, action in
       switch action {
@@ -37,14 +37,19 @@ struct AuthReducer: ReducerProtocol {
     }
     ._printChanges()
   }
+  // MARK: End Body
 }
 
+// MARK: Middleware
 struct AuthMiddleware: MiddlewareProtocol {
 
-  typealias Action = AuthReducer.Action
-
+  // MARK: State
   typealias State = AuthReducer.State
 
+  // MARK: Action
+  typealias Action = AuthReducer.Action
+
+  // MARK: Start Body
   var body: some MiddlewareProtocolOf<Self> {
     IOMiddleware { action, source, state in
       IO<Action> { output in
@@ -62,6 +67,7 @@ struct AuthMiddleware: MiddlewareProtocol {
   // MARK: End
 }
 
+// MARK: View
 struct AuthView: View {
 
   private let store: StoreOf<AuthReducer>
@@ -93,6 +99,7 @@ struct AuthView: View {
   }
 }
 
+// MARK: Previews
 struct AuthView_Previews: PreviewProvider {
   static var previews: some View {
     AuthView()

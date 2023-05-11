@@ -1,5 +1,6 @@
 import SwiftUI
 
+// MARK: Reducer
 struct TemplateReducer: ReducerProtocol {
 
   // MARK: State
@@ -17,7 +18,7 @@ struct TemplateReducer: ReducerProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
 
-  // MARK: Reducer
+  // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
     Reduce { state, action in
       switch action {
@@ -35,6 +36,7 @@ struct TemplateReducer: ReducerProtocol {
   // MARK: End Body
 }
 
+// MARK: Middleware
 struct TemplateMiddleware: MiddlewareProtocol {
 
   // MARK: State
@@ -46,7 +48,7 @@ struct TemplateMiddleware: MiddlewareProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
 
-  // MARK: Body
+  // MARK: Start Body
   var body: some MiddlewareProtocolOf<Self> {
     IOMiddleware { action, source, state in
       IO<Action> { output in
@@ -64,6 +66,7 @@ struct TemplateMiddleware: MiddlewareProtocol {
   // MARK: End Body
 }
 
+// MARK: View
 struct TemplateView: View {
 
   private let store: StoreOf<TemplateReducer>
@@ -93,6 +96,7 @@ struct TemplateView: View {
   }
 }
 
+// MARK: Previews
 struct TemplateView_Previews: PreviewProvider {
   static var previews: some View {
     TemplateView()

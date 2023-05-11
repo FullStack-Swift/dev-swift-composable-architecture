@@ -1,12 +1,6 @@
 import SwiftUI
 
-public extension DependencyValues {
-  var urlString: String {
-    "https://todolistappproj.herokuapp.com/todos"
-  }
-}
-
-
+// MARK: Reducer
 struct MainReducer: ReducerProtocol {
 
   // MARK: State
@@ -45,7 +39,7 @@ struct MainReducer: ReducerProtocol {
   @Dependency(\.uuid) var uuid
   @Dependency(\.urlString) var urlString
 
-  // MARK: Reducer
+  // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
     Reduce { state, action in
       switch action {
@@ -153,8 +147,10 @@ struct MainReducer: ReducerProtocol {
     }
     ._printChanges()
   }
+  // MARK: End Body
 }
 
+// MARK: View
 struct MainView: View {
 
   private let store: StoreOf<MainReducer>
@@ -301,6 +297,7 @@ extension MainView {
   }
 }
 
+// MARK: Previews
 struct MainView_Previews: PreviewProvider {
   static var previews: some View {
     MainView()

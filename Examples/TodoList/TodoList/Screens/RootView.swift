@@ -10,7 +10,7 @@ struct RootReducer: ReducerProtocol {
   }
 
   // MARK: Action
-  enum Action {
+  enum Action { 
     case authAction(AuthReducer.Action)
     case mainAction(MainReducer.Action)
     case viewOnAppear
@@ -21,7 +21,7 @@ struct RootReducer: ReducerProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
 
-  // MARK: Reducer
+  // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
     Reduce { state, action in
       switch action {
@@ -56,6 +56,7 @@ struct RootReducer: ReducerProtocol {
       MainReducer()
     }
   }
+  // MARK: End Body
 
   // MARK: Utilities
   enum RootScreen {
@@ -75,7 +76,7 @@ struct RootMiddleware: MiddlewareProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
 
-  // MARK: Middleware
+  // MARK: Start Body
   var body: some MiddlewareProtocolOf<Self> {
     ioMiddleware
     asyncIOMiddleware
