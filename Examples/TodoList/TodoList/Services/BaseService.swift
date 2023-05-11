@@ -23,6 +23,7 @@ open class BaseService: ServiceProtocol {
     return self
   }
 
+  // MARK: Base Network API
   open func read<ID: Identifiable>(_ id: ID) -> MRequest {
     MRequest {
       RUrl(urlString: urlString)
@@ -40,7 +41,7 @@ open class BaseService: ServiceProtocol {
     }
   }
 
-  open func create(_ data: Data) -> MRequest {
+  open func create(_ data: Data?) -> MRequest {
     MRequest {
       RUrl(urlString: urlString)
         .withPath(path)
@@ -67,7 +68,5 @@ open class BaseService: ServiceProtocol {
         .withPath(String(describing: id))
       RMethod(.delete)
     }
-
   }
-
 }

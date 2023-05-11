@@ -2,35 +2,52 @@ import Foundation
 
 public class TodoService: BaseService {
 
-  func getTodos() -> MRequest {
+  public override init(_ path: String? = nil) {
+    super.init(path ?? "todos")
+  }
+
+  func readTodo(_ model: TodoModel?) -> MRequest {
     MRequest {
       RUrl(urlString: urlString)
+        .withPath(path)
+        .withPath(model?.id.toString())
       RMethod(.get)
     }
   }
 
-  func createOrUpdateTodo(_ model: Data?) -> MRequest {
+  func readsTodo() -> MRequest {
     MRequest {
       RUrl(urlString: urlString)
+        .withPath(path)
+      RMethod(.get)
+    }
+  }
+
+  func createTodo(_ model: TodoModel?) -> MRequest {
+    MRequest {
+      RUrl(urlString: urlString)
+        .withPath(path)
       REncoding(JSONEncoding.default)
       RMethod(.post)
-      Rbody(model.toData())
+      Rbody(model?.toData())
     }
   }
 
-  func updateTodo(_ model: TodoModel) -> MRequest {
+  func updateTodo(_ model: TodoModel?) -> MRequest {
     MRequest {
       RUrl(urlString: urlString)
-        .withPath(model.id.toString())
+        .withPath(path)
+        .withPath(model?.id.toString())
       RMethod(.post)
-      Rbody(model.toData())
+      Rbody(model?.toData())
     }
   }
 
-  func deleteTodo(_ model: TodoModel) -> MRequest {
+  func deleteTodo(_ model: TodoModel?) -> MRequest {
     MRequest {
       RUrl(urlString: urlString)
-        .withPath(model.id.toString())
+        .withPath(path)
+        .withPath(model?.id.toString())
       RMethod(.delete)
     }
   }

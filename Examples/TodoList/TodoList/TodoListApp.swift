@@ -8,9 +8,3 @@ struct TodoListApp: App {
     }
   }
 }
-
-public extension DependencyValues {
-  var urlString: String {
-    "http://0.0.0.0:8080/todos"
-  }
-}

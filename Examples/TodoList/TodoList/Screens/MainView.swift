@@ -71,24 +71,8 @@ struct MainReducer: ReducerProtocol {
           let id = uuid()
           let todo = TodoModel(id: id, title: title, isCompleted: false)
           return EffectTask(value: .createOrUpdateTodo(todo))
-
-          // MARK: - Networking
-          /// GET TODO
         case .getTodo:
-//          if state.isLoading {
-//            return .none
-//          }
-//          state.isLoading = true
-//          state.todos.removeAll()
-//          let request = MRequest {
-//            RUrl(urlString: urlString)
-//            RMethod(.get)
-//          }
-//          return request
-//            .compactMap({$0.data})
-//            .map(MainReducer.Action.responseTodo)
-//            .eraseToEffect()
-          return .none
+          state.todos.removeAll()
         case .responseTodo(let data):
           state.isLoading = false
           if let items = data.toModel([TodoModel].self) {
@@ -96,49 +80,14 @@ struct MainReducer: ReducerProtocol {
               state.todos.updateOrAppend(item)
             }
           }
-          /// CREATE OR UPDATE TODO
-        case .createOrUpdateTodo(let todo):
-          let request = MRequest {
-            RUrl(urlString: urlString)
-            REncoding(JSONEncoding.default)
-            RMethod(.post)
-            Rbody(todo.toData())
-          }
-          return request
-            .compactMap{$0.data}
-            .map(MainReducer.Action.responseCreateOrUpdateTodo)
-            .eraseToEffect()
         case .responseCreateOrUpdateTodo(let data):
           if let item = data.toModel(TodoModel.self) {
             state.todos.updateOrAppend(item)
           }
-          /// UPDATE TODO
-        case .updateTodo(let todo):
-          let request = MRequest {
-            RUrl(urlString: urlString)
-              .withPath(todo.id.toString())
-            RMethod(.post)
-            Rbody(todo.toData())
-          }
-          return request
-            .compactMap{$0.data}
-            .map(MainReducer.Action.responseUpdateTodo)
-            .eraseToEffect()
         case .responseUpdateTodo(let json):
           if let item = json.toModel(TodoModel.self) {
             state.todos.updateOrAppend(item)
           }
-          /// DELETE TODO
-        case .deleteTodo(let todo):
-          let request = MRequest {
-            RUrl(urlString: urlString)
-              .withPath(todo.id.toString())
-            RMethod(.delete)
-          }
-          return request
-            .compactMap{$0.data}
-            .map(MainReducer.Action.responseDeleteTodo)
-            .eraseToEffect()
         case .responseDeleteTodo(let json):
           if let item = json.toModel(TodoModel.self) {
             state.todos.remove(item)
@@ -164,6 +113,7 @@ struct MainMiddleware: MiddlewareProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
   @Dependency(\.urlString) var urlString
+  @Dependency(\.todoService) var todoService
 
   // MARK: Start Body
   var body: some MiddlewareProtocolOf<Self> {
@@ -173,15 +123,34 @@ struct MainMiddleware: MiddlewareProtocol {
           if state.isLoading {
             return
           }
-
-          let request = MRequest {
-            RUrl(urlString: urlString)
-              .withPath("ABC")
-            RMethod(.get)
-          }
           do {
-            let data = try await request.data
+            let data = try await todoService.readsTodo().data
             log.info(data.toJson())
+            hander.dispatch(.responseTodo(data))
+          } catch {
+            log.error(error)
+          }
+        case .createOrUpdateTodo(let model):
+          do {
+            let data = try await todoService.createTodo(model).data
+            log.info(data.toJson())
+            hander.dispatch(.responseCreateOrUpdateTodo(data))
+          } catch {
+            log.error(error)
+          }
+        case .updateTodo(let model):
+          do {
+            let data = try await todoService.updateTodo(model).data
+            log.info(data.toJson())
+            hander.dispatch(.responseUpdateTodo(data))
+          } catch {
+            log.error(error)
+          }
+        case .deleteTodo(let model):
+          do {
+            let data = try await todoService.deleteTodo(model).data
+            log.info(data.toJson())
+            hander.dispatch(.responseDeleteTodo(data))
           } catch {
             log.error(error)
           }
@@ -271,7 +240,7 @@ extension MainView {
               Text("Reload")
                 .bold()
                 .onTapGesture {
-                  viewStore.send(.getTodo)
+                  viewStore.dispatch(.getTodo)
                 }
             }
             Spacer()
