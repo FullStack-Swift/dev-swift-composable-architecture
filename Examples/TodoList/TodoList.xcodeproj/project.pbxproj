@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8770082C2A0C8B73003326AA /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8770082B2A0C8B73003326AA /* Logger.swift */; };
 		8770082E2A0C8FF8003326AA /* LoadingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8770082D2A0C8FF8003326AA /* LoadingStatus.swift */; };
+		877008312A0C9B10003326AA /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008302A0C9B10003326AA /* BaseService.swift */; };
+		877008332A0C9BD5003326AA /* TodoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008322A0C9BD5003326AA /* TodoService.swift */; };
 		87B392732A0B59010095F6A4 /* TodoListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B392722A0B59010095F6A4 /* TodoListApp.swift */; };
 		87B392772A0B59020095F6A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B392762A0B59020095F6A4 /* Assets.xcassets */; };
 		87B3927B2A0B59020095F6A4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B3927A2A0B59020095F6A4 /* Preview Assets.xcassets */; };
@@ -30,6 +32,8 @@
 /* Begin PBXFileReference section */
 		8770082B2A0C8B73003326AA /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		8770082D2A0C8FF8003326AA /* LoadingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStatus.swift; sourceTree = "<group>"; };
+		877008302A0C9B10003326AA /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		877008322A0C9BD5003326AA /* TodoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoService.swift; sourceTree = "<group>"; };
 		87B3926F2A0B59010095F6A4 /* TodoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87B392722A0B59010095F6A4 /* TodoListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListApp.swift; sourceTree = "<group>"; };
 		87B392762A0B59020095F6A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -61,6 +65,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8770082F2A0C9B00003326AA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				877008302A0C9B10003326AA /* BaseService.swift */,
+				877008322A0C9BD5003326AA /* TodoService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		87B392662A0B59010095F6A4 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +94,7 @@
 		87B392712A0B59010095F6A4 /* TodoList */ = {
 			isa = PBXGroup;
 			children = (
+				8770082F2A0C9B00003326AA /* Services */,
 				87B3929D2A0B5B990095F6A4 /* Internal */,
 				87B392942A0B5B570095F6A4 /* Screens */,
 				87B392912A0B5AFB0095F6A4 /* Models */,
@@ -223,6 +237,7 @@
 				87B392962A0B5B630095F6A4 /* RootView.swift in Sources */,
 				87B3929A2A0B5B750095F6A4 /* MainView.swift in Sources */,
 				87B392982A0B5B6B0095F6A4 /* AuthView.swift in Sources */,
+				877008332A0C9BD5003326AA /* TodoService.swift in Sources */,
 				87B3929F2A0B5BAA0095F6A4 /* Exports.swift in Sources */,
 				8770082C2A0C8B73003326AA /* Logger.swift in Sources */,
 				87B392A12A0B61150095F6A4 /* TemplateView.swift in Sources */,
@@ -230,6 +245,7 @@
 				87B3929C2A0B5B7B0095F6A4 /* CounterView.swift in Sources */,
 				87B392932A0B5B090095F6A4 /* TodoModel.swift in Sources */,
 				87B392732A0B59010095F6A4 /* TodoListApp.swift in Sources */,
+				877008312A0C9B10003326AA /* BaseService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
