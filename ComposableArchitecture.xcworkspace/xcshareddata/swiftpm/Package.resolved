@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "navigation-stack-backport",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lm/navigation-stack-backport.git",
+      "state" : {
+        "revision" : "7641abbba79be2cc2616413e7915d5f778784ecd",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "reactiveswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ReactiveCocoa/ReactiveSwift.git",

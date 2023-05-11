@@ -35,6 +35,12 @@ struct RootReducer: ReducerProtocol {
           break
         case .changeRootScreen(let screen):
           state.rootScreen = screen
+          switch screen {
+            case .main:
+              break
+            case .auth:
+              state.mainState = .init()
+          }
         default:
           break
       }

@@ -20,20 +20,24 @@ struct CounterReducer: ReducerProtocol {
 
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
+  @Dependency(\.storage) var storage
 
   // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
     Reduce { state, action in
       switch action {
+        case .viewOnAppear:
+          state.count = storage.count
         case .increment:
           state.count += 1
-          return .none
+          storage.count = state.count
         case .decrement:
           state.count -= 1
-          return .none
+          storage.count = state.count
         default:
-          return .none
+          break
       }
+      return .none
     }
     ._printChanges()
   }

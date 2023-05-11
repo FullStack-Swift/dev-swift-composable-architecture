@@ -2,8 +2,12 @@ import Dependencies
 
 public extension DependencyValues {
   var urlString: String {
-    "http://0.0.0.0:8080"
+    self[URLStringDependencyKey.self]
   }
+}
+
+struct URLStringDependencyKey: DependencyKey {
+  static let liveValue = "http://0.0.0.0:8080"
 }
 
 public extension DependencyValues {

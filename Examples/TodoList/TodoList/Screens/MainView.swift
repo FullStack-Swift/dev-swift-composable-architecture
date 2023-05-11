@@ -38,6 +38,7 @@ struct MainReducer: ReducerProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
   @Dependency(\.urlString) var urlString
+  @Dependency(\.storage) var storage
 
   // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
@@ -49,6 +50,7 @@ struct MainReducer: ReducerProtocol {
           print(counterAction)
           // MARK: - View Action
         case .viewOnAppear:
+          state.todos = storage.todoModels
           return EffectTask(value: .getTodo)
         case .viewOnDisappear:
           break
@@ -80,6 +82,7 @@ struct MainReducer: ReducerProtocol {
               state.todos.updateOrAppend(item)
             }
           }
+          storage.todoModels = state.todos
         case .responseCreateOrUpdateTodo(let data):
           if let item = data.toModel(TodoModel.self) {
             state.todos.updateOrAppend(item)
