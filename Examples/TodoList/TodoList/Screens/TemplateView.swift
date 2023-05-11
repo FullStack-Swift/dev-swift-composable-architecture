@@ -40,10 +40,10 @@ struct TemplateReducer: ReducerProtocol {
 struct TemplateMiddleware: MiddlewareProtocol {
 
   // MARK: State
-  typealias Action = TemplateReducer.Action
+  typealias State = TemplateReducer.State
 
   // MARK: Action
-  typealias State = TemplateReducer.State
+  typealias Action = TemplateReducer.Action
 
   // MARK: Dependency
   @Dependency(\.uuid) var uuid

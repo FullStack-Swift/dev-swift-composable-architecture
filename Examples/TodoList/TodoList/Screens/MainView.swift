@@ -41,6 +41,7 @@ struct MainReducer: ReducerProtocol {
 
   // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
+    BindingReducer()
     Reduce { state, action in
       switch action {
           // MARK: - SubView Action
@@ -74,21 +75,23 @@ struct MainReducer: ReducerProtocol {
           // MARK: - Networking
           /// GET TODO
         case .getTodo:
-          if state.isLoading {
-            return .none
-          }
-          state.isLoading = true
-          state.todos.removeAll()
-          let request = MRequest {
-            RUrl(urlString: urlString)
-            RMethod(.get)
-          }
-          return request
-            .compactMap({$0.data})
-            .map(MainReducer.Action.responseTodo)
-            .eraseToEffect()
-        case .responseTodo(let json):
-          if let items = json.toModel([TodoModel].self) {
+//          if state.isLoading {
+//            return .none
+//          }
+//          state.isLoading = true
+//          state.todos.removeAll()
+//          let request = MRequest {
+//            RUrl(urlString: urlString)
+//            RMethod(.get)
+//          }
+//          return request
+//            .compactMap({$0.data})
+//            .map(MainReducer.Action.responseTodo)
+//            .eraseToEffect()
+          return .none
+        case .responseTodo(let data):
+          state.isLoading = false
+          if let items = data.toModel([TodoModel].self) {
             for item in items {
               state.todos.updateOrAppend(item)
             }
@@ -105,8 +108,8 @@ struct MainReducer: ReducerProtocol {
             .compactMap{$0.data}
             .map(MainReducer.Action.responseCreateOrUpdateTodo)
             .eraseToEffect()
-        case .responseCreateOrUpdateTodo(let json):
-          if let item = json.toModel(TodoModel.self) {
+        case .responseCreateOrUpdateTodo(let data):
+          if let item = data.toModel(TodoModel.self) {
             state.todos.updateOrAppend(item)
           }
           /// UPDATE TODO
@@ -150,6 +153,46 @@ struct MainReducer: ReducerProtocol {
   // MARK: End Body
 }
 
+struct MainMiddleware: MiddlewareProtocol {
+
+  // MARK: State
+  typealias State = MainReducer.State
+
+  // MARK: Action
+  typealias Action = MainReducer.Action
+
+  // MARK: Dependency
+  @Dependency(\.uuid) var uuid
+  @Dependency(\.urlString) var urlString
+
+  // MARK: Start Body
+  var body: some MiddlewareProtocolOf<Self> {
+    AsyncActionHandlerMiddleware { action, source, state, hander in
+      switch action {
+        case .getTodo:
+          if state.isLoading {
+            return
+          }
+
+          let request = MRequest {
+            RUrl(urlString: urlString)
+              .withPath("ABC")
+            RMethod(.get)
+          }
+          do {
+            let data = try await request.data
+            log.info(data.toJson())
+          } catch {
+            log.error(error)
+          }
+        default:
+          break
+      }
+    }
+  }
+  // MARK: End Body
+}
+
 // MARK: View
 struct MainView: View {
 
@@ -164,6 +207,7 @@ struct MainView: View {
       reducer: MainReducer()
     )
     self.store = unwrapStore
+      .withMiddleware(MainMiddleware())
     self.viewStore = ViewStore(unwrapStore)
   }
 
@@ -203,7 +247,8 @@ struct MainView: View {
 #endif
     }
     .onAppear {
-      viewStore.send(.viewOnAppear)
+//      viewStore.send(.viewOnAppear)
+      viewStore.dispatch(.getTodo)
     }
     .onDisappear {
       viewStore.send(.viewOnDisappear)

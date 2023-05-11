@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8770082C2A0C8B73003326AA /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8770082B2A0C8B73003326AA /* Logger.swift */; };
+		8770082E2A0C8FF8003326AA /* LoadingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8770082D2A0C8FF8003326AA /* LoadingStatus.swift */; };
 		87B392732A0B59010095F6A4 /* TodoListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B392722A0B59010095F6A4 /* TodoListApp.swift */; };
 		87B392772A0B59020095F6A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B392762A0B59020095F6A4 /* Assets.xcassets */; };
 		87B3927B2A0B59020095F6A4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B3927A2A0B59020095F6A4 /* Preview Assets.xcassets */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8770082B2A0C8B73003326AA /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		8770082D2A0C8FF8003326AA /* LoadingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStatus.swift; sourceTree = "<group>"; };
 		87B3926F2A0B59010095F6A4 /* TodoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87B392722A0B59010095F6A4 /* TodoListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListApp.swift; sourceTree = "<group>"; };
 		87B392762A0B59020095F6A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -127,6 +131,8 @@
 			isa = PBXGroup;
 			children = (
 				87B3929E2A0B5BAA0095F6A4 /* Exports.swift */,
+				8770082B2A0C8B73003326AA /* Logger.swift */,
+				8770082D2A0C8FF8003326AA /* LoadingStatus.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -218,7 +224,9 @@
 				87B3929A2A0B5B750095F6A4 /* MainView.swift in Sources */,
 				87B392982A0B5B6B0095F6A4 /* AuthView.swift in Sources */,
 				87B3929F2A0B5BAA0095F6A4 /* Exports.swift in Sources */,
+				8770082C2A0C8B73003326AA /* Logger.swift in Sources */,
 				87B392A12A0B61150095F6A4 /* TemplateView.swift in Sources */,
+				8770082E2A0C8FF8003326AA /* LoadingStatus.swift in Sources */,
 				87B3929C2A0B5B7B0095F6A4 /* CounterView.swift in Sources */,
 				87B392932A0B5B090095F6A4 /* TodoModel.swift in Sources */,
 				87B392732A0B59010095F6A4 /* TodoListApp.swift in Sources */,

@@ -52,7 +52,7 @@ struct CounterMiddleware: MiddlewareProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
 
-  // MARK: Middleware
+  // MARK: Start Body
   var body: some MiddlewareProtocolOf<Self> {
     ioMiddleware
 //    asyncIOMiddleware

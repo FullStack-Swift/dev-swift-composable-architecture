@@ -11,6 +11,6 @@ struct TodoListApp: App {
 
 public extension DependencyValues {
   var urlString: String {
-    "https://todolistappproj.herokuapp.com/todos"
+    "http://0.0.0.0:8080/todos"
   }
 }
