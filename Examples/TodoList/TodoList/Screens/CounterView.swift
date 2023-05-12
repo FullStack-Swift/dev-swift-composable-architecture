@@ -21,6 +21,8 @@ struct CounterReducer: ReducerProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
   @Dependency(\.storage) var storage
+  @Dependency(\.sharedState) var sharedState
+  @Dependency(\.sharedStateStore) var sharedStateStore
 
   // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
@@ -31,9 +33,12 @@ struct CounterReducer: ReducerProtocol {
         case .increment:
           state.count += 1
           storage.count = state.count
+          sharedState.count = state.count
         case .decrement:
           state.count -= 1
           storage.count = state.count
+
+          sharedState.count = state.count
         default:
           break
       }

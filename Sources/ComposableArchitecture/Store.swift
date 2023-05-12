@@ -884,4 +884,10 @@ extension Store {
       handler(dispatchedAction)
     })
   }
+
+  public func applyState(_ block: (inout State) -> Void) -> Void {
+    var currentState = self.state.value
+    block(&currentState)
+    self.state.value = currentState
+  }
 }

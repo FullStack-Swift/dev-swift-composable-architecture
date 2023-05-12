@@ -29,3 +29,19 @@ extension Storage {
     }
   }
 }
+
+extension SharedStateReducer.State {
+
+  struct CountStorageKey: SharedStorageKey {
+    public typealias Value = Int
+  }
+
+  var count: Int {
+    get {
+      self[CountStorageKey.self] ?? 0
+    }
+    set {
+      self[CountStorageKey.self] = newValue
+    }
+  }
+}
