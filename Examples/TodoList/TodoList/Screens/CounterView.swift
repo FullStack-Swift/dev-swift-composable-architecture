@@ -24,6 +24,8 @@ struct CounterReducer: ReducerProtocol {
   @Dependency(\.sharedState) var sharedState
   @Dependency(\.sharedStateStore) var sharedStateStore
 
+  @SharedState(\.count) var count
+
   // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
     Reduce { state, action in
@@ -31,14 +33,17 @@ struct CounterReducer: ReducerProtocol {
         case .viewOnAppear:
           state.count = storage.count
         case .increment:
-          state.count += 1
-          storage.count = state.count
-          sharedState.count = state.count
+//          state.count += 1
+//          storage.count = state.count
+//          sharedState.count = state.count
+//          sharedState.count += 1
+          count += 1
         case .decrement:
-          state.count -= 1
-          storage.count = state.count
-
-          sharedState.count = state.count
+//          state.count -= 1
+//          storage.count = state.count
+//          sharedState.count = state.count
+//          sharedState.count -= 1
+          count -= 1
         default:
           break
       }
@@ -151,6 +156,10 @@ struct CounterView: View {
   @ObservedObject
   private var viewStore: ViewStoreOf<CounterReducer>
 
+  @SharedState(\.count) var count
+  @Dependency(\.sharedState) var sharedState
+  @Dependency(\.sharedStateViewStore) var sharedStateViewStore
+
   init(store: StoreOf<CounterReducer>? = nil) {
     let unwrapStore = Store(
       initialState: CounterReducer.State(),
@@ -167,14 +176,21 @@ struct CounterView: View {
         VStack {
           // MARK: store dispatch
           Group {
+            TextField("", text: $count.map(get: {String($0)}, set: {
+              log.info($0)
+              return Int($0) ?? 1})
+            )
             Text("Store: dispatch()")
             HStack {
               Button {
-                store.dispatch(.increment)
+//                store.dispatch(.increment)
+                count += 1
               } label: {
                 Text("+")
               }
-              Text(viewStore.count.toString())
+//              Text(viewStore.count.toString())
+              Text(count.toString())
+              Text(sharedState.count.toString())
               Button {
                 store.dispatch(.decrement)
               } label: {
@@ -191,7 +207,8 @@ struct CounterView: View {
               } label: {
                 Text("+")
               }
-              Text(viewStore.count.toString())
+//              Text(viewStore.count.toString())
+              Text(count.toString())
               Button {
                 viewStore.dispatch(.decrement)
               } label: {
@@ -209,7 +226,8 @@ struct CounterView: View {
               } label: {
                 Text("+")
               }
-              Text(viewStore.count.toString())
+//              Text(viewStore.count.toString())
+              Text(count.toString())
               Button {
                 viewStore.send(.decrement)
               } label: {

@@ -1,11 +1,100 @@
 import Combine
+import SwiftUI
+import CustomDump
 import Foundation
+
+@propertyWrapper public struct SharedState<Value>: DynamicProperty {
+
+
+  @ObservedObject private var viewState: ViewState = ViewState()
+
+  var keypath: WritableKeyPath<SharedStateReducer.State, Value>
+
+  public init(_ keypath: WritableKeyPath<SharedStateReducer.State, Value>) {
+    self.keypath = keypath
+  }
+
+  public var projectedValue: Binding<Value> {
+    Binding {
+      viewState._state.value[keyPath: keypath]
+    } set: { newValue, transition in
+      withTransaction(transition) {
+        viewState._state.value[keyPath: keypath] = newValue
+      }
+    }
+  }
+
+  public var wrappedValue: Value {
+    get {
+      viewState._state.value[keyPath: keypath]
+    }
+    nonmutating set {
+      viewState._state.value[keyPath: keypath] = newValue
+    }
+  }
+
+  public subscript<Subject>(
+    dynamicMember keyPath: WritableKeyPath<Value, Subject>
+  ) -> SharedState<Subject> {
+    get { .init(self.keypath.appending(path: keyPath)) }
+    set { self.wrappedValue[keyPath: keyPath] = newValue.wrappedValue }
+  }
+
+  @dynamicMemberLookup
+  private final class ViewState: ObservableObject {
+
+    @Dependency(\.sharedStateStore)
+    fileprivate var sharedStateStore
+    fileprivate let _state: CurrentValueRelay<SharedStateReducer.State>
+    fileprivate var viewCancellable: AnyCancellable?
+    fileprivate var cancellables = Set<AnyCancellable>()
+
+    init() {
+      self._state = CurrentValueRelay(SharedStateReducer.State.shared)
+      self.viewCancellable = sharedStateStore.state
+        .sink(receiveValue: { [weak objectWillChange = self.objectWillChange, weak _state = self._state] in
+          guard let objectWillChange = objectWillChange, let _state = _state else { return }
+          objectWillChange.send()
+          _state.value = $0
+        })
+    }
+
+    public subscript<Value>(dynamicMember keyPath: WritableKeyPath<SharedStateReducer.State, Value>) -> Value {
+      get {
+        self._state.value[keyPath: keyPath]
+      }
+      set {
+        self._state.value[keyPath: keyPath] = newValue
+      }
+    }
+  }
+}
+
+extension SharedState: Equatable where Value: Equatable {
+  public static func == (lhs: SharedState<Value>, rhs: SharedState<Value>) -> Bool {
+    return lhs.wrappedValue == rhs.wrappedValue
+  }
+}
+
+extension SharedState: CustomReflectable {
+  public var customMirror: Mirror {
+    Mirror(reflecting: self.wrappedValue)
+  }
+}
+
+extension SharedState: CustomDumpRepresentable {
+  public var customDumpValue: Any {
+    self.wrappedValue
+  }
+}
 
 public struct SharedStateReducer: ReducerProtocol {
 
   public struct State {
 
     @Dependency(\.sharedStateStore) var sharedStateStore
+
+    public static let shared = State()
 
     /// The internal storage area.
     var storage: [ObjectIdentifier: AnySharedStorageValue] {
@@ -123,7 +212,7 @@ extension DependencyValues {
 // MARK: StorageDependencyKey
 struct SharedStateDependencyKey: DependencyKey {
   static var liveValue = Store<SharedStateReducer.State, SharedStateReducer.Action>(
-    initialState: SharedStateReducer.State(),
+    initialState: SharedStateReducer.State.shared,
     reducer: EmptyReducer()
   )
 }
