@@ -3,40 +3,41 @@ import SwiftUI
 import CustomDump
 import Foundation
 
-@propertyWrapper public struct SharedState<Value>: DynamicProperty {
+@propertyWrapper
+public struct SharedState<Value>: DynamicProperty {
 
+  @ObservedObject
+  private var viewState: ViewState = ViewState()
 
-  @ObservedObject private var viewState: ViewState = ViewState()
+  var keyPath: WritableKeyPath<SharedStateReducer.State, Value>
 
-  var keypath: WritableKeyPath<SharedStateReducer.State, Value>
-
-  public init(_ keypath: WritableKeyPath<SharedStateReducer.State, Value>) {
-    self.keypath = keypath
+  public init(_ keyPath: WritableKeyPath<SharedStateReducer.State, Value>) {
+    self.keyPath = keyPath
   }
 
   public var projectedValue: Binding<Value> {
     Binding {
-      viewState._state.value[keyPath: keypath]
+      viewState._state.value[keyPath: keyPath]
     } set: { newValue, transition in
       withTransaction(transition) {
-        viewState._state.value[keyPath: keypath] = newValue
+        viewState._state.value[keyPath: keyPath] = newValue
       }
     }
   }
 
   public var wrappedValue: Value {
     get {
-      viewState._state.value[keyPath: keypath]
+      viewState._state.value[keyPath: keyPath]
     }
     nonmutating set {
-      viewState._state.value[keyPath: keypath] = newValue
+      viewState._state.value[keyPath: keyPath] = newValue
     }
   }
 
   public subscript<Subject>(
     dynamicMember keyPath: WritableKeyPath<Value, Subject>
   ) -> SharedState<Subject> {
-    get { .init(self.keypath.appending(path: keyPath)) }
+    get { .init(self.keyPath.appending(path: keyPath)) }
     set { self.wrappedValue[keyPath: keyPath] = newValue.wrappedValue }
   }
 

@@ -37,13 +37,15 @@ struct CounterReducer: ReducerProtocol {
 //          storage.count = state.count
 //          sharedState.count = state.count
 //          sharedState.count += 1
-          count += 1
+//          count += 1
+          break
         case .decrement:
 //          state.count -= 1
 //          storage.count = state.count
 //          sharedState.count = state.count
 //          sharedState.count -= 1
-          count -= 1
+//          count -= 1
+          break
         default:
           break
       }
@@ -159,6 +161,8 @@ struct CounterView: View {
   @SharedState(\.count) var count
   @Dependency(\.sharedState) var sharedState
   @Dependency(\.sharedStateViewStore) var sharedStateViewStore
+  @ViewModel<MainReducer>(\.mainStore)
+  var mainViewModel
 
   init(store: StoreOf<CounterReducer>? = nil) {
     let unwrapStore = Store(
@@ -184,13 +188,16 @@ struct CounterView: View {
             HStack {
               Button {
 //                store.dispatch(.increment)
-                count += 1
+//                counterNumber.count += 1
+//                count += 1
+                mainViewModel.counterState.count += 1
               } label: {
                 Text("+")
               }
 //              Text(viewStore.count.toString())
-              Text(count.toString())
-              Text(sharedState.count.toString())
+//              Text(count.toString())
+//              Text(sharedState.count.toString())
+              Text(mainViewModel.counterState.count.toString())
               Button {
                 store.dispatch(.decrement)
               } label: {
@@ -238,6 +245,13 @@ struct CounterView: View {
         }
       }
     }
+    .onChange(of: mainViewModel.counterState.count, perform: { newValue in
+      count = newValue
+    })
+//    .onReceive($mainViewModel.publisher.counterState.removeDuplicates(by: {$0 == $1}).eraseToAnyPublisher(), perform: { value in
+//      count = value.count
+//      log.info(value)
+//    })
     .onAppear {
       viewStore.send(.viewOnAppear)
     }

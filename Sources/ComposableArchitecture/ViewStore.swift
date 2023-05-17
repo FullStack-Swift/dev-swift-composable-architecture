@@ -751,6 +751,12 @@ public struct ViewStoreTask: Hashable, Sendable {
   }
 }
 
+extension ViewStoreTask {
+  var getValue: Task<Void, Never>? {
+    rawValue
+  }
+}
+
 /// A publisher of store state.
 @dynamicMemberLookup
 public struct StorePublisher<State>: Publisher {
