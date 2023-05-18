@@ -8,9 +8,9 @@ struct TodoListApp: App {
   var body: some Scene {
     WindowGroup {
       RootView()
-        .onReceive(sharedStatePublisher) { value in
-          log.info(value.count)
-        }
+//        .onReceive(sharedStatePublisher) { value in
+//          log.info(value.count)
+//        }
     }
   }
 }

@@ -155,14 +155,14 @@ struct CounterView: View {
 
   private let store: StoreOf<CounterReducer>
 
+//  @StateObject
   @ObservedObject
   private var viewStore: ViewStoreOf<CounterReducer>
 
   @SharedState(\.count) var count
   @Dependency(\.sharedState) var sharedState
   @Dependency(\.sharedStateViewStore) var sharedStateViewStore
-  @ViewModel<MainReducer>(\.mainStore)
-  var mainViewModel
+  @ViewModel(\.counterStore) var counterViewModel
 
   init(store: StoreOf<CounterReducer>? = nil) {
     let unwrapStore = Store(
@@ -171,6 +171,7 @@ struct CounterView: View {
     )
     self.store = unwrapStore
       .withMiddleware(CounterMiddleware())
+//    self._viewStore = StateObject(wrappedValue: ViewStore(unwrapStore))
     self.viewStore = ViewStore(unwrapStore)
   }
 
@@ -180,24 +181,20 @@ struct CounterView: View {
         VStack {
           // MARK: store dispatch
           Group {
-            TextField("", text: $count.map(get: {String($0)}, set: {
-              log.info($0)
-              return Int($0) ?? 1})
-            )
             Text("Store: dispatch()")
             HStack {
               Button {
 //                store.dispatch(.increment)
 //                counterNumber.count += 1
 //                count += 1
-                mainViewModel.counterState.count += 1
+                counterViewModel.count += 1
               } label: {
                 Text("+")
               }
 //              Text(viewStore.count.toString())
 //              Text(count.toString())
 //              Text(sharedState.count.toString())
-              Text(mainViewModel.counterState.count.toString())
+              Text(counterViewModel.count.toString())
               Button {
                 store.dispatch(.decrement)
               } label: {
@@ -245,13 +242,6 @@ struct CounterView: View {
         }
       }
     }
-    .onChange(of: mainViewModel.counterState.count, perform: { newValue in
-      count = newValue
-    })
-//    .onReceive($mainViewModel.publisher.counterState.removeDuplicates(by: {$0 == $1}).eraseToAnyPublisher(), perform: { value in
-//      count = value.count
-//      log.info(value)
-//    })
     .onAppear {
       viewStore.send(.viewOnAppear)
     }

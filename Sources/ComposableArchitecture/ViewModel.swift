@@ -3,57 +3,57 @@ import SwiftUI
 import Foundation
 
 @propertyWrapper
-public struct ViewModel<R: ReducerProtocol>: DynamicProperty {
+public struct ViewModel<ViewState, ViewAction>: DynamicProperty {
 
-  fileprivate var store: StoreOf<R>
+  fileprivate var store: Store<ViewState, ViewAction>
 
   @ObservedObject
-  fileprivate var viewStore: ViewStoreOf<R>
+  fileprivate var viewStore: ViewStore<ViewState, ViewAction>
 
   public init<State, Action>(
-    _ keyPath: KeyPath<DependencyValues, StoreOf<R>>,
-    observe toViewState: @escaping (State) -> R.State,
-    send fromViewAction: @escaping (R.Action) -> Action,
-    removeDuplicates isDuplicate: @escaping (R.State, R.State) -> Bool
-  ) where R.State == State, R.Action == Action {
-    @Dependency(keyPath) var store : StoreOf<R>
-    self.store = store
-    self.viewStore = ViewStoreOf<R>(store, observe: toViewState, send: fromViewAction, removeDuplicates: isDuplicate)
+    _ keyPath: KeyPath<DependencyValues, Store<State, Action>>,
+    observe toViewState: @escaping (State) -> ViewState,
+    send fromViewAction: @escaping (ViewAction) -> Action,
+    removeDuplicates isDuplicate: @escaping (ViewState, ViewState) -> Bool
+  ) {
+    @Dependency(keyPath) var store : Store<State, Action>
+    self.store = store.scope(state: toViewState, action: fromViewAction)
+    self.viewStore = ViewStore(store, observe: toViewState, send: fromViewAction, removeDuplicates: isDuplicate)
   }
 
   public init<State>(
-    _ store: Store<State, R.Action>,
-    observe toViewState: @escaping (State) -> R.State,
-    removeDuplicates isDuplicate: @escaping (R.State, R.State) -> Bool
-  ) where R.State == State {
-    self.store = store
-    self.viewStore = ViewStoreOf<R>(store, observe: toViewState, removeDuplicates: isDuplicate)
+    _ store: Store<State, ViewAction>,
+    observe toViewState: @escaping (State) -> ViewState,
+    removeDuplicates isDuplicate: @escaping (ViewState, ViewState) -> Bool
+  ) {
+    self.store = store.scope(state: toViewState)
+    self.viewStore = ViewStore(store, observe: toViewState, removeDuplicates: isDuplicate)
   }
 
   public init<State, Action>(
     _ store: Store<State, Action>,
-    observe toViewState: @escaping (State) -> R.State,
-    send fromViewAction: @escaping (R.Action) -> Action,
-    removeDuplicates isDuplicate: @escaping (R.State, R.State) -> Bool
-  ) where R.State == State, R.Action == Action {
-    self.store = store
-    self.viewStore = ViewStoreOf<R>(store, observe: toViewState, send: fromViewAction, removeDuplicates: isDuplicate)
+    observe toViewState: @escaping (State) -> ViewState,
+    send fromViewAction: @escaping (ViewAction) -> Action,
+    removeDuplicates isDuplicate: @escaping (ViewState, ViewState) -> Bool
+  ) {
+    self.store = store.scope(state: toViewState, action: fromViewAction)
+    self.viewStore = ViewStore(store, observe: toViewState, send: fromViewAction, removeDuplicates: isDuplicate)
   }
 
   public init(
-    _ store: StoreOf<R>,
-    removeDuplicates isDuplicate: @escaping (R.State, R.State) -> Bool
+    _ store: Store<ViewState, ViewAction>,
+    removeDuplicates isDuplicate: @escaping (ViewState, ViewState) -> Bool
   ) {
     self.store = store
-    self.viewStore = ViewStoreOf<R>(store, removeDuplicates: isDuplicate)
+    self.viewStore = ViewStore(store, removeDuplicates: isDuplicate)
   }
 
-  public init(_ viewModel: ViewModel<R>) {
+  public init(_ viewModel: ViewModel<ViewState, ViewAction>) {
     self.store = viewModel.store
     self.viewStore = viewModel.viewStore
   }
 
-  public var wrappedValue: R.State {
+  public var wrappedValue: ViewState {
     get {
       store.state.value
     }
@@ -66,11 +66,11 @@ public struct ViewModel<R: ReducerProtocol>: DynamicProperty {
     self
   }
 
-  public var publisher: StorePublisher<R.State> {
+  public var publisher: StorePublisher<ViewState> {
     viewStore.publisher
   }
 
-  public var state: R.State {
+  public var state: ViewState {
     wrappedValue
   }
 
@@ -95,7 +95,7 @@ public struct ViewModel<R: ReducerProtocol>: DynamicProperty {
   ///   sending the action.
 
   @discardableResult
-  public func send(_ action: R.Action) -> ViewModelTask {
+  public func send(_ action: ViewAction) -> ViewModelTask {
     let task = viewStore.send(action)
     return ViewModelTask(rawValue: task.getValue)
   }
@@ -108,7 +108,7 @@ public struct ViewModel<R: ReducerProtocol>: DynamicProperty {
   ///   - action: An action.
   ///   - animation: An animation.
   @discardableResult
-  public func send(_ action: R.Action, animation: Animation?) -> ViewModelTask {
+  public func send(_ action: ViewAction, animation: Animation?) -> ViewModelTask {
     send(action, transaction: Transaction(animation: animation))
   }
 
@@ -121,7 +121,7 @@ public struct ViewModel<R: ReducerProtocol>: DynamicProperty {
   ///   - transaction: A transaction.
 
   @discardableResult
-  public func send(_ action: R.Action, transaction: Transaction) -> ViewModelTask {
+  public func send(_ action: ViewAction, transaction: Transaction) -> ViewModelTask {
     withTransaction(transaction) {
       self.send(action)
     }
@@ -199,7 +199,7 @@ public struct ViewModel<R: ReducerProtocol>: DynamicProperty {
   ///   - predicate: A predicate on `ViewState` that determines for how long this method should
   ///     suspend.
   @MainActor
-  public func send(_ action: R.Action, while predicate: @escaping (R.State) -> Bool) async {
+  public func send(_ action: ViewAction, while predicate: @escaping (ViewState) -> Bool) async {
     let task = self.send(action)
     await withTaskCancellationHandler {
       await self.yield(while: predicate)
@@ -219,9 +219,9 @@ public struct ViewModel<R: ReducerProtocol>: DynamicProperty {
   ///     suspend.
   @MainActor
   public func send(
-    _ action: R.Action,
+    _ action: ViewAction,
     animation: Animation?,
-    while predicate: @escaping (R.State) -> Bool
+    while predicate: @escaping (ViewState) -> Bool
   ) async {
     let task = withAnimation(animation) { self.send(action) }
     await withTaskCancellationHandler {
@@ -239,7 +239,7 @@ public struct ViewModel<R: ReducerProtocol>: DynamicProperty {
   /// - Parameter predicate: A predicate on `ViewState` that determines for how long this method
   ///   should suspend.
   @MainActor
-  public func yield(while predicate: @escaping (R.State) -> Bool) async {
+  public func yield(while predicate: @escaping (ViewState) -> Bool) async {
     if #available(iOS 15, macOS 12, tvOS 15, watchOS 8, *) {
       _ = await self.publisher
         .values
@@ -269,39 +269,41 @@ public struct ViewModel<R: ReducerProtocol>: DynamicProperty {
   }
 }
 
-extension ViewModel where R.State: Equatable {
+public typealias ViewModelOf<R: ReducerProtocol> = ViewModel<R.State, R.Action>
+
+extension ViewModel where ViewState: Equatable {
 
   public init(
-    _ keyPath: KeyPath<DependencyValues, StoreOf<R>>
+    _ keyPath: KeyPath<DependencyValues, Store<ViewState, ViewAction>>
   ) {
     @Dependency(keyPath) var store: Store
     self.init(store)
   }
 
   public init<State>(
-    _ store: Store<State, R.Action>,
-    observe toViewState: @escaping (State) -> R.State
-  ) where R.State == State {
+    _ store: Store<State, ViewAction>,
+    observe toViewState: @escaping (State) -> ViewState
+  ) {
     self.init(store, observe: toViewState, removeDuplicates: ==)
   }
 
   public init<State, Action>(
     _ store: Store<State, Action>,
-    observe toViewState: @escaping (State) -> R.State,
-    send fromViewAction: @escaping (R.Action) -> Action
-  ) where R.State == State, R.Action == Action {
+    observe toViewState: @escaping (State) -> ViewState,
+    send fromViewAction: @escaping (ViewAction) -> Action
+  ) {
     self.init(store, observe: toViewState, send: fromViewAction, removeDuplicates: ==)
   }
 
-  public init<State, Action>(
-    _ store: Store<State, Action>
-  ) where R.State == State, R.Action == Action {
+  public init(
+    _ store: Store<ViewState, ViewAction>
+  ) {
     self.init(store, removeDuplicates: ==)
   }
 }
 
-extension ViewModel where R.State == Void {
-  public init(_ store: Store<Void, R.Action>) {
+extension ViewModel where ViewState == Void {
+  public init(_ store: Store<Void, ViewAction>) {
     self.init(store, removeDuplicates: ==)
   }
 }
