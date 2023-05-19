@@ -157,7 +157,8 @@ struct RootView: View {
 
   private let store: StoreOf<RootReducer>
 
-  @ObservedObject
+  @StateObject
+//  @ObservedObject
   private var viewStore: ViewStoreOf<RootReducer>
 
   init(store: StoreOf<RootReducer>? = nil) {
@@ -167,7 +168,8 @@ struct RootView: View {
     )
     self.store = unwrapStore
       .withMiddleware(RootMiddleware())
-    self.viewStore = ViewStore(unwrapStore)
+    self._viewStore = StateObject(wrappedValue: ViewStore(unwrapStore))
+//    self.viewStore = ViewStore(unwrapStore)
   }
 
   var body: some View {

@@ -155,8 +155,8 @@ struct CounterView: View {
 
   private let store: StoreOf<CounterReducer>
 
-//  @StateObject
-  @ObservedObject
+  @StateObject
+//  @ObservedObject
   private var viewStore: ViewStoreOf<CounterReducer>
 
   @SharedState(\.count) var count
@@ -171,8 +171,8 @@ struct CounterView: View {
     )
     self.store = unwrapStore
       .withMiddleware(CounterMiddleware())
-//    self._viewStore = StateObject(wrappedValue: ViewStore(unwrapStore))
-    self.viewStore = ViewStore(unwrapStore)
+    self._viewStore = StateObject(wrappedValue: ViewStore(unwrapStore))
+//    self.viewStore = ViewStore(unwrapStore)
   }
 
   var body: some View {

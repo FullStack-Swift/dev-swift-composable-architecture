@@ -194,7 +194,7 @@ struct MainView: View {
                 store: store
                   .scope(
                     state: \.counterState,
-                    action: Main.Action.counterAction
+                    action: MainReducer.Action.counterAction
                   )
               )
               Spacer()
@@ -219,8 +219,8 @@ struct MainView: View {
 #endif
     }
     .onAppear {
-//      viewStore.send(.viewOnAppear)
-      viewStore.dispatch(.getTodo)
+      viewStore.send(.viewOnAppear)
+//      viewStore.dispatch(.getTodo)
     }
     .onDisappear {
       viewStore.send(.viewOnDisappear)

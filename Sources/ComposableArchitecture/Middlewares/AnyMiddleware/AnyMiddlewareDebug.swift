@@ -1,2 +1,5 @@
+import Foundation
 
-// nothing todo
+extension MiddlewareProtocol {
+  
+}

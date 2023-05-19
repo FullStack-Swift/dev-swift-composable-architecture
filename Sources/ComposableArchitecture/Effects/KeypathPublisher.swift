@@ -1,6 +1,5 @@
 import Combine
 
-/// A publisher of store state.
 @dynamicMemberLookup
 public struct KeyPathPublisher<State>: Publisher {
   public typealias Output = State
