@@ -24,7 +24,7 @@ public func <> <Action>(lhs: IO<Action>, rhs: IO<Action>) -> IO<Action> {
 }
 
 extension IO {
-  public static func none() -> IO {
+  public static var none: IO {
     IO { _ in }
   }
 }

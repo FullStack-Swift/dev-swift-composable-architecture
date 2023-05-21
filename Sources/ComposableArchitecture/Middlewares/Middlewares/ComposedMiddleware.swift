@@ -22,7 +22,7 @@ public struct ComposedMiddleware<State, Action>: MiddlewareProtocol {
   }
 
   public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
-    middlewares.reduce(into: IO<Action>.none()) { effects, middleware in
+    middlewares.reduce(into: IO<Action>.none) { effects, middleware in
       effects = middleware.handle(action: action, from: dispatcher, state: state) <> effects
     }
   }
@@ -39,7 +39,7 @@ public func <> <M1: MiddlewareProtocol, M2: MiddlewareProtocol>(lhs: M1, rhs: M2
 }
 
 extension ComposedMiddleware {
-  public static var identity: ComposedMiddleware<State, Action> {
+  public static var none: ComposedMiddleware<State, Action> {
     .init()
   }
 }

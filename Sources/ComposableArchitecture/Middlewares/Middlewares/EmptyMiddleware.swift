@@ -16,6 +16,6 @@ public struct EmptyMiddleware<State, Action>: MiddlewareProtocol {
 
   @inlinable
   public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
-    .none()
+    .none
   }
 }

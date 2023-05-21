@@ -133,7 +133,7 @@ public enum MiddlewareBuilder<State, Action> {
 
     @inlinable
     public func handle(action: Element.Action, from dispatcher: ActionSource, state: Element.State) -> IO<Element.Action> {
-      self.middlewares.reduce(into: IO<Action>.none()) {
+      self.middlewares.reduce(into: IO<Action>.none) {
         $0 = $1.handle(action: action, from: dispatcher, state: state) <> $0
       }
     }
