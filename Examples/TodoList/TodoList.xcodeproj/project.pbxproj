@@ -11,8 +11,8 @@
 		8770082E2A0C8FF8003326AA /* LoadingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8770082D2A0C8FF8003326AA /* LoadingStatus.swift */; };
 		877008312A0C9B10003326AA /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008302A0C9B10003326AA /* BaseService.swift */; };
 		877008332A0C9BD5003326AA /* TodoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008322A0C9BD5003326AA /* TodoService.swift */; };
-		877008352A0CA49F003326AA /* DependencyValues+StorageValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008342A0CA49F003326AA /* DependencyValues+StorageValue.swift */; };
-		877008372A0CBC64003326AA /* DependencyValues+Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008362A0CBC64003326AA /* DependencyValues+Storage.swift */; };
+		877008352A0CA49F003326AA /* DIValues+Networking in Sources */ = {isa = PBXBuildFile; fileRef = 877008342A0CA49F003326AA /* DIValues+Networking */; };
+		877008372A0CBC64003326AA /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008362A0CBC64003326AA /* Storage.swift */; };
 		877008392A0CC590003326AA /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008382A0CC590003326AA /* TimerView.swift */; };
 		87B392732A0B59010095F6A4 /* TodoListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B392722A0B59010095F6A4 /* TodoListApp.swift */; };
 		87B392772A0B59020095F6A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B392762A0B59020095F6A4 /* Assets.xcassets */; };
@@ -30,6 +30,7 @@
 		87B3929C2A0B5B7B0095F6A4 /* CounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B3929B2A0B5B7B0095F6A4 /* CounterView.swift */; };
 		87B3929F2A0B5BAA0095F6A4 /* Exports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B3929E2A0B5BAA0095F6A4 /* Exports.swift */; };
 		87B392A12A0B61150095F6A4 /* TemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B392A02A0B61150095F6A4 /* TemplateView.swift */; };
+		904A24EC2A1A1E3C00AA8BD4 /* DIValues+Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904A24EB2A1A1E3C00AA8BD4 /* DIValues+Store.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,8 +38,8 @@
 		8770082D2A0C8FF8003326AA /* LoadingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStatus.swift; sourceTree = "<group>"; };
 		877008302A0C9B10003326AA /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		877008322A0C9BD5003326AA /* TodoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoService.swift; sourceTree = "<group>"; };
-		877008342A0CA49F003326AA /* DependencyValues+StorageValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DependencyValues+StorageValue.swift"; sourceTree = "<group>"; };
-		877008362A0CBC64003326AA /* DependencyValues+Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DependencyValues+Storage.swift"; sourceTree = "<group>"; };
+		877008342A0CA49F003326AA /* DIValues+Networking */ = {isa = PBXFileReference; lastKnownFileType = text; path = "DIValues+Networking"; sourceTree = "<group>"; };
+		877008362A0CBC64003326AA /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		877008382A0CC590003326AA /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		87B3926F2A0B59010095F6A4 /* TodoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87B392722A0B59010095F6A4 /* TodoListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListApp.swift; sourceTree = "<group>"; };
@@ -52,6 +53,7 @@
 		87B3929B2A0B5B7B0095F6A4 /* CounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterView.swift; sourceTree = "<group>"; };
 		87B3929E2A0B5BAA0095F6A4 /* Exports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exports.swift; sourceTree = "<group>"; };
 		87B392A02A0B61150095F6A4 /* TemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateView.swift; sourceTree = "<group>"; };
+		904A24EB2A1A1E3C00AA8BD4 /* DIValues+Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DIValues+Store.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 		87B392712A0B59010095F6A4 /* TodoList */ = {
 			isa = PBXGroup;
 			children = (
+				904A24EA2A1A1E2200AA8BD4 /* Extension++ */,
 				8770082F2A0C9B00003326AA /* Services */,
 				87B3929D2A0B5B990095F6A4 /* Internal */,
 				87B392942A0B5B570095F6A4 /* Screens */,
@@ -154,10 +157,18 @@
 				87B3929E2A0B5BAA0095F6A4 /* Exports.swift */,
 				8770082B2A0C8B73003326AA /* Logger.swift */,
 				8770082D2A0C8FF8003326AA /* LoadingStatus.swift */,
-				877008342A0CA49F003326AA /* DependencyValues+StorageValue.swift */,
-				877008362A0CBC64003326AA /* DependencyValues+Storage.swift */,
 			);
 			path = Internal;
+			sourceTree = "<group>";
+		};
+		904A24EA2A1A1E2200AA8BD4 /* Extension++ */ = {
+			isa = PBXGroup;
+			children = (
+				877008342A0CA49F003326AA /* DIValues+Networking */,
+				904A24EB2A1A1E3C00AA8BD4 /* DIValues+Store.swift */,
+				877008362A0CBC64003326AA /* Storage.swift */,
+			);
+			path = "Extension++";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,8 +262,9 @@
 				87B3929F2A0B5BAA0095F6A4 /* Exports.swift in Sources */,
 				8770082C2A0C8B73003326AA /* Logger.swift in Sources */,
 				87B392A12A0B61150095F6A4 /* TemplateView.swift in Sources */,
-				877008352A0CA49F003326AA /* DependencyValues+StorageValue.swift in Sources */,
-				877008372A0CBC64003326AA /* DependencyValues+Storage.swift in Sources */,
+				904A24EC2A1A1E3C00AA8BD4 /* DIValues+Store.swift in Sources */,
+				877008352A0CA49F003326AA /* DIValues+Networking in Sources */,
+				877008372A0CBC64003326AA /* Storage.swift in Sources */,
 				8770082E2A0C8FF8003326AA /* LoadingStatus.swift in Sources */,
 				87B3929C2A0B5B7B0095F6A4 /* CounterView.swift in Sources */,
 				87B392932A0B5B090095F6A4 /* TodoModel.swift in Sources */,

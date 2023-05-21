@@ -4,7 +4,7 @@ import SwiftUI
 struct TimerReducer: ReducerProtocol {
 
   // MARK: State
-  struct State: Equatable, Identifiable {
+  struct State: BaseIDState {
     struct ID: Hashable {
       var uuid = UUID()
     }

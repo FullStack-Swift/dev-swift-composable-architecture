@@ -4,7 +4,7 @@ import SwiftUI
 struct CounterReducer: ReducerProtocol {
 
   // MARK: State
-  struct State: Equatable, Identifiable {
+  struct State: BaseIDState {
     var count: Int = 0
     var id: UUID = UUID()
   }

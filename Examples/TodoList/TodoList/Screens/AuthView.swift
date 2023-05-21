@@ -4,7 +4,7 @@ import SwiftUI
 struct AuthReducer: ReducerProtocol {
 
   // MARK: State
-  struct State: Equatable {
+  struct State: BaseState {
 
   }
 

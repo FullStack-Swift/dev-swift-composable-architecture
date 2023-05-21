@@ -3,7 +3,7 @@ import SwiftUI
 struct RootReducer: ReducerProtocol {
 
   // MARK: State
-  struct State: Equatable {
+  struct State: BaseState {
     var authState = AuthReducer.State()
     var mainState = MainReducer.State()
     var rootScreen: RootScreen = .main

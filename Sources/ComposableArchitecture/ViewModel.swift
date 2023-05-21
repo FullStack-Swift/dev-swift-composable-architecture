@@ -18,7 +18,7 @@ public struct ViewModel<ViewState, ViewAction>: DynamicProperty {
     send fromViewAction: @escaping (ViewAction) -> Action,
     removeDuplicates isDuplicate: @escaping (ViewState, ViewState) -> Bool
   ) {
-    @Dependency(keyPath) var store : Store<State, Action>
+    @Dependency(keyPath) var store: Store<State, Action>
     self.store = store.scope(state: toViewState, action: fromViewAction)
     let viewStore = ViewStore(store, observe: toViewState, send: fromViewAction, removeDuplicates: isDuplicate)
     self._viewStore = StateObject(wrappedValue: viewStore)

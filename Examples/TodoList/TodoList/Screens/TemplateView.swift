@@ -4,7 +4,7 @@ import SwiftUI
 struct TemplateReducer: ReducerProtocol {
 
   // MARK: State
-  struct State: Equatable {
+  struct State: BaseState {
 
   }
 

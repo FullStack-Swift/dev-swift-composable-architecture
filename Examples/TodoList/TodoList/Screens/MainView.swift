@@ -4,7 +4,7 @@ import SwiftUI
 struct MainReducer: ReducerProtocol {
 
   // MARK: State
-  struct State: Equatable {
+  struct State: BaseState {
     var counterState = CounterReducer.State()
     @BindingState var title: String = ""
     var todos: IdentifiedArrayOf<TodoModel> = []
