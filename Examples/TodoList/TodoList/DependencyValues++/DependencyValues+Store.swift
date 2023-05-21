@@ -1,8 +1,8 @@
 import Dependencies
 
 // MARK: Store
-fileprivate extension DependencyValues {
-  struct RootStoreKey: DependencyKey {
+extension DependencyValues {
+  fileprivate struct RootStoreKey: DependencyKey {
     static let liveValue = Store(
       initialState: RootReducer.State(),
       reducer: RootReducer()
@@ -27,5 +27,3 @@ extension DependencyValues {
     mainStore.scope(state: \.counterState, action: MainReducer.Action.counterAction)
   }
 }
-
-

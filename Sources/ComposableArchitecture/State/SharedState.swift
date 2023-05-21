@@ -60,7 +60,9 @@ public struct SharedState<Value>: DynamicProperty {
         })
     }
 
-    public subscript<Value>(dynamicMember keyPath: WritableKeyPath<SharedStateReducer.State, Value>) -> Value {
+    public subscript<Value>(
+      dynamicMember keyPath: WritableKeyPath<SharedStateReducer.State, Value>
+    ) -> Value {
       get {
         self._state.value[keyPath: keyPath]
       }
@@ -227,7 +229,6 @@ final public class BoxWrapped<Wrapped> {
     self.wrappedValue = wrappedValue
   }
 
-  /// Returns the resulting publisher of a given key path.
   public subscript<Value: Equatable>(
     dynamicMember keyPath: WritableKeyPath<Wrapped, Value>
   ) -> Value {
