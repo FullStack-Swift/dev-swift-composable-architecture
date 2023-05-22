@@ -1,4 +1,3 @@
-#if compiler(>=5.7)
 /// A protocol that describes how to create effect of an application to render state,
 /// given an action and describes new ``action``s should be excuted later by the store
 ///
@@ -36,8 +35,7 @@ public protocol MiddlewareProtocol<State, Action> {
   ///     side effect that can communicate with the outside world.
   /// - Returns: An effect that can communicate with the outside world and feed actions back into
   ///   the system.
-
-  func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action>
+  func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action>
 
   /// The content and behavior of a reducer that is composed from other reducers.
   ///
@@ -55,24 +53,6 @@ public protocol MiddlewareProtocol<State, Action> {
   var body: Body { get }
 }
 
-#else
-public protocol MiddlewareProtocol {
-
-  associatedtype InputActionType
-
-  associatedtype OutputActionType
-
-  associatedtype StateType
-
-  func handle(
-    action: InputActionType,
-    from dispatcher: ActionSource,
-    state: @escaping GetState<StateType>
-  ) -> IO<OutputActionType>
-}
-
-#endif
-
 extension MiddlewareProtocol where Body == Never {
 
   @_transparent
@@ -86,9 +66,11 @@ extension MiddlewareProtocol where Body == Never {
 }
 
 extension MiddlewareProtocol where Body: MiddlewareProtocol, Body.State == State, Body.Action == Action {
-  public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
-    self.body.handle(action: action, from: dispatcher, state: state)
+
+  public func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action> {
+    self.body.handle(state: state, action: action, from: dispatcher)
   }
+
 }
 
 // NB: This is available only in Swift 5.7.1 due to the following bug:

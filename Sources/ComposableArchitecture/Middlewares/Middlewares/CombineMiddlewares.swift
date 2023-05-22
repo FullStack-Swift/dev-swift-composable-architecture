@@ -32,7 +32,7 @@ where State == Middlewares.State, Action == Middlewares.Action {
     self.middlewares = middlewares
   }
   
-  public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
-    self.middlewares.handle(action: action, from: dispatcher, state: state)
+  public func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action> {
+    self.middlewares.handle(state: state, action: action, from: dispatcher)
   }
 }

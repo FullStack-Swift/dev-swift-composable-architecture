@@ -120,7 +120,7 @@ struct MainMiddleware: MiddlewareProtocol {
 
   // MARK: Start Body
   var body: some MiddlewareProtocolOf<Self> {
-    AsyncActionHandlerMiddleware { action, source, state, hander in
+    AsyncActionHandlerMiddleware { state, action, source, handler in
       switch action {
         case .getTodo:
           if state.isLoading {
@@ -129,7 +129,7 @@ struct MainMiddleware: MiddlewareProtocol {
           do {
             let data = try await todoService.readsTodo().data
             log.info(data.toJson())
-            hander.dispatch(.responseTodo(data))
+            handler.dispatch(.responseTodo(data))
           } catch {
             log.error(error)
           }
@@ -137,7 +137,7 @@ struct MainMiddleware: MiddlewareProtocol {
           do {
             let data = try await todoService.createTodo(model).data
             log.info(data.toJson())
-            hander.dispatch(.responseCreateOrUpdateTodo(data))
+            handler.dispatch(.responseCreateOrUpdateTodo(data))
           } catch {
             log.error(error)
           }
@@ -145,7 +145,7 @@ struct MainMiddleware: MiddlewareProtocol {
           do {
             let data = try await todoService.updateTodo(model).data
             log.info(data.toJson())
-            hander.dispatch(.responseUpdateTodo(data))
+            handler.dispatch(.responseUpdateTodo(data))
           } catch {
             log.error(error)
           }
@@ -153,7 +153,7 @@ struct MainMiddleware: MiddlewareProtocol {
           do {
             let data = try await todoService.deleteTodo(model).data
             log.info(data.toJson())
-            hander.dispatch(.responseDeleteTodo(data))
+            handler.dispatch(.responseDeleteTodo(data))
           } catch {
             log.error(error)
           }

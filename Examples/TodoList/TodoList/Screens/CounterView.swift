@@ -78,7 +78,7 @@ struct CounterMiddleware: MiddlewareProtocol {
 
   var ioMiddleware: some MiddlewareProtocolOf<Self> {
     // MARK: IOMiddleware
-    IOMiddleware { action, source, state in
+    IOMiddleware { state, action, source in
       IO<Action> { handler in
         switch action {
           case .decrement:
@@ -98,7 +98,7 @@ struct CounterMiddleware: MiddlewareProtocol {
 
   var asyncIOMiddleware: some MiddlewareProtocolOf<Self> {
     // MARK: AsyncIOMiddleware
-    AsyncIOMiddleware { action, source, state in
+    AsyncIOMiddleware { state, action, source in
       AsyncIO { handler in
         switch action {
           case .decrement:
@@ -116,7 +116,7 @@ struct CounterMiddleware: MiddlewareProtocol {
 
   var actionHandlerMiddleware: some MiddlewareProtocolOf<Self> {
     // MARK: ActionHandlerMiddleware
-    ActionHandlerMiddleware { action, source, state, handler in
+    ActionHandlerMiddleware { state, action, source, handler in
       switch action {
         case .decrement:
           DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -134,7 +134,7 @@ struct CounterMiddleware: MiddlewareProtocol {
 
   var asyncActionHandlerMiddleware: some MiddlewareProtocolOf<Self> {
     // MARK: AsyncActionHandlerMiddleware
-    AsyncActionHandlerMiddleware { action, source, state, handler in
+    AsyncActionHandlerMiddleware { state, action, source, handler in
       switch action {
         case .decrement:
           try await Task.sleep(nanoseconds: 1_000_000_000)

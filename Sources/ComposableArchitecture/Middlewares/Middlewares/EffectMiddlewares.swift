@@ -4,23 +4,23 @@ import Foundation
 public struct EffectMiddleware<State, Action>: MiddlewareProtocol {
 
   @usableFromInline
-  let handle: (Action, ActionSource, State) -> EffectTask<Action>
+  let handle: (State, Action, ActionSource) -> EffectTask<Action>
 
   @usableFromInline
   init(
-    internal handle: @escaping (Action, ActionSource, State) -> EffectTask<Action>
+    internal handle: @escaping (State, Action, ActionSource) -> EffectTask<Action>
   ) {
     self.handle = handle
   }
 
   @inlinable
-  public init(_ handle: @escaping (Action, ActionSource, State) -> EffectTask<Action>) {
+  public init(_ handle: @escaping (State, Action, ActionSource) -> EffectTask<Action>) {
     self.init(internal: handle)
   }
 
-  public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
+  public func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action> {
     let io = IO<Action> { output in
-      let effect = self.handle(action, dispatcher, state)
+      let effect = self.handle(state, action, dispatcher)
       effect.sink { input in
         output.dispatch(input)
       }

@@ -21,9 +21,9 @@ public struct ComposedMiddleware<State, Action>: MiddlewareProtocol {
     middlewares.append(middleware.eraseToAnyMiddleware())
   }
 
-  public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
+  public func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action> {
     middlewares.reduce(into: IO<Action>.none) { effects, middleware in
-      effects = middleware.handle(action: action, from: dispatcher, state: state) <> effects
+      effects = middleware.handle(state: state, action: action, from: dispatcher) <> effects
     }
   }
 }

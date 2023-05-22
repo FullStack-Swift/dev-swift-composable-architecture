@@ -9,7 +9,7 @@ extension MiddlewareProtocol {
 
 struct AnyMiddlewareDebug<State, Action>: MiddlewareProtocol {
 
-  func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
+  func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action> {
 #if DEBUG
     print(state, dispatcher, action)
     return .none

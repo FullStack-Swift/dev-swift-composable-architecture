@@ -3,11 +3,11 @@ import Foundation
 // MARK: IOMiddleware
 public struct IOMiddleware<State, Action>: MiddlewareProtocol {
   @usableFromInline
-  let handle: (Action, ActionSource, State) -> IO<Action>
+  let handle: (State, Action, ActionSource) -> IO<Action>
 
   @usableFromInline
   init(
-    internal handle: @escaping (Action, ActionSource, State) -> IO<Action>
+    internal handle: @escaping (State, Action, ActionSource) -> IO<Action>
   ) {
     self.handle = handle
   }
@@ -16,7 +16,7 @@ public struct IOMiddleware<State, Action>: MiddlewareProtocol {
   ///
   /// - Parameter reduce: A function that is called when ``handle(action:from:state)`` is invoked.
   @inlinable
-  public init(_ handle: @escaping (Action, ActionSource, State) -> IO<Action>) {
+  public init(_ handle: @escaping (State, Action, ActionSource) -> IO<Action>) {
     self.init(internal: handle)
   }
 
@@ -26,36 +26,36 @@ public struct IOMiddleware<State, Action>: MiddlewareProtocol {
   @inlinable
   public init<M: MiddlewareProtocol>(_ middleware: M)
   where M.State == State, M.Action == Action {
-    self.init(internal: middleware.handle(action:from:state:))
+    self.init(internal: middleware.handle(state:action:from:))
   }
 
   @inlinable
-  public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
-    self.handle(action, dispatcher, state)
+  public func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action> {
+    self.handle(state, action, dispatcher)
   }
 }
 
 // MARK: AsyncIOMiddleware
 public struct AsyncIOMiddleware<State, Action>: MiddlewareProtocol {
   @usableFromInline
-  let handle: (Action, ActionSource, State) async throws -> AsyncIO<Action>
+  let handle: (State, Action, ActionSource) async throws -> AsyncIO<Action>
 
   @usableFromInline
   init(
-    internal handle: @escaping (Action, ActionSource, State) async throws -> AsyncIO<Action>
+    internal handle: @escaping (State, Action, ActionSource) async throws -> AsyncIO<Action>
   ) {
     self.handle = handle
   }
 
   @inlinable
-  public init(_ handle: @escaping (Action, ActionSource, State) async throws -> AsyncIO<Action>) {
+  public init(_ handle: @escaping (State, Action, ActionSource) async throws -> AsyncIO<Action>) {
     self.init(internal: handle)
   }
 
-  public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
+  public func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action> {
     let io = IO<Action> { output in
       Task { @MainActor in
-        if let asyncIO = try? await handle(action, dispatcher, state) {
+        if let asyncIO = try? await handle(state, action, dispatcher) {
           try await asyncIO.run { action in
             output.dispatch(action)
           }

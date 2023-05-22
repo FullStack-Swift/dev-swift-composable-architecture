@@ -2,24 +2,24 @@ import Foundation
 
 public struct AsyncActionMiddleware<State, Action>: MiddlewareProtocol {
   @usableFromInline
-  let handle: (Action, ActionSource, State) async throws -> Action?
+  let handle: (State, Action, ActionSource) async throws -> Action?
 
   @usableFromInline
   init(
-    internal handle: @escaping (Action, ActionSource, State) async throws -> Action?
+    internal handle: @escaping (State, Action, ActionSource) async throws -> Action?
   ) {
     self.handle = handle
   }
 
   @inlinable
-  public init(_ handle: @escaping (Action, ActionSource, State) async throws -> Action?) {
+  public init(_ handle: @escaping (State, Action, ActionSource) async throws -> Action?) {
     self.init(internal: handle)
   }
 
-  public func handle(action: Action, from dispatcher: ActionSource, state: State) -> IO<Action> {
+  public func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action> {
     let io = IO<Action> { output in
       Task { @MainActor in
-        if let outputAction = try? await self.handle(action, dispatcher, state) {
+        if let outputAction = try? await self.handle(state, action, dispatcher) {
           output.dispatch(outputAction)
         }
       }

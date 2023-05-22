@@ -63,7 +63,7 @@ struct TimerMiddleware: MiddlewareProtocol {
 
   // MARK: Start Body
   var body: some MiddlewareProtocolOf<Self> {
-    IOMiddleware { action, source, state in
+    IOMiddleware { state, action, source in
       IO<Action> { output in
         switch action {
           case .viewOnAppear:

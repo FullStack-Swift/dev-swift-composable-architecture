@@ -91,12 +91,12 @@ public enum MiddlewareBuilder<State, Action> {
   case second(Second)
 
     @inlinable
-    public func handle(action: First.Action, from dispatcher: ActionSource, state: First.State) -> IO<First.Action> {
+    public func handle( state: First.State, action: First.Action, from dispatcher: ActionSource) -> IO<First.Action> {
       switch self {
         case let .first(first):
-          return first.handle(action: action, from: dispatcher, state: state)
+          return first.handle(state: state, action: action, from: dispatcher)
         case let .second(second):
-          return second.handle(action: action, from: dispatcher, state: state)
+          return second.handle(state: state, action: action, from: dispatcher)
       }
     }
   }
@@ -116,9 +116,9 @@ public enum MiddlewareBuilder<State, Action> {
     }
 
     @inlinable
-    public func handle(action: M0.Action, from dispatcher: ActionSource, state: M0.State) -> IO<M0.Action> {
-      self.m0.handle(action: action, from: dispatcher, state: state)
-      <> self.m1.handle(action: action, from: dispatcher, state: state)
+    public func handle(state: M0.State, action: M0.Action, from dispatcher: ActionSource) -> IO<M0.Action> {
+      self.m0.handle(state: state, action: action, from: dispatcher)
+      <> self.m1.handle(state: state, action: action, from: dispatcher)
     }
   }
 
@@ -132,9 +132,9 @@ public enum MiddlewareBuilder<State, Action> {
     }
 
     @inlinable
-    public func handle(action: Element.Action, from dispatcher: ActionSource, state: Element.State) -> IO<Element.Action> {
+    public func handle(state: Element.State, action: Element.Action, from dispatcher: ActionSource) -> IO<Element.Action> {
       self.middlewares.reduce(into: IO<Action>.none) {
-        $0 = $1.handle(action: action, from: dispatcher, state: state) <> $0
+        $0 = $1.handle(state: state, action: action, from: dispatcher) <> $0
       }
     }
   }
