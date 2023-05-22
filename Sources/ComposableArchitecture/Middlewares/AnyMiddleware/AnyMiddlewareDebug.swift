@@ -2,16 +2,22 @@ import Foundation
 
 extension MiddlewareProtocol {
   
-  func debug() -> any MiddlewareProtocol {
-    return self <> AnyMiddlewareDebug()
+  func debug(_ prefix: String = "") -> any MiddlewareProtocol {
+    return self <> AnyMiddlewareDebug(prefix)
   }
 }
 
 struct AnyMiddlewareDebug<State, Action>: MiddlewareProtocol {
 
+  let prefix: String
+
+  init(_ prefix: String) {
+    self.prefix = prefix
+  }
+
   func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action> {
 #if DEBUG
-    print(state, dispatcher, action)
+    print(prefix, state, action, dispatcher)
     return .none
 #else
     return .none
