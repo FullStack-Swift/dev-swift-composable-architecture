@@ -37,18 +37,18 @@ public protocol MiddlewareProtocol<State, Action> {
   ///   the system.
   func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action>
 
-  /// The content and behavior of a reducer that is composed from other reducers.
+  /// The content and behavior of a handle that is composed from other handles.
   ///
-  /// Implement this requirement when you want to incorporate the behavior of other reducers
+  /// Implement this requirement when you want to incorporate the behavior of other handles
   /// together.
   ///
   /// Do not invoke this property directly.
   ///
-  /// > Important: if your reducer implements the ``reduce(into:action:)-8yinq`` method, it will
-  /// > take precedence over this property, and only ``reduce(into:action:)-8yinq`` will be called
-  /// > by the ``Store``. If your reducer assembles a body from other reducers and has additional
+  /// > Important: if your reducer implements the ``handle(state:action:from:)-8yinq`` method, it will
+  /// > take precedence over this property, and only ``handle(state:action:from:)-8yinq`` will be called
+  /// > by the ``Store``. If your handle assembles a body from other reducers and has additional
   /// > business logic it needs to layer into the system, introduce this logic into the body
-  /// > instead, either with ``Reduce``, or with a separate, dedicated conformance.
+  /// > instead, either with ``IOMiddleware``, or with a separate, dedicated conformance.
   @MiddlewareBuilder<State, Action>
   var body: Body { get }
 }
