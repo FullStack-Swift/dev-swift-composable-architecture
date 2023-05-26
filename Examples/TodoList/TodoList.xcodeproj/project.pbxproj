@@ -14,6 +14,7 @@
 		877008352A0CA49F003326AA /* DependencyValues+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008342A0CA49F003326AA /* DependencyValues+Networking.swift */; };
 		877008372A0CBC64003326AA /* Storage++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008362A0CBC64003326AA /* Storage++.swift */; };
 		877008392A0CC590003326AA /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008382A0CC590003326AA /* TimerView.swift */; };
+		877B5F4B2A205EE600B1A87D /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877B5F4A2A205EE600B1A87D /* ExampleView.swift */; };
 		87B392732A0B59010095F6A4 /* TodoListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B392722A0B59010095F6A4 /* TodoListApp.swift */; };
 		87B392772A0B59020095F6A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B392762A0B59020095F6A4 /* Assets.xcassets */; };
 		87B3927B2A0B59020095F6A4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B3927A2A0B59020095F6A4 /* Preview Assets.xcassets */; };
@@ -35,6 +36,7 @@
 		90AF8A292A1A508F002A6FBD /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8A282A1A508F002A6FBD /* BaseModel.swift */; };
 		90AF8A2B2A1A50BD002A6FBD /* BaseIDModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8A2A2A1A50BD002A6FBD /* BaseIDModel.swift */; };
 		90AF8A2D2A1A5107002A6FBD /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8A2C2A1A5107002A6FBD /* Token.swift */; };
+		90FA03A42A2121C000344615 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA03A32A2121C000344615 /* UserService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,7 @@
 		877008342A0CA49F003326AA /* DependencyValues+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DependencyValues+Networking.swift"; sourceTree = "<group>"; };
 		877008362A0CBC64003326AA /* Storage++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage++.swift"; sourceTree = "<group>"; };
 		877008382A0CC590003326AA /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		877B5F4A2A205EE600B1A87D /* ExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
 		87B3926F2A0B59010095F6A4 /* TodoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87B392722A0B59010095F6A4 /* TodoListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListApp.swift; sourceTree = "<group>"; };
 		87B392762A0B59020095F6A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -62,6 +65,7 @@
 		90AF8A282A1A508F002A6FBD /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		90AF8A2A2A1A50BD002A6FBD /* BaseIDModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseIDModel.swift; sourceTree = "<group>"; };
 		90AF8A2C2A1A5107002A6FBD /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		90FA03A32A2121C000344615 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,7 @@
 			children = (
 				877008302A0C9B10003326AA /* BaseService.swift */,
 				877008322A0C9BD5003326AA /* TodoService.swift */,
+				90FA03A32A2121C000344615 /* UserService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				87B3929B2A0B5B7B0095F6A4 /* CounterView.swift */,
 				87B392A02A0B61150095F6A4 /* TemplateView.swift */,
 				877008382A0CC590003326AA /* TimerView.swift */,
+				877B5F4A2A205EE600B1A87D /* ExampleView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -279,6 +285,8 @@
 				87B392962A0B5B630095F6A4 /* RootView.swift in Sources */,
 				87B3929A2A0B5B750095F6A4 /* MainView.swift in Sources */,
 				87B392982A0B5B6B0095F6A4 /* AuthView.swift in Sources */,
+				877B5F4B2A205EE600B1A87D /* ExampleView.swift in Sources */,
+				90FA03A42A2121C000344615 /* UserService.swift in Sources */,
 				877008332A0C9BD5003326AA /* TodoService.swift in Sources */,
 				87B3929F2A0B5BAA0095F6A4 /* Exports.swift in Sources */,
 				8770082C2A0C8B73003326AA /* Logger.swift in Sources */,

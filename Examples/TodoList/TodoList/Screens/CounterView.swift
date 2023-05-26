@@ -1,5 +1,4 @@
 import SwiftUI
-import Counter
 
 // MARK: Reducer
 struct CounterReducer: ReducerProtocol {
@@ -260,41 +259,4 @@ struct CounterView_Previews: PreviewProvider {
         .withMiddleware(CounterMiddleware())
     )
   }
-}
-
-
-struct Hook: HookView {
-    var hookBody: some View {
-        ScrollView {
-            VStack {
-                counterUseState
-            }
-        }
-    }
-
-    var counterUseState: some View {
-        let count = useState(0)
-        return HStack {
-            Button("+") {
-                count.wrappedValue += 1
-            }
-            Text(count.wrappedValue.description)
-            Button("-") {
-                count.wrappedValue -= 1
-            }
-        }
-    }
-
-    var counterUseSetState: some View {
-        let (count, setCount) = useSetState(0)
-        return HStack {
-            Button("+") {
-                setCount(count + 1)
-            }
-            Text(count.description)
-            Button("-") {
-                setCount(count - 1)
-            }
-        }
-    }
 }
