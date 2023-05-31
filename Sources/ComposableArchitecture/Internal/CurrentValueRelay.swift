@@ -53,3 +53,11 @@ extension CurrentValueRelay {
     }
   }
 }
+
+extension CurrentValueRelay {
+  func commit(_ block: (inout Output) -> Void) {
+    var clone = self.value
+    block(&clone)
+    self.value = value
+  }
+}

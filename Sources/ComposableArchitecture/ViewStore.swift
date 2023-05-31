@@ -809,3 +809,49 @@ private struct HashableWrapper<Value>: Hashable {
 enum BindingLocal {
   @TaskLocal static var isActive = false
 }
+
+// MARK: Store to ViewStore
+extension Store {
+  func toViewStore() -> ViewStore<State, Action> where State: Equatable {
+    ViewStore(self)
+  }
+
+  func toViewStore() -> ViewStore<State, Action> where State == Void {
+    ViewStore(self)
+  }
+
+
+  func toViewStore(
+    removeDuplicates isDuplicate: @escaping (State, State) -> Bool
+  ) -> ViewStore<State, Action> {
+    ViewStore(
+      self,
+      removeDuplicates: isDuplicate
+    )
+  }
+
+
+  func toViewStore<ViewState>(
+    observe toViewState: @escaping (State) -> ViewState,
+    removeDuplicates isDuplicate: @escaping (ViewState, ViewState) -> Bool
+  ) -> ViewStore<ViewState, Action> {
+    ViewStore(
+      self,
+      observe: toViewState,
+      removeDuplicates: isDuplicate
+    )
+  }
+
+  func toViewStore<ViewState, ViewAction>(
+    observe toViewState: @escaping (State) -> ViewState,
+    send fromViewAction: @escaping (ViewAction) -> Action,
+    removeDuplicates isDuplicate: @escaping (ViewState, ViewState) -> Bool
+  ) -> ViewStore<ViewState, ViewAction> {
+    ViewStore(
+      self,
+      observe: toViewState,
+      send: fromViewAction,
+      removeDuplicates: isDuplicate
+    )
+  }
+}
