@@ -7,3 +7,5 @@
 
 @_exported import Json
 @_exported import Transform
+@_exported import SwiftLogger
+@_exported import SwiftUIViewModifier

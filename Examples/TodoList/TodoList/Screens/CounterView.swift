@@ -242,11 +242,19 @@ struct CounterView: View {
         }
       }
     }
+    .onFirstAppear {
+      log.info("onFirstAppear")
+    }
     .onAppear {
-      viewStore.send(.viewOnAppear)
+//      viewStore.send(.viewOnAppear)
+      log.info("onAppear")
     }
     .onDisappear {
-      viewStore.send(.viewOnDisappear)
+//      viewStore.send(.viewOnDisappear)
+      log.info("onDisappear")
+    }
+    .onLastDisappear {
+      log.info("onLastDisappear")
     }
   }
 }
@@ -254,9 +262,6 @@ struct CounterView: View {
 // MARK: Previews
 struct CounterView_Previews: PreviewProvider {
   static var previews: some View {
-    CounterView(
-      store: Store(initialState: .init(), reducer: CounterReducer())
-        .withMiddleware(CounterMiddleware())
-    )
+    CounterView()
   }
 }

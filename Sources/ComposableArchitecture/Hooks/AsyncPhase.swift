@@ -131,3 +131,4 @@ public enum AsyncPhase<Success, Failure: Error> {
 
 extension AsyncPhase: Equatable where Success: Equatable, Failure: Equatable {}
 extension AsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}
+extension AsyncPhase: Codable where Success: Codable, Failure: Codable {}

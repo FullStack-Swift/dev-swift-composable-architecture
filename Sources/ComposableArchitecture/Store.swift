@@ -136,7 +136,8 @@ public final class Store<State, Action> {
     private let mainThreadChecksEnabled: Bool
   #endif
 
-  public var storage = Storage()
+  @_spi(Internals) public var storage = Storage()
+  @_spi(Internals) public var action = ActionSubject<Action>()
   /// Initializes a store from an initial state and a reducer.
   ///
   /// - Parameters:
@@ -346,6 +347,7 @@ public final class Store<State, Action> {
     _ action: Action,
     originatingFrom originatingAction: Action? = nil
   ) -> Task<Void, Never>? {
+    self.action.send(action)
     self.threadCheck(status: .send(action, originatingAction: originatingAction))
 
     self.bufferedActions.append(action)

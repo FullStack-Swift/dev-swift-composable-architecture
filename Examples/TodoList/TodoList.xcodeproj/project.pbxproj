@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8770082C2A0C8B73003326AA /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8770082B2A0C8B73003326AA /* Logger.swift */; };
+		870EBA982A2D828200B84F52 /* SwiftUIViewModifier in Frameworks */ = {isa = PBXBuildFile; productRef = 870EBA972A2D828200B84F52 /* SwiftUIViewModifier */; };
+		870EBA9B2A2D82ED00B84F52 /* SwiftLogger in Frameworks */ = {isa = PBXBuildFile; productRef = 870EBA9A2A2D82ED00B84F52 /* SwiftLogger */; };
 		8770082E2A0C8FF8003326AA /* LoadingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8770082D2A0C8FF8003326AA /* LoadingStatus.swift */; };
 		877008312A0C9B10003326AA /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008302A0C9B10003326AA /* BaseService.swift */; };
 		877008332A0C9BD5003326AA /* TodoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008322A0C9BD5003326AA /* TodoService.swift */; };
@@ -31,6 +32,10 @@
 		87B3929C2A0B5B7B0095F6A4 /* CounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B3929B2A0B5B7B0095F6A4 /* CounterView.swift */; };
 		87B3929F2A0B5BAA0095F6A4 /* Exports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B3929E2A0B5BAA0095F6A4 /* Exports.swift */; };
 		87B392A12A0B61150095F6A4 /* TemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B392A02A0B61150095F6A4 /* TemplateView.swift */; };
+		87EA1BD72A2D8CBF00A616FC /* SwiftUIBottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 87EA1BD62A2D8CBF00A616FC /* SwiftUIBottomSheet */; };
+		87EA1BDA2A2D8CDB00A616FC /* SwiftUIColor in Frameworks */ = {isa = PBXBuildFile; productRef = 87EA1BD92A2D8CDB00A616FC /* SwiftUIColor */; };
+		87EA1BDD2A2D8CFC00A616FC /* SwiftUIButtonStyles in Frameworks */ = {isa = PBXBuildFile; productRef = 87EA1BDC2A2D8CFC00A616FC /* SwiftUIButtonStyles */; };
+		87EA1BE02A2D8DB300A616FC /* SwiftUIAdditions in Frameworks */ = {isa = PBXBuildFile; productRef = 87EA1BDF2A2D8DB300A616FC /* SwiftUIAdditions */; };
 		904A24EC2A1A1E3C00AA8BD4 /* DependencyValues+Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904A24EB2A1A1E3C00AA8BD4 /* DependencyValues+Store.swift */; };
 		90AF8A272A1A5004002A6FBD /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8A262A1A5004002A6FBD /* UserModel.swift */; };
 		90AF8A292A1A508F002A6FBD /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8A282A1A508F002A6FBD /* BaseModel.swift */; };
@@ -40,7 +45,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8770082B2A0C8B73003326AA /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		8770082D2A0C8FF8003326AA /* LoadingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStatus.swift; sourceTree = "<group>"; };
 		877008302A0C9B10003326AA /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		877008322A0C9BD5003326AA /* TodoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoService.swift; sourceTree = "<group>"; };
@@ -73,10 +77,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				870EBA9B2A2D82ED00B84F52 /* SwiftLogger in Frameworks */,
 				87B3928A2A0B59930095F6A4 /* CombineWebSocket in Frameworks */,
+				87EA1BE02A2D8DB300A616FC /* SwiftUIAdditions in Frameworks */,
 				87B392862A0B59930095F6A4 /* CombineRequest in Frameworks */,
+				87EA1BDD2A2D8CFC00A616FC /* SwiftUIButtonStyles in Frameworks */,
 				87B392832A0B593E0095F6A4 /* ComposableArchitecture in Frameworks */,
 				87B392902A0B59DF0095F6A4 /* Transform in Frameworks */,
+				87EA1BD72A2D8CBF00A616FC /* SwiftUIBottomSheet in Frameworks */,
+				87EA1BDA2A2D8CDB00A616FC /* SwiftUIColor in Frameworks */,
+				870EBA982A2D828200B84F52 /* SwiftUIViewModifier in Frameworks */,
 				87B3928D2A0B59BE0095F6A4 /* Json in Frameworks */,
 				87B392882A0B59930095F6A4 /* CombineSocketIO in Frameworks */,
 			);
@@ -174,7 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				87B3929E2A0B5BAA0095F6A4 /* Exports.swift */,
-				8770082B2A0C8B73003326AA /* Logger.swift */,
 				8770082D2A0C8FF8003326AA /* LoadingStatus.swift */,
 			);
 			path = Internal;
@@ -220,6 +229,12 @@
 				87B392892A0B59930095F6A4 /* CombineWebSocket */,
 				87B3928C2A0B59BE0095F6A4 /* Json */,
 				87B3928F2A0B59DF0095F6A4 /* Transform */,
+				870EBA972A2D828200B84F52 /* SwiftUIViewModifier */,
+				870EBA9A2A2D82ED00B84F52 /* SwiftLogger */,
+				87EA1BD62A2D8CBF00A616FC /* SwiftUIBottomSheet */,
+				87EA1BD92A2D8CDB00A616FC /* SwiftUIColor */,
+				87EA1BDC2A2D8CFC00A616FC /* SwiftUIButtonStyles */,
+				87EA1BDF2A2D8DB300A616FC /* SwiftUIAdditions */,
 			);
 			productName = TodoList;
 			productReference = 87B3926F2A0B59010095F6A4 /* TodoList.app */;
@@ -253,6 +268,12 @@
 				87B392842A0B59930095F6A4 /* XCRemoteSwiftPackageReference "swift-networking" */,
 				87B3928B2A0B59BE0095F6A4 /* XCRemoteSwiftPackageReference "swift-json" */,
 				87B3928E2A0B59DF0095F6A4 /* XCRemoteSwiftPackageReference "swift-extension" */,
+				870EBA962A2D828200B84F52 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */,
+				870EBA992A2D82ED00B84F52 /* XCRemoteSwiftPackageReference "swift-logger" */,
+				87EA1BD52A2D8CBF00A616FC /* XCRemoteSwiftPackageReference "swiftui-bottom-sheet" */,
+				87EA1BD82A2D8CDB00A616FC /* XCRemoteSwiftPackageReference "swiftui-color" */,
+				87EA1BDB2A2D8CFC00A616FC /* XCRemoteSwiftPackageReference "swiftui-button-styles" */,
+				87EA1BDE2A2D8DB300A616FC /* XCRemoteSwiftPackageReference "swiftui-additions" */,
 			);
 			productRefGroup = 87B392702A0B59010095F6A4 /* Products */;
 			projectDirPath = "";
@@ -289,7 +310,6 @@
 				90FA03A42A2121C000344615 /* UserService.swift in Sources */,
 				877008332A0C9BD5003326AA /* TodoService.swift in Sources */,
 				87B3929F2A0B5BAA0095F6A4 /* Exports.swift in Sources */,
-				8770082C2A0C8B73003326AA /* Logger.swift in Sources */,
 				87B392A12A0B61150095F6A4 /* TemplateView.swift in Sources */,
 				90AF8A2B2A1A50BD002A6FBD /* BaseIDModel.swift in Sources */,
 				90AF8A272A1A5004002A6FBD /* UserModel.swift in Sources */,
@@ -513,6 +533,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		870EBA962A2D828200B84F52 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swiftui-viewModifier";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		870EBA992A2D82ED00B84F52 /* XCRemoteSwiftPackageReference "swift-logger" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swift-logger";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		87B392842A0B59930095F6A4 /* XCRemoteSwiftPackageReference "swift-networking" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/FullStack-Swift/swift-networking";
@@ -537,9 +573,51 @@
 				kind = branch;
 			};
 		};
+		87EA1BD52A2D8CBF00A616FC /* XCRemoteSwiftPackageReference "swiftui-bottom-sheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swiftui-bottom-sheet.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		87EA1BD82A2D8CDB00A616FC /* XCRemoteSwiftPackageReference "swiftui-color" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swiftui-color";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		87EA1BDB2A2D8CFC00A616FC /* XCRemoteSwiftPackageReference "swiftui-button-styles" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swiftui-button-styles";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		87EA1BDE2A2D8DB300A616FC /* XCRemoteSwiftPackageReference "swiftui-additions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swiftui-additions.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		870EBA972A2D828200B84F52 /* SwiftUIViewModifier */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 870EBA962A2D828200B84F52 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */;
+			productName = SwiftUIViewModifier;
+		};
+		870EBA9A2A2D82ED00B84F52 /* SwiftLogger */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 870EBA992A2D82ED00B84F52 /* XCRemoteSwiftPackageReference "swift-logger" */;
+			productName = SwiftLogger;
+		};
 		87B392822A0B593E0095F6A4 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;
@@ -568,6 +646,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 87B3928E2A0B59DF0095F6A4 /* XCRemoteSwiftPackageReference "swift-extension" */;
 			productName = Transform;
+		};
+		87EA1BD62A2D8CBF00A616FC /* SwiftUIBottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87EA1BD52A2D8CBF00A616FC /* XCRemoteSwiftPackageReference "swiftui-bottom-sheet" */;
+			productName = SwiftUIBottomSheet;
+		};
+		87EA1BD92A2D8CDB00A616FC /* SwiftUIColor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87EA1BD82A2D8CDB00A616FC /* XCRemoteSwiftPackageReference "swiftui-color" */;
+			productName = SwiftUIColor;
+		};
+		87EA1BDC2A2D8CFC00A616FC /* SwiftUIButtonStyles */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87EA1BDB2A2D8CFC00A616FC /* XCRemoteSwiftPackageReference "swiftui-button-styles" */;
+			productName = SwiftUIButtonStyles;
+		};
+		87EA1BDF2A2D8DB300A616FC /* SwiftUIAdditions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87EA1BDE2A2D8DB300A616FC /* XCRemoteSwiftPackageReference "swiftui-additions" */;
+			productName = SwiftUIAdditions;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

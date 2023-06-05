@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
-        "revision" : "78424be314842833c04bc3bef5b72e85fff99204",
-        "version" : "5.6.4"
+        "revision" : "bc268c28fb170f494de9e9927c371b8342979ece",
+        "version" : "5.7.1"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/combine-schedulers",
       "state" : {
-        "revision" : "882ac01eb7ef9e36d4467eb4b1151e74fcef85ab",
-        "version" : "0.9.1"
+        "revision" : "0625932976b3ae23949f6b816d13bd97f3b40b7c",
+        "version" : "0.10.0"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ReactiveX/RxSwift.git",
       "state" : {
-        "revision" : "b4307ba0b6425c0ba4178e138799946c3da594f8",
-        "version" : "6.5.0"
+        "revision" : "9dcaa4b333db437b0fbfaf453fad29069044a8b4",
+        "version" : "6.6.0"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-clocks",
       "state" : {
-        "revision" : "20b25ca0dd88ebfb9111ec937814ddc5a8880172",
-        "version" : "0.2.0"
+        "revision" : "f9acfa1a45f4483fe0f2c434a74e6f68f865d12d",
+        "version" : "0.3.0"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-custom-dump",
       "state" : {
-        "revision" : "84b30e1af72e0ffe6dfbfe39d53b8173caacf224",
-        "version" : "0.10.2"
+        "revision" : "505aa98716275fbd045d8f934fee3337c82ffbd3",
+        "version" : "0.10.3"
       }
     },
     {
@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-dependencies",
       "state" : {
-        "revision" : "98650d886ec950b587d671261f06d6b59dec4052",
-        "version" : "0.4.1"
+        "revision" : "de1a984a71e51f6e488e98ce3652035563eb8acb",
+        "version" : "0.5.1"
       }
     },
     {
@@ -172,6 +172,15 @@
       }
     },
     {
+      "identity" : "swift-logger",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FullStack-Swift/swift-logger",
+      "state" : {
+        "branch" : "main",
+        "revision" : "12fda88a83ce0c373381e6eaa5db1c27b4dc2eaa"
+      }
+    },
+    {
       "identity" : "swift-networking",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/FullStack-Swift/swift-networking",
@@ -181,12 +190,57 @@
       }
     },
     {
+      "identity" : "swiftui-additions",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FullStack-Swift/swiftui-additions.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "9ea9f9e1614a834a9108483485b41e0f37e2b277"
+      }
+    },
+    {
+      "identity" : "swiftui-bottom-sheet",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FullStack-Swift/swiftui-bottom-sheet.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "82901d518aaa85745d5f8ab267edd00751a43a20"
+      }
+    },
+    {
+      "identity" : "swiftui-button-styles",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FullStack-Swift/swiftui-button-styles",
+      "state" : {
+        "branch" : "main",
+        "revision" : "6c1bcab0cc7d3a756aafdf51e4f92d8d9b1eea10"
+      }
+    },
+    {
+      "identity" : "swiftui-color",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FullStack-Swift/swiftui-color",
+      "state" : {
+        "branch" : "main",
+        "revision" : "21e0df326ee8aa804d1f4c06bb3e96be04772cbb"
+      }
+    },
+    {
       "identity" : "swiftui-navigation",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swiftui-navigation",
       "state" : {
-        "revision" : "47dd574b900ba5ba679f56ea00d4d282fc7305a6",
-        "version" : "0.7.1"
+        "revision" : "db81007362f998654239021ca9308a264e59d3e2",
+        "version" : "0.7.2"
+      }
+    },
+    {
+      "identity" : "swiftui-viewmodifier",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FullStack-Swift/swiftui-viewModifier",
+      "state" : {
+        "branch" : "main",
+        "revision" : "94d2e61e257b4fd2f649db6c3eddad40f2888c62"
       }
     },
     {
@@ -194,8 +248,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
       "state" : {
-        "revision" : "ab8c9f45843694dd16be4297e6d44c0634fd9913",
-        "version" : "0.8.4"
+        "revision" : "4af50b38daf0037cfbab15514a241224c3f62f98",
+        "version" : "0.8.5"
       }
     }
   ],

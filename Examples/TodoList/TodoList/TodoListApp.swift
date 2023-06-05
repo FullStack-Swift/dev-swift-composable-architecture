@@ -6,7 +6,7 @@ struct TodoListApp: App {
   @Dependency(\.sharedStatePublisher) var sharedStatePublisher
 
   @State
-  fileprivate var isExample: Bool = true
+  fileprivate var isExample: Bool = false
 
   var body: some Scene {
     WindowGroup {

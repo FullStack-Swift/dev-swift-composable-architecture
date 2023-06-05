@@ -7,6 +7,7 @@ extension DependencyValues {
       initialState: RootReducer.State(),
       reducer: RootReducer()
     )
+      .withMiddleware(RootMiddleware())
   }
 }
 
