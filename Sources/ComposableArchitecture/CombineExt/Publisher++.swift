@@ -8,7 +8,8 @@ public extension Publisher where Output == Never, Failure == Never {
 
 public extension Publisher where Self.Failure == Never {
   func assign<Root: AnyObject>(
-    to keyPath: WritableKeyPath<Root, Self.Output>, weakly object: Root
+    to keyPath: WritableKeyPath<Root, Self.Output>,
+    weakly object: Root
   ) -> AnyCancellable {
     return self.sink { [weak object] output in
       object?[keyPath: keyPath] = output
@@ -55,6 +56,6 @@ extension CurrentValueSubject {
   public func commit(_ block: (inout Output) -> Void) {
     var clone = self.value
     block(&clone)
-    self.value = value
+    self.value = clone
   }
 }
