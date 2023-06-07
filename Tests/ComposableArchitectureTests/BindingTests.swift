@@ -54,4 +54,8 @@ final class BindingTests: BaseTCATestCase {
     }
     _ = (/Foo.bar).extract(from: .bar(.buzz(true)))
   }
+
+  func testBindingExtension() {
+
+  }
 }

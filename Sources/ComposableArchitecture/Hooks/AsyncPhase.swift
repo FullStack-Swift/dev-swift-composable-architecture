@@ -75,6 +75,16 @@ public enum AsyncPhase<Success, Failure: Error> {
         return .failure(error)
     }
   }
+
+  /// Returns a taskResult converted from the phase.
+  /// if this instance represents a `pending` or a `runiing`, this returns nil.
+  public var taskResult: TaskResult<Success>? {
+    if let result {
+      return TaskResult(result)
+    } else {
+      return nil
+    }
+  }
   
   /// Returns a new phase, mapping any success value using the given transformation.
   /// - Parameter transform: A closure that takes the success value of this instance.
@@ -129,6 +139,10 @@ public enum AsyncPhase<Success, Failure: Error> {
   }
 }
 
+extension AsyncPhase: Decodable where Success: Decodable, Failure: Decodable { }
+
+extension AsyncPhase: Encodable where Success: Encodable, Failure: Encodable {}
+
 extension AsyncPhase: Equatable where Success: Equatable, Failure: Equatable {}
+
 extension AsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}
-extension AsyncPhase: Codable where Success: Codable, Failure: Codable {}

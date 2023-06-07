@@ -711,7 +711,7 @@ final class StoreTests: BaseTCATestCase {
           case delay
         }
         @Dependency(\.mainQueue) var mainQueue
-        var body: Reduce<State, Action> {
+        var body: some ReducerProtocolOf<Self> {
           Reduce { state, action in
             switch action {
             case .child(.didFinish):

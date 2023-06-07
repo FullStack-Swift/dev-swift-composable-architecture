@@ -65,7 +65,7 @@ public struct ViewModel<ViewState, ViewAction>: DynamicProperty {
       store.state.value
     }
     nonmutating set {
-      store.applyState({$0 = newValue})
+      store.withState({$0 = newValue})
     }
   }
 

@@ -102,7 +102,7 @@ public struct SharedStateReducer: ReducerProtocol {
     /// The internal storage area.
     var storage: [ObjectIdentifier: AnySharedStorageValue] {
       didSet {
-        sharedStateStore.applyState({$0 = self})
+        sharedStateStore.withState({$0 = self})
       }
     }
 

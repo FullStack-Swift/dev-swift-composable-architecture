@@ -887,9 +887,44 @@ extension Store {
     })
   }
 
-  public func applyState(_ block: (inout State) -> Void) -> Void {
+  public func withState(_ block: (inout State) -> Void) {
     var currentState = self.state.value
     block(&currentState)
     self.state.value = currentState
+  }
+
+  public func commit(_ block: (inout State) -> Void) {
+    state.commit(block)
+  }
+
+  public func mutate<V>(keyPath: WritableKeyPath<State, V>, value: V) {
+    mutate(with: Mutation(keyPath: keyPath, value: value))
+  }
+
+  public func mutate(with mutation: Mutation<State>) {
+    var currentState = self.state.value
+    mutation.mutate(&currentState)
+  }
+}
+
+extension Store {
+
+  public enum EventModifier {
+    case action(Action)
+    case mutation(Mutation<State>)
+  }
+
+  public struct Mutation<State> {
+    fileprivate let mutate: (inout State) -> Void
+
+    public init<V>(keyPath: WritableKeyPath<State, V>, value: V) {
+      self.mutate = { state in
+        state[keyPath: keyPath] = value
+      }
+    }
+
+    public init(mutate: @escaping (inout State) -> Void) {
+      self.mutate = mutate
+    }
   }
 }

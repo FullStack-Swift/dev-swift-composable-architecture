@@ -91,7 +91,19 @@ extension Binding {
 }
 
 extension Binding {
-  public func onChange(
+  public func willChange(
+    _ handler: @escaping (Value) -> Void
+  ) -> Binding<Value> {
+    Binding(
+      get: { self.wrappedValue },
+      set: { newValue in
+        handler(newValue)
+        self.wrappedValue = newValue
+      }
+    )
+  }
+
+  public func didChange(
     _ handler: @escaping (Value) -> Void
   ) -> Binding<Value> {
     Binding(
