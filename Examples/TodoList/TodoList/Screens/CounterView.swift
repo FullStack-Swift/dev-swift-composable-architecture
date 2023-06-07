@@ -7,12 +7,16 @@ struct CounterReducer: ReducerProtocol {
   struct State: BaseIDState {
     var count: Int = 0
     var id: UUID = UUID()
+    @BindingState var text: String = "viewStoreText"
   }
 
   // MARK: Action
-  enum Action: Equatable {
+  enum Action: Equatable, BindableAction {
+    case binding(BindingAction<State>)
+    case onFirstAppear
     case viewOnAppear
     case viewOnDisappear
+    case onLastDisappear
     case none
     case increment
     case decrement
@@ -28,10 +32,19 @@ struct CounterReducer: ReducerProtocol {
 
   // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
+    BindingReducer()
     Reduce { state, action in
       switch action {
+        case .onFirstAppear:
+          break
         case .viewOnAppear:
-          state.count = storage.count
+//          state.count = storage.count
+          break
+        case .viewOnDisappear:
+          break
+        case .onLastDisappear:
+          state.count = 10000
+          break
         case .increment:
 //          state.count += 1
 //          storage.count = state.count
@@ -179,66 +192,69 @@ struct CounterView: View {
     ZStack {
       ScrollView {
         VStack {
-          // MARK: store dispatch
-          Group {
-            Text("Store: dispatch()")
-            HStack {
-              Button {
-//                store.dispatch(.increment)
-//                counterNumber.count += 1
-//                count += 1
-                counterViewModel.count += 1
-              } label: {
-                Text("+")
-              }
-//              Text(viewStore.count.toString())
+          commitView
+//          // MARK: store dispatch
+//          Group {
+//            Text("Store: dispatch()")
+//            HStack {
+//              Button {
+////                store.dispatch(.increment)
+////                counterNumber.count += 1
+////                count += 1
+//                counterViewModel.count += 1
+//              } label: {
+//                Text("+")
+//              }
+////              Text(viewStore.count.toString())
+////              Text(count.toString())
+////              Text(sharedState.count.toString())
+//              Text(counterViewModel.count.toString())
+//              Button {
+//                store.dispatch(.decrement)
+//              } label: {
+//                Text("-")
+//              }
+//            }
+//          }
+//          // MARK: viewStore dispatch
+//          Group {
+//            Text("ViewStore: dispatch()")
+//            HStack {
+//              Button {
+//                viewStore.dispatch(.increment)
+//              } label: {
+//                Text("+")
+//              }
+////              Text(viewStore.count.toString())
 //              Text(count.toString())
-//              Text(sharedState.count.toString())
-              Text(counterViewModel.count.toString())
-              Button {
-                store.dispatch(.decrement)
-              } label: {
-                Text("-")
-              }
-            }
-          }
-          // MARK: viewStore dispatch
-          Group {
-            Text("ViewStore: dispatch()")
-            HStack {
-              Button {
-                viewStore.dispatch(.increment)
-              } label: {
-                Text("+")
-              }
-//              Text(viewStore.count.toString())
-              Text(count.toString())
-              Button {
-                viewStore.dispatch(.decrement)
-              } label: {
-                Text("-")
-              }
-            }
+//              Button {
+//                viewStore.dispatch(.decrement)
+//              } label: {
+//                Text("-")
+//              }
+//            }
+//
+//          }
+//          // MARK: ViewStore: send()
+//          Group {
+//            Text("ViewStore: send()")
+//            HStack {
+//              Button {
+//                viewStore.send(.increment)
+//              } label: {
+//                Text("+")
+//              }
+////              Text(viewStore.count.toString())
+//              Text(count.toString())
+//              Button {
+//                viewStore.send(.decrement)
+//              } label: {
+//                Text("-")
+//              }
+//            }
+//          }
 
-          }
-          // MARK: ViewStore: send()
-          Group {
-            Text("ViewStore: send()")
-            HStack {
-              Button {
-                viewStore.send(.increment)
-              } label: {
-                Text("+")
-              }
-//              Text(viewStore.count.toString())
-              Text(count.toString())
-              Button {
-                viewStore.send(.decrement)
-              } label: {
-                Text("-")
-              }
-            }
-          }
+
         }
       }
     }
@@ -255,6 +271,64 @@ struct CounterView: View {
     }
     .onLastDisappear {
       log.info("onLastDisappear")
+    }
+  }
+}
+
+extension CounterView {
+  var commitView: some View {
+    HookScope {
+      // MARK: ViewStore: commit
+
+      let useStateText = useState("useStateText")
+//      let viewStoreText = viewStore.binding(\.$text)
+//      let text = viewStoreText <> useStateText
+//      let text = useStateText <> viewStoreText
+//      let text = useStateText.binding(viewStoreText)
+      //      let text = viewStore.binding(\.$text).binding(useState("123"))
+//        let text = useBinding([viewStore.binding(\.$text), useState("123")]) ?? ""
+//      let text = Binding.constant("a")
+//      useMemo(.once) {
+//        store.commit {
+//          $0.text = text.wrappedValue
+//        }
+//      }
+
+      Group {
+
+        Text("ViewStore: send()")
+        VStack {
+          TextField("useStateText", text: useStateText)
+//          TextField("viewStoreText", text: viewStoreText)
+//          TextField("text", text: text)
+          Text(useStateText.wrappedValue.isEmpty ? "Nothing to show" : useStateText.wrappedValue)
+//          Text(viewStoreText.wrappedValue.isEmpty ? "Nothing to show" : viewStoreText.wrappedValue)
+//          Text(text.wrappedValue.isEmpty ? "Nothing to show" : text.wrappedValue)
+        }
+        HStack {
+          Button {
+            store.commit {
+              $0.count += 1
+            }
+          } label: {
+            Text("+")
+          }
+          Text(viewStore.count.toString())
+          Button {
+            store.commit {
+              $0.count -= 1
+            }
+          } label: {
+            Text("-")
+          }
+        }
+      }
+      .onLastDisappear {
+        store.count = 1000011
+        store.commit {
+          $0.count = 100001
+        }
+      }
     }
   }
 }

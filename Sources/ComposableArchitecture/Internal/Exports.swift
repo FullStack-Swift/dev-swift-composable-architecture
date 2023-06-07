@@ -4,4 +4,5 @@
 @_exported import CustomDump
 @_exported import Dependencies
 @_exported import IdentifiedCollections
+@_exported import AsyncAlgorithms
 @_exported import _SwiftUINavigationState

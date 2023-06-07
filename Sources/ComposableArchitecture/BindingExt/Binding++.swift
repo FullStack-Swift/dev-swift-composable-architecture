@@ -24,6 +24,8 @@ extension Binding {
 }
 
 extension Binding {
+
+  /// TextField("", text: $text ?? "default value")
   public static func ?? <T>(lhs: Self, rhs: Value) -> Binding<Value> where Value == T? {
     Binding {
       lhs.wrappedValue ?? rhs
@@ -32,7 +34,8 @@ extension Binding {
     }
     .transaction(lhs.transaction)
   }
-  
+
+  /// TextField("", text: $text ?? "default value")
   public static func ?? <T>(lhs: Self, rhs: T) -> Binding<T> where Value == T? {
     Binding<T> {
       lhs.wrappedValue ?? rhs
@@ -113,5 +116,56 @@ extension Binding {
         handler(newValue)
       }
     )
+  }
+}
+
+public func useBinding<Value>(_ bindings: [Binding<Value?>]) -> Binding<Value?> {
+  bindings.reduce(into: .constant(nil)) { result, next in
+    result = result.binding(next)
+  }
+}
+
+extension Binding {
+  @discardableResult
+  public func binding(_ binding: Binding<Value>) -> Binding<Value> {
+    Binding {
+      binding.wrappedValue = self.wrappedValue
+      return self.wrappedValue
+    } set: { newValue, transaction in
+      withTransaction(transaction) {
+        self.wrappedValue = newValue
+        binding.wrappedValue = newValue
+      }
+    }
+  }
+}
+
+extension Binding {
+  static var none: Binding<Value?> {
+    .constant(nil)
+  }
+}
+
+public func <> <V>(lhs: Binding<V>, rsh: Binding<V>) -> Binding<V> {
+  lhs.binding(rsh)
+}
+
+@propertyWrapper
+struct MBinding<Value> {
+  var wrappedValue: Value {
+    get { return getValue() }
+    nonmutating set { setValue(newValue) }
+  }
+
+  private let getValue: () -> Value
+  private let setValue: (Value) -> Void
+
+  init(getValue: @escaping () -> Value, setValue: @escaping (Value) -> Void) {
+    self.getValue = getValue
+    self.setValue = setValue
+  }
+
+  var projectedValue: Binding<Value> {
+    Binding(get: getValue, set: setValue)
   }
 }

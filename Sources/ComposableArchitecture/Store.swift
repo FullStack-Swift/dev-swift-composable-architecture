@@ -120,6 +120,7 @@ import Foundation
 /// to run only on the main thread, and so a check is executed immediately to make sure that is the
 /// case. Further, all actions sent to the store and all scopes (see ``scope(state:action:)``) of
 /// the store are also checked to make sure that work is performed on the main thread.
+@dynamicMemberLookup
 public final class Store<State, Action> {
   private var bufferedActions: [Action] = []
   @_spi(Internals) public var effectCancellables: [UUID: AnyCancellable] = [:]
@@ -163,6 +164,11 @@ public final class Store<State, Action> {
         mainThreadChecksEnabled: true
       )
     }
+  }
+
+  public subscript<Value>(dynamicMember keyPath: WritableKeyPath<State, Value>) -> Value {
+    get { self.state.value[keyPath: keyPath] }
+    set { self.state.value[keyPath: keyPath] = newValue }
   }
 
   /// Scopes the store to one that exposes child state and actions.
@@ -907,24 +913,21 @@ extension Store {
   }
 }
 
-extension Store {
+public enum EventModifier<State, Action> {
+  case action(Action)
+  case mutation(Mutation<State>)
+}
 
-  public enum EventModifier {
-    case action(Action)
-    case mutation(Mutation<State>)
+public struct Mutation<State> {
+  fileprivate let mutate: (inout State) -> Void
+
+  public init<V>(keyPath: WritableKeyPath<State, V>, value: V) {
+    self.mutate = { state in
+      state[keyPath: keyPath] = value
+    }
   }
 
-  public struct Mutation<State> {
-    fileprivate let mutate: (inout State) -> Void
-
-    public init<V>(keyPath: WritableKeyPath<State, V>, value: V) {
-      self.mutate = { state in
-        state[keyPath: keyPath] = value
-      }
-    }
-
-    public init(mutate: @escaping (inout State) -> Void) {
-      self.mutate = mutate
-    }
+  public init(mutate: @escaping (inout State) -> Void) {
+    self.mutate = mutate
   }
 }
