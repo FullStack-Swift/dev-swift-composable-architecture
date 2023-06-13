@@ -173,6 +173,8 @@ struct MainView: View {
   @ObservedObject
   private var viewStore: ViewStoreOf<MainReducer>
 
+  @Dependency(\.navigationPath) var navigationPath
+
   init(store: StoreOf<MainReducer>? = nil) {
     let unwrapStore = store ?? Store(
       initialState: MainReducer.State(),
@@ -210,17 +212,26 @@ struct MainView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
 #endif
 #if os(iOS)
-      NavigationView {
+      _NavigationView {
         content
           .navigationTitle("Todos")
           .navigationBarItems(leading: leadingBarItems, trailing: trailingBarItems)
+          ._navigationDestination(for: _Destination.self) { value in
+            if value.id == "D" {
+              Text(value.id)
+                .onTapGesture {
+                  navigationPath.path.removeAll()
+                }
+            } else {
+              Text(value.id)
+            }
+          }
+          .navigationViewStyle(.stack)
       }
-      .navigationViewStyle(.stack)
 #endif
     }
     .onAppear {
       viewStore.send(.viewOnAppear)
-//      viewStore.dispatch(.getTodo)
     }
     .onDisappear {
       viewStore.send(.viewOnDisappear)
@@ -243,7 +254,13 @@ extension MainView {
               Text("Reload")
                 .bold()
                 .onTapGesture {
-                  viewStore.dispatch(.getTodo)
+//                  viewStore.dispatch(.getTodo)
+                  navigationPath.commit {
+                    $0.path.append(.init(id: "A"))
+                    $0.path.append(.init(id: "B"))
+                    $0.path.append(.init(id: "C"))
+                    $0.path.append(.init(id: "D"))
+                  }
                 }
             }
             Spacer()
