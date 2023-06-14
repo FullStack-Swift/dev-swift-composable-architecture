@@ -1,8 +1,9 @@
-//
-//  UserService.swift
-//  TodoList
-//
-//  Created by Mike Packard on 5/27/23.
-//
-
 import Foundation
+
+public class UserService: BaseService {
+
+  public override init(_ path: String? = nil) {
+    super.init(path ?? "users")
+  }
+
+}
