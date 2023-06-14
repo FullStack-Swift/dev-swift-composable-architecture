@@ -6,7 +6,7 @@ import Foundation
 @propertyWrapper
 public struct SharedState<Value>: DynamicProperty {
 
-  @ObservedObject
+  @StateObject
   private var viewState: ViewState = ViewState()
 
   var keyPath: WritableKeyPath<SharedStateReducer.State, Value>

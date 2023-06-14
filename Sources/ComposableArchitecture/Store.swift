@@ -139,6 +139,7 @@ public final class Store<State, Action> {
 
   @_spi(Internals) public var storage = Storage()
   @_spi(Internals) public var action = ActionSubject<Action>()
+  public var onChangedState: (() -> Void)?
   /// Initializes a store from an initial state and a reducer.
   ///
   /// - Parameters:
@@ -897,10 +898,12 @@ extension Store {
     var currentState = self.state.value
     block(&currentState)
     self.state.value = currentState
+    onChangedState?()
   }
 
   public func commit(_ block: (inout State) -> Void) {
     state.commit(block)
+    onChangedState?()
   }
 
   public func mutate<V>(keyPath: WritableKeyPath<State, V>, value: V) {
@@ -910,6 +913,7 @@ extension Store {
   public func mutate(with mutation: Mutation<State>) {
     var currentState = self.state.value
     mutation.mutate(&currentState)
+    onChangedState?()
   }
 }
 
@@ -929,5 +933,11 @@ public struct Mutation<State> {
 
   public init(mutate: @escaping (inout State) -> Void) {
     self.mutate = mutate
+  }
+}
+
+extension Store {
+  var actions: [Action] {
+    bufferedActions
   }
 }

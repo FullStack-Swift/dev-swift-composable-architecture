@@ -1,9 +1,10 @@
-import SwiftUI
+#if os(iOS)
 import NavigationStackBackport
+import SwiftUI
 import Foundation
 
-public typealias _NavigationStack = NavigationStackBackport.NavigationStack
 public typealias _Destination = _NavigationReducer.Destination
+public typealias _NavigationStack = NavigationStackBackport.NavigationStack
 
 extension View {
   @ViewBuilder
@@ -127,3 +128,5 @@ extension Equatable {
     self == any as? Self
   }
 }
+
+#endif
