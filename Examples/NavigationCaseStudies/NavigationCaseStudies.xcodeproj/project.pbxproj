@@ -7,123 +7,104 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */; };
-		87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DF96DF2A39904F0006B774 /* CaseStudiesApp.swift */; };
-		87DF96E22A39904F0006B774 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DF96E12A39904F0006B774 /* ContentView.swift */; };
-		87DF96E42A3990510006B774 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87DF96E32A3990510006B774 /* Assets.xcassets */; };
-		87DF96E82A3990510006B774 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87DF96E72A3990510006B774 /* Preview Assets.xcassets */; };
-		87DF96EF2A3991060006B774 /* HookCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */; };
-		87DF96F22A3991C10006B774 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 87DF96F12A3991C10006B774 /* ComposableArchitecture */; };
+		87A974EF2A3AEAE600589EAE /* NavigationCaseStudiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A974EE2A3AEAE600589EAE /* NavigationCaseStudiesApp.swift */; };
+		87A974F12A3AEAE600589EAE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A974F02A3AEAE600589EAE /* ContentView.swift */; };
+		87A974F32A3AEAE700589EAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87A974F22A3AEAE700589EAE /* Assets.xcassets */; };
+		87A974F72A3AEAE700589EAE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87A974F62A3AEAE700589EAE /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomCaseStudiesView.swift; sourceTree = "<group>"; };
-		87DF96DC2A39904F0006B774 /* CaseStudies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaseStudies.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		87DF96DF2A39904F0006B774 /* CaseStudiesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseStudiesApp.swift; sourceTree = "<group>"; };
-		87DF96E12A39904F0006B774 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		87DF96E32A3990510006B774 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		87DF96E52A3990510006B774 /* CaseStudies.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CaseStudies.entitlements; sourceTree = "<group>"; };
-		87DF96E72A3990510006B774 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookCaseStudiesView.swift; sourceTree = "<group>"; };
+		87A974EB2A3AEAE600589EAE /* NavigationCaseStudies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavigationCaseStudies.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		87A974EE2A3AEAE600589EAE /* NavigationCaseStudiesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCaseStudiesApp.swift; sourceTree = "<group>"; };
+		87A974F02A3AEAE600589EAE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		87A974F22A3AEAE700589EAE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		87A974F42A3AEAE700589EAE /* NavigationCaseStudies.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NavigationCaseStudies.entitlements; sourceTree = "<group>"; };
+		87A974F62A3AEAE700589EAE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		87DF96D92A39904F0006B774 /* Frameworks */ = {
+		87A974E82A3AEAE600589EAE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87DF96F22A3991C10006B774 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		87DF96D32A39904F0006B774 = {
+		87A974E22A3AEAE600589EAE = {
 			isa = PBXGroup;
 			children = (
-				87DF96DE2A39904F0006B774 /* CaseStudies */,
-				87DF96DD2A39904F0006B774 /* Products */,
-				87DF96F02A3991C10006B774 /* Frameworks */,
+				87A974ED2A3AEAE600589EAE /* NavigationCaseStudies */,
+				87A974EC2A3AEAE600589EAE /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		87DF96DD2A39904F0006B774 /* Products */ = {
+		87A974EC2A3AEAE600589EAE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				87DF96DC2A39904F0006B774 /* CaseStudies.app */,
+				87A974EB2A3AEAE600589EAE /* NavigationCaseStudies.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		87DF96DE2A39904F0006B774 /* CaseStudies */ = {
+		87A974ED2A3AEAE600589EAE /* NavigationCaseStudies */ = {
 			isa = PBXGroup;
 			children = (
-				87DF96DF2A39904F0006B774 /* CaseStudiesApp.swift */,
-				87DF96E12A39904F0006B774 /* ContentView.swift */,
-				87DF96E32A3990510006B774 /* Assets.xcassets */,
-				87DF96E52A3990510006B774 /* CaseStudies.entitlements */,
-				87DF96E62A3990510006B774 /* Preview Content */,
-				87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */,
-				87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */,
+				87A974EE2A3AEAE600589EAE /* NavigationCaseStudiesApp.swift */,
+				87A974F02A3AEAE600589EAE /* ContentView.swift */,
+				87A974F22A3AEAE700589EAE /* Assets.xcassets */,
+				87A974F42A3AEAE700589EAE /* NavigationCaseStudies.entitlements */,
+				87A974F52A3AEAE700589EAE /* Preview Content */,
 			);
-			path = CaseStudies;
+			path = NavigationCaseStudies;
 			sourceTree = "<group>";
 		};
-		87DF96E62A3990510006B774 /* Preview Content */ = {
+		87A974F52A3AEAE700589EAE /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				87DF96E72A3990510006B774 /* Preview Assets.xcassets */,
+				87A974F62A3AEAE700589EAE /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		87DF96F02A3991C10006B774 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		87DF96DB2A39904F0006B774 /* CaseStudies */ = {
+		87A974EA2A3AEAE600589EAE /* NavigationCaseStudies */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 87DF96EB2A3990510006B774 /* Build configuration list for PBXNativeTarget "CaseStudies" */;
+			buildConfigurationList = 87A974FA2A3AEAE700589EAE /* Build configuration list for PBXNativeTarget "NavigationCaseStudies" */;
 			buildPhases = (
-				87DF96D82A39904F0006B774 /* Sources */,
-				87DF96D92A39904F0006B774 /* Frameworks */,
-				87DF96DA2A39904F0006B774 /* Resources */,
+				87A974E72A3AEAE600589EAE /* Sources */,
+				87A974E82A3AEAE600589EAE /* Frameworks */,
+				87A974E92A3AEAE600589EAE /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = CaseStudies;
-			packageProductDependencies = (
-				87DF96F12A3991C10006B774 /* ComposableArchitecture */,
-			);
-			productName = CaseStudies;
-			productReference = 87DF96DC2A39904F0006B774 /* CaseStudies.app */;
+			name = NavigationCaseStudies;
+			productName = NavigationCaseStudies;
+			productReference = 87A974EB2A3AEAE600589EAE /* NavigationCaseStudies.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		87DF96D42A39904F0006B774 /* Project object */ = {
+		87A974E32A3AEAE600589EAE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					87DF96DB2A39904F0006B774 = {
+					87A974EA2A3AEAE600589EAE = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
 				};
 			};
-			buildConfigurationList = 87DF96D72A39904F0006B774 /* Build configuration list for PBXProject "CaseStudies" */;
+			buildConfigurationList = 87A974E62A3AEAE600589EAE /* Build configuration list for PBXProject "NavigationCaseStudies" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -131,44 +112,42 @@
 				en,
 				Base,
 			);
-			mainGroup = 87DF96D32A39904F0006B774;
-			productRefGroup = 87DF96DD2A39904F0006B774 /* Products */;
+			mainGroup = 87A974E22A3AEAE600589EAE;
+			productRefGroup = 87A974EC2A3AEAE600589EAE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				87DF96DB2A39904F0006B774 /* CaseStudies */,
+				87A974EA2A3AEAE600589EAE /* NavigationCaseStudies */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		87DF96DA2A39904F0006B774 /* Resources */ = {
+		87A974E92A3AEAE600589EAE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87DF96E82A3990510006B774 /* Preview Assets.xcassets in Resources */,
-				87DF96E42A3990510006B774 /* Assets.xcassets in Resources */,
+				87A974F72A3AEAE700589EAE /* Preview Assets.xcassets in Resources */,
+				87A974F32A3AEAE700589EAE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		87DF96D82A39904F0006B774 /* Sources */ = {
+		87A974E72A3AEAE600589EAE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87DF96E22A39904F0006B774 /* ContentView.swift in Sources */,
-				87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */,
-				87DF96EF2A3991060006B774 /* HookCaseStudiesView.swift in Sources */,
-				87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */,
+				87A974F12A3AEAE600589EAE /* ContentView.swift in Sources */,
+				87A974EF2A3AEAE600589EAE /* NavigationCaseStudiesApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		87DF96E92A3990510006B774 /* Debug */ = {
+		87A974F82A3AEAE700589EAE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -226,7 +205,7 @@
 			};
 			name = Debug;
 		};
-		87DF96EA2A3990510006B774 /* Release */ = {
+		87A974F92A3AEAE700589EAE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -277,15 +256,15 @@
 			};
 			name = Release;
 		};
-		87DF96EC2A3990510006B774 /* Debug */ = {
+		87A974FB2A3AEAE700589EAE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = CaseStudies/CaseStudies.entitlements;
+				CODE_SIGN_ENTITLEMENTS = NavigationCaseStudies/NavigationCaseStudies.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"CaseStudies/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"NavigationCaseStudies/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -303,7 +282,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.swift.composable.archiecture.CaseStudies.CaseStudies;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.swift.composable.archiecture.NavigationCaseStudies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -313,15 +292,15 @@
 			};
 			name = Debug;
 		};
-		87DF96ED2A3990510006B774 /* Release */ = {
+		87A974FC2A3AEAE700589EAE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = CaseStudies/CaseStudies.entitlements;
+				CODE_SIGN_ENTITLEMENTS = NavigationCaseStudies/NavigationCaseStudies.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"CaseStudies/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"NavigationCaseStudies/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -339,7 +318,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.swift.composable.archiecture.CaseStudies.CaseStudies;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.swift.composable.archiecture.NavigationCaseStudies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -352,32 +331,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		87DF96D72A39904F0006B774 /* Build configuration list for PBXProject "CaseStudies" */ = {
+		87A974E62A3AEAE600589EAE /* Build configuration list for PBXProject "NavigationCaseStudies" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				87DF96E92A3990510006B774 /* Debug */,
-				87DF96EA2A3990510006B774 /* Release */,
+				87A974F82A3AEAE700589EAE /* Debug */,
+				87A974F92A3AEAE700589EAE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		87DF96EB2A3990510006B774 /* Build configuration list for PBXNativeTarget "CaseStudies" */ = {
+		87A974FA2A3AEAE700589EAE /* Build configuration list for PBXNativeTarget "NavigationCaseStudies" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				87DF96EC2A3990510006B774 /* Debug */,
-				87DF96ED2A3990510006B774 /* Release */,
+				87A974FB2A3AEAE700589EAE /* Debug */,
+				87A974FC2A3AEAE700589EAE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		87DF96F12A3991C10006B774 /* ComposableArchitecture */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ComposableArchitecture;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 87DF96D42A39904F0006B774 /* Project object */;
+	rootObject = 87A974E32A3AEAE600589EAE /* Project object */;
 }

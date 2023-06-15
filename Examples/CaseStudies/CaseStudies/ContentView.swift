@@ -9,10 +9,22 @@ struct ContentView: View {
     _NavigationView {
       Form {
         Section(header: Text("Getting started")) {
-          NavigationLink(
-            "Hooks",
-            destination: HookCaseStudiesView()
-          )
+          NavigationLink("Hooks") {
+            HookCaseStudiesView()
+          }
+          NavigationLink("Atoms") {
+            AtomRoot {
+              AtomCaseStudiesView()
+            }
+          }
+        }
+        Section(header: Text("Getting started")) {
+          NavigationLink("A") {
+
+          }
+          NavigationLink("B") {
+
+          }
         }
       }
     }

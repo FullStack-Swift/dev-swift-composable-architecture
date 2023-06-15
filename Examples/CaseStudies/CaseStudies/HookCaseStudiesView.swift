@@ -7,7 +7,6 @@ typealias ColorSchemeContext = HookContext<Binding<ColorScheme>>
 struct HookCaseStudiesView: View {
   var body: some View {
     HookScope {
-      
       let colorScheme = useState(useEnvironment(\.colorScheme))
       ColorSchemeContext.Provider(value: colorScheme) {
         ScrollView {
@@ -44,10 +43,10 @@ struct HookCaseStudiesView: View {
               useMemoView
               HookTitleView(title: "useEffect UseCase")
               useEffectView
-              HookTitleView(title: "useContext UseCase")
-              useContextView
               HookTitleView(title: "useEnvironment UseCase")
               useEnvironmentView
+              HookTitleView(title: "useContext UseCase")
+              useContextView
             }
           }
         }
@@ -59,30 +58,30 @@ struct HookCaseStudiesView: View {
   }
   
   var useStateView: some View {
-    let count = useState(0)
+    let state = useState(0)
     return HookRowView("useState") {
-      Stepper(value: count) {
-        Text(count.wrappedValue.description)
-      }
-    }
-  }
-  
-  var useSetStateView: some View {
-    let (count, setCount) = useSetState(0)
-    return HookRowView("useSetState") {
-      Stepper(value: Binding(get: {count}, set: { value, _ in
-        setCount(value)
-      })) {
-        Text(count.description)
+      Stepper(value: state) {
+        HookRowTextValue(state.wrappedValue)
       }
     }
   }
   
   var useBindingStateView: some View {
-    let count = useBindingState(0)
+    let state = useBindingState(0)
     return HookRowView("useBindingState") {
-      Stepper(value: count) {
-        Text(count.wrappedValue.description)
+      Stepper(value: state) {
+        HookRowTextValue(state.wrappedValue)
+      }
+    }
+  }
+
+  var useSetStateView: some View {
+    let (state, setState) = useSetState(0)
+    return HookRowView("useSetState") {
+      Stepper(value: Binding(get: {state}, set: { value, _ in
+        setState(value)
+      })) {
+        HookRowTextValue(state)
       }
     }
   }
@@ -107,26 +106,17 @@ struct HookCaseStudiesView: View {
     let (state, dispatch) = useReducer(reducer, initialState: 0)
     
     return HookRowView("useReducer redux") {
-      Text(state.description)
-        .bold()
-        .font(.largeTitle)
-        .foregroundColor(.green)
-      Spacer()
+      HookRowTextValue(state)
+        .frame(height: 60)
       Button {
         dispatch(.decrement)
       } label: {
-        Image(systemName: "minus")
-          .bold()
-          .font(.title)
-          .foregroundColor(.green)
+        ImageMinus()
       }
       Button {
         dispatch(.increment)
       } label: {
-        Image(systemName: "plus")
-          .bold()
-          .font(.title)
-          .foregroundColor(.green)
+        ImagePlus()
       }
     }
   }
@@ -152,28 +142,18 @@ struct HookCaseStudiesView: View {
     let (state, dispatch) = useReducer(reducer, initialState: 0)
     
     return HookRowView("useReducer tca") {
-      Text(state.description)
-        .bold()
-        .font(.largeTitle)
-        .foregroundColor(.green)
-      Spacer()
+      HookRowTextValue(state)
+        .frame(height: 60)
       Button {
         dispatch(.decrement)
       } label: {
-        Image(systemName: "minus")
-          .bold()
-          .font(.title)
-          .foregroundColor(.green)
+        ImageMinus()
       }
       Button {
         dispatch(.increment)
       } label: {
-        Image(systemName: "plus")
-          .bold()
-          .font(.title)
-          .foregroundColor(.green)
+        ImagePlus()
       }
-      
     }
   }
   
@@ -212,53 +192,35 @@ struct HookCaseStudiesView: View {
     
     return VStack {
       HookRowView("useReducerProtocol store.commit") {
-        Text(viewStore.state.description)
-          .bold()
-          .font(.largeTitle)
-          .foregroundColor(.green)
-        Spacer()
+        HookRowTextValue(viewStore.state)
+          .frame(height: 60)
         Button {
           store.commit {
             $0 -= 1
           }
         } label: {
-          Image(systemName: "minus")
-            .bold()
-            .font(.title)
-            .foregroundColor(.green)
+          ImageMinus()
         }
         Button {
           store.commit {
             $0 += 1
           }
         } label: {
-          Image(systemName: "plus")
-            .bold()
-            .font(.title)
-            .foregroundColor(.green)
+          ImagePlus()
         }
       }
       HookRowView("useReducerProtocol viewstore.send") {
-        Text(viewStore.state.description)
-          .bold()
-          .font(.largeTitle)
-          .foregroundColor(.green)
-        Spacer()
+        HookRowTextValue(viewStore.state)
+          .frame(height: 60)
         Button {
           viewStore.send(.decrement)
         } label: {
-          Image(systemName: "minus")
-            .bold()
-            .font(.title)
-            .foregroundColor(.green)
+          ImageMinus()
         }
         Button {
           viewStore.send(.increment)
         } label: {
-          Image(systemName: "plus")
-            .bold()
-            .font(.title)
-            .foregroundColor(.green)
+          ImagePlus()
         }
       }
     }
@@ -267,26 +229,17 @@ struct HookCaseStudiesView: View {
   var useRefView: some View {
     let state = useRef(0)
     return HookRowView("userRef") {
-      Text(state.current.description)
-        .bold()
-        .font(.largeTitle)
-        .foregroundColor(.green)
-      Spacer()
+      HookRowTextValue(state.current)
+        .frame(height: 60)
       Button {
         state.current -= 1
       } label: {
-        Image(systemName: "minus")
-          .bold()
-          .font(.title)
-          .foregroundColor(.green)
+        ImageMinus()
       }
       Button {
         state.current += 1
       } label: {
-        Image(systemName: "plus")
-          .bold()
-          .font(.title)
-          .foregroundColor(.green)
+        ImagePlus()
       }
     }
   }
@@ -302,16 +255,18 @@ struct HookCaseStudiesView: View {
     }
     return VStack {
       HookRowView("no useMemo") {
-        Text(uuid)
+        TextValue(uuid)
+          .frame(height: 60)
       }
       HookRowView("useMemo") {
-        Text(state)
+        TextValue(state)
+          .frame(height: 60)
       }
       HookRowView("useMemo") {
         HStack {
           Circle()
             .foregroundColor(randomColor)
-            .frame(width: 100, height: 100, alignment: .center)
+            .frame(width: 60, height: 60, alignment: .center)
           Spacer()
           Button {
             flag.wrappedValue.toggle()
@@ -324,57 +279,60 @@ struct HookCaseStudiesView: View {
   }
   
   var useEffectView: some View {
-    let count = useState(0)
+    let state = useState(999999999)
     let isAutoIncrement = useState(false)
     
     useEffect(.preserved(by: isAutoIncrement.wrappedValue)) {
       guard isAutoIncrement.wrappedValue else { return nil }
       
       let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-        count.wrappedValue += 1
+        state.wrappedValue += 1
       }
       
       return timer.invalidate
     }
     
     return HookRowView("useEffect") {
-      VStack(alignment: .center,spacing: 50) {
-        HStack {
-          Spacer()
-        }
-        Text(String(format: "%02d", count.wrappedValue))
-          .lineLimit(1)
-          .minimumScaleFactor(0.1)
-          .font(.system(size: 100, weight: .heavy, design: .monospaced))
-          .padding(30)
-          .frame(width: 200, height: 200)
-          .background(Color(.secondarySystemBackground))
-          .clipShape(Circle())
-        
-        Stepper(value: count, in: 0...(.max), label: EmptyView.init).fixedSize()
-        
-        Toggle("Auto +", isOn: isAutoIncrement).fixedSize()
-      }
-      
+      HookRowTextValue(state.wrappedValue)
+      Spacer()
+      Stepper(value: state, in: 0...(.max), label: EmptyView.init).fixedSize()
+      Toggle("Auto +", isOn: isAutoIncrement).fixedSize()
     }
   }
   
   var useContextView: some View {
     let colorScheme = useContext(ColorSchemeContext.self)
     return HookRowView("useContext") {
-      Picker("Color Scheme", selection: colorScheme) {
-        ForEach(ColorScheme.allCases, id: \.self) { scheme in
-          Text("\(scheme)".description)
+      VStack(alignment: .center) {
+        HStack {
+          Spacer()
+          Text("\(colorScheme.wrappedValue)".description)
+            .lineLimit(1)
+            .minimumScaleFactor(0.1)
+            .font(.system(size: 16, weight: .heavy, design: .monospaced))
+            .padding(8)
+            .background(Color.secondary.opacity(1/3))
+            .clipShape(RoundedRectangle(cornerRadius: 30))
+            .foregroundColor(.primary)
+            .frame(height: 60, alignment: .center)
+          Spacer()
         }
+        .frame(maxWidth: .infinity)
+        Picker("Color Scheme", selection: colorScheme) {
+          ForEach(ColorScheme.allCases, id: \.self) { scheme in
+            Text("\(scheme)".description)
+          }
+        }
+        .pickerStyle(SegmentedPickerStyle())
       }
-      .pickerStyle(SegmentedPickerStyle())
     }
   }
   
   var useEnvironmentView: some View {
     let locale = useEnvironment(\.locale)
     return HookRowView("useEnvironment") {
-      Text("Current Locale = \(locale.identifier)")
+      TextValue("Current Locale = \(locale.identifier)")
+        .frame(height: 60)
     }
   }
   
@@ -400,20 +358,26 @@ struct HookCaseStudiesView: View {
     let phase = usePublisher(.once) {
       Just(UUID())
         .map(\.uuidString)
-        .delay(for: .seconds(1), scheduler: DispatchQueue.main)
+        .delay(for: .seconds(3), scheduler: DispatchQueue.main)
     }
     return HookRowView("usePublisher") {
-      HStack {
+      VStack(alignment: .center) {
+        HStack {
+          Spacer()
+        }
         switch phase {
           case .running:
             ProgressView()
           case .success(let uuid):
-            Text(uuid)
+            VStack {
+              TextValue(uuid)
+                .frame(height: 60)
+            }
           case .pending:
             EmptyView()
         }
       }
-      .frame(height: 68)
+      .frame(height: 60)
     }
   }
   
@@ -421,27 +385,27 @@ struct HookCaseStudiesView: View {
     let (phase, subscribe) = usePublisherSubscribe {
       Just(UUID())
         .map(\.uuidString)
-        .delay(for: .seconds(1), scheduler: DispatchQueue.main)
+        .delay(for: .seconds(3), scheduler: DispatchQueue.main)
     }
     return HookRowView("usePublisherSubscribe") {
-      HStack {
+      VStack(alignment: .center) {
+        HStack {
+          Spacer()
+        }
         switch phase {
           case .running:
             ProgressView()
           case .success(let uuid):
-            Text(uuid)
+            VStack {
+              TextValue(uuid)
+                .frame(height: 60)
+              Button("Random", action: subscribe)
+            }
           case .pending:
             EmptyView()
         }
-        Spacer()
-        switch phase {
-          case .success:
-            Button("Random", action: subscribe)
-          default:
-            ProgressView()
-        }
       }
-      .frame(height: 68)
+      .frame(height: 100)
       .task { @MainActor in
         subscribe()
       }
@@ -464,14 +428,16 @@ struct HookCaseStudiesView: View {
       }
     }
     
-    return HookRowView("") {
+    return HookRowView("useAsync") {
       switch phase {
         case .pending, .running:
           ProgressView()
         case .failure(let error):
-          Text((error as? ErrorCode)?.title ?? "Error")
+          TextValue((error as? ErrorCode)?.title ?? "Error")
+            .frame(height: 60)
         case .success(let data):
-          Text(data.description)
+          TextValue(data.description)
+            .frame(height: 60)
       }
     }
   }
@@ -491,14 +457,14 @@ struct HookCaseStudiesView: View {
       }
     }
     
-    return HookRowView("") {
+    return HookRowView("useAsyncPerform") {
       VStack {
         switch phase.phase {
           case .pending, .running:
             ProgressView()
           case .failure(let error):
             HStack {
-              Text((error as? ErrorCode)?.title ?? "Error")
+              TextValue((error as? ErrorCode)?.title ?? "Error")
               Spacer()
               Button("Random") {
                 Task {
@@ -508,7 +474,7 @@ struct HookCaseStudiesView: View {
             }
           case .success(let data):
             HStack {
-              Text(data)
+              TextValue(data)
               Spacer()
               Button("Random") {
                 Task {
@@ -538,9 +504,8 @@ private struct HookTitleView: View {
   var body: some View {
     VStack(alignment: .leading) {
       Text(title)
-        .bold()
-        .font(.body)
-        .foregroundColor(.blue)
+        .font(.system(size: 18, weight: .bold, design: .rounded))
+        .foregroundColor(.accentColor)
       Divider()
     }
     .padding(.horizontal, 24)
@@ -559,10 +524,86 @@ private struct HookRowView<Content: View>: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-      Text(title).bold()
-      HStack { content }.padding(.vertical, 16)
+      Text(title)
+        .font(.system(size: 16, weight: .regular, design: .serif))
+      HStack(alignment: .center) {
+        content
+      }
+      .padding(.vertical, 16)
       Divider()
     }
     .padding(.horizontal, 24)
+  }
+}
+
+private struct HookRowTextValue: View {
+
+  let content: Int
+
+  init(_ content: Int) {
+    self.content = content
+  }
+
+  var body: some View {
+    GeometryReader { proxy in
+      ZStack(alignment: .center) {
+        Color.white.opacity(0.0001)
+        HStack {
+          Text(String(format: "%02d", content))
+            .lineLimit(1)
+            .minimumScaleFactor(0.1)
+            .font(.system(size: 16, weight: .heavy, design: .monospaced))
+            .padding(8)
+            .background(Color.secondary.opacity(1/3))
+            .clipShape(RoundedRectangle(cornerRadius: proxy.size.height))
+            .foregroundColor(.primary)
+          Spacer()
+        }
+      }
+    }
+  }
+}
+
+private struct TextValue: View {
+
+  let content: String
+
+  init(_ content: String) {
+    self.content = content
+  }
+
+  var body: some View {
+    GeometryReader { proxy in
+      ZStack(alignment: .center) {
+        Color.white.opacity(0.0001)
+        HStack {
+          Text(content)
+            .lineLimit(1)
+            .minimumScaleFactor(0.1)
+            .font(.system(size: 16, weight: .heavy, design: .monospaced))
+            .padding(8)
+            .background(Color.secondary.opacity(1/3))
+            .clipShape(RoundedRectangle(cornerRadius: proxy.size.height))
+            .foregroundColor(.primary)
+          Spacer()
+        }
+      }
+    }
+  }
+}
+
+private struct ImagePlus: View {
+  var body: some View {
+    Image(systemName: "plus")
+      .bold()
+      .foregroundColor(.accentColor)
+  }
+}
+
+private struct ImageMinus: View {
+  var body: some View {
+    Image(systemName: "minus")
+      .bold()
+      .foregroundColor(.accentColor)
   }
 }
