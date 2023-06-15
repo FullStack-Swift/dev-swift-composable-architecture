@@ -1,6 +1,6 @@
 /// An immutable representation of the most recent asynchronous operation phase.
 @frozen
-public enum AsyncPhase<Success, Failure: Error> {
+public enum HookAsyncPhase<Success, Failure: Error> {
   /// Represents a pending phase meaning that the operation has not been started.
   case pending
   
@@ -89,21 +89,21 @@ public enum AsyncPhase<Success, Failure: Error> {
   /// Returns a new phase, mapping any success value using the given transformation.
   /// - Parameter transform: A closure that takes the success value of this instance.
   /// - Returns: An `AsyncPhase` instance with the result of evaluating `transform` as the new success value if this instance represents a success.
-  public func map<NewSuccess>(_ transform: (Success) -> NewSuccess) -> AsyncPhase<NewSuccess, Failure> {
+  public func map<NewSuccess>(_ transform: (Success) -> NewSuccess) -> HookAsyncPhase<NewSuccess, Failure> {
     flatMap { .success(transform($0)) }
   }
   
   /// Returns a new result, mapping any failure value using the given transformation.
   /// - Parameter transform: A closure that takes the failure value of the instance.
   /// - Returns: An `AsyncPhase` instance with the result of evaluating `transform` as the new failure value if this instance represents a failure.
-  public func mapError<NewFailure: Error>(_ transform: (Failure) -> NewFailure) -> AsyncPhase<Success, NewFailure> {
+  public func mapError<NewFailure: Error>(_ transform: (Failure) -> NewFailure) -> HookAsyncPhase<Success, NewFailure> {
     flatMapError { .failure(transform($0)) }
   }
   
   /// Returns a new result, mapping any success value using the given transformation and unwrapping the produced phase.
   /// - Parameter transform: A closure that takes the success value of the instance.
   /// - Returns: An `AsyncPhase` instance, either from the closure or the previous `.success`.
-  public func flatMap<NewSuccess>(_ transform: (Success) -> AsyncPhase<NewSuccess, Failure>) -> AsyncPhase<NewSuccess, Failure> {
+  public func flatMap<NewSuccess>(_ transform: (Success) -> HookAsyncPhase<NewSuccess, Failure>) -> HookAsyncPhase<NewSuccess, Failure> {
     switch self {
       case .pending:
         return .pending
@@ -122,7 +122,7 @@ public enum AsyncPhase<Success, Failure: Error> {
   /// Returns a new result, mapping any failure value using the given transformation and unwrapping the produced phase.
   /// - Parameter transform: A closure that takes the failure value of the instance.
   /// - Returns: An `AsyncPhase` instance, either from the closure or the previous `.failure`.
-  public func flatMapError<NewFailure: Error>(_ transform: (Failure) -> AsyncPhase<Success, NewFailure>) -> AsyncPhase<Success, NewFailure> {
+  public func flatMapError<NewFailure: Error>(_ transform: (Failure) -> HookAsyncPhase<Success, NewFailure>) -> HookAsyncPhase<Success, NewFailure> {
     switch self {
       case .pending:
         return .pending
@@ -139,10 +139,10 @@ public enum AsyncPhase<Success, Failure: Error> {
   }
 }
 
-extension AsyncPhase: Decodable where Success: Decodable, Failure: Decodable { }
+extension HookAsyncPhase: Decodable where Success: Decodable, Failure: Decodable { }
 
-extension AsyncPhase: Encodable where Success: Encodable, Failure: Encodable {}
+extension HookAsyncPhase: Encodable where Success: Encodable, Failure: Encodable {}
 
-extension AsyncPhase: Equatable where Success: Equatable, Failure: Equatable {}
+extension HookAsyncPhase: Equatable where Success: Equatable, Failure: Equatable {}
 
-extension AsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}
+extension HookAsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}

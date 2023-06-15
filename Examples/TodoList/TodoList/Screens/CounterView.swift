@@ -25,10 +25,10 @@ struct CounterReducer: ReducerProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
   @Dependency(\.storage) var storage
-  @Dependency(\.sharedState) var sharedState
+//  @Dependency(\.sharedState) var sharedState
   @Dependency(\.sharedStateStore) var sharedStateStore
 
-  @SharedState(\.count) var count
+//  @SharedState(\.count) var count
 
   // MARK: Start Body
   var body: some ReducerProtocolOf<Self> {
@@ -172,9 +172,9 @@ struct CounterView: View {
 //  @ObservedObject
   private var viewStore: ViewStoreOf<CounterReducer>
 
-  @SharedState(\.count) var count
-  @Dependency(\.sharedState) var sharedState
-  @Dependency(\.sharedStateViewStore) var sharedStateViewStore
+//  @SharedState(\.count) var count
+//  @Dependency(\.sharedState) var sharedState
+//  @Dependency(\.sharedStateViewStore) var sharedStateViewStore
   @ViewModel(\.counterStore) var counterViewModel
 
   init(store: StoreOf<CounterReducer>? = nil) {

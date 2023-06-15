@@ -13,7 +13,7 @@
 public func useAsync<Output>(
   _ updateStrategy: HookUpdateStrategy,
   _ operation: @escaping () async -> Output
-) -> AsyncPhase<Output, Never> {
+) -> HookAsyncPhase<Output, Never> {
   useHook(
     AsyncHook(
       updateStrategy: updateStrategy,
@@ -37,7 +37,7 @@ public func useAsync<Output>(
 public func useAsync<Output>(
   _ updateStrategy: HookUpdateStrategy,
   _ operation: @escaping () async throws -> Output
-) -> AsyncPhase<Output, Error> {
+) -> HookAsyncPhase<Output, Error> {
   useHook(
     AsyncThrowingHook(
       updateStrategy: updateStrategy,
@@ -54,7 +54,7 @@ internal struct AsyncHook<Output>: Hook {
     State()
   }
   
-  func value(coordinator: Coordinator) -> AsyncPhase<Output, Never> {
+  func value(coordinator: Coordinator) -> HookAsyncPhase<Output, Never> {
     coordinator.state.phase
   }
   
@@ -77,7 +77,7 @@ internal struct AsyncHook<Output>: Hook {
 
 internal extension AsyncHook {
   final class State {
-    var phase = AsyncPhase<Output, Never>.pending
+    var phase = HookAsyncPhase<Output, Never>.pending
     var task: Task<Void, Never>? {
       didSet {
         oldValue?.cancel()
@@ -94,14 +94,14 @@ internal struct AsyncThrowingHook<Output>: Hook {
     State()
   }
   
-  func value(coordinator: Coordinator) -> AsyncPhase<Output, Error> {
+  func value(coordinator: Coordinator) -> HookAsyncPhase<Output, Error> {
     coordinator.state.phase
   }
   
   func updateState(coordinator: Coordinator) {
     coordinator.state.phase = .running
     coordinator.state.task = Task { @MainActor in
-      let phase: AsyncPhase<Output, Error>
+      let phase: HookAsyncPhase<Output, Error>
       
       do {
         let output = try await operation()
@@ -125,7 +125,7 @@ internal struct AsyncThrowingHook<Output>: Hook {
 
 internal extension AsyncThrowingHook {
   final class State {
-    var phase = AsyncPhase<Output, Error>.pending
+    var phase = HookAsyncPhase<Output, Error>.pending
     var task: Task<Void, Never>? {
       didSet {
         oldValue?.cancel()

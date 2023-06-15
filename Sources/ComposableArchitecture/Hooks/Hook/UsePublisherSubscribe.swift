@@ -12,7 +12,7 @@ import Combine
 public func usePublisherSubscribe<P: Publisher>(
   _ makePublisher: @escaping () -> P
 ) -> (
-  phase: AsyncPhase<P.Output, P.Failure>,
+  phase: HookAsyncPhase<P.Output, P.Failure>,
   subscribe: () -> Void
 ) {
   useHook(PublisherSubscribeHook(makePublisher: makePublisher))
@@ -27,7 +27,7 @@ private struct PublisherSubscribeHook<P: Publisher>: Hook {
   }
   
   func value(coordinator: Coordinator) -> (
-    phase: AsyncPhase<P.Output, P.Failure>,
+    phase: HookAsyncPhase<P.Output, P.Failure>,
     subscribe: () -> Void
   ) {
     (
@@ -71,7 +71,7 @@ private struct PublisherSubscribeHook<P: Publisher>: Hook {
 
 private extension PublisherSubscribeHook {
   final class State {
-    var phase = AsyncPhase<P.Output, P.Failure>.pending
+    var phase = HookAsyncPhase<P.Output, P.Failure>.pending
     var isDisposed = false
     var cancellable: AnyCancellable?
   }

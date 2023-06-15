@@ -15,7 +15,7 @@ import Combine
 public func usePublisher<P: Publisher>(
   _ updateStrategy: HookUpdateStrategy,
   _ makePublisher: @escaping () -> P
-) -> AsyncPhase<P.Output, P.Failure> {
+) -> HookAsyncPhase<P.Output, P.Failure> {
   useHook(
     PublisherHook(
       updateStrategy: updateStrategy,
@@ -53,7 +53,7 @@ private struct PublisherHook<P: Publisher>: Hook {
       )
   }
   
-  func value(coordinator: Coordinator) -> AsyncPhase<P.Output, P.Failure> {
+  func value(coordinator: Coordinator) -> HookAsyncPhase<P.Output, P.Failure> {
     coordinator.state.phase
   }
   
@@ -64,7 +64,7 @@ private struct PublisherHook<P: Publisher>: Hook {
 
 private extension PublisherHook {
   final class State {
-    var phase = AsyncPhase<P.Output, P.Failure>.pending
+    var phase = HookAsyncPhase<P.Output, P.Failure>.pending
     var cancellable: AnyCancellable?
   }
 }

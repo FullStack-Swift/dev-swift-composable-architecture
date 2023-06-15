@@ -10,7 +10,7 @@
 public func useAsyncPerform<Output>(
   _ operation: @escaping @MainActor () async -> Output
 ) -> (
-  phase: AsyncPhase<Output, Never>,
+  phase: HookAsyncPhase<Output, Never>,
   perform: @MainActor () async -> Void
 ) {
   useHook(AsyncPerformHook(operation: operation))
@@ -28,7 +28,7 @@ public func useAsyncPerform<Output>(
 public func useAsyncPerform<Output>(
   _ operation: @escaping @MainActor () async throws -> Output
 ) -> (
-  phase: AsyncPhase<Output, Error>,
+  phase: HookAsyncPhase<Output, Error>,
   perform: @MainActor () async -> Void
 ) {
   useHook(AsyncThrowingPerformHook(operation: operation))
@@ -43,7 +43,7 @@ internal struct AsyncPerformHook<Output>: Hook {
   }
   
   func value(coordinator: Coordinator) -> (
-    phase: AsyncPhase<Output, Never>,
+    phase: HookAsyncPhase<Output, Never>,
     perform: @MainActor () async -> Void
   ) {
     (
@@ -73,7 +73,7 @@ internal struct AsyncPerformHook<Output>: Hook {
 
 internal extension AsyncPerformHook {
   final class State {
-    var phase = AsyncPhase<Output, Never>.pending
+    var phase = HookAsyncPhase<Output, Never>.pending
     var isDisposed = false
   }
 }
@@ -87,7 +87,7 @@ internal struct AsyncThrowingPerformHook<Output>: Hook {
   }
   
   func value(coordinator: Coordinator) -> (
-    phase: AsyncPhase<Output, Error>,
+    phase: HookAsyncPhase<Output, Error>,
     perform: @MainActor () async -> Void
   ) {
     (
@@ -100,7 +100,7 @@ internal struct AsyncThrowingPerformHook<Output>: Hook {
         coordinator.state.phase = .running
         coordinator.updateView()
         
-        let phase: AsyncPhase<Output, Error>
+        let phase: HookAsyncPhase<Output, Error>
         
         do {
           let output = try await operation()
@@ -125,7 +125,7 @@ internal struct AsyncThrowingPerformHook<Output>: Hook {
 
 internal extension AsyncThrowingPerformHook {
   final class State {
-    var phase = AsyncPhase<Output, Error>.pending
+    var phase = HookAsyncPhase<Output, Error>.pending
     var isDisposed = false
   }
 }

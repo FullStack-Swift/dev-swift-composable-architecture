@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 import ComposableArchitecture
 
-typealias ColorSchemeContext = Context<Binding<ColorScheme>>
+typealias ColorSchemeContext = HookContext<Binding<ColorScheme>>
 
 struct HookCaseStudiesView: View {
   var body: some View {
@@ -301,6 +301,9 @@ struct HookCaseStudiesView: View {
       Color(hue: .random(in: 0...1), saturation: 1, brightness: 1)
     }
     return VStack {
+      HookRowView("no useMemo") {
+        Text(uuid)
+      }
       HookRowView("useMemo") {
         Text(state)
       }
@@ -316,9 +319,6 @@ struct HookCaseStudiesView: View {
             Text("Random")
           }
         }
-      }
-      HookRowView("no useMemo") {
-        Text(uuid)
       }
     }
   }
