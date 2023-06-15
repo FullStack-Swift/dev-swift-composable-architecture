@@ -7,12 +7,12 @@
 ///
 /// - Parameter context: The type of context.
 /// - Returns: A value that provided by provider from upstream of the view tree.
-public func useContext<T>(_ context: Context<T>.Type) -> T {
+public func useContext<T>(_ context: HookContext<T>.Type) -> T {
   useHook(ContextHook(context: context))
 }
 
 private struct ContextHook<T>: Hook {
-  let context: Context<T>.Type
+  let context: HookContext<T>.Type
   let updateStrategy: HookUpdateStrategy? = .once
   
   func value(coordinator: Coordinator) -> T {

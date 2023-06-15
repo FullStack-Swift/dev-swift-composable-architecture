@@ -1,6 +1,6 @@
 import SwiftUI
 
-public extension Context {
+public extension HookContext {
   /// A view that provides the context values through view tree.
   struct Provider<Content: View>: View {
     private let value: T
@@ -25,10 +25,10 @@ public extension Context {
   }
 }
 
-private extension Context.Provider {
+private extension HookContext.Provider {
   var contextEnvironments: EnvironmentValues {
     var environment = self.environment
-    environment[Context.self] = value
+    environment[HookContext.self] = value
     return environment
   }
 }

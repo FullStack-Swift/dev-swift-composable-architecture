@@ -1,6 +1,6 @@
 import SwiftUI
 
-public extension Context {
+public extension HookContext {
   /// A view that consumes the context values that provided by `Provider` through view tree.
   /// If the value is not provided by the `Provider` from upstream of the view tree, the view's update will be asserted.
   struct Consumer<Content: View>: View {
@@ -17,7 +17,7 @@ public extension Context {
     
     /// The content and behavior of the view.
     public var body: some View {
-      if let value = environment[Context.self] {
+      if let value = environment[HookContext.self] {
         content(value)
       }
       else {
@@ -27,13 +27,13 @@ public extension Context {
   }
 }
 
-private extension Context.Consumer {
+private extension HookContext.Consumer {
   func assertMissingContext() -> some View {
 #if DEBUG
     assertionFailure(
             """
-            No context value of type \(Context.self) found.
-            A \(Context.self).Provider.init(value:content:) is missing as an ancestor of the consumer.
+            No context value of type \(HookContext.self) found.
+            A \(HookContext.self).Provider.init(value:content:) is missing as an ancestor of the consumer.
             
             - SeeAlso: https://reactjs.org/docs/context.html#contextprovider
             """
