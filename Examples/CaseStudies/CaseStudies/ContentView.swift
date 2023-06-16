@@ -3,18 +3,32 @@ import ComposableArchitecture
 
 struct ContentView: View {
 
-  @Dependency(\.navigationPath) var store
+  @Dependency(\.navigationPath) var navigationPath
 
   var body: some View {
     _NavigationView {
       Form {
         Section(header: Text("Getting started")) {
-          NavigationLink("Hooks") {
-            HookCaseStudiesView()
+          HStack {
+            Text("Hooks")
+            Spacer()
           }
-          NavigationLink("Atoms") {
-            AtomRoot {
-              AtomCaseStudiesView()
+          .background(Color.white.opacity(0.0001))
+          .clipShape(Rectangle())
+            .onTapGesture {
+              navigationPath.commit {
+                $0.path.append(.init(id: "Hooks", state: "Hooks_NavigationView"))
+              }
+            }
+          HStack {
+            Text("Atoms")
+            Spacer()
+          }
+          .background(Color.white.opacity(0.0001))
+          .clipShape(Rectangle())
+          .onTapGesture {
+            navigationPath.commit {
+              $0.path.append(.init(id: "Atoms", state: "Atoms_NavigationView"))
             }
           }
         }
@@ -25,6 +39,25 @@ struct ContentView: View {
           NavigationLink("B") {
 
           }
+        }
+      }
+      .navigationTitle(Text("CaseStudies"))
+      ._navigationDestination(for: _Destination.self) { destination in
+        switch destination.id {
+          case "Hooks":
+            HookCaseStudiesView()
+              .onAppear {
+                print(destination.state as Any)
+              }
+          case "Atoms":
+            AtomRoot {
+              AtomCaseStudiesView()
+            }
+            .onAppear {
+              print(destination.state as Any)
+            }
+          default:
+            EmptyView()
         }
       }
     }
