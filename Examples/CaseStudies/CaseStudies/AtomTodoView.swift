@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftUIListExtension
 import ComposableArchitecture
 
 private struct Todo: Hashable, Identifiable {
@@ -187,7 +186,7 @@ private struct TodoItem: View {
 }
 
 
-struct AtomCaseStudiesView: View {
+struct AtomTodoView: View {
 
   @Watch(FilteredTodosAtom())
   private var filteredTodos
@@ -218,7 +217,6 @@ struct AtomCaseStudiesView: View {
               todos.remove(atOffsets: IndexSet(indices))
             }
           }
-          .hideListRowSeperator()
         }
       }
       .padding()
@@ -228,7 +226,7 @@ struct AtomCaseStudiesView: View {
   }
 }
 
-extension AtomCaseStudiesView {
+extension AtomTodoView {
   @ViewBuilder
   private var leading: some View {
     EmptyView()
@@ -240,11 +238,11 @@ extension AtomCaseStudiesView {
   }
 }
 
-struct AtomCaseStudiesView_Previews: PreviewProvider {
+struct AtomTodoView_Previews: PreviewProvider {
   static var previews: some View {
     AtomRoot {
       _NavigationView {
-        AtomCaseStudiesView()
+        AtomTodoView()
       }
     }
   }

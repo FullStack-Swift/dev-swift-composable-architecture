@@ -151,10 +151,41 @@ private struct _ThrowingTaskAtomView: View {
   }
 }
 // MARK: AsyncSequenceAtom
-private struct _AsyncSequenceAtom: View {
 
+private struct _AsyncSequenceAtom: AsyncSequenceAtom, Hashable {
+  func sequence(context: Context) -> AsyncStream<String> {
+    AsyncStream<String> { continuation in
+      Task {
+        try await Task.sleep(for: .seconds(1))
+        continuation.yield("Swift")
+      }
+    }
+  }
+}
+
+private struct _AsyncSequenceAtomView: View {
+
+  @Watch(_AsyncSequenceAtom())
+  private var asyncSequenceAtom
+
+  @ViewContext
+  private var context
   var body: some View {
-    EmptyView()
+    switch asyncSequenceAtom {
+      case .suspending:
+        ProgressView()
+      case .success(let value):
+        Text(value.description)
+      case .failure(let error):
+        Text(error.localizedDescription)
+    }
+//    Suspense(asyncSequenceAtom) { value in
+//      Text(value)
+//    } suspending: {
+//      ProgressView()
+//    } catch: { error in
+//      Text(error.localizedDescription)
+//    }
   }
 }
 
@@ -208,11 +239,15 @@ private struct _PublisherAtomView: View {
 }
 // MARK: ObservableObjectAtom
 private class _ObservableObject: ObservableObject {
-  @Published var name = "Swift"
-  @Published var age = 5
+  @Published var name = ""
+  @Published var age = 0
 
-  func haveBirthday() {
+  func plus() {
     age += 1
+  }
+
+  func minus() {
+    age -= 1
   }
 }
 
@@ -224,32 +259,58 @@ private struct _ObservableObjectAtom: ObservableObjectAtom, Hashable {
 
 struct _ObservableObjectAtomView: View {
   @WatchStateObject(_ObservableObjectAtom())
-  fileprivate var contact
+  fileprivate var viewModel
 
   var body: some View {
     VStack {
-      TextField("Enter your name", text: $contact.name)
-      Text("Name: \(contact.name), Age: \(contact.age)")
-      Button("Celebrate your birthday!") {
-        contact.haveBirthday()
+      TextField("Enter your name", text: $viewModel.name)
+      Text("Name: \(viewModel.name), Age: \(viewModel.age)")
+      HStack {
+        Button {
+          viewModel.minus()
+        } label: {
+          ImageMinus()
+        }
+
+        Button {
+          viewModel.plus()
+        } label: {
+          ImagePlus()
+        }
       }
+      .padding()
+      .fixedSize()
     }
   }
 }
 
 
-struct AtomView: View {
+struct AtomCaseStudiesView: View {
 
   var body: some View {
     ScrollView {
       VStack(spacing: 8) {
-        _ValueAtomView()
-        _StateAtomView()
-        _TaskAtomView()
-        _ThrowingTaskAtomView()
-        _AsyncSequenceAtom()
-        _PublisherAtomView()
-        _ObservableObjectAtomView()
+        AtomRowView("_ValueAtom") {
+          _ValueAtomView()
+        }
+        AtomRowView("_StateAtom") {
+          _StateAtomView()
+        }
+        AtomRowView("_TaskAtom") {
+          _TaskAtomView()
+        }
+        AtomRowView("_ThrowingTaskAtom") {
+          _ThrowingTaskAtomView()
+        }
+        AtomRowView("_AsyncSequenceAtom") {
+          _AsyncSequenceAtomView()
+        }
+        AtomRowView("_PublisherAtom") {
+          _PublisherAtomView()
+        }
+        AtomRowView("_ObservableObjectAtom") {
+          _ObservableObjectAtomView()
+        }
       }
       .padding()
       Spacer()
@@ -257,10 +318,49 @@ struct AtomView: View {
   }
 }
 
+private struct AtomRowView<Content: View>: View {
+  let title: String
+  let content: Content
+
+  init(_ title: String, @ViewBuilder content: () -> Content) {
+    self.title = title
+    self.content = content()
+  }
+
+  var body: some View {
+    VStack(alignment: .leading) {
+      Text(title)
+        .font(.system(size: 16, weight: .regular, design: .serif))
+      HStack(alignment: .center) {
+        content
+      }
+      .padding(.vertical, 16)
+      Divider()
+    }
+    .padding(.horizontal, 24)
+  }
+}
+
+private struct ImagePlus: View {
+  var body: some View {
+    Image(systemName: "plus")
+      .bold()
+      .foregroundColor(.accentColor)
+  }
+}
+
+private struct ImageMinus: View {
+  var body: some View {
+    Image(systemName: "minus")
+      .bold()
+      .foregroundColor(.accentColor)
+  }
+}
+
 struct AtomView_Previews: PreviewProvider {
   static var previews: some View {
     AtomRoot {
-      AtomView()
+      AtomCaseStudiesView()
     }
   }
 }

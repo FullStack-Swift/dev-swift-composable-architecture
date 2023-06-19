@@ -253,15 +253,6 @@
       }
     },
     {
-      "identity" : "swiftui-list-extension",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FullStack-Swift/swiftui-list-extension.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "ebbf9412f1d470bc9155ed4d31ad478cb3acb5e4"
-      }
-    },
-    {
       "identity" : "swiftui-navigation",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swiftui-navigation",

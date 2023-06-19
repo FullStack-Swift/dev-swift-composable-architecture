@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8763B0A92A3C303000677870 /* SwiftUIListExtension in Frameworks */ = {isa = PBXBuildFile; productRef = 8763B0A82A3C303000677870 /* SwiftUIListExtension */; };
 		876C21B12A3C5CDA00B980DA /* AtomTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B02A3C5CDA00B980DA /* AtomTodoView.swift */; };
 		876C21B32A400BC000B980DA /* HookTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B22A400BC000B980DA /* HookTodoView.swift */; };
 		87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */; };
@@ -37,7 +36,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8763B0A92A3C303000677870 /* SwiftUIListExtension in Frameworks */,
 				87DF96F22A3991C10006B774 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -111,7 +109,6 @@
 			name = CaseStudies;
 			packageProductDependencies = (
 				87DF96F12A3991C10006B774 /* ComposableArchitecture */,
-				8763B0A82A3C303000677870 /* SwiftUIListExtension */,
 			);
 			productName = CaseStudies;
 			productReference = 87DF96DC2A39904F0006B774 /* CaseStudies.app */;
@@ -142,7 +139,6 @@
 			);
 			mainGroup = 87DF96D32A39904F0006B774;
 			packageReferences = (
-				8763B0A72A3C303000677870 /* XCRemoteSwiftPackageReference "swiftui-list-extension" */,
 			);
 			productRefGroup = 87DF96DD2A39904F0006B774 /* Products */;
 			projectDirPath = "";
@@ -386,23 +382,7 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		8763B0A72A3C303000677870 /* XCRemoteSwiftPackageReference "swiftui-list-extension" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/FullStack-Swift/swiftui-list-extension.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		8763B0A82A3C303000677870 /* SwiftUIListExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8763B0A72A3C303000677870 /* XCRemoteSwiftPackageReference "swiftui-list-extension" */;
-			productName = SwiftUIListExtension;
-		};
 		87DF96F12A3991C10006B774 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;

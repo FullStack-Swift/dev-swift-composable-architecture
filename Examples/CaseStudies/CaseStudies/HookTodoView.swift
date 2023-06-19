@@ -1,15 +1,9 @@
-//
-//  HookTodoView.swift
-//  CaseStudies
-//
-//  Created by Nguyen Phong on 6/19/23.
-//
-
 import SwiftUI
+import ComposableArchitecture
 
 struct HookTodoView: View {
     var body: some View {
-        Text("")
+        Text("TodoList")
     }
 }
 

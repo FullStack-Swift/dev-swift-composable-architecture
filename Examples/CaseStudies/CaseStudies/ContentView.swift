@@ -10,7 +10,7 @@ struct ContentView: View {
       Form {
         Section(header: Text("Getting started")) {
           HStack {
-            Text("Hooks")
+            Text("Hooks-CaseStudies")
             Spacer()
           }
           .background(Color.white.opacity(0.0001))
@@ -21,7 +21,7 @@ struct ContentView: View {
               }
             }
           HStack {
-            Text("Atoms")
+            Text("Atoms-CaseStudies")
             Spacer()
           }
           .background(Color.white.opacity(0.0001))
@@ -32,9 +32,9 @@ struct ContentView: View {
             }
           }
         }
-        Section(header: Text("Getting started")) {
+        Section(header: Text("Todos")) {
           HStack {
-            Text("Hooks-CaseStudies")
+            Text("Hooks-Todos")
             Spacer()
           }
           .background(Color.white.opacity(0.0001))
@@ -45,7 +45,7 @@ struct ContentView: View {
             }
           }
           HStack {
-            Text("Atoms-CaseStudies")
+            Text("Atoms-Todos")
             Spacer()
           }
           .background(Color.white.opacity(0.0001))
@@ -73,12 +73,12 @@ struct ContentView: View {
               print(destination.state as Any)
             }
           case "Atoms-CaseStudies":
-            AtomRoot {
-              AtomView()
+            HookScope {
+              HookTodoView()
             }
           case "Hooks-CaseStudies":
             AtomRoot {
-              AtomView()
+              AtomTodoView()
             }
           default:
             EmptyView()

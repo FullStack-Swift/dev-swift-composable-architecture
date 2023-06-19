@@ -492,11 +492,7 @@ struct HookCaseStudiesView: View {
   }
 }
 
-struct HookCaseStudiesView_Previews: PreviewProvider {
-  static var previews: some View {
-    HookCaseStudiesView()
-  }
-}
+
 
 private struct HookTitleView: View {
   var title: String
@@ -605,5 +601,13 @@ private struct ImageMinus: View {
     Image(systemName: "minus")
       .bold()
       .foregroundColor(.accentColor)
+  }
+}
+
+struct HookCaseStudiesView_Previews: PreviewProvider {
+  static var previews: some View {
+    HookScope {
+      HookCaseStudiesView()
+    }
   }
 }
