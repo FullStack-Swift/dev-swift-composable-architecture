@@ -15,3 +15,12 @@ extension RefObject {
     current
   }
 }
+
+public struct WeakRef<T: AnyObject> {
+
+  public weak var ref: T?
+
+  public init(_ ref: T?) {
+    self.ref = ref
+  }
+}
