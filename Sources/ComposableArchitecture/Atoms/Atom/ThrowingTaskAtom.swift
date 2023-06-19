@@ -37,27 +37,27 @@
 /// ```
 ///
 public protocol ThrowingTaskAtom: Atom {
-    /// The type of value that this atom produces.
-    associatedtype Value
-
-    /// Asynchronously produces a value that to be provided via this atom.
-    ///
-    /// This asynchronous method is converted to a `Task` internally, and if it will be
-    /// cancelled by downstream atoms or views, this method will also be cancelled.
-    ///
-    /// - Parameter context: A context structure that to read, watch, and otherwise
-    ///                      interacting with other atoms.
-    ///
-    /// - Throws: The error that occurred during the process of creating the resulting value.
-    ///
-    /// - Returns: A throwing `Task` that produces asynchronous value.
-    @MainActor
-    func value(context: Context) async throws -> Value
+  /// The type of value that this atom produces.
+  associatedtype Value
+  
+  /// Asynchronously produces a value that to be provided via this atom.
+  ///
+  /// This asynchronous method is converted to a `Task` internally, and if it will be
+  /// cancelled by downstream atoms or views, this method will also be cancelled.
+  ///
+  /// - Parameter context: A context structure that to read, watch, and otherwise
+  ///                      interacting with other atoms.
+  ///
+  /// - Throws: The error that occurred during the process of creating the resulting value.
+  ///
+  /// - Returns: A throwing `Task` that produces asynchronous value.
+  @MainActor
+  func value(context: Context) async throws -> Value
 }
 
 public extension ThrowingTaskAtom {
-    @MainActor
-    var _loader: ThrowingTaskAtomLoader<Self> {
-        ThrowingTaskAtomLoader(atom: self)
-    }
+  @MainActor
+  var _loader: ThrowingTaskAtomLoader<Self> {
+    ThrowingTaskAtomLoader(atom: self)
+  }
 }

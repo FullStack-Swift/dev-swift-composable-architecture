@@ -32,10 +32,10 @@ public struct Suspense<Value, Failure: Error, Content: View, Suspending: View, F
   private let content: (Value) -> Content
   private let suspending: () -> Suspending
   private let failureContent: (Failure) -> FailureContent
-
+  
   @StateObject
   private var state = State()
-
+  
   /// Waits for the given task to provide a resulting value and display the content
   /// accordingly.
   ///
@@ -67,7 +67,7 @@ public struct Suspense<Value, Failure: Error, Content: View, Suspending: View, F
     self.suspending = suspending
     self.failureContent = `catch`
   }
-
+  
   /// Waits for the given task to provide a resulting value and display the content
   /// accordingly.
   ///
@@ -93,7 +93,7 @@ public struct Suspense<Value, Failure: Error, Content: View, Suspending: View, F
       catch: { _ in EmptyView() }
     )
   }
-
+  
   /// Waits for the given task to provide a resulting value and display the content
   /// accordingly.
   ///
@@ -123,7 +123,7 @@ public struct Suspense<Value, Failure: Error, Content: View, Suspending: View, F
       catch: { _ in EmptyView() }
     )
   }
-
+  
   /// Waits for the given task to provide a resulting value and display the content
   /// accordingly.
   ///
@@ -153,7 +153,7 @@ public struct Suspense<Value, Failure: Error, Content: View, Suspending: View, F
       catch: `catch`
     )
   }
-
+  
   /// The content and behavior of the view.
   public var body: some View {
     state.task = task
@@ -171,34 +171,34 @@ private extension Suspense {
   final class State: ObservableObject {
     @Published
     private(set) var phase = AsyncPhase<Value, Failure>.suspending
-
+    
     private var suspensionTask: Task<Void, Never>? {
       didSet { oldValue?.cancel() }
     }
-
+    
     var task: Task<Value, Failure>? {
       didSet {
         guard task != oldValue else {
           return
         }
-
+        
         guard let task else {
           phase = .suspending
           return suspensionTask = nil
         }
-
+        
         suspensionTask = Task { [weak self] in
           self?.phase = .suspending
-
+          
           let result = await task.result
-
+          
           if !Task.isCancelled {
             self?.phase = AsyncPhase(result)
           }
         }
       }
     }
-
+    
     deinit {
       suspensionTask?.cancel()
     }

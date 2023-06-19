@@ -30,25 +30,25 @@
 /// ```
 ///
 public protocol ValueAtom: Atom {
-    /// The type of value that this atom produces.
-    associatedtype Value
-
-    /// Creates a constant value that to be provided via this atom.
-    ///
-    /// This method is called only when this atom is actually used, and is cached until it will
-    /// no longer be watched to or any of watching atoms will be updated.
-    ///
-    /// - Parameter context: A context structure that to read, watch, and otherwise
-    ///                      interacting with other atoms.
-    ///
-    /// - Returns: A constant value.
-    @MainActor
-    func value(context: Context) -> Value
+  /// The type of value that this atom produces.
+  associatedtype Value
+  
+  /// Creates a constant value that to be provided via this atom.
+  ///
+  /// This method is called only when this atom is actually used, and is cached until it will
+  /// no longer be watched to or any of watching atoms will be updated.
+  ///
+  /// - Parameter context: A context structure that to read, watch, and otherwise
+  ///                      interacting with other atoms.
+  ///
+  /// - Returns: A constant value.
+  @MainActor
+  func value(context: Context) -> Value
 }
 
 public extension ValueAtom {
-    @MainActor
-    var _loader: ValueAtomLoader<Self> {
-        ValueAtomLoader(atom: self)
-    }
+  @MainActor
+  var _loader: ValueAtomLoader<Self> {
+    ValueAtomLoader(atom: self)
+  }
 }

@@ -33,36 +33,36 @@ import SwiftUI
 ///
 @propertyWrapper
 public struct ViewContext: DynamicProperty {
-    @StateObject
-    private var state = State()
-
-    @Environment(\.store)
-    private var _store
-
-    private let location: SourceLocation
-
-    /// Creates a view context.
-    public init(fileID: String = #fileID, line: UInt = #line) {
-        location = SourceLocation(fileID: fileID, line: line)
-    }
-
-    /// The underlying view context to interact with atoms.
-    ///
-    /// This property provides primary access to the view context. However you don't
-    /// access ``wrappedValue`` directly.
-    /// Instead, you use the property variable created with the `@ViewContext` attribute.
-    public var wrappedValue: AtomViewContext {
-        AtomViewContext(
-            store: _store,
-            container: state.container.wrapper(location: location),
-            notifyUpdate: state.objectWillChange.send
-        )
-    }
+  @StateObject
+  private var state = State()
+  
+  @Environment(\.store)
+  private var _store
+  
+  private let location: SourceLocation
+  
+  /// Creates a view context.
+  public init(fileID: String = #fileID, line: UInt = #line) {
+    location = SourceLocation(fileID: fileID, line: line)
+  }
+  
+  /// The underlying view context to interact with atoms.
+  ///
+  /// This property provides primary access to the view context. However you don't
+  /// access ``wrappedValue`` directly.
+  /// Instead, you use the property variable created with the `@ViewContext` attribute.
+  public var wrappedValue: AtomViewContext {
+    AtomViewContext(
+      store: _store,
+      container: state.container.wrapper(location: location),
+      notifyUpdate: state.objectWillChange.send
+    )
+  }
 }
 
 private extension ViewContext {
-    @MainActor
-    final class State: ObservableObject {
-        let container = SubscriptionContainer()
-    }
+  @MainActor
+  final class State: ObservableObject {
+    let container = SubscriptionContainer()
+  }
 }

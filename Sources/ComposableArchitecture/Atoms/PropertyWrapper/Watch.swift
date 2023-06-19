@@ -23,24 +23,24 @@ import SwiftUI
 ///
 @propertyWrapper
 public struct Watch<Node: Atom>: DynamicProperty {
-    private let atom: Node
-
-    @ViewContext
-    private var context
-
-    /// Creates a watch with the atom that to be watched.
-    public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
-        self.atom = atom
-        self._context = ViewContext(fileID: fileID, line: line)
-    }
-
-    /// The underlying value associated with the given atom.
-    ///
-    /// This property provides primary access to the value's data. However, you don't
-    /// access ``wrappedValue`` directly. Instead, you use the property variable created
-    /// with the `@Watch` attribute.
-    /// Accessing to this property starts watching to the atom.
-    public var wrappedValue: Node.Loader.Value {
-        context.watch(atom)
-    }
+  private let atom: Node
+  
+  @ViewContext
+  private var context
+  
+  /// Creates a watch with the atom that to be watched.
+  public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
+    self.atom = atom
+    self._context = ViewContext(fileID: fileID, line: line)
+  }
+  
+  /// The underlying value associated with the given atom.
+  ///
+  /// This property provides primary access to the value's data. However, you don't
+  /// access ``wrappedValue`` directly. Instead, you use the property variable created
+  /// with the `@Watch` attribute.
+  /// Accessing to this property starts watching to the atom.
+  public var wrappedValue: Node.Loader.Value {
+    context.watch(atom)
+  }
 }

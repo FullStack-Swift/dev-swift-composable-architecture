@@ -1,251 +1,267 @@
 import SwiftUI
-import SwiftUIListExtension
 import ComposableArchitecture
 
-private struct Todo: Hashable, Identifiable {
-  var id: UUID
-  var text: String
-  var isCompleted: Bool
-}
-
-private enum Filter: CaseIterable, Hashable {
-  case all
-  case completed
-  case uncompleted
-}
-
-private struct Stats: Equatable {
-  let total: Int
-  let totalCompleted: Int
-  let totalUncompleted: Int
-  let percentCompleted: Double
-}
-
-private struct TodosAtom: StateAtom, Hashable, KeepAlive {
-  func defaultValue(context: Context) -> IdentifiedArrayOf<Todo> {
-    []
+// MARK: ValueAtom
+private struct _ValueAtom: ValueAtom, Hashable {
+  func value(context: Context) -> Locale {
+    .current
   }
 }
 
-private struct FilterAtom: StateAtom, Hashable {
-  func defaultValue(context: Context) -> Filter {
-    .all
-  }
-}
-
-private struct FilteredTodosAtom: ValueAtom, Hashable {
-  func value(context: Context) -> IdentifiedArrayOf<Todo> {
-    let filter = context.watch(FilterAtom())
-    let todos = context.watch(TodosAtom())
-
-    switch filter {
-      case .all:
-        return todos
-
-      case .completed:
-        return todos.filter(\.isCompleted)
-
-      case .uncompleted:
-        return todos.filter { !$0.isCompleted }
-    }
-  }
-}
-
-private struct StatsAtom: ValueAtom, Hashable {
-  func value(context: Context) -> Stats {
-    let todos = context.watch(TodosAtom())
-    let total = todos.count
-    let totalCompleted = todos.filter(\.isCompleted).count
-    let totalUncompleted = todos.filter { !$0.isCompleted }.count
-    let percentCompleted = total <= 0 ? 0 : (Double(totalCompleted) / Double(total))
-
-    return Stats(
-      total: total,
-      totalCompleted: totalCompleted,
-      totalUncompleted: totalUncompleted,
-      percentCompleted: percentCompleted
-    )
-  }
-}
-
-private struct TodoStats: View {
-  @Watch(StatsAtom())
-  var stats
+private struct _ValueAtomView: View {
+  @Watch(_ValueAtom())
+  var locale
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 4) {
-      stat("Total", "\(stats.total)")
-      stat("Completed", "\(stats.totalCompleted)")
-      stat("Uncompleted", "\(stats.totalUncompleted)")
-      stat("Percent Completed", "\(Int(stats.percentCompleted * 100))%")
-    }
-    .padding(.vertical)
-  }
-
-  func stat(_ title: String, _ value: String) -> some View {
     HStack {
-      Text(title) + Text(":")
+      Text("Locale Current")
       Spacer()
-      Text(value)
+      Text(locale.identifier)
     }
   }
 }
 
-private struct TodoFilters: View {
-  @WatchState(FilterAtom())
-  var filter
+// MARK: StateAtom
+private struct _StateAtom: StateAtom, Hashable {
+
+  var id: String
+
+  init(id: String = "") {
+    self.id = id
+  }
+
+  func defaultValue(context: Context) -> Int {
+    0
+  }
+
+  var key: any Hashable {
+    id
+  }
+}
+
+private struct _StateAtomView: View {
+  @WatchState(_StateAtom(id: "1"))
+  var state_1
+
+  @WatchState(_StateAtom(id: "2"))
+  var state_2
+
+  @WatchState(_StateAtom(id: "3"))
+  var state_3
 
   var body: some View {
-    Picker("Filter", selection: $filter) {
-      ForEach(Filter.allCases, id: \.self) { filter in
-        switch filter {
-          case .all:
-            Text("All")
-
-          case .completed:
-            Text("Completed")
-
-          case .uncompleted:
-            Text("Uncompleted")
-        }
-      }
-    }
-    .padding(.vertical)
-
-#if !os(watchOS)
-    .pickerStyle(.segmented)
-#endif
-  }
-}
-
-private struct TodoCreator: View {
-  @WatchState(TodosAtom())
-  fileprivate var todos
-
-  @State
-  var text = ""
-
-  var body: some View {
-    HStack {
-      TextField("Enter your todo", text: $text)
-
-#if os(iOS) || os(macOS)
-        .textFieldStyle(.roundedBorder)
-#endif
-
-      Button("Add", action: addTodo)
-        .disabled(text.isEmpty)
-    }
-    .padding(.vertical)
-  }
-
-  func addTodo() {
-    let todo = Todo(id: UUID(), text: text, isCompleted: false)
-    todos.append(todo)
-    text = ""
-  }
-}
-
-private struct TodoItem: View {
-  @WatchState(TodosAtom())
-  fileprivate var allTodos
-
-  @State
-  var text: String
-
-  @State
-  var isCompleted: Bool
-
-  fileprivate let todo: Todo
-
-  fileprivate init(todo: Todo) {
-    self.todo = todo
-    self._text = State(initialValue: todo.text)
-    self._isCompleted = State(initialValue: todo.isCompleted)
-  }
-
-  var index: Int {
-    allTodos.firstIndex { $0.id == todo.id }!
-  }
-
-  var body: some View {
-    Toggle(isOn: $isCompleted) {
-      TextField("", text: $text) {
-        allTodos[index].text = text
-      }
-      .textFieldStyle(.plain)
-
-#if os(iOS) || os(macOS)
-      .textFieldStyle(.roundedBorder)
-#endif
-    }
-    .padding(.vertical, 4)
-    .onChange(of: isCompleted) { isCompleted in
-      allTodos[index].isCompleted = isCompleted
+    VStack {
+      Stepper("Count: \(state_1)", value: $state_1)
+      Stepper("Count: \(state_2)", value: $state_2)
+      Stepper("Count: \(state_3)", value: $state_3)
     }
   }
 }
 
+// MARK: TaskAtom
+private struct _TaskAatom: TaskAtom, Hashable {
 
-struct AtomCaseStudiesView: View {
+  var id: String
 
-  @Watch(FilteredTodosAtom())
-  private var filteredTodos
+  init(id: String) {
+    self.id = id
+  }
+
+  var value: String {
+    return UUID().uuidString
+  }
+
+  static var value: String = "Swift"
+
+  func value(context: Context) async -> String {
+    try? await Task.sleep(nanoseconds: 1_000_000_000)
+    Self.value += "_@"
+    context.set(Self.value.count, for: _StateAtom(id: "_TaskAatom"))
+    return Self.value
+  }
+}
+private struct _TaskAtomView: View {
+
+  @Watch(_TaskAatom(id: "_TaskAatom"))
+  private var taskAtom
+
+  @Watch(_StateAtom(id: "_TaskAatom"))
+  private var stateAtom
 
   @ViewContext
   private var context
 
+  var body: some View {
+    HStack {
+      Suspense(taskAtom) { value in
+        Text(value)
+      } suspending: {
+        ProgressView()
+      }
+      Spacer()
+      Text("count: \(stateAtom)")
+      Button("Next") {
+        Task {
+          await context.refresh(_TaskAatom(id: "_TaskAatom"))
+        }
+      }
+    }
+  }
+}
+
+// MARK: ThrowingTaskAtom
+private struct _ThrowingTaskAtom: ThrowingTaskAtom, Hashable {
+  struct DateError: Error {
+    var id: String
+  }
+  func value(context: Context) async throws -> Date {
+    try await Task.sleep(nanoseconds: 1_000_000_000)
+    if Bool.random() {
+      return Date()
+    } else {
+      throw DateError(id: "DateError")
+    }
+  }
+
+}
+private struct _ThrowingTaskAtomView: View {
+
+  @Watch(_ThrowingTaskAtom())
+  private var throwingTaskAtom
+
+  @ViewContext
+  var context
+
+  var body: some View {
+    HStack {
+      Suspense(throwingTaskAtom) { value in
+        Text(value.formatted(date: .numeric, time: .shortened))
+      } suspending: {
+        ProgressView()
+      } catch: { error in
+        Text((error as? _ThrowingTaskAtom.DateError)?.id ?? "")
+      }
+      Spacer()
+      Button("Refresh") {
+        Task {
+          await context.refresh(_ThrowingTaskAtom())
+        }
+      }
+    }
+  }
+}
+// MARK: AsyncSequenceAtom
+private struct _AsyncSequenceAtom: View {
+
+  var body: some View {
+    EmptyView()
+  }
+}
+
+import Combine
+// MARK: PublisherAtom
+private struct _PublisherAtom: PublisherAtom, Hashable {
+
+  struct DateError: Error {
+    var id: String
+  }
+
+  func publisher(context: Context) -> AnyPublisher<Date,DateError> {
+    if Bool.random() {
+      return Just(Date())
+        .delay(for: 1, scheduler: DispatchQueue.main)
+        .setFailureType(to: DateError.self)
+        .eraseToAnyPublisher()
+    } else {
+      return Fail(error: DateError(id: "DateError"))
+        .delay(for: 1, scheduler: DispatchQueue.main)
+        .eraseToAnyPublisher()
+    }
+  }
+}
+
+private struct _PublisherAtomView: View {
+  @Watch(_PublisherAtom())
+  private var publisherAtom
+
+  @ViewContext
+  private var context
+
+  var body: some View {
+    HStack {
+      AsyncPhaseView(phase: publisherAtom) { value in
+        Text(value.formatted(date: .numeric, time: .shortened))
+      } suspending: {
+        ProgressView()
+      } failureContent: { error in
+        Text(error.id)
+      }
+      Spacer()
+      Button("Refresh") {
+        Task {
+          await context.refresh(_PublisherAtom())
+        }
+      }
+    }
+
+  }
+}
+// MARK: ObservableObjectAtom
+private class _ObservableObject: ObservableObject {
+  @Published var name = "Swift"
+  @Published var age = 5
+
+  func haveBirthday() {
+    age += 1
+  }
+}
+
+private struct _ObservableObjectAtom: ObservableObjectAtom, Hashable {
+  func object(context: Context) -> _ObservableObject {
+    _ObservableObject()
+  }
+}
+
+struct _ObservableObjectAtomView: View {
+  @WatchStateObject(_ObservableObjectAtom())
+  fileprivate var contact
+
+  var body: some View {
+    VStack {
+      TextField("Enter your name", text: $contact.name)
+      Text("Name: \(contact.name), Age: \(contact.age)")
+      Button("Celebrate your birthday!") {
+        contact.haveBirthday()
+      }
+    }
+  }
+}
+
+
+struct AtomView: View {
 
   var body: some View {
     ScrollView {
-      VStack {
-        Section {
-          TodoStats()
-          TodoCreator()
-        }
-        Section {
-          TodoFilters()
-
-          ForEach(filteredTodos, id: \.id) { todo in
-            TodoItem(todo: todo)
-          }
-          .onDelete { indexSet in
-            let filtered = filteredTodos
-            context.modify(TodosAtom()) { todos in
-              let indices = indexSet.compactMap { index in
-                todos.firstIndex(of: filtered[index])
-              }
-              todos.remove(atOffsets: IndexSet(indices))
-            }
-          }
-          .hideListRowSeperator()
-        }
+      VStack(spacing: 8) {
+        _ValueAtomView()
+        _StateAtomView()
+        _TaskAtomView()
+        _ThrowingTaskAtomView()
+        _AsyncSequenceAtom()
+        _PublisherAtomView()
+        _ObservableObjectAtomView()
       }
       .padding()
+      Spacer()
     }
-    .navigationTitle("Counter")
-    .navigationBarItems(leading: leading, trailing: trailing)
   }
 }
 
-extension AtomCaseStudiesView {
-  @ViewBuilder
-  private var leading: some View {
-    EmptyView()
-  }
-
-  @ViewBuilder
-  private var trailing: some View {
-    EmptyView()
-  }
-}
-
-struct AtomCaseStudiesView_Previews: PreviewProvider {
-    static var previews: some View {
-      AtomRoot {
-        _NavigationView {
-          AtomCaseStudiesView()
-        }
-      }
+struct AtomView_Previews: PreviewProvider {
+  static var previews: some View {
+    AtomRoot {
+      AtomView()
     }
+  }
 }
+

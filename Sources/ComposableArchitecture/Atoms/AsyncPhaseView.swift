@@ -22,7 +22,7 @@ public struct AsyncPhaseView<
   private let content: (Value) -> Content
   private let suspending: () -> Suspending
   private let failureContent: (Failure) -> FailureContent
-
+  
   public init(
     phase: AsyncPhase<Value, Failure>,
     content: @escaping (Value) -> Content,
@@ -34,7 +34,7 @@ public struct AsyncPhaseView<
     self.suspending = suspending
     self.failureContent = failureContent
   }
-
+  
   public var body: some View {
     switch phase {
       case .suspending:

@@ -1,4 +1,4 @@
 internal enum UpdateOrder {
-    case newValue
-    case objectWillChange
+  case newValue
+  case objectWillChange
 }

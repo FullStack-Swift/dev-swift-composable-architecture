@@ -49,25 +49,25 @@ import Combine
 /// ```
 ///
 public protocol ObservableObjectAtom: Atom {
-    /// The type of observable object that this atom produces.
-    associatedtype ObjectType: ObservableObject
-
-    /// Creates an observed object when this atom is actually used.
-    ///
-    /// The observable object that returned from this method is managed internally and notifies
-    /// its updates to downstream atoms and views that watches this atom.
-    ///
-    /// - Parameter context: A context structure that to read, watch, and otherwise
-    ///                      interacting with other atoms.
-    ///
-    /// - Returns: An observable object that notifies its updates over time.
-    @MainActor
-    func object(context: Context) -> ObjectType
+  /// The type of observable object that this atom produces.
+  associatedtype ObjectType: ObservableObject
+  
+  /// Creates an observed object when this atom is actually used.
+  ///
+  /// The observable object that returned from this method is managed internally and notifies
+  /// its updates to downstream atoms and views that watches this atom.
+  ///
+  /// - Parameter context: A context structure that to read, watch, and otherwise
+  ///                      interacting with other atoms.
+  ///
+  /// - Returns: An observable object that notifies its updates over time.
+  @MainActor
+  func object(context: Context) -> ObjectType
 }
 
 public extension ObservableObjectAtom {
-    @MainActor
-    var _loader: ObservableObjectAtomLoader<Self> {
-        ObservableObjectAtomLoader(atom: self)
-    }
+  @MainActor
+  var _loader: ObservableObjectAtomLoader<Self> {
+    ObservableObjectAtomLoader(atom: self)
+  }
 }
