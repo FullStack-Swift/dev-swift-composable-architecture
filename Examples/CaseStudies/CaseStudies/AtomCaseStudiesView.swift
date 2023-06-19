@@ -51,9 +51,21 @@ private struct _StateAtomView: View {
 
   var body: some View {
     VStack {
-      Stepper("Count: \(state_1)", value: $state_1)
-      Stepper("Count: \(state_2)", value: $state_2)
-      Stepper("Count: \(state_3)", value: $state_3)
+      HStack {
+        AtomRowTextValue(state_1)
+        Stepper("Count: \(state_1)", value: $state_1)
+          .labelsHidden()
+      }
+      HStack {
+        AtomRowTextValue(state_2)
+        Stepper("Count: \(state_2)", value: $state_2)
+          .labelsHidden()
+      }
+      HStack {
+        AtomRowTextValue(state_3)
+        Stepper("Count: \(state_3)", value: $state_3)
+          .labelsHidden()
+      }
     }
   }
 }
@@ -99,12 +111,16 @@ private struct _TaskAtomView: View {
         ProgressView()
       }
       Spacer()
-      Text("count: \(stateAtom)")
+      AtomRowTextValue(stateAtom)
       Button("Next") {
         Task {
           await context.refresh(_TaskAatom(id: "_TaskAatom"))
         }
       }
+    }
+    .frame(height: 60)
+    .onAppear {
+      _TaskAatom.value = "Swift"
     }
   }
 }
@@ -288,32 +304,35 @@ struct _ObservableObjectAtomView: View {
 struct AtomCaseStudiesView: View {
 
   var body: some View {
-    ScrollView {
-      VStack(spacing: 8) {
-        AtomRowView("_ValueAtom") {
-          _ValueAtomView()
+    ZStack {
+      ScrollView {
+        VStack(spacing: 8) {
+          AtomRowView("_ValueAtom") {
+            _ValueAtomView()
+          }
+          AtomRowView("_StateAtom") {
+            _StateAtomView()
+          }
+          AtomRowView("_TaskAtom") {
+            _TaskAtomView()
+          }
+          AtomRowView("_ThrowingTaskAtom") {
+            _ThrowingTaskAtomView()
+          }
+          AtomRowView("_AsyncSequenceAtom") {
+            _AsyncSequenceAtomView()
+          }
+          AtomRowView("_PublisherAtom") {
+            _PublisherAtomView()
+          }
+          AtomRowView("_ObservableObjectAtom") {
+            _ObservableObjectAtomView()
+          }
         }
-        AtomRowView("_StateAtom") {
-          _StateAtomView()
-        }
-        AtomRowView("_TaskAtom") {
-          _TaskAtomView()
-        }
-        AtomRowView("_ThrowingTaskAtom") {
-          _ThrowingTaskAtomView()
-        }
-        AtomRowView("_AsyncSequenceAtom") {
-          _AsyncSequenceAtomView()
-        }
-        AtomRowView("_PublisherAtom") {
-          _PublisherAtomView()
-        }
-        AtomRowView("_ObservableObjectAtom") {
-          _ObservableObjectAtomView()
-        }
+        .padding()
       }
-      .padding()
-      Spacer()
+      .background(Color(.systemBackground).ignoresSafeArea())
+      .navigationBarTitle(Text("Atom"), displayMode: .inline)
     }
   }
 }
@@ -338,6 +357,34 @@ private struct AtomRowView<Content: View>: View {
       Divider()
     }
     .padding(.horizontal, 24)
+  }
+}
+
+private struct AtomRowTextValue: View {
+
+  let content: Int
+
+  init(_ content: Int) {
+    self.content = content
+  }
+
+  var body: some View {
+    GeometryReader { proxy in
+      ZStack(alignment: .center) {
+        Color.white.opacity(0.0001)
+        HStack {
+          Text(String(format: "%02d", content))
+            .lineLimit(1)
+            .minimumScaleFactor(0.1)
+            .font(.system(size: 16, weight: .heavy, design: .monospaced))
+            .padding(8)
+            .background(Color.secondary.opacity(1/3))
+            .clipShape(RoundedRectangle(cornerRadius: proxy.size.height))
+            .foregroundColor(.primary)
+          Spacer()
+        }
+      }
+    }
   }
 }
 

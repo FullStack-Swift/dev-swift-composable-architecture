@@ -51,6 +51,7 @@ struct HookCaseStudiesView: View {
           }
         }
         .background(Color(.systemBackground).ignoresSafeArea())
+        .navigationBarTitle(Text("Hook"), displayMode: .inline)
       }
       .colorScheme(colorScheme.wrappedValue)
     }

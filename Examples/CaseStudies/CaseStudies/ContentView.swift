@@ -10,6 +10,17 @@ struct ContentView: View {
       Form {
         Section(header: Text("Getting started")) {
           HStack {
+            Text("TCA-CaseStudies")
+            Spacer()
+          }
+          .background(Color.white.opacity(0.0001))
+          .clipShape(Rectangle())
+          .onTapGesture {
+            navigationPath.commit {
+              $0.path.append(.init(id: "TCA-CaseStudies", state: "TCA_NavigationView"))
+            }
+          }
+          HStack {
             Text("Hooks-CaseStudies")
             Spacer()
           }
@@ -17,7 +28,7 @@ struct ContentView: View {
           .clipShape(Rectangle())
             .onTapGesture {
               navigationPath.commit {
-                $0.path.append(.init(id: "Hooks", state: "Hooks_NavigationView"))
+                $0.path.append(.init(id: "Hooks-CaseStudies", state: "Hooks_NavigationView"))
               }
             }
           HStack {
@@ -28,7 +39,7 @@ struct ContentView: View {
           .clipShape(Rectangle())
           .onTapGesture {
             navigationPath.commit {
-              $0.path.append(.init(id: "Atoms", state: "Atoms_NavigationView"))
+              $0.path.append(.init(id: "Atoms-CaseStudies", state: "Atoms_NavigationView"))
             }
           }
         }
@@ -41,7 +52,7 @@ struct ContentView: View {
           .clipShape(Rectangle())
           .onTapGesture {
             navigationPath.commit {
-              $0.path.append(.init(id: "Hooks-CaseStudies", state: "Hooks-CaseStudies"))
+              $0.path.append(.init(id: "Hooks-Todos", state: "Hooks-Todos"))
             }
           }
           HStack {
@@ -52,7 +63,7 @@ struct ContentView: View {
           .clipShape(Rectangle())
           .onTapGesture {
             navigationPath.commit {
-              $0.path.append(.init(id: "Atoms-CaseStudies", state: "Atoms-CaseStudies"))
+              $0.path.append(.init(id: "Atoms-Todos", state: "Atoms-Todos"))
             }
           }
         }
@@ -60,23 +71,28 @@ struct ContentView: View {
       .navigationTitle(Text("CaseStudies"))
       ._navigationDestination(for: _Destination.self) { destination in
         switch destination.id {
-          case "Hooks":
+          case "TCA-CaseStudies":
+            TCACaseStudiesView()
+              .onAppear {
+                print(destination.state as Any)
+              }
+          case "Hooks-CaseStudies":
             HookCaseStudiesView()
               .onAppear {
                 print(destination.state as Any)
               }
-          case "Atoms":
+          case "Atoms-CaseStudies":
             AtomRoot {
               AtomCaseStudiesView()
             }
             .onAppear {
               print(destination.state as Any)
             }
-          case "Atoms-CaseStudies":
+          case "Hooks-Todos":
             HookScope {
               HookTodoView()
             }
-          case "Hooks-CaseStudies":
+          case "Atoms-Todos":
             AtomRoot {
               AtomTodoView()
             }

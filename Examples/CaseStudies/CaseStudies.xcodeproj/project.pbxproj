@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		876C21B12A3C5CDA00B980DA /* AtomTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B02A3C5CDA00B980DA /* AtomTodoView.swift */; };
 		876C21B32A400BC000B980DA /* HookTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B22A400BC000B980DA /* HookTodoView.swift */; };
+		876C21B52A4023A600B980DA /* TCACaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */; };
 		87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */; };
 		87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DF96DF2A39904F0006B774 /* CaseStudiesApp.swift */; };
 		87DF96E22A39904F0006B774 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DF96E12A39904F0006B774 /* ContentView.swift */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		876C21B02A3C5CDA00B980DA /* AtomTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomTodoView.swift; sourceTree = "<group>"; };
 		876C21B22A400BC000B980DA /* HookTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookTodoView.swift; sourceTree = "<group>"; };
+		876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCACaseStudiesView.swift; sourceTree = "<group>"; };
 		87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomCaseStudiesView.swift; sourceTree = "<group>"; };
 		87DF96DC2A39904F0006B774 /* CaseStudies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaseStudies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87DF96DF2A39904F0006B774 /* CaseStudiesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseStudiesApp.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				87DF96E32A3990510006B774 /* Assets.xcassets */,
 				87DF96E52A3990510006B774 /* CaseStudies.entitlements */,
 				87DF96E62A3990510006B774 /* Preview Content */,
+				876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */,
 				87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */,
 				87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */,
 				876C21B02A3C5CDA00B980DA /* AtomTodoView.swift */,
@@ -172,6 +175,7 @@
 				876C21B32A400BC000B980DA /* HookTodoView.swift in Sources */,
 				87DF96EF2A3991060006B774 /* HookCaseStudiesView.swift in Sources */,
 				87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */,
+				876C21B52A4023A600B980DA /* TCACaseStudiesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,17 +1,11 @@
-//
-//  NavigationCaseStudiesApp.swift
-//  NavigationCaseStudies
-//
-//  Created by Nguyen Phong on 6/15/23.
-//
-
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct NavigationCaseStudiesApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+  var body: some Scene {
+    WindowGroup {
+      ContentView()
     }
+  }
 }

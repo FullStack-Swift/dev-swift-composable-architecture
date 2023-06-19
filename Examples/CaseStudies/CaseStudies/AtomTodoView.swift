@@ -221,7 +221,7 @@ struct AtomTodoView: View {
       }
       .padding()
     }
-    .navigationTitle("Counter")
+    .navigationTitle("Todos")
     .navigationBarItems(leading: leading, trailing: trailing)
   }
 }
