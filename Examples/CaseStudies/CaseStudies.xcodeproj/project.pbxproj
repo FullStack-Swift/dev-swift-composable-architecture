@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8763B0A92A3C303000677870 /* SwiftUIListExtension in Frameworks */ = {isa = PBXBuildFile; productRef = 8763B0A82A3C303000677870 /* SwiftUIListExtension */; };
+		876C21B12A3C5CDA00B980DA /* AtomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B02A3C5CDA00B980DA /* AtomView.swift */; };
 		87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */; };
 		87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DF96DF2A39904F0006B774 /* CaseStudiesApp.swift */; };
 		87DF96E22A39904F0006B774 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DF96E12A39904F0006B774 /* ContentView.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		876C21B02A3C5CDA00B980DA /* AtomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomView.swift; sourceTree = "<group>"; };
 		87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomCaseStudiesView.swift; sourceTree = "<group>"; };
 		87DF96DC2A39904F0006B774 /* CaseStudies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaseStudies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87DF96DF2A39904F0006B774 /* CaseStudiesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseStudiesApp.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				87DF96E62A3990510006B774 /* Preview Content */,
 				87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */,
 				87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */,
+				876C21B02A3C5CDA00B980DA /* AtomView.swift */,
 			);
 			path = CaseStudies;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				87DF96E22A39904F0006B774 /* ContentView.swift in Sources */,
+				876C21B12A3C5CDA00B980DA /* AtomView.swift in Sources */,
 				87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */,
 				87DF96EF2A3991060006B774 /* HookCaseStudiesView.swift in Sources */,
 				87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */,

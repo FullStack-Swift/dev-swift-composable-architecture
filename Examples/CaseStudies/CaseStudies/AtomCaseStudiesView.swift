@@ -2,44 +2,38 @@ import SwiftUI
 import SwiftUIListExtension
 import ComposableArchitecture
 
-struct CounterAtom: StateAtom, Hashable {
-  func defaultValue(context: Context) -> Int {
-    0
-  }
-}
-
-struct Todo: Hashable, Identifiable {
+private struct Todo: Hashable, Identifiable {
   var id: UUID
   var text: String
   var isCompleted: Bool
 }
 
-enum Filter: CaseIterable, Hashable {
+private enum Filter: CaseIterable, Hashable {
   case all
   case completed
   case uncompleted
 }
 
-struct Stats: Equatable {
+private struct Stats: Equatable {
   let total: Int
   let totalCompleted: Int
   let totalUncompleted: Int
   let percentCompleted: Double
 }
 
-struct TodosAtom: StateAtom, Hashable, KeepAlive {
+private struct TodosAtom: StateAtom, Hashable, KeepAlive {
   func defaultValue(context: Context) -> IdentifiedArrayOf<Todo> {
     []
   }
 }
 
-struct FilterAtom: StateAtom, Hashable {
+private struct FilterAtom: StateAtom, Hashable {
   func defaultValue(context: Context) -> Filter {
     .all
   }
 }
 
-struct FilteredTodosAtom: ValueAtom, Hashable {
+private struct FilteredTodosAtom: ValueAtom, Hashable {
   func value(context: Context) -> IdentifiedArrayOf<Todo> {
     let filter = context.watch(FilterAtom())
     let todos = context.watch(TodosAtom())
@@ -57,7 +51,7 @@ struct FilteredTodosAtom: ValueAtom, Hashable {
   }
 }
 
-struct StatsAtom: ValueAtom, Hashable {
+private struct StatsAtom: ValueAtom, Hashable {
   func value(context: Context) -> Stats {
     let todos = context.watch(TodosAtom())
     let total = todos.count
@@ -74,7 +68,7 @@ struct StatsAtom: ValueAtom, Hashable {
   }
 }
 
-struct TodoStats: View {
+private struct TodoStats: View {
   @Watch(StatsAtom())
   var stats
 
@@ -97,7 +91,7 @@ struct TodoStats: View {
   }
 }
 
-struct TodoFilters: View {
+private struct TodoFilters: View {
   @WatchState(FilterAtom())
   var filter
 
@@ -124,9 +118,9 @@ struct TodoFilters: View {
   }
 }
 
-struct TodoCreator: View {
+private struct TodoCreator: View {
   @WatchState(TodosAtom())
-  var todos
+  fileprivate var todos
 
   @State
   var text = ""
@@ -152,9 +146,9 @@ struct TodoCreator: View {
   }
 }
 
-struct TodoItem: View {
+private struct TodoItem: View {
   @WatchState(TodosAtom())
-  var allTodos
+  fileprivate var allTodos
 
   @State
   var text: String
@@ -162,9 +156,9 @@ struct TodoItem: View {
   @State
   var isCompleted: Bool
 
-  let todo: Todo
+  fileprivate let todo: Todo
 
-  init(todo: Todo) {
+  fileprivate init(todo: Todo) {
     self.todo = todo
     self._text = State(initialValue: todo.text)
     self._isCompleted = State(initialValue: todo.isCompleted)
@@ -194,32 +188,21 @@ struct TodoItem: View {
 
 
 struct AtomCaseStudiesView: View {
-  @Watch(CounterAtom())
-  var count
 
   @Watch(FilteredTodosAtom())
-  var filteredTodos
+  private var filteredTodos
 
   @ViewContext
-  var context
+  private var context
 
 
   var body: some View {
-    List {
+    ScrollView {
       VStack {
-        HStack {
-          Text(count.description)
-          Spacer()
-          CountStepper()
-        }
-        .hideListRowSeperator()
-
         Section {
           TodoStats()
           TodoCreator()
         }
-        .hideListRowSeperator()
-
         Section {
           TodoFilters()
 
@@ -237,30 +220,23 @@ struct AtomCaseStudiesView: View {
           }
           .hideListRowSeperator()
         }
-        .hideListRowSeperator()
-        Spacer()
       }
       .padding()
     }
-    .listStyle(.plain)
     .navigationTitle("Counter")
+    .navigationBarItems(leading: leading, trailing: trailing)
   }
 }
 
-struct CountStepper: View {
-  @WatchState(CounterAtom())
-  var count
+extension AtomCaseStudiesView {
+  @ViewBuilder
+  private var leading: some View {
+    EmptyView()
+  }
 
-  var body: some View {
-#if os(tvOS) || os(watchOS)
-    HStack {
-      Button("-") { count -= 1 }
-      Button("+") { count += 1 }
-    }
-#else
-    Stepper(value: $count) {}
-      .labelsHidden()
-#endif
+  @ViewBuilder
+  private var trailing: some View {
+    EmptyView()
   }
 }
 

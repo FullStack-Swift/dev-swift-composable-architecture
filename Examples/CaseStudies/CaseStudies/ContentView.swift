@@ -33,11 +33,27 @@ struct ContentView: View {
           }
         }
         Section(header: Text("Getting started")) {
-          NavigationLink("A") {
-
+          HStack {
+            Text("Hooks-CaseStudies")
+            Spacer()
           }
-          NavigationLink("B") {
-
+          .background(Color.white.opacity(0.0001))
+          .clipShape(Rectangle())
+          .onTapGesture {
+            navigationPath.commit {
+              $0.path.append(.init(id: "Hooks-CaseStudies", state: "Hooks-CaseStudies"))
+            }
+          }
+          HStack {
+            Text("Atoms-CaseStudies")
+            Spacer()
+          }
+          .background(Color.white.opacity(0.0001))
+          .clipShape(Rectangle())
+          .onTapGesture {
+            navigationPath.commit {
+              $0.path.append(.init(id: "Atoms-CaseStudies", state: "Atoms-CaseStudies"))
+            }
           }
         }
       }
@@ -55,6 +71,14 @@ struct ContentView: View {
             }
             .onAppear {
               print(destination.state as Any)
+            }
+          case "Atoms-CaseStudies":
+            AtomRoot {
+              AtomView()
+            }
+          case "Hooks-CaseStudies":
+            AtomRoot {
+              AtomView()
             }
           default:
             EmptyView()
