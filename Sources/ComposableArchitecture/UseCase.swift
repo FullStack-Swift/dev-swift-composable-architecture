@@ -7,12 +7,12 @@ public protocol UseCaseProtocol {
 
   associatedtype Output
 
-  func execute(_ input: Input) -> AnyPublisher<Output, Error>
+  func run(_ input: Input) -> AnyPublisher<Output, any Error>
 
 }
 public extension UseCaseProtocol where Self.Input == Void {
-  func execute() -> AnyPublisher<Output, Error> {
-    return execute(())
+  func run() -> AnyPublisher<Output, any Error> {
+    return run(())
   }
 }
 
@@ -22,11 +22,11 @@ public protocol AsyncUseCaseProtocol {
 
   associatedtype Output
 
-  func execute(_ input: Input) async throws -> Output
+  func run(_ input: Input) async throws -> Output
 
 }
 public extension AsyncUseCaseProtocol where Self.Input == Void {
-  func execute() async throws -> Output {
-    try await execute(())
+  func run() async throws -> Output {
+    try await run(())
   }
 }
