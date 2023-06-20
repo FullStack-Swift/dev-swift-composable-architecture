@@ -2,14 +2,33 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ContentView: View {
+
+  @Dependency(\.navigationPath)
+  private var navigationPath
+
   var body: some View {
-    VStack {
-      Image(systemName: "globe")
-        .imageScale(.large)
-        .foregroundColor(.accentColor)
-      Text("Hello, world!")
+    _NavigationView {
+      VStack {
+        Image(systemName: "globe")
+          .imageScale(.large)
+          .foregroundColor(.accentColor)
+        Text("Hello, world!")
+      }
+      .padding()
+      .onTapGesture {
+        navigationPath.commit {
+          $0.path.append(.init(id:"Test"))
+        }
+      }
+      ._navigationDestination(for: _Destination.self) { destination in
+        switch destination.id {
+          case "Test":
+            Text("Test Demo")
+          default:
+            Text("Empty")
+        }
+      }
     }
-    .padding()
   }
 }
 

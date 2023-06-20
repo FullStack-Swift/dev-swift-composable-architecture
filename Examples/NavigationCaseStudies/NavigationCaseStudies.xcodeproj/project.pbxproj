@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87541B512A41525900B70DE0 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 87541B502A41525900B70DE0 /* ComposableArchitecture */; };
 		87A974EF2A3AEAE600589EAE /* NavigationCaseStudiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A974EE2A3AEAE600589EAE /* NavigationCaseStudiesApp.swift */; };
 		87A974F12A3AEAE600589EAE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A974F02A3AEAE600589EAE /* ContentView.swift */; };
 		87A974F32A3AEAE700589EAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87A974F22A3AEAE700589EAE /* Assets.xcassets */; };
@@ -27,17 +28,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87541B512A41525900B70DE0 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		87541B4F2A41525900B70DE0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		87A974E22A3AEAE600589EAE = {
 			isa = PBXGroup;
 			children = (
 				87A974ED2A3AEAE600589EAE /* NavigationCaseStudies */,
 				87A974EC2A3AEAE600589EAE /* Products */,
+				87541B4F2A41525900B70DE0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,6 +95,9 @@
 			dependencies = (
 			);
 			name = NavigationCaseStudies;
+			packageProductDependencies = (
+				87541B502A41525900B70DE0 /* ComposableArchitecture */,
+			);
 			productName = NavigationCaseStudies;
 			productReference = 87A974EB2A3AEAE600589EAE /* NavigationCaseStudies.app */;
 			productType = "com.apple.product-type.application";
@@ -350,6 +363,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		87541B502A41525900B70DE0 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 87A974E32A3AEAE600589EAE /* Project object */;
 }

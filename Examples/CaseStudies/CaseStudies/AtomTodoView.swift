@@ -69,7 +69,7 @@ private struct StatsAtom: ValueAtom, Hashable {
 
 private struct TodoStats: View {
   @Watch(StatsAtom())
-  var stats
+  private var stats
 
   var body: some View {
     VStack(alignment: .leading, spacing: 4) {
@@ -81,7 +81,7 @@ private struct TodoStats: View {
     .padding(.vertical)
   }
 
-  func stat(_ title: String, _ value: String) -> some View {
+  private func stat(_ title: String, _ value: String) -> some View {
     HStack {
       Text(title) + Text(":")
       Spacer()
@@ -92,7 +92,7 @@ private struct TodoStats: View {
 
 private struct TodoFilters: View {
   @WatchState(FilterAtom())
-  var filter
+  private var filter
 
   var body: some View {
     Picker("Filter", selection: $filter) {
@@ -119,10 +119,10 @@ private struct TodoFilters: View {
 
 private struct TodoCreator: View {
   @WatchState(TodosAtom())
-  fileprivate var todos
+  private var todos
 
   @State
-  var text = ""
+  private var text = ""
 
   var body: some View {
     HStack {
@@ -138,7 +138,7 @@ private struct TodoCreator: View {
     .padding(.vertical)
   }
 
-  func addTodo() {
+  private func addTodo() {
     let todo = Todo(id: UUID(), text: text, isCompleted: false)
     todos.append(todo)
     text = ""
@@ -150,10 +150,10 @@ private struct TodoItem: View {
   fileprivate var allTodos
 
   @State
-  var text: String
+  private var text: String
 
   @State
-  var isCompleted: Bool
+  private var isCompleted: Bool
 
   fileprivate let todo: Todo
 
@@ -163,7 +163,7 @@ private struct TodoItem: View {
     self._isCompleted = State(initialValue: todo.isCompleted)
   }
 
-  var index: Int {
+  private var index: Int {
     allTodos.firstIndex { $0.id == todo.id }!
   }
 

@@ -10,7 +10,7 @@ private struct _ValueAtom: ValueAtom, Hashable {
 
 private struct _ValueAtomView: View {
   @Watch(_ValueAtom())
-  var locale
+  private var locale
 
   var body: some View {
     HStack {
@@ -41,13 +41,13 @@ private struct _StateAtom: StateAtom, Hashable {
 
 private struct _StateAtomView: View {
   @WatchState(_StateAtom(id: "1"))
-  var state_1
+  private var state_1
 
   @WatchState(_StateAtom(id: "2"))
-  var state_2
+  private var state_2
 
   @WatchState(_StateAtom(id: "3"))
-  var state_3
+  private var state_3
 
   var body: some View {
     VStack {
@@ -146,7 +146,7 @@ private struct _ThrowingTaskAtomView: View {
   private var throwingTaskAtom
 
   @ViewContext
-  var context
+  private var context
 
   var body: some View {
     HStack {
@@ -273,9 +273,9 @@ private struct _ObservableObjectAtom: ObservableObjectAtom, Hashable {
   }
 }
 
-struct _ObservableObjectAtomView: View {
+private struct _ObservableObjectAtomView: View {
   @WatchStateObject(_ObservableObjectAtom())
-  fileprivate var viewModel
+  private var viewModel
 
   var body: some View {
     VStack {
@@ -362,7 +362,7 @@ private struct AtomRowView<Content: View>: View {
 
 private struct AtomRowTextValue: View {
 
-  let content: Int
+  private let content: Int
 
   init(_ content: Int) {
     self.content = content

@@ -58,7 +58,7 @@ struct HookCaseStudiesView: View {
     //    .disableHooksRulesAssertion(true)
   }
   
-  var useStateView: some View {
+  private var useStateView: some View {
     let state = useState(0)
     return HookRowView("useState") {
       Stepper(value: state) {
@@ -67,7 +67,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var useBindingStateView: some View {
+  private var useBindingStateView: some View {
     let state = useBindingState(0)
     return HookRowView("useBindingState") {
       Stepper(value: state) {
@@ -76,7 +76,7 @@ struct HookCaseStudiesView: View {
     }
   }
 
-  var useSetStateView: some View {
+  private var useSetStateView: some View {
     let (state, setState) = useSetState(0)
     return HookRowView("useSetState") {
       Stepper(value: Binding(get: {state}, set: { value, _ in
@@ -87,7 +87,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var useReducerReduxView: some View {
+  private var useReducerReduxView: some View {
     enum Action {
       case increment
       case decrement
@@ -122,7 +122,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var useReducerTCAView: some View {
+  private var useReducerTCAView: some View {
     
     enum Action {
       case increment
@@ -158,7 +158,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var useReducerProtocolView: some View {
+  private var useReducerProtocolView: some View {
     
     struct CountReducer: ReducerProtocol {
       
@@ -227,7 +227,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var useRefView: some View {
+  private var useRefView: some View {
     let state = useRef(0)
     return HookRowView("userRef") {
       HookRowTextValue(state.current)
@@ -245,7 +245,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var useMemoView: some View {
+  private var useMemoView: some View {
     let state = useMemo(.once) {
       UUID().uuidString
     }
@@ -279,7 +279,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var useEffectView: some View {
+  private var useEffectView: some View {
     let state = useState(999999999)
     let isAutoIncrement = useState(false)
     
@@ -301,7 +301,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var useContextView: some View {
+  private var useContextView: some View {
     let colorScheme = useContext(ColorSchemeContext.self)
     return HookRowView("useContext") {
       VStack(alignment: .center) {
@@ -329,7 +329,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var useEnvironmentView: some View {
+  private var useEnvironmentView: some View {
     let locale = useEnvironment(\.locale)
     return HookRowView("useEnvironment") {
       TextValue("Current Locale = \(locale.identifier)")
@@ -355,7 +355,7 @@ struct HookCaseStudiesView: View {
   //    }
   //  }
   
-  var usePublisherView: some View {
+  private var usePublisherView: some View {
     let phase = usePublisher(.once) {
       Just(UUID())
         .map(\.uuidString)
@@ -382,7 +382,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var usePublisherSubscribeView: some View {
+  private var usePublisherSubscribeView: some View {
     let (phase, subscribe) = usePublisherSubscribe {
       Just(UUID())
         .map(\.uuidString)
@@ -413,7 +413,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var useAsyncView: some View {
+  private var useAsyncView: some View {
     
     struct ErrorCode: Error {
       var title: String
@@ -443,7 +443,7 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  var useAsyncPerformView: some View {
+  private var useAsyncPerformView: some View {
     struct ErrorCode: Error {
       var title: String
       var code: Int
@@ -535,7 +535,7 @@ private struct HookRowView<Content: View>: View {
 
 private struct HookRowTextValue: View {
 
-  let content: Int
+  private let content: Int
 
   init(_ content: Int) {
     self.content = content
@@ -563,7 +563,7 @@ private struct HookRowTextValue: View {
 
 private struct TextValue: View {
 
-  let content: String
+  private let content: String
 
   init(_ content: String) {
     self.content = content
