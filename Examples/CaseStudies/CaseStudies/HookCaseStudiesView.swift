@@ -331,9 +331,16 @@ struct HookCaseStudiesView: View {
   
   private var useEnvironmentView: some View {
     let locale = useEnvironment(\.locale)
+    let presentation = useEnvironment(\.presentationMode)
     return HookRowView("useEnvironment") {
       TextValue("Current Locale = \(locale.identifier)")
         .frame(height: 60)
+      Spacer()
+      Button {
+        presentation.wrappedValue.dismiss()
+      } label: {
+        Text("Dismiss")
+      }
     }
   }
   

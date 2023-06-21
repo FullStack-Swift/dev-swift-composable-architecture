@@ -13,6 +13,8 @@ struct HookTodoView: View {
 
 struct HookTodoView_Previews: PreviewProvider {
     static var previews: some View {
+      HookScope {
         HookTodoView()
+      }
     }
 }

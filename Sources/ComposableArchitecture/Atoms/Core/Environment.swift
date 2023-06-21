@@ -1,4 +1,5 @@
 import SwiftUI
+import Dependencies
 
 internal extension EnvironmentValues {
   var store: StoreContext {
@@ -9,6 +10,23 @@ internal extension EnvironmentValues {
 
 private struct StoreEnvironmentKey: EnvironmentKey {
   static var defaultValue: StoreContext {
-    StoreContext(enablesAssertion: true)
+    @Dependency(\.storeContext) var storeContext
+    return storeContext
   }
+}
+
+extension DependencyValues {
+  var storeContext: StoreContext {
+    get {
+      self[StoreContextDependencyKey.self]
+    }
+    set {
+      self[StoreContextDependencyKey.self] = newValue
+    }
+  }
+}
+
+// MARK: StoreContextDependencyKey
+private struct StoreContextDependencyKey: DependencyKey {
+   static var liveValue = StoreContext(enablesAssertion: false)
 }

@@ -179,10 +179,6 @@ private struct ReducerProtocolHook<R: ReducerProtocol>: Hook {
     store.onChangedState = {
       coordinator.updateView()
     }
-//    store.state.eraseToAnyPublisher().sink { _ in
-//
-//    }
-//    .store(in: &coordinator.state.cancellables)
     return store
   }
 
@@ -205,6 +201,69 @@ private extension ReducerProtocolHook {
 
     init(initialState: R.State, reducer: R) {
       state = StoreOf<R>(initialState: initialState, reducer: reducer)
+    }
+  }
+}
+
+// MARK: useStore
+public func useStore<R: ReducerProtocol>(
+  _ store: StoreOf<R>
+) -> StoreOf<R> {
+  useHook(StoreHook<R>(initialState: {store}))
+}
+
+public func useStore<R: ReducerProtocol>(
+  _ store: @escaping () -> StoreOf<R>
+) -> StoreOf<R> {
+  useHook(StoreHook<R>(initialState: store))
+}
+
+private struct StoreHook<R: ReducerProtocol>: Hook {
+
+  let initialState: () -> StoreOf<R>
+  let updateStrategy: HookUpdateStrategy? = nil
+
+  func makeState() -> Ref {
+    Ref(initialState: initialState())
+  }
+
+  func updateState(coordinator: Coordinator) {
+    coordinator.state.nextAction = nil
+  }
+
+  func value(coordinator: Coordinator) -> StoreOf<R> {
+    assertMainThread()
+    let store = coordinator.state.state
+    store.action.sink { action in
+      coordinator.state.nextAction = action
+      coordinator.updateView()
+    }
+    .store(in: &coordinator.state.cancellables)
+    store.onChangedState = {
+      coordinator.updateView()
+    }
+    return store
+  }
+
+  func dispose(state: Ref) {
+    state.isDisposed = true
+    state.nextAction = nil
+    for item in state.cancellables {
+      item.cancel()
+    }
+  }
+}
+
+private extension StoreHook {
+  final class Ref {
+    var state: StoreOf<R>
+    var nextAction: R.Action?
+    var isDisposed = false
+
+    var cancellables = Set<AnyCancellable>()
+
+    init(initialState: StoreOf<R>) {
+      state = initialState
     }
   }
 }

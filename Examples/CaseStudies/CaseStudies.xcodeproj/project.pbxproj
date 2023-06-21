@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87647C862A42C932009BD13F /* RecoilUseCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87647C852A42C932009BD13F /* RecoilUseCaseStudiesView.swift */; };
 		876C21B12A3C5CDA00B980DA /* AtomTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B02A3C5CDA00B980DA /* AtomTodoView.swift */; };
 		876C21B32A400BC000B980DA /* HookTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B22A400BC000B980DA /* HookTodoView.swift */; };
 		876C21B52A4023A600B980DA /* TCACaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		87647C852A42C932009BD13F /* RecoilUseCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoilUseCaseStudiesView.swift; sourceTree = "<group>"; };
 		876C21B02A3C5CDA00B980DA /* AtomTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomTodoView.swift; sourceTree = "<group>"; };
 		876C21B22A400BC000B980DA /* HookTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookTodoView.swift; sourceTree = "<group>"; };
 		876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCACaseStudiesView.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */,
 				87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */,
 				87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */,
+				87647C852A42C932009BD13F /* RecoilUseCaseStudiesView.swift */,
 				876C21B02A3C5CDA00B980DA /* AtomTodoView.swift */,
 				876C21B22A400BC000B980DA /* HookTodoView.swift */,
 			);
@@ -173,6 +176,7 @@
 				876C21B12A3C5CDA00B980DA /* AtomTodoView.swift in Sources */,
 				87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */,
 				876C21B32A400BC000B980DA /* HookTodoView.swift in Sources */,
+				87647C862A42C932009BD13F /* RecoilUseCaseStudiesView.swift in Sources */,
 				87DF96EF2A3991060006B774 /* HookCaseStudiesView.swift in Sources */,
 				87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */,
 				876C21B52A4023A600B980DA /* TCACaseStudiesView.swift in Sources */,
