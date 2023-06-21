@@ -52,11 +52,9 @@ public struct ViewContext: DynamicProperty {
   /// access ``wrappedValue`` directly.
   /// Instead, you use the property variable created with the `@ViewContext` attribute.
   public var wrappedValue: AtomViewContext {
-    AtomViewContext(
-      store: _store,
-      container: state.container.wrapper(location: location),
-      notifyUpdate: state.objectWillChange.send
-    )
+    AtomViewContext(store: _store, container: state.container.wrapper(location: location)) {
+      state.objectWillChange.send()
+    }
   }
 }
 

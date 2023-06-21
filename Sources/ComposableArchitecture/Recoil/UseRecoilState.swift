@@ -33,7 +33,21 @@ private struct RecoilStateHook<Node: StateAtom>: Hook {
 
   @MainActor
   func value(coordinator: Coordinator) -> Binding<Node.Loader.Value> {
-    context.state(coordinator.state.state)
+    Binding(
+      get: {
+        context.watch(coordinator.state.state)
+      },
+      set: { newState, transaction in
+        assertMainThread()
+        guard !coordinator.state.isDisposed else {
+          return
+        }
+        withTransaction(transaction) {
+          context.set(newState, for: coordinator.state.state)
+          coordinator.updateView()
+        }
+      }
+    )
   }
 
   func dispose(state: Ref) {
