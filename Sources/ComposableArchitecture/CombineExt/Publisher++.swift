@@ -62,55 +62,6 @@ extension CurrentValueSubject {
   }
 }
 
-//extension Task {
-//  /// A publisher for Task
-//  final class Publisher<Output> {
-//
-//    private let handle: () async -> Output
-//
-//    init(handle: @escaping () async -> Output) {
-//      self.handle = handle
-//    }
-//  }
-//}
-//
-//extension Task.Publisher: Publisher {
-//  typealias Output = Output
-//
-//  typealias Failure = Never
-//
-//  func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, Output == S.Input {
-//    let subscription = Task.Subscription(handle, downstream: subscriber)
-//    subscriber.receive(subscription: subscription)
-//  }
-//
-//
-//}
-//
-//extension Task {
-//  /// A Subscription for Task
-//  final class Subscription {
-//    typealias Output =  Task.Success
-//    init<DownStream>(_ handle: @escaping () async -> Output, downstream: DownStream) where DownStream: Subscriber, Output == DownStream.Output, Failure == DownStream.Failure {
-//
-//    }
-//
-//  }
-//}
-//
-//extension Task.Subscription: Subscription {
-//  func request(_ demand: Subscribers.Demand) {
-//    guard demand > 0 else {
-//      return
-//    }
-//  }
-//
-//  func cancel() {
-//
-//  }
-//}
-
-
 extension Publisher where Failure == Never {
   /// Converts publisher to AsyncSequence
   var valuesAsync: any AsyncSequence {
@@ -176,8 +127,6 @@ private extension _AsyncPublisher {
     func receive(_ input: Element) -> Subscribers.Demand {
       continuation.yield(input)
       Task {  [subscription] in
-        // Demand for next value is requested asynchronously allowing
-        // synchronous publishers like Publishers.Sequence to yield and suspend.
         subscription?.request(.max(1))
       }
       return .none
