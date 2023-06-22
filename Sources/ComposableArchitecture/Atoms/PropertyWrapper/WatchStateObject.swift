@@ -54,7 +54,9 @@ public struct WatchStateObject<Node: ObservableObjectAtom>: DynamicProperty {
     /// - Parameter keyPath: A key path to a specific resulting value.
     ///
     /// - Returns: A new binding.
-    public subscript<T>(dynamicMember keyPath: ReferenceWritableKeyPath<Node.Loader.Value, T>) -> Binding<T> {
+    public subscript<T>(
+      dynamicMember keyPath: ReferenceWritableKeyPath<Node.Loader.Value, T>
+    ) -> Binding<T> {
       Binding(
         get: { object[keyPath: keyPath] },
         set: { object[keyPath: keyPath] = $0 }

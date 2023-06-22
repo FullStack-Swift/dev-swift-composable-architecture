@@ -1,21 +1,25 @@
 import Foundation
 
-
 // MARK: useRecoilValue
-@MainActor public func useRecoilValue<Node: Atom>(_ initialState: Node) -> Node.Loader.Value {
+public func useRecoilValue<Node: Atom>(
+  _ initialState: Node
+) -> Node.Loader.Value {
   useRecoilValue {
     initialState
   }
 }
 
 // MARK: useRecoilValue
-@MainActor public func useRecoilValue<Node: Atom>(
+public func useRecoilValue<Node: Atom>(
   _ initialState: @escaping() -> Node
 ) -> Node.Loader.Value {
   useHook(RecoilValueHook<Node>(initialState: initialState))
 }
 
 private struct RecoilValueHook<Node: Atom>: Hook {
+  
+  typealias Value = Node.Loader.Value
+  
   let initialState: () -> Node
   let updateStrategy: HookUpdateStrategy? = .once
   
@@ -24,13 +28,16 @@ private struct RecoilValueHook<Node: Atom>: Hook {
     Ref(initialState: initialState())
   }
   
-  init(initialState: @escaping () -> Node) {
-    self.initialState = initialState
+  @MainActor
+  func value(coordinator: Coordinator) -> Value {
+    coordinator.state.value
   }
   
   @MainActor
-  func value(coordinator: Coordinator) -> Node.Loader.Value {
-    return coordinator.state.context.watch(coordinator.state.state)
+  func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
   }
   
   @MainActor
@@ -40,14 +47,19 @@ private struct RecoilValueHook<Node: Atom>: Hook {
 }
 
 private extension RecoilValueHook {
-  @MainActor
+  
   final class Ref {
     var state: Node
-    @_ViewContext
+    @RecoilViewContext
     var context
     var isDisposed = false
     init(initialState: Node) {
       self.state = initialState
+    }
+    
+    @MainActor
+    var value: Value {
+      context.watch(state)
     }
   }
 }

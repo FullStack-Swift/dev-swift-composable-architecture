@@ -39,7 +39,7 @@ public struct RecoilScope<Content: View>: View {
 }
 
 @propertyWrapper
-@MainActor struct _ViewContext {
+@MainActor struct RecoilViewContext {
 
   @Dependency(\.storeContext)
   private var _store
@@ -57,16 +57,16 @@ public struct RecoilScope<Content: View>: View {
 
 
 @propertyWrapper
-struct _Watch<Node: Atom> {
+struct RecoilWatch<Node: Atom> {
   private let atom: Node
 
-  @_ViewContext
+  @RecoilViewContext
   private var context
 
   /// Creates a watch with the atom that to be watched.
   public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
     self.atom = atom
-    self._context = _ViewContext(fileID: fileID, line: line)
+    self._context = RecoilViewContext(fileID: fileID, line: line)
   }
 
   /// The underlying value associated with the given atom.
@@ -82,16 +82,16 @@ struct _Watch<Node: Atom> {
 
 
 @propertyWrapper
-struct _WatchState<Node: StateAtom> {
+struct RecoilWatchState<Node: StateAtom> {
   private let atom: Node
 
-  @_ViewContext
+  @RecoilViewContext
   private var context
 
   /// Creates a watch with the atom that to be watched.
   public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
     self.atom = atom
-    self._context = _ViewContext(fileID: fileID, line: line)
+    self._context = RecoilViewContext(fileID: fileID, line: line)
   }
 
   /// The underlying value associated with the given atom.
@@ -119,7 +119,7 @@ struct _WatchState<Node: StateAtom> {
 
 
 @propertyWrapper
-struct _WatchStateObject<Node: ObservableObjectAtom> {
+struct RecoilWatchStateObject<Node: ObservableObjectAtom> {
   /// A wrapper of the underlying observable object that can create bindings to
   /// its properties using dynamic member lookup.
   @dynamicMemberLookup
@@ -145,13 +145,13 @@ struct _WatchStateObject<Node: ObservableObjectAtom> {
 
   private let atom: Node
 
-  @_ViewContext
+  @RecoilViewContext
   private var context
 
   /// Creates a watch with the atom that to be watched.
   public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
     self.atom = atom
-    self._context = _ViewContext(fileID: fileID, line: line)
+    self._context = RecoilViewContext(fileID: fileID, line: line)
   }
 
   /// The underlying observable object associated with the given atom.

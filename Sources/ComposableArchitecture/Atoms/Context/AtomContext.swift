@@ -176,9 +176,12 @@ public extension AtomWatchableContext {
   /// - Returns: The value associated with the given atom.
   @inlinable
   func state<Node: StateAtom>(_ atom: Node) -> Binding<Node.Loader.Value> {
-    Binding(
-      get: { watch(atom) },
-      set: { self[atom] = $0 }
-    )
+    Binding {
+      watch(atom)
+    } set: { newValue, transaction in
+      withTransaction(transaction) {
+        self[atom] = newValue
+      }
+    }
   }
 }

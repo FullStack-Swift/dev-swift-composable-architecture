@@ -15,20 +15,19 @@ public func useRecoilState<Node: StateAtom>(
 }
 
 private struct RecoilStateHook<Node: StateAtom>: Hook {
+  
+  typealias Value = Binding<Node.Loader.Value>
+  
   let initialState: () -> Node
   let updateStrategy: HookUpdateStrategy? = .once
   
   @MainActor
-  func makeState() -> Ref {
-    Ref(initialState: initialState())
-  }
-  
-  init(initialState: @escaping () -> Node) {
-    self.initialState = initialState
+  func makeState() -> State {
+    State(initialState: initialState())
   }
   
   @MainActor
-  func value(coordinator: Coordinator) -> Binding<Node.Loader.Value> {
+  func value(coordinator: Coordinator) -> Value {
     Binding(
       get: {
         coordinator.state.context.watch(coordinator.state.state)
@@ -47,21 +46,25 @@ private struct RecoilStateHook<Node: StateAtom>: Hook {
   }
   
   @MainActor
-  func dispose(state: Ref) {
+  func dispose(state: State) {
     state.isDisposed = true
   }
 }
 
 private extension RecoilStateHook {
-  @MainActor
-  final class Ref {
+  
+  final class State {
     var state: Node
-    @_ViewContext
+    @RecoilViewContext
     var context
     var isDisposed = false
     
     init(initialState: Node) {
       self.state = initialState
+    }
+    
+    var value: Value {
+      context.state(state)
     }
   }
 }

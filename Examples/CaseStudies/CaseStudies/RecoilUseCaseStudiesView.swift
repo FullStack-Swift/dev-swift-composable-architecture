@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 import ComposableArchitecture
 
 // MARK: StateAtom
@@ -19,6 +20,69 @@ private struct _StateAtom: StateAtom, Hashable {
   }
 }
 
+// MARK: TaskAtom
+private struct _TaskAatom: TaskAtom, Hashable {
+
+  var id: String
+
+  init(id: String) {
+    self.id = id
+  }
+
+  var value: String {
+    return UUID().uuidString
+  }
+
+  static var value: String = "Swift"
+
+  func value(context: Context) async -> String {
+    try? await Task.sleep(nanoseconds: 1_000_000_000)
+    Self.value += "_@"
+    context.set(Self.value.count, for: _StateAtom(id: "_TaskAatom"))
+    return Self.value
+  }
+}
+
+private struct _ThrowingTaskAtom: ThrowingTaskAtom, Hashable {
+  struct DateError: Error {
+    var id: String
+  }
+  func value(context: Context) async throws -> Date {
+    try await Task.sleep(nanoseconds: 1_000_000_000)
+    if Bool.random() {
+      return Date()
+    } else {
+      throw DateError(id: "DateError")
+    }
+  }
+}
+
+private struct _PublisherAtom: PublisherAtom, Hashable {
+  
+  struct DateError: Error {
+    var id: String
+  }
+
+  var id: String
+
+  init(id: String) {
+    self.id = id
+  }
+
+  func publisher(context: Context) -> AnyPublisher<Date,DateError> {
+    if Bool.random() {
+      return Just(Date())
+        .delay(for: 1, scheduler: DispatchQueue.main)
+        .setFailureType(to: DateError.self)
+        .eraseToAnyPublisher()
+    } else {
+      return Fail(error: DateError(id: "DateError"))
+        .delay(for: 1, scheduler: DispatchQueue.main)
+        .eraseToAnyPublisher()
+    }
+  }
+}
+
 private struct _StateAtomView: HookView {
 
   @ViewContext
@@ -27,6 +91,58 @@ private struct _StateAtomView: HookView {
   var hookBody: some View {
     RecoilScope { context in
       VStack {
+        // MARK: useRecoilRefresher
+        VStack {
+          let (phase,refresh) = useRecoilRefresher(_PublisherAtom(id: "useRecoilRefresher"))
+          AsyncPhaseView(phase: phase) { value in
+            Text(value.timeIntervalSince1970.description)
+          } suspending: {
+            ProgressView()
+          } failureContent: { error in
+            Text(error.localizedDescription)
+          }
+          .frame(height: 60)
+          .task {
+            refresh()
+          }
+          .onTapGesture {
+            refresh()
+          }
+        }
+        // MARK: useRecoilPublisher
+        VStack {
+          let phase = useRecoilPublisher(_PublisherAtom(id: "useRecoilPublisher"))
+          AsyncPhaseView(phase: phase) { value in
+            Text(value.timeIntervalSince1970.description)
+          } suspending: {
+            ProgressView()
+          } failureContent: { error in
+            Text(error.localizedDescription)
+          }
+          .frame(height: 60)
+        }
+        // MARK: useRecoilTask
+        VStack {
+          let phase = useRecoilTask(.once, _TaskAatom(id: "1"))
+          AsyncPhaseView(phase: phase) { value in
+            Text(value)
+          } suspending: {
+            ProgressView()
+          }
+          .frame(height: 60)
+        }
+        // MARK: useRecoilThrowingTask
+        VStack {
+          let phase = useRecoilThrowingTask(.once, _ThrowingTaskAtom())
+          AsyncPhaseView(phase: phase) { value in
+            Text(value.timeIntervalSince1970.description)
+          } suspending: {
+            ProgressView()
+          } failureContent: { error in
+            Text(error.localizedDescription)
+          }
+
+        }
         headerView
           .padding()
         HStack {
@@ -67,6 +183,23 @@ private struct _StateAtomView: HookView {
   }
 }
 
+private struct _ScopeRecoilView: View {
+
+  @ScopeRecoilViewContext
+  private var viewContext
+  
+  var body: some View {
+    HookScope {
+      HStack {
+        let state = viewContext.useRecoilState(_StateAtom(id: "1"))
+        AtomRowTextValue(state.wrappedValue)
+        Stepper("Count: \(state.wrappedValue)", value: state)
+          .labelsHidden()
+      }
+    }
+  }
+}
+
 private struct AtomRowTextValue: View {
 
   private let content: Int
@@ -102,6 +235,7 @@ struct RecoilUseCaseStudiesView: View {
       ScrollView {
         VStack {
           _StateAtomView()
+          _ScopeRecoilView()
         }
         .padding()
       }
