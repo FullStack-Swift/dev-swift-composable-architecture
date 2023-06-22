@@ -3,7 +3,7 @@ import Foundation
 
 @MainActor
 public struct AtomRecoilContext: AtomWatchableContext {
-  private let state = State.identify
+  private let state = State.identity
   private let location: SourceLocation
   
   /// Creates a new test context instance with fresh internal state.
@@ -252,8 +252,8 @@ public struct AtomRecoilContext: AtomWatchableContext {
 
 private extension AtomRecoilContext {
   final class State {
-    
-    static let identify = State()
+
+    static let identity = State()
     
     let store = AtomStore()
     let token = ScopeKey.Token()
