@@ -28,5 +28,5 @@ extension DependencyValues {
 
 // MARK: StoreContextDependencyKey
 private struct StoreContextDependencyKey: DependencyKey {
-   static var liveValue = StoreContext(enablesAssertion: false)
+   static var liveValue = StoreContext(AtomStore(), enablesAssertion: false)
 }

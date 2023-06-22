@@ -30,19 +30,19 @@ private struct _StateAtomView: HookView {
         headerView
           .padding()
         HStack {
-          let state = useRecoilState(_StateAtom(id: "1"), context: context)
+          let state = useRecoilState(_StateAtom(id: "1"))
           AtomRowTextValue(state.wrappedValue)
           Stepper("Count: \(state.wrappedValue)", value: state)
             .labelsHidden()
         }
         HStack {
-          let state = useRecoilState(_StateAtom(id: "2"), context: context)
+          let state = useRecoilState(_StateAtom(id: "2"))
           AtomRowTextValue(state.wrappedValue)
           Stepper("Count: \(state.wrappedValue)", value: state)
             .labelsHidden()
         }
         HStack {
-          let state = useRecoilState(_StateAtom(id: "3"), context: context)
+          let state = useRecoilState(_StateAtom(id: "3"))
           AtomRowTextValue(state.wrappedValue)
           Stepper("Count: \(state.wrappedValue)", value: state)
             .labelsHidden()
@@ -53,9 +53,9 @@ private struct _StateAtomView: HookView {
   }
 
   var headerView: some View {
-    let state1 = useRecoilValue(_StateAtom(id: "1"), context: context)
-    let state2 = useRecoilValue(_StateAtom(id: "2"), context: context)
-    let state3 = useRecoilValue(_StateAtom(id: "3"), context: context)
+    let state1 = useRecoilValue(_StateAtom(id: "1"))
+    let state2 = useRecoilValue(_StateAtom(id: "2"))
+    let state3 = useRecoilValue(_StateAtom(id: "3"))
     return Text(state1.description + " + ")
       .foregroundColor(.red)
     + Text(state2.description + " + ")

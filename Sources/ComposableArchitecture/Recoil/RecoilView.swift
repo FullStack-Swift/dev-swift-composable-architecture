@@ -41,36 +41,17 @@ public struct RecoilScope<Content: View>: View {
 @propertyWrapper
 @MainActor struct _ViewContext {
 
-  private var state = State()
-
   @Dependency(\.storeContext)
   private var _store
 
   private let location: SourceLocation
 
-  var _notifyUpdate: (() -> Void)? = nil
-
   public init(fileID: String = #fileID, line: UInt = #line) {
     location = SourceLocation(fileID: fileID, line: line)
   }
 
-  public var wrappedValue: AtomViewContext {
-    AtomViewContext(
-      store: _store,
-      container: state.container.wrapper(location: location)) {
-        self._notifyUpdate?()
-      }
-  }
-
-  public var projectedValue: Self {
-    self
-  }
-}
-
-private extension _ViewContext {
-  @MainActor
-  final class State {
-    let container = SubscriptionContainer()
+  public var wrappedValue: AtomRecoilContext {
+    AtomRecoilContext(fileID: location.fileID, line: location.line)
   }
 }
 

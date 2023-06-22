@@ -1,37 +1,41 @@
 import SwiftUI
 
 // MARK: useRecoilState
-public func useRecoilState<Node: StateAtom>(
-  _ initialState: Node
+@MainActor public func useRecoilState<Node: StateAtom>(
+  _ initialState: Node,
+  context: AtomViewContext
 ) -> Binding<Node.Loader.Value> {
-  useRecoilState({initialState})
+  useRecoilState({initialState}, context: context)
 }
 
 // MARK: useRecoilState
-public func useRecoilState<Node: StateAtom>(
-  _ initialState: @escaping() -> Node
+@MainActor public func useRecoilState<Node: StateAtom>(
+  _ initialState: @escaping() -> Node,
+  context: AtomViewContext
 ) -> Binding<Node.Loader.Value> {
-  useHook(RecoilStateHook<Node>(initialState: initialState))
+  useHook(RecoilStateHook<Node>(initialState: initialState, context: context))
 }
 
 private struct RecoilStateHook<Node: StateAtom>: Hook {
   let initialState: () -> Node
   let updateStrategy: HookUpdateStrategy? = .once
   
-  @MainActor
+  let context: AtomViewContext
+  
   func makeState() -> Ref {
     Ref(initialState: initialState())
   }
   
-  init(initialState: @escaping () -> Node) {
+  init(initialState: @escaping () -> Node, context: AtomViewContext) {
     self.initialState = initialState
+    self.context = context
   }
   
   @MainActor
   func value(coordinator: Coordinator) -> Binding<Node.Loader.Value> {
     Binding(
       get: {
-        coordinator.state.context.watch(coordinator.state.state)
+        context.watch(coordinator.state.state)
       },
       set: { newState, transaction in
         assertMainThread()
@@ -39,25 +43,21 @@ private struct RecoilStateHook<Node: StateAtom>: Hook {
           return
         }
         withTransaction(transaction) {
-          coordinator.state.context.set(newState, for: coordinator.state.state)
+          context.set(newState, for: coordinator.state.state)
           coordinator.updateView()
         }
       }
     )
   }
   
-  @MainActor
   func dispose(state: Ref) {
     state.isDisposed = true
   }
 }
 
 private extension RecoilStateHook {
-  @MainActor
   final class Ref {
     var state: Node
-    @_ViewContext
-    var context
     var isDisposed = false
     
     init(initialState: Node) {
@@ -65,3 +65,4 @@ private extension RecoilStateHook {
     }
   }
 }
+

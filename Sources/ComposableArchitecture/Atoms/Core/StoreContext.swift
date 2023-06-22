@@ -50,6 +50,23 @@ internal struct StoreContext {
     )
   }
   
+  func scoped(
+    weakStore: AtomStore,
+    key: ScopeKey,
+    observers: [Observer],
+    overrides: [OverrideKey: any AtomOverrideProtocol]
+  ) -> Self {
+    StoreContext(
+      weakStore,
+      observers: self.observers + observers,
+      overrides: self.overrides.merging(
+        overrides.lazy.map { ($0, $1.scoped(key: key)) },
+        uniquingKeysWith: { $1 }
+      ),
+      enablesAssertion: enablesAssertion
+    )
+  }
+  
   @usableFromInline
   func read<Node: Atom>(_ atom: Node) -> Node.Loader.Value {
     let override = lookupOverride(of: atom)

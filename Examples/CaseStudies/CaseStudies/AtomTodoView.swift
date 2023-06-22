@@ -198,6 +198,7 @@ struct AtomTodoView: View {
   var body: some View {
     ScrollView {
       VStack {
+        RecoilUseCaseStudiesView()
         Section {
           TodoStats()
           TodoCreator()
