@@ -20,6 +20,14 @@ private struct _StateAtom: StateAtom, Hashable {
   }
 }
 
+// MARK: ValueAtom
+private struct _ValueAtom: ValueAtom, Hashable {
+  func value(context: Context) -> Int {
+    context.watch(_StateAtom(id: "1"))
+  }
+}
+
+
 // MARK: TaskAtom
 private struct _TaskAatom: TaskAtom, Hashable {
 
@@ -192,7 +200,9 @@ private struct _ScopeRecoilView: View {
     HookScope {
       HStack {
         let state = viewContext.useRecoilState(_StateAtom(id: "1"))
+        let value = viewContext.useRecoilValue(_ValueAtom())
         AtomRowTextValue(state.wrappedValue)
+        AtomRowTextValue(value)
         Stepper("Count: \(state.wrappedValue)", value: state)
           .labelsHidden()
       }
@@ -231,7 +241,6 @@ private struct AtomRowTextValue: View {
 struct RecoilUseCaseStudiesView: View {
 
   var body: some View {
-    HookScope {
       ScrollView {
         VStack {
           _StateAtomView()
@@ -239,6 +248,5 @@ struct RecoilUseCaseStudiesView: View {
         }
         .padding()
       }
-    }
   }
 }

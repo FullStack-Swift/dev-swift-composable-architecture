@@ -23,33 +23,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BA2C0340-DB1E-4EFF-B944-234BF1114C93"
+            uuid = "53EE2616-5E7D-4C0A-860D-79E613D454B0"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Sources/ComposableArchitecture/Store.swift"
+            filePath = "Sources/ComposableArchitecture/Atoms/Core/StoreContext.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "804"
-            endingLineNumber = "804"
-            landmarkName = "middleware"
-            landmarkType = "24">
+            startingLineNumber = "486"
+            endingLineNumber = "486"
+            landmarkName = "lookupOverride(of:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1D24CB3D-CDF0-4AE5-9C64-C8A9C904FFE8"
+            uuid = "CE44EE41-A868-4B3C-9B6F-438F6ECC3AA8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Sources/ComposableArchitecture/Store.swift"
+            filePath = "Sources/ComposableArchitecture/Atoms/Core/StoreContext.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "811"
-            endingLineNumber = "811"
-            landmarkName = "ComposedMiddlewareStorageKey"
-            landmarkType = "14">
+            startingLineNumber = "490"
+            endingLineNumber = "490"
+            landmarkName = "lookupOverride(of:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -62,7 +62,7 @@ private extension RecoilValueHook {
     
     @MainActor
     var value: Value {
-      context.read(state)
+      (context as! AtomWatchableContext).watch(state)
     }
   }
 }

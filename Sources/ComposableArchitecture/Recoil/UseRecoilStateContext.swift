@@ -1,7 +1,7 @@
 import SwiftUI
 
 // MARK: useRecoilState
-public func useRecoilState<Node: StateAtom, Context: AtomContext>(
+public func useRecoilState<Node: StateAtom, Context: AtomWatchableContext>(
   context: Context,
   _ initialState: Node
 ) -> Binding<Node.Loader.Value> {
@@ -11,14 +11,14 @@ public func useRecoilState<Node: StateAtom, Context: AtomContext>(
 }
 
 // MARK: useRecoilState
-public func useRecoilState<Node: StateAtom, Context: AtomContext>(
+public func useRecoilState<Node: StateAtom, Context: AtomWatchableContext>(
   context: Context,
   _ initialState: @escaping() -> Node
 ) -> Binding<Node.Loader.Value> {
   useHook(RecoilStateHook<Node, Context>(initialState: initialState, context: context))
 }
 
-private struct RecoilStateHook<Node: StateAtom, Context: AtomContext>: Hook {
+private struct RecoilStateHook<Node: StateAtom, Context: AtomWatchableContext>: Hook {
   
   typealias Value = Binding<Node.Loader.Value>
   
@@ -35,7 +35,7 @@ private struct RecoilStateHook<Node: StateAtom, Context: AtomContext>: Hook {
   func value(coordinator: Coordinator) -> Value {
     Binding(
       get: {
-        coordinator.state.context[coordinator.state.state]
+        coordinator.state.context.watch(coordinator.state.state)
       },
       set: { newValue, transaction in
         assertMainThread()
@@ -43,7 +43,7 @@ private struct RecoilStateHook<Node: StateAtom, Context: AtomContext>: Hook {
           return
         }
         withTransaction(transaction) {
-          coordinator.state.context[coordinator.state.state] = newValue
+          coordinator.state.context.set(newValue, for: coordinator.state.state)
           coordinator.updateView()
         }
       }
@@ -71,18 +71,6 @@ private extension RecoilStateHook {
     init(initialState: Node, context: Context) {
       self.state = initialState
       self.context = context
-    }
-    
-    @MainActor
-    var value: Value {
-      Binding {
-        self.context[self.state]
-      } set: { newValue, transaction in
-        withTransaction(transaction) {
-          self.context[self.state] = newValue
-        }
-      }
-
     }
   }
 }

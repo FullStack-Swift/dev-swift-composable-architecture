@@ -5,8 +5,10 @@ import ComposableArchitecture
 struct CaseStudiesApp: App {
   var body: some Scene {
     WindowGroup {
-      AtomRoot {
-        ContentView()
+      HookScope {
+        AtomRoot {
+          ContentView()
+        }
       }
     }
   }

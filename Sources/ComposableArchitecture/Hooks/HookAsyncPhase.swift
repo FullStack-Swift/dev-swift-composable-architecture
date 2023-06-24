@@ -13,6 +13,49 @@ public enum HookAsyncPhase<Success, Failure: Error> {
   /// Represents a failure phase meaning that the operation provided an error with failure.
   case failure(Failure)
   
+  /// Creates a new phase with the given result by mapping either of a `success` or
+  /// a `failure`.
+  ///
+  /// - Parameter result: A result value to be mapped.
+  public init(_ result: Result<Success, Failure>) {
+    switch result {
+      case .success(let value):
+        self = .success(value)
+        
+      case .failure(let error):
+        self = .failure(error)
+    }
+  }
+  
+  /// Creates a new phase with the given result by mapping either of a `success` or
+  /// a `failure`.
+  ///
+  /// - Parameter result: A result value to be mapped.
+  public init(_ result: TaskResult<Success>) where Failure == Error {
+    switch result {
+      case .success(let value):
+        self = .success(value)
+        
+      case .failure(let error):
+        self = .failure(error)
+    }
+  }
+
+  
+  /// Creates a new phase by evaluating a async throwing closure, capturing the
+  /// returned value as a success, or any thrown error as a failure.
+  ///
+  /// - Parameter body: A async throwing closure to evaluate.
+  public init(catching body: () async throws -> Success) async where Failure == Error {
+    do {
+      let value = try await body()
+      self = .success(value)
+    }
+    catch {
+      self = .failure(error)
+    }
+  }
+  
   /// Returns a Boolean value indicating whether this instance represents a `pending`.
   public var isPending: Bool {
     guard case .pending = self else {
@@ -146,3 +189,5 @@ extension HookAsyncPhase: Encodable where Success: Encodable, Failure: Encodable
 extension HookAsyncPhase: Equatable where Success: Equatable, Failure: Equatable {}
 
 extension HookAsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}
+
+extension HookAsyncPhase: Sendable where Success: Sendable {}

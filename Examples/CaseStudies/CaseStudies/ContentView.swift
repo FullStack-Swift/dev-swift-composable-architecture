@@ -96,24 +96,24 @@ struct ContentView: View {
                 print(destination.state as Any)
               }
           case "Atoms-CaseStudies":
-            AtomRoot {
+//            AtomRoot {
               AtomCaseStudiesView()
-            }
+//            }
             .onAppear {
               print(destination.state as Any)
             }
           case "Recoil-CaseStudies":
-            AtomRoot {
+//            AtomRoot {
               RecoilUseCaseStudiesView()
-            }
+//            }
           case "Hooks-Todos":
-            HookScope {
+//            HookScope {
               HookTodoView()
-            }
+//            }
           case "Atoms-Todos":
-            AtomRoot {
+//            AtomRoot {
               AtomTodoView()
-            }
+//            }
           default:
             EmptyView()
         }
