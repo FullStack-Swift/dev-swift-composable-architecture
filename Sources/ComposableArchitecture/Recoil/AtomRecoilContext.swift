@@ -105,7 +105,7 @@ private extension AtomRecoilContext {
   final class State {
 
     static let identity = State()
-    
+
     let store = AtomStore()
     let token = ScopeKey.Token()
     let container = SubscriptionContainer()
@@ -120,7 +120,7 @@ private extension AtomRecoilContext {
   }
   
   var store: StoreContext {
-    @Dependency(\.storeContext) var store
+    @Dependency(\.recoilStoreContext) var store
     return store
       .scoped(
         weakStore: state.store,

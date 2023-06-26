@@ -30,3 +30,19 @@ extension DependencyValues {
 private struct StoreContextDependencyKey: DependencyKey {
    static var liveValue = StoreContext(AtomStore(), enablesAssertion: false)
 }
+
+extension DependencyValues {
+  var recoilStoreContext: StoreContext {
+    get {
+      self[RecoilStoreContextDependencyKey.self]
+    }
+    set {
+      self[RecoilStoreContextDependencyKey.self] = newValue
+    }
+  }
+}
+
+// MARK: StoreContextDependencyKey
+private struct RecoilStoreContextDependencyKey: DependencyKey {
+  static var liveValue = StoreContext(AtomStore(), enablesAssertion: false)
+}

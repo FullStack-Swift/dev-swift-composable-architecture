@@ -108,31 +108,146 @@ public struct ScopeAtomRecoilContext: AtomWatchableContext {
   }
 }
 
-extension ScopeAtomRecoilContext {
+extension ScopeAtomRecoilContext: RecoilProtocol {
+  public var context: ScopeAtomRecoilContext {
+    self
+  }
+}
+
+public protocol RecoilProtocol {
+
+  associatedtype Context: AtomWatchableContext
+
+  var context: Context { get }
+}
+
+extension RecoilProtocol {
+  // MARK: useRecoilState
   public func useRecoilState<Node: StateAtom>(
     _ initialState: Node
   ) -> Binding<Node.Loader.Value> {
-    ComposableArchitecture.useRecoilState(context: self, initialState)
+    ComposableArchitecture.useRecoilState(context: context, initialState)
   }
-  
+
   // MARK: useRecoilState
   public func useRecoilState<Node: StateAtom>(
     _ initialState: @escaping() -> Node
   ) -> Binding<Node.Loader.Value> {
-    ComposableArchitecture.useRecoilState(context: self, initialState)
+    ComposableArchitecture.useRecoilState(context: context, initialState)
   }
-  
+
   // MARK: useRecoilValue
   public func useRecoilValue<Node: ValueAtom>(
     _ initialState: Node
   ) -> Node.Loader.Value {
-    ComposableArchitecture.useRecoilValue(context: self, initialState)
+    ComposableArchitecture.useRecoilValue(context: context, initialState)
   }
-  
+
   // MARK: useRecoilValue
   public func useRecoilValue<Node: ValueAtom>(
     _ initialState: @escaping() -> Node
   ) -> Node.Loader.Value {
-    ComposableArchitecture.useRecoilValue(context: self, initialState)
+    ComposableArchitecture.useRecoilValue(context: context, initialState)
+  }
+
+  // MARK: useRecoilPublihser
+  public func useRecoilPublisher<Node: PublisherAtom>(
+    _ initialState: Node
+  ) -> AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>
+  where Node.Loader == PublisherAtomLoader<Node> {
+    ComposableArchitecture.useRecoilPublisher(initialState)
+  }
+
+  // MARK: useRecoilPublihser
+  public func useRecoilPublisher<Node: PublisherAtom>(
+    _ initialState: @escaping() -> Node
+  ) -> AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>
+  where Node.Loader == PublisherAtomLoader<Node> {
+    ComposableArchitecture.useRecoilPublisher(initialState)
+  }
+
+  // MARK: useRecoilRefresher + Publisher
+  public func useRecoilRefresher<Node: PublisherAtom>(
+    _ initialState: Node
+  ) -> (phase: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>, refresher: () -> ())
+  where Node.Loader == PublisherAtomLoader<Node> {
+    ComposableArchitecture.useRecoilRefresher(initialState)
+  }
+
+  // MARK: useRecoilRefresher + Publisher
+  public func useRecoilRefresher<Node: PublisherAtom>(
+    _ initialState: @escaping() -> Node
+  ) -> (phase: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>, refresher: () -> ())
+  where Node.Loader == PublisherAtomLoader<Node> {
+    ComposableArchitecture.useRecoilRefresher(initialState)
+  }
+
+  // MARK: useRecoilRefresher + Task
+  public func useRecoilRefresher<Node: TaskAtom>(
+    _ initialState: Node
+  ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
+  where Node.Loader: AsyncAtomLoader {
+    ComposableArchitecture.useRecoilRefresher(initialState)
+  }
+
+  // MARK: useRecoilRefresher + Task
+  public func useRecoilRefresher<Node: TaskAtom>(
+    _ initialState: @escaping() -> Node
+  ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
+  where Node.Loader: AsyncAtomLoader {
+    ComposableArchitecture.useRecoilRefresher(initialState)
+  }
+
+  // MARK: useRecoilRefresher + ThrowingTask
+  public func useRecoilRefresher<Node: ThrowingTaskAtom>(
+    _ initialState: Node
+  ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
+  where Node.Loader: AsyncAtomLoader {
+    ComposableArchitecture.useRecoilRefresher(initialState)
+  }
+
+  // MARK: useRecoilRefresher + ThrowingTask
+  public func useRecoilRefresher<Node: ThrowingTaskAtom>(
+    _ initialState: @escaping() -> Node
+  ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
+  where Node.Loader: AsyncAtomLoader {
+    ComposableArchitecture.useRecoilRefresher(initialState)
+  }
+
+
+  // MARK: useRecoilTask
+  public func useRecoilTask<Node: TaskAtom>(
+    _ updateStrategy: HookUpdateStrategy,
+    _ initialState: Node
+  ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
+  where Node.Loader: AsyncAtomLoader {
+    ComposableArchitecture.useRecoilTask(updateStrategy, initialState)
+  }
+
+  // MARK: useRecoilTask
+  public func useRecoilTask<Node: TaskAtom>(
+    _ updateStrategy: HookUpdateStrategy,
+    _ initialState: @escaping() -> Node
+  ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
+  where Node.Loader: AsyncAtomLoader {
+    ComposableArchitecture.useRecoilTask(updateStrategy, initialState)
+  }
+
+  // MARK: useRecoilThrowingTask
+  public func useRecoilThrowingTask<Node: ThrowingTaskAtom>(
+    _ updateStrategy: HookUpdateStrategy,
+    _ initialState: Node
+  ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
+  where Node.Loader: AsyncAtomLoader {
+    ComposableArchitecture.useRecoilThrowingTask(updateStrategy, initialState)
+  }
+
+  // MARK: useRecoilThrowingTask
+  public func useRecoilThrowingTask<Node: ThrowingTaskAtom>(
+    _ updateStrategy: HookUpdateStrategy,
+    _ initialState: @escaping() -> Node
+  ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
+  where Node.Loader: AsyncAtomLoader {
+    ComposableArchitecture.useRecoilThrowingTask(updateStrategy, initialState)
   }
 }

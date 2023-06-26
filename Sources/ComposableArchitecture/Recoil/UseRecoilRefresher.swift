@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-// MARK: useRecoilRefresher
+// MARK: useRecoilRefresher + Publisher
 public func useRecoilRefresher<Node: PublisherAtom>(
   _ initialState: Node
 ) -> (phase: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>, refresher: () -> ())
@@ -11,15 +11,51 @@ where Node.Loader == PublisherAtomLoader<Node> {
   }
 }
 
-// MARK: useRecoilRefresher
+// MARK: useRecoilRefresher + Publisher
 public func useRecoilRefresher<Node: PublisherAtom>(
   _ initialState: @escaping() -> Node
 ) -> (phase: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>, refresher: () -> ())
 where Node.Loader == PublisherAtomLoader<Node> {
-  useHook(RecoilRefresherHook(initialState: initialState, updateStrategy: nil))
+  useHook(RecoilPublisherRefresherHook(initialState: initialState, updateStrategy: nil))
 }
 
-private struct RecoilRefresherHook<Node: PublisherAtom>: Hook
+// MARK: useRecoilRefresher + Task
+public func useRecoilRefresher<Node: TaskAtom>(
+  _ initialState: Node
+) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
+where Node.Loader: AsyncAtomLoader {
+  useRecoilRefresher {
+    initialState
+  }
+}
+
+// MARK: useRecoilRefresher + Task
+public func useRecoilRefresher<Node: TaskAtom>(
+  _ initialState: @escaping() -> Node
+) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
+where Node.Loader: AsyncAtomLoader {
+  fatalError()
+}
+
+// MARK: useRecoilRefresher + ThrowingTask
+public func useRecoilRefresher<Node: ThrowingTaskAtom>(
+  _ initialState: Node
+) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
+where Node.Loader: AsyncAtomLoader {
+  useRecoilRefresher {
+    initialState
+  }
+}
+
+// MARK: useRecoilRefresher + ThrowingTask
+public func useRecoilRefresher<Node: ThrowingTaskAtom>(
+  _ initialState: @escaping() -> Node
+) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
+where Node.Loader: AsyncAtomLoader {
+  fatalError()
+}
+
+private struct RecoilPublisherRefresherHook<Node: PublisherAtom>: Hook
 where Node.Loader == PublisherAtomLoader<Node> {
 
   typealias Value = (phase: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>, refresher: () -> Void)
@@ -37,7 +73,6 @@ where Node.Loader == PublisherAtomLoader<Node> {
     guard !coordinator.state.isDisposed else {
       return
     }
-//    coordinator.state.phase = coordinator.state.value
   }
 
   @MainActor
@@ -65,7 +100,7 @@ where Node.Loader == PublisherAtomLoader<Node> {
   }
 }
 
-extension RecoilRefresherHook {
+extension RecoilPublisherRefresherHook {
   @MainActor
   final class State {
     @RecoilViewContext

@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 
+// MARK: useRecoilPublihser
 public func useRecoilPublisher<Node: PublisherAtom>(
   _ initialState: Node
 ) -> AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>
@@ -10,6 +11,7 @@ where Node.Loader == PublisherAtomLoader<Node> {
   }
 }
 
+// MARK: useRecoilPublihser
 public func useRecoilPublisher<Node: PublisherAtom>(
   _ initialState: @escaping() -> Node
 ) -> AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>
