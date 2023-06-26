@@ -24,8 +24,8 @@ private struct RecoilValueHook<Node: Atom>: Hook {
   let updateStrategy: HookUpdateStrategy? = .once
   
   @MainActor
-  func makeState() -> Ref {
-    Ref(initialState: initialState())
+  func makeState() -> State {
+    State(initialState: initialState())
   }
   
   @MainActor
@@ -41,25 +41,29 @@ private struct RecoilValueHook<Node: Atom>: Hook {
   }
   
   @MainActor
-  func dispose(state: Ref) {
+  func dispose(state: State) {
     state.isDisposed = true
   }
 }
 
 private extension RecoilValueHook {
-  
-  final class Ref {
-    var state: Node
+  // MARK: State
+  final class State {
+
     @RecoilViewContext
     var context
+
+    var node: Node
     var isDisposed = false
+
     init(initialState: Node) {
-      self.state = initialState
+      self.node = initialState
     }
-    
+
+    /// Get current value from Recoilcontext
     @MainActor
     var value: Value {
-      context.watch(state)
+      context.watch(node)
     }
   }
 }

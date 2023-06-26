@@ -51,19 +51,23 @@ where Node.Loader == PublisherAtomLoader<Node> {
 }
 
 extension RecoilPublisherHook {
-  @MainActor
+  // MARK: State
   final class State {
-    var state: Node
+
     @RecoilViewContext
     var context
+
+    var node: Node
     var phase = Value.suspending
     var isDisposed = false
+
     init(initialState: Node) {
-      self.state = initialState
+      self.node = initialState
     }
-    
+
+    /// Get current value from Recoilcontext
     var value: Value {
-      context.watch(state)
+      context.watch(node)
     }
   }
 }

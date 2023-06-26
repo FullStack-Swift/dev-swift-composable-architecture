@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: useRecoilTask
+// MARK: useRecoilThrowingTask
 public func useRecoilThrowingTask<Node: ThrowingTaskAtom>(
   _ updateStrategy: HookUpdateStrategy,
   _ initialState: Node
@@ -9,6 +9,7 @@ where Node.Loader: AsyncAtomLoader {
   useRecoilThrowingTask(updateStrategy, {initialState})
 }
 
+// MARK: useRecoilThrowingTask
 public func useRecoilThrowingTask<Node: ThrowingTaskAtom>(
   _ updateStrategy: HookUpdateStrategy,
   _ initialState: @escaping() -> Node
@@ -59,13 +60,13 @@ where Node.Loader: AsyncAtomLoader {
 }
 
 extension RecoilThrowingTaskHook {
-
+  // MARK: State
   final class State {
 
     @RecoilViewContext
     var context
 
-    var state: Node
+    var node: Node
     var phase = Value.suspending
 
     var task: Task<Void, Never>? {
@@ -75,12 +76,13 @@ extension RecoilThrowingTaskHook {
     }
 
     init(initialState: Node) {
-      self.state = initialState
+      self.node = initialState
     }
-    
+
+    /// Get current value from Recoilcontext
     var value: Value {
       get async {
-        await AsyncPhase(context.watch(state).result)
+        await AsyncPhase(context.watch(node).result)
       }
     }
   }

@@ -52,17 +52,20 @@ private struct RecoilStateHook<Node: StateAtom>: Hook {
 }
 
 private extension RecoilStateHook {
-  
+  // MARK: State
   final class State {
-    var state: Node
+
     @RecoilViewContext
     var context
+
+    var state: Node
     var isDisposed = false
     
     init(initialState: Node) {
       self.state = initialState
     }
-    
+
+    /// Get current value from Recoilcontext
     var value: Value {
       context.state(state)
     }

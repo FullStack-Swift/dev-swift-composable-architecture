@@ -34,7 +34,7 @@ public func useRecoilRefresher<Node: TaskAtom>(
   _ initialState: @escaping() -> Node
 ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
 where Node.Loader: AsyncAtomLoader {
-  fatalError()
+  useHook(RecoilTaskRefresherHook(initialState: initialState, updateStrategy: nil))
 }
 
 // MARK: useRecoilRefresher + ThrowingTask
@@ -52,8 +52,11 @@ public func useRecoilRefresher<Node: ThrowingTaskAtom>(
   _ initialState: @escaping() -> Node
 ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
 where Node.Loader: AsyncAtomLoader {
-  fatalError()
+  useHook(RecoilThrowingTaskRefresherHook(initialState: initialState, updateStrategy: nil))
 }
+
+
+// MARK: Private
 
 private struct RecoilPublisherRefresherHook<Node: PublisherAtom>: Hook
 where Node.Loader == PublisherAtomLoader<Node> {
@@ -122,6 +125,176 @@ extension RecoilPublisherRefresherHook {
     var refresh: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure> {
       get async {
         await context.refresh(state)
+      }
+    }
+  }
+}
+
+private struct RecoilTaskRefresherHook<Node: TaskAtom>: Hook
+where Node.Loader: AsyncAtomLoader {
+
+  typealias Value = (AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
+
+  let initialState: () -> Node
+  let updateStrategy: HookUpdateStrategy?
+
+  @MainActor
+  func makeState() -> State {
+    State(initialState: initialState())
+  }
+
+  @MainActor
+  func value(coordinator: Coordinator) -> Value {
+    (
+      coordinator.state.phase,
+      refresher: {
+        coordinator.state.phase = .suspending
+        coordinator.updateView()
+        Task { @MainActor in
+          let refresh = await coordinator.state.refresh
+          guard !coordinator.state.isDisposed else {
+            return
+          }
+          coordinator.state.phase = refresh
+          coordinator.updateView()
+        }
+      }
+    )
+  }
+
+  @MainActor
+  func updateState(coordinator: Coordinator) {
+    coordinator.state.phase = .suspending
+    coordinator.state.task = Task { @MainActor in
+      let value = await coordinator.state.value
+      if !Task.isCancelled {
+        coordinator.state.phase = value
+        coordinator.updateView()
+      }
+    }
+  }
+
+  @MainActor
+  func dispose(state: State) {
+    state.task = nil
+    state.isDisposed = true
+  }
+}
+
+extension RecoilTaskRefresherHook {
+  // MARK: State
+  final class State {
+    var state: Node
+    @RecoilViewContext
+    var context
+    var isDisposed = false
+    var phase = AsyncPhase<Node.Loader.Success, Node.Loader.Failure>.suspending
+    var task: Task<Void, Never>? {
+      didSet {
+        oldValue?.cancel()
+      }
+    }
+
+    init(initialState: Node) {
+      self.state = initialState
+    }
+
+    /// Get current value from Recoilcontext
+    var value: AsyncPhase<Node.Loader.Success, Node.Loader.Failure> {
+      get async {
+        await AsyncPhase(context.watch(state).result)
+      }
+    }
+
+    /// Refresh to get newValue from RedoilContext
+    var refresh: AsyncPhase<Node.Loader.Success, Node.Loader.Failure> {
+      get async  {
+        await AsyncPhase(context.refresh(state).result)
+      }
+    }
+  }
+}
+
+private struct RecoilThrowingTaskRefresherHook<Node: ThrowingTaskAtom>: Hook
+where Node.Loader: AsyncAtomLoader {
+  typealias Value = (AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> Void)
+
+  let initialState: () -> Node
+  let updateStrategy: HookUpdateStrategy?
+
+  @MainActor
+  func makeState() -> State {
+    State(initialState: initialState())
+  }
+
+  @MainActor
+  func value(coordinator: Coordinator) -> Value {
+    (
+      coordinator.state.phase,
+      refresher: {
+        coordinator.state.phase = .suspending
+        coordinator.updateView()
+        Task { @MainActor in
+          let refresh = await coordinator.state.refresh
+          guard !coordinator.state.isDisposed else {
+            return
+          }
+          coordinator.state.phase = refresh
+          coordinator.updateView()
+        }
+      }
+    )
+  }
+
+  @MainActor
+  func updateState(coordinator: Coordinator) {
+    coordinator.state.phase = .suspending
+    coordinator.state.task = Task { @MainActor in
+      let value = await coordinator.state.value
+      if !Task.isCancelled {
+        coordinator.state.phase = value
+        coordinator.updateView()
+      }
+    }
+  }
+
+  @MainActor
+  func dispose(state: State) {
+    state.task = nil
+    state.isDisposed = true
+  }
+}
+
+extension RecoilThrowingTaskRefresherHook {
+  final class State {
+
+    @RecoilViewContext
+    var context
+    var isDisposed = false
+    var state: Node
+    var phase = AsyncPhase<Node.Loader.Success, Node.Loader.Failure>.suspending
+
+    var task: Task<Void, Never>? {
+      didSet {
+        oldValue?.cancel()
+      }
+    }
+
+    init(initialState: Node) {
+      self.state = initialState
+    }
+
+    /// Get current value from Recoilcontext
+    var value: AsyncPhase<Node.Loader.Success, Node.Loader.Failure> {
+      get async {
+        await AsyncPhase(context.watch(state).result)
+      }
+    }
+
+    /// Refresh to get newValue from RedoilContext
+    var refresh: AsyncPhase<Node.Loader.Success, Node.Loader.Failure> {
+      get async {
+        await AsyncPhase(context.refresh(state).result)
       }
     }
   }

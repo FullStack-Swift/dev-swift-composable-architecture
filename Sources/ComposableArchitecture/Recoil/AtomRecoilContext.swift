@@ -134,3 +134,9 @@ private extension AtomRecoilContext {
     state.container.wrapper(location: location)
   }
 }
+
+extension AtomRecoilContext: RecoilProtocol {
+  public var context: Self {
+    self
+  }
+}

@@ -9,6 +9,7 @@ where Node.Loader: AsyncAtomLoader {
   useRecoilTask(updateStrategy, {initialState})
 }
 
+// MARK: useRecoilTask
 public func useRecoilTask<Node: TaskAtom>(
   _ updateStrategy: HookUpdateStrategy,
   _ initialState: @escaping() -> Node
@@ -55,9 +56,11 @@ private struct RecoilTaskHook<Node: TaskAtom>: Hook where Node.Loader: AsyncAtom
 extension RecoilTaskHook {
   // MARK: State
   final class State {
-    var state: Node
+
     @RecoilViewContext
     var context
+
+    var node: Node
     var phase = Value.suspending
     var task: Task<Void, Never>? {
       didSet {
@@ -66,12 +69,13 @@ extension RecoilTaskHook {
     }
 
     init(initialState: Node) {
-      self.state = initialState
+      self.node = initialState
     }
-    
+
+    /// Get current value from Recoilcontext
     var value: Value {
       get async {
-        await AsyncPhase(context.watch(state).result)
+        await AsyncPhase(context.watch(node).result)
       }
     }
   }
