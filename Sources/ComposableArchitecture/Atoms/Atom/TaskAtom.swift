@@ -57,3 +57,38 @@ public extension TaskAtom {
     TaskAtomLoader(atom: self)
   }
 }
+
+// MARK: Make TaskAtom
+public struct MTaskAtom<M>: TaskAtom {
+
+  public typealias Value = M
+
+  var initialState: (Self.Context) async -> M
+  var id: String
+
+  public init(id: String,_ initialState: @escaping (Self.Context) async -> M) {
+    self.id = id
+    self.initialState = initialState
+  }
+
+  public init(id: String, _ initialState: @escaping() async -> M) {
+    self.init(id: id) { _ in
+      await initialState()
+    }
+  }
+
+  public init(id: String, initialState: M) {
+    self.init(id: id) { _ in
+      initialState
+    }
+  }
+
+  @MainActor
+  public func value(context: Self.Context) async -> Value {
+    await initialState(context)
+  }
+
+  public var key: String {
+    self.id
+  }
+}

@@ -89,7 +89,9 @@ public enum AsyncPhase<Success, Failure: Error> {
   ///
   /// - Returns: An ``AsyncPhase`` instance with the result of evaluating `transform`
   ///   as the new success value if this instance represents a success.
-  public func map<NewSuccess>(_ transform: (Success) -> NewSuccess) -> AsyncPhase<NewSuccess, Failure> {
+  public func map<NewSuccess>(
+    _ transform: (Success) -> NewSuccess
+  ) -> AsyncPhase<NewSuccess, Failure> {
     flatMap { .success(transform($0)) }
   }
   
@@ -99,7 +101,9 @@ public enum AsyncPhase<Success, Failure: Error> {
   ///
   /// - Returns: An ``AsyncPhase`` instance with the result of evaluating `transform` as
   ///            the new failure value if this instance represents a failure.
-  public func mapError<NewFailure>(_ transform: (Failure) -> NewFailure) -> AsyncPhase<Success, NewFailure> {
+  public func mapError<NewFailure>(
+    _ transform: (Failure) -> NewFailure
+  ) -> AsyncPhase<Success, NewFailure> {
     flatMapError { .failure(transform($0)) }
   }
   
@@ -110,7 +114,9 @@ public enum AsyncPhase<Success, Failure: Error> {
   ///
   /// - Returns: An ``AsyncPhase`` instance, either from the closure or the previous
   ///            ``AsyncPhase/failure(_:)``.
-  public func flatMap<NewSuccess>(_ transform: (Success) -> AsyncPhase<NewSuccess, Failure>) -> AsyncPhase<NewSuccess, Failure> {
+  public func flatMap<NewSuccess>(
+    _ transform: (Success) -> AsyncPhase<NewSuccess, Failure>
+  ) -> AsyncPhase<NewSuccess, Failure> {
     switch self {
       case .suspending:
         return .suspending
@@ -130,7 +136,9 @@ public enum AsyncPhase<Success, Failure: Error> {
   ///
   /// - Returns: An ``AsyncPhase`` instance, either from the closure or the previous
   ///            ``AsyncPhase/success(_:)``.
-  public func flatMapError<NewFailure>(_ transform: (Failure) -> AsyncPhase<Success, NewFailure>) -> AsyncPhase<Success, NewFailure> {
+  public func flatMapError<NewFailure>(
+    _ transform: (Failure) -> AsyncPhase<Success, NewFailure>
+  ) -> AsyncPhase<Success, NewFailure> {
     switch self {
       case .suspending:
         return .suspending
@@ -149,6 +157,7 @@ extension AsyncPhase: Decodable where Success: Decodable, Failure: Decodable { }
 extension AsyncPhase: Encodable where Success: Encodable, Failure: Encodable {}
 
 extension AsyncPhase: Equatable where Success: Equatable, Failure: Equatable {}
+
 extension AsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}
 
 extension AsyncPhase: Sendable where Success: Sendable {}

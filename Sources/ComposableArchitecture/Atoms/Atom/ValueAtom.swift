@@ -52,3 +52,31 @@ public extension ValueAtom {
     ValueAtomLoader(atom: self)
   }
 }
+
+// MARK: Make ValueAtom
+public struct MValueAtom<M>: ValueAtom {
+
+  public typealias Value = M
+
+  var initialState: (Self.Context) -> M
+  var id: String
+
+  public init(id: String,_ initialState: @escaping (Self.Context) -> M) {
+    self.id = id
+    self.initialState = initialState
+  }
+
+  public init(id: String, initialState: M) {
+    self.init(id: id) { _ in
+      initialState
+    }
+  }
+
+  public func value(context: Self.Context) -> M {
+    initialState(context)
+  }
+
+  public var key: String {
+    self.id
+  }
+}

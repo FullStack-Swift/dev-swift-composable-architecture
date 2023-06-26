@@ -71,3 +71,31 @@ public extension ObservableObjectAtom {
     ObservableObjectAtomLoader(atom: self)
   }
 }
+
+// MARK: Make ObservableObjectAtom
+public struct MObservableObjectAtom<M: ObservableObject>: ObservableObjectAtom {
+
+  public typealias ObjectType = M
+
+  var id: String
+  var initialState: (Self.Context) -> M
+
+  public init(id: String, initialState: @escaping (Context) -> M) {
+    self.id = id
+    self.initialState = initialState
+  }
+
+  public init(id: String, initialState: M) {
+    self.init(id: id) { _ in
+      initialState
+    }
+  }
+
+  public func object(context: Self.Context) -> M {
+    initialState(context)
+  }
+
+  public var key: String {
+    self.id
+  }
+}

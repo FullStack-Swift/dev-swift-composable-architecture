@@ -49,3 +49,31 @@ public extension StateAtom {
     StateAtomLoader(atom: self)
   }
 }
+
+public struct MStateAtom<M>: StateAtom {
+
+  public typealias Value = M
+
+  var initialState: (Self.Context) -> M
+
+  var id: String = ""
+
+  public init(id: String,_ initialState: @escaping (Self.Context) -> M) {
+    self.id = id
+    self.initialState = initialState
+  }
+
+  public init(id: String, initialState: M) {
+    self.init(id: id) { _ in
+      initialState
+    }
+  }
+
+  public func defaultValue(context: Self.Context) -> M {
+    initialState(context)
+  }
+
+  public var key: String {
+    self.id
+  }
+}

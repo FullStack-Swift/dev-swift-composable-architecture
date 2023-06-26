@@ -68,3 +68,31 @@ public extension AsyncSequenceAtom {
     AsyncSequenceAtomLoader(atom: self)
   }
 }
+
+// MARK: Make AsyncSequenceAtom
+public struct MAsyncSequenceAtom<M: AsyncSequence>: AsyncSequenceAtom {
+
+  public typealias Sequence = M
+
+  var id: String
+  var initialState: (Self.Context) -> M
+
+  public init(id: String, initialState: @escaping (Context) -> M) {
+    self.id = id
+    self.initialState = initialState
+  }
+
+  public init(id: String,initialState: M) {
+    self.init(id: id) { _ in
+      initialState
+    }
+  }
+
+  public func sequence(context: Self.Context) -> M {
+    initialState(context)
+  }
+
+  public var key: String {
+    self.id
+  }
+}
