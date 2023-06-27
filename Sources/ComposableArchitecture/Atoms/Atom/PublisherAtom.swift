@@ -68,12 +68,12 @@ public struct MPublisherAtom<Publisher: Combine.Publisher>: PublisherAtom {
   var initialState: (Self.Context) -> Publisher
   var id: String
 
-  public init(id: String, initialState: @escaping (Context) -> Publisher) {
+  public init(id: String, _ initialState: @escaping (Context) -> Publisher) {
     self.initialState = initialState
     self.id = id
   }
 
-  public init(id: String, initialState: Publisher) {
+  public init(id: String, _ initialState: Publisher) {
     self.init(id: id) { _ in
       initialState
     }
