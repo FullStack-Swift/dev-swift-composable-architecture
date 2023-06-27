@@ -11,7 +11,7 @@ private struct _ValueAtom: ValueAtom, Hashable {
 private struct _ValueAtomView: View {
   @Watch(_ValueAtom())
   private var locale
-
+  
   var body: some View {
     HStack {
       Text("Locale Current")
@@ -23,17 +23,17 @@ private struct _ValueAtomView: View {
 
 // MARK: StateAtom
 private struct _StateAtom: StateAtom, Hashable {
-
+  
   var id: String
-
+  
   init(id: String = "") {
     self.id = id
   }
-
+  
   func defaultValue(context: Context) -> Int {
     0
   }
-
+  
   var key: any Hashable {
     id
   }
@@ -42,13 +42,13 @@ private struct _StateAtom: StateAtom, Hashable {
 private struct _StateAtomView: View {
   @WatchState(_StateAtom(id: "1"))
   private var state_1
-
+  
   @WatchState(_StateAtom(id: "2"))
   private var state_2
-
+  
   @WatchState(_StateAtom(id: "3"))
   private var state_3
-
+  
   var body: some View {
     VStack {
       HStack {
@@ -72,19 +72,19 @@ private struct _StateAtomView: View {
 
 // MARK: TaskAtom
 private struct _TaskAatom: TaskAtom, Hashable {
-
+  
   var id: String
-
+  
   init(id: String) {
     self.id = id
   }
-
+  
   var value: String {
     return UUID().uuidString
   }
-
+  
   static var value: String = "Swift"
-
+  
   func value(context: Context) async -> String {
     try? await Task.sleep(nanoseconds: 1_000_000_000)
     Self.value += "_@"
@@ -93,16 +93,16 @@ private struct _TaskAatom: TaskAtom, Hashable {
   }
 }
 private struct _TaskAtomView: View {
-
+  
   @Watch(_TaskAatom(id: "_TaskAatom"))
   private var taskAtom
-
+  
   @Watch(_StateAtom(id: "_TaskAatom"))
   private var stateAtom
-
+  
   @ViewContext
   private var context
-
+  
   var body: some View {
     HStack {
       Suspense(taskAtom) { value in
@@ -138,16 +138,16 @@ private struct _ThrowingTaskAtom: ThrowingTaskAtom, Hashable {
       throw DateError(id: "DateError")
     }
   }
-
+  
 }
 private struct _ThrowingTaskAtomView: View {
-
+  
   @Watch(_ThrowingTaskAtom())
   private var throwingTaskAtom
-
+  
   @ViewContext
   private var context
-
+  
   var body: some View {
     HStack {
       Suspense(throwingTaskAtom) { value in
@@ -180,10 +180,10 @@ private struct _AsyncSequenceAtom: AsyncSequenceAtom, Hashable {
 }
 
 private struct _AsyncSequenceAtomView: View {
-
+  
   @Watch(_AsyncSequenceAtom())
   private var asyncSequenceAtom
-
+  
   @ViewContext
   private var context
   var body: some View {
@@ -195,24 +195,24 @@ private struct _AsyncSequenceAtomView: View {
       case .failure(let error):
         Text(error.localizedDescription)
     }
-//    Suspense(asyncSequenceAtom) { value in
-//      Text(value)
-//    } suspending: {
-//      ProgressView()
-//    } catch: { error in
-//      Text(error.localizedDescription)
-//    }
+    //    Suspense(asyncSequenceAtom) { value in
+    //      Text(value)
+    //    } suspending: {
+    //      ProgressView()
+    //    } catch: { error in
+    //      Text(error.localizedDescription)
+    //    }
   }
 }
 
 import Combine
 // MARK: PublisherAtom
 private struct _PublisherAtom: PublisherAtom, Hashable {
-
+  
   struct DateError: Error {
     var id: String
   }
-
+  
   func publisher(context: Context) -> AnyPublisher<Date,DateError> {
     if Bool.random() {
       return Just(Date())
@@ -230,10 +230,10 @@ private struct _PublisherAtom: PublisherAtom, Hashable {
 private struct _PublisherAtomView: View {
   @Watch(_PublisherAtom())
   private var publisherAtom
-
+  
   @ViewContext
   private var context
-
+  
   var body: some View {
     HStack {
       AsyncPhaseView(phase: publisherAtom) { value in
@@ -250,18 +250,18 @@ private struct _PublisherAtomView: View {
         }
       }
     }
-
+    
   }
 }
 // MARK: ObservableObjectAtom
 private class _ObservableObject: ObservableObject {
   @Published var name = ""
   @Published var age = 0
-
+  
   func plus() {
     age += 1
   }
-
+  
   func minus() {
     age -= 1
   }
@@ -276,7 +276,7 @@ private struct _ObservableObjectAtom: ObservableObjectAtom, Hashable {
 private struct _ObservableObjectAtomView: View {
   @WatchStateObject(_ObservableObjectAtom())
   private var viewModel
-
+  
   var body: some View {
     VStack {
       TextField("Enter your name", text: $viewModel.name)
@@ -287,7 +287,7 @@ private struct _ObservableObjectAtomView: View {
         } label: {
           ImageMinus()
         }
-
+        
         Button {
           viewModel.plus()
         } label: {
@@ -302,7 +302,7 @@ private struct _ObservableObjectAtomView: View {
 
 
 struct AtomCaseStudiesView: View {
-
+  
   var body: some View {
     ZStack {
       ScrollView {
@@ -340,12 +340,12 @@ struct AtomCaseStudiesView: View {
 private struct AtomRowView<Content: View>: View {
   let title: String
   let content: Content
-
+  
   init(_ title: String, @ViewBuilder content: () -> Content) {
     self.title = title
     self.content = content()
   }
-
+  
   var body: some View {
     VStack(alignment: .leading) {
       Text(title)
@@ -361,13 +361,13 @@ private struct AtomRowView<Content: View>: View {
 }
 
 private struct AtomRowTextValue: View {
-
+  
   private let content: Int
-
+  
   init(_ content: Int) {
     self.content = content
   }
-
+  
   var body: some View {
     GeometryReader { proxy in
       ZStack(alignment: .center) {

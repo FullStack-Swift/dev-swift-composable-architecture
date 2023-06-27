@@ -1,6 +1,7 @@
 import SwiftUI
 import ComposableArchitecture
 
+// MARK: Model
 private struct Todo: Hashable, Identifiable {
   var id: UUID
   var text: String
@@ -20,29 +21,40 @@ private struct Stats: Equatable {
   let percentCompleted: Double
 }
 
-private let _todosAtom = MStateAtom<IdentifiedArray<Todo.ID,Todo>>(id: "_todosatom") { context in
-  return IdentifiedArray(uniqueElements: [
-    Todo(id: UUID(), text: "A", isCompleted: true),
-    Todo(id: UUID(), text: "B", isCompleted: false),
-    Todo(id: UUID(), text: "C", isCompleted: true),
-    Todo(id: UUID(), text: "D", isCompleted: false)
-  ])
+// MARK: Mock Data
+extension IdentifiedArray where ID == Todo.ID, Element == Todo {
+  static let mock: Self = [
+    Todo(
+      id: UUID(),
+      text: "A",
+      isCompleted: false
+    ),
+    Todo(
+      id: UUID(),
+      text: "B",
+      isCompleted: true
+    ),
+    Todo(
+      id: UUID(),
+      text: "C",
+      isCompleted: false
+    ),
+    Todo(
+      id: UUID(),
+      text: "D",
+      isCompleted: true
+    ),
+  ]
 }
 
+
+// MARK: Atom
 private struct TodosAtom: StateAtom, Hashable, KeepAlive {
   func defaultValue(context: Context) -> IdentifiedArrayOf<Todo> {
-    [
-      Todo(id: UUID(), text: "A", isCompleted: true),
-      Todo(id: UUID(), text: "B", isCompleted: false),
-      Todo(id: UUID(), text: "C", isCompleted: true),
-      Todo(id: UUID(), text: "D", isCompleted: false)
-    ]
+    .mock
   }
 }
 
-private let _filterAtom = MStateAtom<Filter>(id: "_filterAtom") { context in
-  return .all
-}
 
 private struct FilterAtom: StateAtom, Hashable {
   func defaultValue(context: Context) -> Filter {
@@ -50,19 +62,6 @@ private struct FilterAtom: StateAtom, Hashable {
   }
 }
 
-@MainActor
-private let _filteredTodosAtom = MValueAtom<IdentifiedArray<Todo.ID,Todo>>(id: "_filteredTodosAtom") { context in
-  let filter = context.watch(_filterAtom)
-  let todos = context.watch(_todosAtom)
-  switch filter {
-    case .all:
-      return todos
-    case .completed:
-      return todos.filter(\.isCompleted)
-    case .uncompleted:
-      return todos.filter { !$0.isCompleted }
-  }
-}
 private struct FilteredTodosAtom: ValueAtom, Hashable {
   func value(context: Context) -> IdentifiedArrayOf<Todo> {
     let filter = context.watch(FilterAtom())
@@ -78,21 +77,6 @@ private struct FilteredTodosAtom: ValueAtom, Hashable {
   }
 }
 
-@MainActor
-private let _statsAtom = MValueAtom<Stats>(id: "_statsAtom") { context in
-  let todos = context.watch(_todosAtom)
-  let total = todos.count
-  let totalCompleted = todos.filter(\.isCompleted).count
-  let totalUncompleted = todos.filter { !$0.isCompleted }.count
-  let percentCompleted = total <= 0 ? 0 : (Double(totalCompleted) / Double(total))
-  return Stats(
-    total: total,
-    totalCompleted: totalCompleted,
-    totalUncompleted: totalUncompleted,
-    percentCompleted: percentCompleted
-  )
-
-}
 
 private struct StatsAtom: ValueAtom, Hashable {
   func value(context: Context) -> Stats {
@@ -110,15 +94,16 @@ private struct StatsAtom: ValueAtom, Hashable {
   }
 }
 
-private struct TodoStats: View {
 
+// MARK: View
+private struct TodoStats: View {
+  
   @ViewContext
   private var context
-
+  
   var body: some View {
     HookScope {
-//      let stats = context.useRecoilValue(StatsAtom())
-      let stats = context.useRecoilValue(_statsAtom)
+      let stats = context.useRecoilValue(StatsAtom())
       VStack(alignment: .leading, spacing: 4) {
         stat("Total", "\(stats.total)")
         stat("Completed", "\(stats.totalCompleted)")
@@ -128,7 +113,7 @@ private struct TodoStats: View {
       .padding(.vertical)
     }
   }
-
+  
   private func stat(_ title: String, _ value: String) -> some View {
     HStack {
       Text(title) + Text(":")
@@ -139,30 +124,27 @@ private struct TodoStats: View {
 }
 
 private struct TodoFilters: View {
-
+  
   @ViewContext
   private var context
-
+  
   var body: some View {
     HookScope {
-//      let filter = context.useRecoilState(FilterAtom())
-      let filter = context.useRecoilState(_filterAtom)
+      let filter = context.useRecoilState(FilterAtom())
       Picker("Filter", selection: filter) {
         ForEach(Filter.allCases, id: \.self) { filter in
           switch filter {
             case .all:
               Text("All")
-
             case .completed:
               Text("Completed")
-
             case .uncompleted:
               Text("Uncompleted")
           }
         }
       }
       .padding(.vertical)
-
+      
 #if !os(watchOS)
       .pickerStyle(.segmented)
 #endif
@@ -171,32 +153,28 @@ private struct TodoFilters: View {
 }
 
 private struct TodoCreator: View {
-
+  
   @ViewContext
   private var context
-
-  @State
-  private var text = ""
-
+  
   var body: some View {
     HookScope {
-      let todo = Todo(id: UUID(), text: text, isCompleted: false)
-//      let todos = context.useRecoilState(TodosAtom())
-      let todos = context.useRecoilState(_todosAtom)
+      let text = useState("")
+      let todos = context.useRecoilState(TodosAtom())
       HStack {
-        TextField("Enter your todo", text: $text)
+        TextField("Enter your todo", text: text)
 #if os(iOS) || os(macOS)
           .textFieldStyle(.plain)
 #endif
         Button {
-          todos.wrappedValue.append(todo)
-          text = ""
+          todos.wrappedValue.append(Todo(id: UUID(), text: text.wrappedValue, isCompleted: false))
+          text.wrappedValue = ""
         } label: {
           Text("Add")
             .bold()
-            .foregroundColor(text.isEmpty ? .gray : .green)
+            .foregroundColor(text.wrappedValue.isEmpty ? .gray : .green)
         }
-        .disabled(text.isEmpty)
+        .disabled(text.wrappedValue.isEmpty)
       }
       .padding(.vertical)
     }
@@ -204,41 +182,29 @@ private struct TodoCreator: View {
 }
 
 private struct TodoItem: View {
-
+  
   @ViewContext
   private var context
-
-  @State
-  private var text: String
-
-  @State
-  private var isCompleted: Bool
-
-  fileprivate let todo: Todo
-
-  fileprivate init(todo: Todo) {
-    self.todo = todo
-    self._text = State(initialValue: todo.text)
-    self._isCompleted = State(initialValue: todo.isCompleted)
+  
+  fileprivate let todoID: UUID
+  
+  fileprivate init(todoID: UUID) {
+    self.todoID = todoID
   }
-
+  
   var body: some View {
     HookScope {
-//      let todos = context.useRecoilState(TodosAtom())
-      let todos = context.useRecoilState(_todosAtom)
-      Toggle(isOn: $isCompleted) {
-        TextField("", text: $text) {
-          todos.wrappedValue[id: todo.id]?.text = text
-        }
-        .textFieldStyle(.plain)
-
+      let todos = context.useRecoilState(TodosAtom())
+      if let todo = todos.first(where: {$0.wrappedValue.id == self.todoID}) {
+        Toggle(isOn: todo.map(\.isCompleted)) {
+          TextField("", text: todo.map(\.text)) {
+          }
+          .textFieldStyle(.plain)
 #if os(iOS) || os(macOS)
-        .textFieldStyle(.roundedBorder)
+          .textFieldStyle(.roundedBorder)
 #endif
-      }
-      .padding(.vertical, 4)
-      .onChange(of: isCompleted) { isCompleted in
-        todos.wrappedValue[id: todo.id]?.isCompleted.toggle()
+        }
+        .padding(.vertical, 4)
       }
     }
   }
@@ -246,39 +212,37 @@ private struct TodoItem: View {
 
 
 struct AtomTodoView: View {
-
+  
   @ViewContext
   private var context
-
+  
   var body: some View {
     HookScope {
-//      let filteredTodos = context.useRecoilValue(FilteredTodosAtom())
-//      let todos = context.useRecoilState(TodosAtom())
-      let filteredTodos = context.useRecoilValue(_filteredTodosAtom)
-      let todos = context.useRecoilState(_todosAtom)
+      let filteredTodos = context.useRecoilValue(FilteredTodosAtom())
+      let todos = context.useRecoilState(TodosAtom())
       List {
-        Section {
+        Section(header: Text("Information")) {
           TodoStats()
           TodoCreator()
         }
-        Section {
+        Section(header: Text("Filters")) {
           TodoFilters()
         }
         ForEach(filteredTodos, id: \.id) { todo in
-          TodoItem(todo: todo)
+          TodoItem(todoID: todo.id)
         }
-        .onDelete { indexSet in
-          todos.wrappedValue.remove(atOffsets: indexSet)
+        .onDelete { atOffsets in
+          todos.wrappedValue.remove(atOffsets: atOffsets)
         }
-        .onMove { from, to in
-          todos.wrappedValue.move(fromOffsets: from, toOffset: to)
+        .onMove { fromOffsets, toOffset in
+          todos.wrappedValue.move(fromOffsets: fromOffsets, toOffset: toOffset)
         }
       }
       .listStyle(.sidebar)
       .toolbar {
         EditButton()
       }
-      .navigationTitle("Todos")
+      .navigationTitle("Atom-Todos")
       .navigationBarTitleDisplayMode(.inline)
     }
   }

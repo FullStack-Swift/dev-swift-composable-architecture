@@ -4,17 +4,17 @@ import ComposableArchitecture
 
 // MARK: StateAtom
 private struct _StateAtom: StateAtom, Hashable {
-
+  
   var id: String
-
+  
   init(id: String = "") {
     self.id = id
   }
-
+  
   func defaultValue(context: Context) -> Int {
     0
   }
-
+  
   var key: any Hashable {
     id
   }
@@ -30,19 +30,19 @@ private struct _ValueAtom: ValueAtom, Hashable {
 
 // MARK: TaskAtom
 private struct _TaskAatom: TaskAtom, Hashable {
-
+  
   var id: String
-
+  
   init(id: String) {
     self.id = id
   }
-
+  
   var value: String {
     return UUID().uuidString
   }
-
+  
   static var value: String = "Swift"
-
+  
   func value(context: Context) async -> String {
     try? await Task.sleep(nanoseconds: 1_000_000_000)
     Self.value += "_@"
@@ -70,13 +70,13 @@ private struct _PublisherAtom: PublisherAtom, Hashable {
   struct DateError: Error {
     var id: String
   }
-
+  
   var id: String
-
+  
   init(id: String) {
     self.id = id
   }
-
+  
   func publisher(context: Context) -> AnyPublisher<Date,DateError> {
     if Bool.random() {
       return Just(Date())
@@ -92,10 +92,10 @@ private struct _PublisherAtom: PublisherAtom, Hashable {
 }
 
 private struct _StateAtomView: HookView {
-
+  
   @ViewContext
   private var context
-
+  
   var hookBody: some View {
     RecoilScope { context in
       VStack {
@@ -149,7 +149,7 @@ private struct _StateAtomView: HookView {
           } failureContent: { error in
             Text(error.localizedDescription)
           }
-
+          
         }
         headerView
           .padding()
@@ -173,9 +173,9 @@ private struct _StateAtomView: HookView {
         }
       }
     }
-    .navigationTitle("Recoil")
+    .navigationBarTitle(Text("Recoil"), displayMode: .inline)
   }
-
+  
   var headerView: some View {
     let state1 = useRecoilValue(_StateAtom(id: "1"))
     let state2 = useRecoilValue(_StateAtom(id: "2"))
@@ -192,7 +192,7 @@ private struct _StateAtomView: HookView {
 }
 
 private struct _ScopeRecoilView: View {
-
+  
   @ScopeRecoilViewContext
   private var viewContext
   
@@ -211,13 +211,13 @@ private struct _ScopeRecoilView: View {
 }
 
 private struct AtomRowTextValue: View {
-
+  
   private let content: Int
-
+  
   init(_ content: Int) {
     self.content = content
   }
-
+  
   var body: some View {
     GeometryReader { proxy in
       ZStack(alignment: .center) {
@@ -239,14 +239,14 @@ private struct AtomRowTextValue: View {
 }
 
 struct RecoilUseCaseStudiesView: View {
-
+  
   var body: some View {
-      ScrollView {
-        VStack {
-          _StateAtomView()
-          _ScopeRecoilView()
-        }
-        .padding()
+    ScrollView {
+      VStack {
+        _StateAtomView()
+        _ScopeRecoilView()
       }
+      .padding()
+    }
   }
 }

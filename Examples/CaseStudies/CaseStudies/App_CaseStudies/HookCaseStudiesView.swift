@@ -75,7 +75,7 @@ struct HookCaseStudiesView: View {
       }
     }
   }
-
+  
   private var useSetStateView: some View {
     let (state, setState) = useSetState(0)
     return HookRowView("useSetState") {
@@ -541,13 +541,13 @@ private struct HookRowView<Content: View>: View {
 }
 
 private struct HookRowTextValue: View {
-
+  
   private let content: Int
-
+  
   init(_ content: Int) {
     self.content = content
   }
-
+  
   var body: some View {
     GeometryReader { proxy in
       ZStack(alignment: .center) {
@@ -569,13 +569,13 @@ private struct HookRowTextValue: View {
 }
 
 private struct TextValue: View {
-
+  
   private let content: String
-
+  
   init(_ content: String) {
     self.content = content
   }
-
+  
   var body: some View {
     GeometryReader { proxy in
       ZStack(alignment: .center) {

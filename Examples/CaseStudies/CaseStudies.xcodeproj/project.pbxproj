@@ -8,24 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		87647C862A42C932009BD13F /* RecoilUseCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87647C852A42C932009BD13F /* RecoilUseCaseStudiesView.swift */; };
-		876C21B12A3C5CDA00B980DA /* AtomTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B02A3C5CDA00B980DA /* AtomTodoView.swift */; };
-		876C21B32A400BC000B980DA /* HookTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B22A400BC000B980DA /* HookTodoView.swift */; };
 		876C21B52A4023A600B980DA /* TCACaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */; };
 		87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */; };
+		87ABACAC2A4D1BAE00545682 /* MVCTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABACAB2A4D1BAE00545682 /* MVCTodoView.swift */; };
+		87ABACAE2A4D1C2A00545682 /* MVVMTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABACAD2A4D1C2A00545682 /* MVVMTodoView.swift */; };
 		87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DF96DF2A39904F0006B774 /* CaseStudiesApp.swift */; };
 		87DF96E22A39904F0006B774 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DF96E12A39904F0006B774 /* ContentView.swift */; };
 		87DF96E42A3990510006B774 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87DF96E32A3990510006B774 /* Assets.xcassets */; };
 		87DF96E82A3990510006B774 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87DF96E72A3990510006B774 /* Preview Assets.xcassets */; };
 		87DF96EF2A3991060006B774 /* HookCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */; };
 		87DF96F22A3991C10006B774 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 87DF96F12A3991C10006B774 /* ComposableArchitecture */; };
+		90ACBBB42A4B4EE10041D7E2 /* TCATodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBAF2A4B4EE10041D7E2 /* TCATodoView.swift */; };
+		90ACBBB52A4B4EE10041D7E2 /* HookTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBB02A4B4EE10041D7E2 /* HookTodoView.swift */; };
+		90ACBBB62A4B4EE10041D7E2 /* RecoilTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBB12A4B4EE10041D7E2 /* RecoilTodoView.swift */; };
+		90ACBBB72A4B4EE10041D7E2 /* AtomTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBB22A4B4EE10041D7E2 /* AtomTodoView.swift */; };
+		90ACBBB82A4B4EE10041D7E2 /* RiverpodTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBB32A4B4EE10041D7E2 /* RiverpodTodoView.swift */; };
+		90FDE91D2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FDE91C2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		87647C852A42C932009BD13F /* RecoilUseCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoilUseCaseStudiesView.swift; sourceTree = "<group>"; };
-		876C21B02A3C5CDA00B980DA /* AtomTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomTodoView.swift; sourceTree = "<group>"; };
-		876C21B22A400BC000B980DA /* HookTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookTodoView.swift; sourceTree = "<group>"; };
 		876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCACaseStudiesView.swift; sourceTree = "<group>"; };
 		87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomCaseStudiesView.swift; sourceTree = "<group>"; };
+		87ABACAB2A4D1BAE00545682 /* MVCTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCTodoView.swift; sourceTree = "<group>"; };
+		87ABACAD2A4D1C2A00545682 /* MVVMTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMTodoView.swift; sourceTree = "<group>"; };
 		87DF96DC2A39904F0006B774 /* CaseStudies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaseStudies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87DF96DF2A39904F0006B774 /* CaseStudiesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseStudiesApp.swift; sourceTree = "<group>"; };
 		87DF96E12A39904F0006B774 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -33,6 +39,12 @@
 		87DF96E52A3990510006B774 /* CaseStudies.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CaseStudies.entitlements; sourceTree = "<group>"; };
 		87DF96E72A3990510006B774 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookCaseStudiesView.swift; sourceTree = "<group>"; };
+		90ACBBAF2A4B4EE10041D7E2 /* TCATodoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCATodoView.swift; sourceTree = "<group>"; };
+		90ACBBB02A4B4EE10041D7E2 /* HookTodoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HookTodoView.swift; sourceTree = "<group>"; };
+		90ACBBB12A4B4EE10041D7E2 /* RecoilTodoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecoilTodoView.swift; sourceTree = "<group>"; };
+		90ACBBB22A4B4EE10041D7E2 /* AtomTodoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtomTodoView.swift; sourceTree = "<group>"; };
+		90ACBBB32A4B4EE10041D7E2 /* RiverpodTodoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiverpodTodoView.swift; sourceTree = "<group>"; };
+		90FDE91C2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverpodCaseStudiesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +59,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		87ABACAF2A4D1C3F00545682 /* Architecture */ = {
+			isa = PBXGroup;
+			children = (
+				87ABACAB2A4D1BAE00545682 /* MVCTodoView.swift */,
+				87ABACAD2A4D1C2A00545682 /* MVVMTodoView.swift */,
+			);
+			path = Architecture;
+			sourceTree = "<group>";
+		};
 		87DF96D32A39904F0006B774 = {
 			isa = PBXGroup;
 			children = (
@@ -67,17 +88,13 @@
 		87DF96DE2A39904F0006B774 /* CaseStudies */ = {
 			isa = PBXGroup;
 			children = (
+				90ACBBAE2A4B4EE10041D7E2 /* App_Todos */,
+				90FDE91F2A4B4DBD00342E0B /* App_CaseStudies */,
 				87DF96DF2A39904F0006B774 /* CaseStudiesApp.swift */,
 				87DF96E12A39904F0006B774 /* ContentView.swift */,
 				87DF96E32A3990510006B774 /* Assets.xcassets */,
 				87DF96E52A3990510006B774 /* CaseStudies.entitlements */,
 				87DF96E62A3990510006B774 /* Preview Content */,
-				876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */,
-				87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */,
-				87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */,
-				87647C852A42C932009BD13F /* RecoilUseCaseStudiesView.swift */,
-				876C21B02A3C5CDA00B980DA /* AtomTodoView.swift */,
-				876C21B22A400BC000B980DA /* HookTodoView.swift */,
 			);
 			path = CaseStudies;
 			sourceTree = "<group>";
@@ -95,6 +112,31 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		90ACBBAE2A4B4EE10041D7E2 /* App_Todos */ = {
+			isa = PBXGroup;
+			children = (
+				87ABACAF2A4D1C3F00545682 /* Architecture */,
+				90ACBBAF2A4B4EE10041D7E2 /* TCATodoView.swift */,
+				90ACBBB02A4B4EE10041D7E2 /* HookTodoView.swift */,
+				90ACBBB12A4B4EE10041D7E2 /* RecoilTodoView.swift */,
+				90ACBBB22A4B4EE10041D7E2 /* AtomTodoView.swift */,
+				90ACBBB32A4B4EE10041D7E2 /* RiverpodTodoView.swift */,
+			);
+			path = App_Todos;
+			sourceTree = "<group>";
+		};
+		90FDE91F2A4B4DBD00342E0B /* App_CaseStudies */ = {
+			isa = PBXGroup;
+			children = (
+				876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */,
+				87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */,
+				87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */,
+				87647C852A42C932009BD13F /* RecoilUseCaseStudiesView.swift */,
+				90FDE91C2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift */,
+			);
+			path = App_CaseStudies;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,12 +214,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90ACBBB52A4B4EE10041D7E2 /* HookTodoView.swift in Sources */,
 				87DF96E22A39904F0006B774 /* ContentView.swift in Sources */,
-				876C21B12A3C5CDA00B980DA /* AtomTodoView.swift in Sources */,
+				87ABACAC2A4D1BAE00545682 /* MVCTodoView.swift in Sources */,
+				90FDE91D2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift in Sources */,
 				87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */,
-				876C21B32A400BC000B980DA /* HookTodoView.swift in Sources */,
 				87647C862A42C932009BD13F /* RecoilUseCaseStudiesView.swift in Sources */,
+				90ACBBB82A4B4EE10041D7E2 /* RiverpodTodoView.swift in Sources */,
 				87DF96EF2A3991060006B774 /* HookCaseStudiesView.swift in Sources */,
+				90ACBBB62A4B4EE10041D7E2 /* RecoilTodoView.swift in Sources */,
+				90ACBBB72A4B4EE10041D7E2 /* AtomTodoView.swift in Sources */,
+				87ABACAE2A4D1C2A00545682 /* MVVMTodoView.swift in Sources */,
+				90ACBBB42A4B4EE10041D7E2 /* TCATodoView.swift in Sources */,
 				87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */,
 				876C21B52A4023A600B980DA /* TCACaseStudiesView.swift in Sources */,
 			);

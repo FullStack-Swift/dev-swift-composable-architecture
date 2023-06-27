@@ -169,7 +169,11 @@ public final class Store<State, Action> {
 
   public subscript<Value>(dynamicMember keyPath: WritableKeyPath<State, Value>) -> Value {
     get { self.state.value[keyPath: keyPath] }
-    set { self.state.value[keyPath: keyPath] = newValue }
+    set {
+      var state = self.state.value
+      state[keyPath: keyPath] = newValue
+      withState{$0 = state}
+    }
   }
 
   /// Scopes the store to one that exposes child state and actions.
