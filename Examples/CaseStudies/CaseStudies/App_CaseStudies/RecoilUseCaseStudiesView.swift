@@ -22,8 +22,11 @@ private struct _StateAtom: StateAtom, Hashable {
 
 // MARK: ValueAtom
 private struct _ValueAtom: ValueAtom, Hashable {
+  
+  var id: String
+  
   func value(context: Context) -> Int {
-    context.watch(_StateAtom(id: "1"))
+    context.watch(_StateAtom(id: id))
   }
 }
 
@@ -77,7 +80,7 @@ private struct _PublisherAtom: PublisherAtom, Hashable {
     self.id = id
   }
   
-  func publisher(context: Context) -> AnyPublisher<Date,DateError> {
+  func publisher(context: Context) -> AnyPublisher<Date, DateError> {
     if Bool.random() {
       return Just(Date())
         .delay(for: 1, scheduler: DispatchQueue.main)
@@ -173,7 +176,6 @@ private struct _StateAtomView: HookView {
         }
       }
     }
-    .navigationBarTitle(Text("Recoil"), displayMode: .inline)
   }
   
   var headerView: some View {
@@ -200,12 +202,42 @@ private struct _ScopeRecoilView: View {
     HookScope {
       HStack {
         let state = viewContext.useRecoilState(_StateAtom(id: "1"))
-        let value = viewContext.useRecoilValue(_ValueAtom())
+        let value = viewContext.useRecoilValue(_ValueAtom(id: "1"))
         AtomRowTextValue(state.wrappedValue)
         AtomRowTextValue(value)
         Stepper("Count: \(state.wrappedValue)", value: state)
           .labelsHidden()
       }
+    }
+  }
+}
+
+private struct _GlobalRecoilView: View {
+  
+  var body: some View {
+    HookScope {
+      HStack {
+        let state = useRecoilState(_StateAtom(id: "1"))
+        let value = useRecoilValue(_ValueAtom(id: "1"))
+        AtomRowTextValue(state.wrappedValue)
+        AtomRowTextValue(value)
+        Stepper("Count: \(state.wrappedValue)", value: state)
+          .labelsHidden()
+      }
+    }
+  }
+}
+
+private struct _RecoilViewCustom: RecoilView {
+  
+  func recoilBody(context: AtomRecoilContext) -> some View {
+    HStack {
+      let state = context.useRecoilState(_StateAtom(id: "1"))
+      let value = context.useRecoilValue(_ValueAtom(id: "1"))
+      AtomRowTextValue(state.wrappedValue)
+      AtomRowTextValue(value)
+      Stepper("Count: \(state.wrappedValue)", value: state)
+        .labelsHidden()
     }
   }
 }
@@ -241,12 +273,48 @@ private struct AtomRowTextValue: View {
 struct RecoilUseCaseStudiesView: View {
   
   var body: some View {
-    ScrollView {
-      VStack {
+    List {
+      Section("ViewContext") {
         _StateAtomView()
+      }
+      .padding()
+      
+      Section("Other ViewContext") {
+        _StateAtomView()
+      }
+      .padding()
+      
+      Section("Recoil View") {
+        _RecoilViewCustom()
+      }
+      .padding()
+
+      Section("Other Recoil View") {
+        _RecoilViewCustom()
+      }
+      .padding()
+      
+      Section("Scope Recoil") {
         _ScopeRecoilView()
       }
       .padding()
+      
+      Section("Other Scope Recoil") {
+        _ScopeRecoilView()
+      }
+      .padding()
+      
+      Section("Global Recoil") {
+        _GlobalRecoilView()
+      }
+      .padding()
+      
+      Section("Other Global Recoil") {
+        _GlobalRecoilView()
+      }
+      .padding()
     }
+    .listStyle(.sidebar)
+    .navigationBarTitle(Text("Recoil"), displayMode: .inline)
   }
 }

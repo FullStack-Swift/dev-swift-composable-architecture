@@ -1,34 +1,34 @@
 /// A hook to use the most recent phase of the passed non-throwing asynchronous operation, and a `perform` function to call the it at arbitrary timing.
 ///
-///     let (phase, perform) = useAsyncPerform {
+///     let (phase, refresh) = useAsyncRefresh {
 ///         try! await URLSession.shared.data(from: url)
 ///     }
 ///
 /// - Parameter operation: A closure that produces a resulting value asynchronously.
 /// - Returns: A tuple of the most recent async phase and its perform function.
 @discardableResult
-public func useAsyncPerform<Output>(
+public func useAsyncRefresh<Output>(
   _ operation: @escaping @MainActor () async -> Output
-) -> (phase: HookAsyncPhase<Output, Never>,perform: @MainActor () async -> Void) {
-  useHook(AsyncPerformHook(operation: operation))
+) -> (phase: HookAsyncPhase<Output, Never>, refresher: @MainActor () async -> Void) {
+  useHook(AsyncRefreshHook(operation: operation))
 }
 
 /// A hook to use the most recent phase of the passed throwing asynchronous operation, and a `perform` function to call the it at arbitrary timing.
 ///
-///     let (phase, perform) = useAsyncPerform {
+///     let (phase, refresh) = useAsyncRefresh {
 ///         try await URLSession.shared.data(from: url)
 ///     }
 ///
 /// - Parameter operation: A closure that produces a resulting value asynchronously.
 /// - Returns: A most recent async phase.
 @discardableResult
-public func useAsyncPerform<Output>(
+public func useAsyncRefresh<Output>(
   _ operation: @escaping @MainActor () async throws -> Output
-) -> (phase: HookAsyncPhase<Output, Error>, perform: @MainActor () async -> Void) {
-  useHook(AsyncThrowingPerformHook(operation: operation))
+) -> (phase: HookAsyncPhase<Output, Error>, refresher: @MainActor () async -> Void) {
+  useHook(AsyncThrowingRefreshHook(operation: operation))
 }
 
-private struct AsyncPerformHook<Output>: Hook {
+private struct AsyncRefreshHook<Output>: Hook {
   
   typealias Phase = HookAsyncPhase<Output, Never>
   
@@ -39,19 +39,15 @@ private struct AsyncPerformHook<Output>: Hook {
     State()
   }
   
-  func value(coordinator: Coordinator) -> (
-    phase: Phase,
-    perform: @MainActor () async -> Void
-  ) {
+  func value(coordinator: Coordinator) -> (phase: Phase, refresher: @MainActor () async -> Void) {
     (
       phase: coordinator.state.phase,
-      perform: {
+      refresher: {
         guard !coordinator.state.isDisposed else {
           return
         }
         
         coordinator.state.phase = .running
-        coordinator.updateView()
         
         let output = await operation()
         
@@ -68,14 +64,14 @@ private struct AsyncPerformHook<Output>: Hook {
   }
 }
 
-private extension AsyncPerformHook {
+private extension AsyncRefreshHook {
   final class State {
     var phase = Phase.pending
     var isDisposed = false
   }
 }
 
-private struct AsyncThrowingPerformHook<Output>: Hook {
+private struct AsyncThrowingRefreshHook<Output>: Hook {
   
   typealias Phase = HookAsyncPhase<Output, Error>
   
@@ -86,16 +82,15 @@ private struct AsyncThrowingPerformHook<Output>: Hook {
     State()
   }
   
-  func value(coordinator: Coordinator) -> (phase: Phase, perform: @MainActor () async -> Void) {
+  func value(coordinator: Coordinator) -> (phase: Phase, refresher: @MainActor () async -> Void) {
     (
       phase: coordinator.state.phase,
-      perform: {
+      refresher: {
         guard !coordinator.state.isDisposed else {
           return
         }
         
         coordinator.state.phase = .running
-        coordinator.updateView()
         
         let phase: HookAsyncPhase<Output, Error>
         
@@ -120,7 +115,7 @@ private struct AsyncThrowingPerformHook<Output>: Hook {
   }
 }
 
-private extension AsyncThrowingPerformHook {
+private extension AsyncThrowingRefreshHook {
   final class State {
     var phase = Phase.pending
     var isDisposed = false

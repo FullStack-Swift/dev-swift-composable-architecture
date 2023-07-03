@@ -50,11 +50,13 @@ extension IdentifiedArray where ID == Todo.ID, Element == Todo {
 
 private class TodoViewModel: ObservableObject {
 
-  @Published var todos: IdentifiedArrayOf<Todo> = .mock
+  @Published
+  var todos: IdentifiedArrayOf<Todo> = .mock
 
-  @Published var filter: Filter = .all
+  @Published
+  var filter: Filter = .all
 
-  private var filteredTodos: IdentifiedArrayOf<Todo> {
+  var filteredTodos: IdentifiedArrayOf<Todo> {
     switch filter {
       case .all:
         return todos
@@ -198,38 +200,26 @@ private struct TodoItem: View {
 // MARK: MVVMTodoView
 struct MVVMTodoView: View {
 
-  @State private var todos: IdentifiedArrayOf<Todo> = .mock
-
-  @State private var filter: Filter = .all
-
-  private var filteredTodos: IdentifiedArrayOf<Todo> {
-    switch filter {
-      case .all:
-        return todos
-      case .completed:
-        return todos.filter(\.isCompleted)
-      case .uncompleted:
-        return todos.filter { !$0.isCompleted }
-    }
-  }
+  @StateObject
+  private var viewModel = TodoViewModel()
 
   var body: some View {
     List {
       Section(header: Text("Information")) {
-        TodoStats(todos: $todos)
-        TodoCreator(todos: $todos)
+        TodoStats(todos: $viewModel.todos)
+        TodoCreator(todos: $viewModel.todos)
       }
       Section(header: Text("Filters")) {
-        TodoFilters(filter: $filter)
+        TodoFilters(filter: $viewModel.filter)
       }
-      ForEach(filteredTodos, id: \.id) { todo in
-        TodoItem(todos: $todos, todoID: todo.id)
+      ForEach(viewModel.filteredTodos, id: \.id) { todo in
+        TodoItem(todos: $viewModel.todos, todoID: todo.id)
       }
       .onDelete { atOffsets in
-        todos.remove(atOffsets: atOffsets)
+        viewModel.todos.remove(atOffsets: atOffsets)
       }
       .onMove { fromOffsets, toOffset in
-        todos.move(fromOffsets: fromOffsets, toOffset: toOffset)
+        viewModel.todos.move(fromOffsets: fromOffsets, toOffset: toOffset)
       }
     }
     .listStyle(.sidebar)

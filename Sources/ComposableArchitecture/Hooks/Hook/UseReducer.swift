@@ -84,7 +84,29 @@ private extension ReducerHook {
   }
 }
 
-// MARK: useReducer
+/// A hook to use the state returned by the passed `reducer`, and a `dispatch` function to send actions to update the state.
+/// Triggers a view update when the state has been changed.
+///
+///     enum Action {
+///         case increment, decrement
+///     }
+///
+///     func reducer(state: inout Int, action: Action) -> Int {
+///         switch action {
+///             case .increment:
+///                 state += 1
+///
+///             case .decrement:
+///                 state -= 1
+///         }
+///     }
+///
+///     let (count, dispatch) = useReducer(reducer, initialState: 0)
+///
+/// - Parameters:
+///   - reducer: A function that to return a new state with an action.
+///   - initialState: An initial state.
+/// - Returns: A tuple value that has a new state returned by the passed `reducer` and a dispatch function to send actions.
 public func useReducer<State, Action>(
   _ reducer: @escaping (inout State, Action) -> Void,
   initialState: State
@@ -146,8 +168,41 @@ private extension ComposableReducerHook {
   }
 }
 
-
-// MARK: useReducerProtocol
+/// A hook to use the state returned by the passed `reducer`, and a `dispatch` function to send actions to update the state.
+/// Triggers a view update when the state has been changed.
+///
+///     ```swift
+///     struct CounterReducler: ReducerProtcol {
+///
+///       enum Action {
+///         case increment
+///         case decrement
+///       }
+///
+///       struct State {
+///         var count: Int = 0
+///       }
+///
+///       var body: some ReducerProtocolOf<Self> {
+///         Reduce {state, action in
+///         switch action {
+///             case .increment:
+///                 state.count += 1
+///
+///             case .decrement:
+///                 state.count -= 1
+///         }
+///       }
+///     }
+///
+///      let store = useReducerProtocol(initialState: CounterReducler.State(), CounterReducler())
+///
+///     ```
+///
+/// - Parameters:
+///   - initialState: An initial state.
+///   - reducer: A function that to return a new state with an action.
+/// - Returns: A store tca.
 public func useReducerProtocol<R: ReducerProtocol>(
   initialState: R.State,
   _ reducer: R
@@ -205,7 +260,40 @@ private extension ReducerProtocolHook {
   }
 }
 
-// MARK: useStore
+/// A hook to use the state returned by the passed `reducer`, and a `dispatch` function to send actions to update the state.
+/// Triggers a view update when the state has been changed.
+///
+///     ```swift
+///     struct CounterReducler: ReducerProtcol {
+///
+///       enum Action {
+///         case increment
+///         case decrement
+///       }
+///
+///       struct State {
+///         var count: Int = 0
+///       }
+///
+///       var body: some ReducerProtocolOf<Self> {
+///         Reduce {state, action in
+///         switch action {
+///             case .increment:
+///                 state.count += 1
+///
+///             case .decrement:
+///                 state.count -= 1
+///         }
+///       }
+///     }
+///     let store = useStore(Store(initialState: CounterReducler.State(), CounterReducler()))
+///     let useStore = useStore(store)
+///
+///     ```
+///
+/// - Parameters:
+///   - store: A store tca.
+/// - Returns: A store tca.
 public func useStore<R: ReducerProtocol>(
   _ store: StoreOf<R>
 ) -> StoreOf<R> {

@@ -2,6 +2,20 @@ import SwiftUI
 
 /// https://recoiljs.org/
 
+
+/// A view that wrapper around the `HookScope` to use hooks inside with Recoil.
+/// The view that is completion from `init` will be encluded with `Context` and e able to use hooks.
+///
+/// ```swift
+///  struct Content: View {
+///   var body: some View {
+///     RecoilRoot { context in
+///      // TODO
+///     }
+///   }
+///  }
+///
+/// ```
 public struct RecoilRoot<Content: View>: View {
 
   private let content: (AtomRecoilContext) -> Content
@@ -20,6 +34,19 @@ public struct RecoilRoot<Content: View>: View {
   }
 }
 
+/// A view that wrapper around the `HookScope` to use hooks inside with Recoil.
+/// The view that is completion from `init` will be encluded with `Context` and e able to use hooks.
+///
+/// ```swift
+///  struct Content: View {
+///   var body: some View {
+///     RecoilScope { context in
+///      // TODO
+///     }
+///   }
+///  }
+///
+/// ```
 public struct RecoilScope<Content: View>: View {
 
   private let content: (AtomRecoilContext) -> Content
@@ -38,8 +65,48 @@ public struct RecoilScope<Content: View>: View {
   }
 }
 
+/// A view that wrapper around the `HookScope` to use hooks inside.
+/// The view that is returned from `recoilBody` will be encluded with `HookScope` and be able to use hooks.
+///
+///     struct ContentView: RecoilView {
+///         var recoilBody: some View {
+///             let count = useState(0)
+///
+///             Button("\(count.wrappedValue)") {
+///                 count.wrappedValue += 1
+///             }
+///         }
+///     }
+
+@MainActor
+public protocol RecoilView: View {
+  // The type of view representing the body of this view that can use recoil.
+  associatedtype RecoilBody: View
+  
+  /// The content and behavior of the hook scoped view.
+  @ViewBuilder
+  func recoilBody(context: AtomRecoilContext) -> RecoilBody
+}
+
+extension RecoilView {
+  /// The content and behavior of the view.
+  public var body: some View {
+    HookScope {
+      recoilBody(context: context)
+    }
+  }
+  
+  @MainActor
+  var context: AtomRecoilContext {
+    @RecoilViewContext
+    var context
+    return context
+  }
+}
+
 @propertyWrapper
-@MainActor struct RecoilViewContext {
+@MainActor
+public struct RecoilViewContext {
 
   @Dependency(\.storeContext)
   private var _store

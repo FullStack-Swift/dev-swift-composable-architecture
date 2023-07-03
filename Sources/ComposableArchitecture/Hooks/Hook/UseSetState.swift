@@ -23,14 +23,7 @@ public func useBindingState<State>(_ initialState: @escaping () -> State) -> Bin
 }
 
 public func useBindingState<State>(_ initialState: State) -> Binding<State> {
-  let (state, setState) = useSetState(initialState)
-  return Binding {
-    state
-  } set: { newState, transaction in
-    withTransaction(transaction) {
-      setState(newState)
-    }
-  }
+  useBindingState({initialState})
 }
 
 private struct SetStateHook<State>: Hook {

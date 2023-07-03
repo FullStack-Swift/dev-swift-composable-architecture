@@ -1,5 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
+import SwiftUIViewModifier
 
 // MARK: Model
 private struct Todo: Hashable, Identifiable {
@@ -237,6 +238,12 @@ struct AtomTodoView: View {
         .onMove { fromOffsets, toOffset in
           todos.wrappedValue.move(fromOffsets: fromOffsets, toOffset: toOffset)
         }
+      }
+      .onFirstAppear {
+        
+      }
+      .onLastDisappear {
+        
       }
       .listStyle(.sidebar)
       .toolbar {

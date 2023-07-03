@@ -18,6 +18,7 @@
 		87DF96E82A3990510006B774 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87DF96E72A3990510006B774 /* Preview Assets.xcassets */; };
 		87DF96EF2A3991060006B774 /* HookCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */; };
 		87DF96F22A3991C10006B774 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 87DF96F12A3991C10006B774 /* ComposableArchitecture */; };
+		9054DD902A53396F00CCBA21 /* SwiftUIViewModifier in Frameworks */ = {isa = PBXBuildFile; productRef = 9054DD8F2A53396F00CCBA21 /* SwiftUIViewModifier */; };
 		90ACBBB42A4B4EE10041D7E2 /* TCATodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBAF2A4B4EE10041D7E2 /* TCATodoView.swift */; };
 		90ACBBB52A4B4EE10041D7E2 /* HookTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBB02A4B4EE10041D7E2 /* HookTodoView.swift */; };
 		90ACBBB62A4B4EE10041D7E2 /* RecoilTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBB12A4B4EE10041D7E2 /* RecoilTodoView.swift */; };
@@ -52,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9054DD902A53396F00CCBA21 /* SwiftUIViewModifier in Frameworks */,
 				87DF96F22A3991C10006B774 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -157,6 +159,7 @@
 			name = CaseStudies;
 			packageProductDependencies = (
 				87DF96F12A3991C10006B774 /* ComposableArchitecture */,
+				9054DD8F2A53396F00CCBA21 /* SwiftUIViewModifier */,
 			);
 			productName = CaseStudies;
 			productReference = 87DF96DC2A39904F0006B774 /* CaseStudies.app */;
@@ -187,6 +190,7 @@
 			);
 			mainGroup = 87DF96D32A39904F0006B774;
 			packageReferences = (
+				9054DD8E2A53396F00CCBA21 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */,
 			);
 			productRefGroup = 87DF96DD2A39904F0006B774 /* Products */;
 			projectDirPath = "";
@@ -438,10 +442,26 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		9054DD8E2A53396F00CCBA21 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swiftui-viewModifier";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		87DF96F12A3991C10006B774 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;
+		};
+		9054DD8F2A53396F00CCBA21 /* SwiftUIViewModifier */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9054DD8E2A53396F00CCBA21 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */;
+			productName = SwiftUIViewModifier;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

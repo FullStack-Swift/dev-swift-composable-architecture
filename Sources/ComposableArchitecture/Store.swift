@@ -941,7 +941,19 @@ public struct Mutation<State> {
 }
 
 extension Store {
-  var actions: [Action] {
+  public var actions: [Action] {
     bufferedActions
+  }
+}
+
+extension Store {
+  public func sinkState(_ completion: @escaping (State) -> Void) -> Cancellable {
+    state.eraseToAnyPublisher()
+      .sink(receiveValue: completion)
+  }
+  
+  public func sinkAction(_ completion: @escaping (Action) -> Void) -> Cancellable {
+    action.eraseToAnyPublisher()
+      .sink(receiveValue: completion)
   }
 }

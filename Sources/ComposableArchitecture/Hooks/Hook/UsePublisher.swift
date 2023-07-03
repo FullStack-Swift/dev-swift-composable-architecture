@@ -25,6 +25,9 @@ public func usePublisher<P: Publisher>(
 }
 
 private struct PublisherHook<P: Publisher>: Hook {
+  
+  typealias Phase = HookAsyncPhase<P.Output, P.Failure>
+  
   let updateStrategy: HookUpdateStrategy?
   let makePublisher: () -> P
   
@@ -53,7 +56,7 @@ private struct PublisherHook<P: Publisher>: Hook {
       )
   }
   
-  func value(coordinator: Coordinator) -> HookAsyncPhase<P.Output, P.Failure> {
+  func value(coordinator: Coordinator) -> Phase {
     coordinator.state.phase
   }
   
@@ -64,7 +67,7 @@ private struct PublisherHook<P: Publisher>: Hook {
 
 private extension PublisherHook {
   final class State {
-    var phase = HookAsyncPhase<P.Output, P.Failure>.pending
+    var phase = Phase.pending
     var cancellable: AnyCancellable?
   }
 }

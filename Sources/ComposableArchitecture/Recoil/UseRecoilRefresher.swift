@@ -61,7 +61,9 @@ where Node.Loader: AsyncAtomLoader {
 private struct RecoilPublisherRefresherHook<Node: PublisherAtom>: Hook
 where Node.Loader == PublisherAtomLoader<Node> {
 
-  typealias Value = (phase: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>, refresher: () -> Void)
+  typealias Phase = AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>
+  
+  typealias Value = (phase: Phase, refresher: () -> Void)
 
   let initialState: () -> Node
   let updateStrategy: HookUpdateStrategy?
@@ -84,7 +86,7 @@ where Node.Loader == PublisherAtomLoader<Node> {
     coordinator.state.phase,
     refresher: {
       coordinator.state.phase = .suspending
-      coordinator.updateView()
+//      coordinator.updateView()
       Task { @MainActor in
         let refresh = await coordinator.state.refresh
         guard !coordinator.state.isDisposed else {
@@ -109,20 +111,20 @@ extension RecoilPublisherRefresherHook {
     @RecoilViewContext
     var context
     var state: Node
-    var phase: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure> = .suspending
+    var phase: Phase = .suspending
     var isDisposed = false
     init(initialState: Node) {
       self.state = initialState
     }
 
     /// Get current value from RecoilContext
-    var value: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure> {
+    var value: Phase {
       context.watch(state)
     }
 
 
     /// Refresh to get newValue from RecoilContext
-    var refresh: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure> {
+    var refresh: Phase {
       get async {
         await context.refresh(state)
       }
@@ -133,7 +135,9 @@ extension RecoilPublisherRefresherHook {
 private struct RecoilTaskRefresherHook<Node: TaskAtom>: Hook
 where Node.Loader: AsyncAtomLoader {
 
-  typealias Value = (AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
+  typealias Phase = AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
+  
+  typealias Value = (Phase, refresher: () -> ())
 
   let initialState: () -> Node
   let updateStrategy: HookUpdateStrategy?
@@ -149,7 +153,7 @@ where Node.Loader: AsyncAtomLoader {
       coordinator.state.phase,
       refresher: {
         coordinator.state.phase = .suspending
-        coordinator.updateView()
+//        coordinator.updateView()
         Task { @MainActor in
           let refresh = await coordinator.state.refresh
           guard !coordinator.state.isDisposed else {
@@ -188,7 +192,7 @@ extension RecoilTaskRefresherHook {
     @RecoilViewContext
     var context
     var isDisposed = false
-    var phase = AsyncPhase<Node.Loader.Success, Node.Loader.Failure>.suspending
+    var phase = Phase.suspending
     var task: Task<Void, Never>? {
       didSet {
         oldValue?.cancel()
@@ -200,14 +204,14 @@ extension RecoilTaskRefresherHook {
     }
 
     /// Get current value from Recoilcontext
-    var value: AsyncPhase<Node.Loader.Success, Node.Loader.Failure> {
+    var value: Phase {
       get async {
         await AsyncPhase(context.watch(state).result)
       }
     }
 
     /// Refresh to get newValue from RedoilContext
-    var refresh: AsyncPhase<Node.Loader.Success, Node.Loader.Failure> {
+    var refresh: Phase {
       get async  {
         await AsyncPhase(context.refresh(state).result)
       }
@@ -217,7 +221,10 @@ extension RecoilTaskRefresherHook {
 
 private struct RecoilThrowingTaskRefresherHook<Node: ThrowingTaskAtom>: Hook
 where Node.Loader: AsyncAtomLoader {
-  typealias Value = (AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> Void)
+
+  typealias Phase = AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
+
+  typealias Value = (Phase, refresher: () -> Void)
 
   let initialState: () -> Node
   let updateStrategy: HookUpdateStrategy?
@@ -233,7 +240,7 @@ where Node.Loader: AsyncAtomLoader {
       coordinator.state.phase,
       refresher: {
         coordinator.state.phase = .suspending
-        coordinator.updateView()
+//        coordinator.updateView()
         Task { @MainActor in
           let refresh = await coordinator.state.refresh
           guard !coordinator.state.isDisposed else {
@@ -272,7 +279,7 @@ extension RecoilThrowingTaskRefresherHook {
     var context
     var isDisposed = false
     var state: Node
-    var phase = AsyncPhase<Node.Loader.Success, Node.Loader.Failure>.suspending
+    var phase = Phase.suspending
 
     var task: Task<Void, Never>? {
       didSet {
@@ -285,14 +292,14 @@ extension RecoilThrowingTaskRefresherHook {
     }
 
     /// Get current value from Recoilcontext
-    var value: AsyncPhase<Node.Loader.Success, Node.Loader.Failure> {
+    var value: Phase {
       get async {
         await AsyncPhase(context.watch(state).result)
       }
     }
 
     /// Refresh to get newValue from RedoilContext
-    var refresh: AsyncPhase<Node.Loader.Success, Node.Loader.Failure> {
+    var refresh: Phase {
       get async {
         await AsyncPhase(context.refresh(state).result)
       }

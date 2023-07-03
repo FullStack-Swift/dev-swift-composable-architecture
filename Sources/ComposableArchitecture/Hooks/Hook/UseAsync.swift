@@ -46,7 +46,7 @@ public func useAsync<Output>(
   )
 }
 
-internal struct AsyncHook<Output>: Hook {
+private struct AsyncHook<Output>: Hook {
   let updateStrategy: HookUpdateStrategy?
   let operation: () async -> Output
   
@@ -75,7 +75,7 @@ internal struct AsyncHook<Output>: Hook {
   }
 }
 
-internal extension AsyncHook {
+private extension AsyncHook {
   final class State {
     var phase = HookAsyncPhase<Output, Never>.pending
     var task: Task<Void, Never>? {
@@ -86,7 +86,7 @@ internal extension AsyncHook {
   }
 }
 
-internal struct AsyncThrowingHook<Output>: Hook {
+private struct AsyncThrowingHook<Output>: Hook {
   let updateStrategy: HookUpdateStrategy?
   let operation: () async throws -> Output
   
@@ -123,7 +123,7 @@ internal struct AsyncThrowingHook<Output>: Hook {
   }
 }
 
-internal extension AsyncThrowingHook {
+private extension AsyncThrowingHook {
   final class State {
     var phase = HookAsyncPhase<Output, Error>.pending
     var task: Task<Void, Never>? {

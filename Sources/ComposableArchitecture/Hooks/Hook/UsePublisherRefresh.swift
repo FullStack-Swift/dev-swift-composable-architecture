@@ -2,19 +2,16 @@ import Combine
 
 /// A hook to use the most recent phase of asynchronous operation of the passed publisher, and a `subscribe` function to subscribe to it at arbitrary timing.
 ///
-///     let (phase, subscribe) = usePublisherSubscribe {
+///     let (phase, refresh) = usePublisherRefresh {
 ///         URLSession.shared.dataTaskPublisher(for: url)
 ///     }
 ///
 /// - Parameter makePublisher: A closure that to create a new publisher to be subscribed.
 /// - Returns: A tuple of the most recent publisher phase and its subscribe function.
 @discardableResult
-public func usePublisherSubscribe<P: Publisher>(
+public func usePublisherRefresh<P: Publisher>(
   _ makePublisher: @escaping () -> P
-) -> (
-  phase: HookAsyncPhase<P.Output, P.Failure>,
-  subscribe: () -> Void
-) {
+) -> (phase: HookAsyncPhase<P.Output, P.Failure>, refresher: () -> Void) {
   useHook(PublisherSubscribeHook(makePublisher: makePublisher))
 }
 
@@ -29,10 +26,10 @@ private struct PublisherSubscribeHook<P: Publisher>: Hook {
     State()
   }
   
-  func value(coordinator: Coordinator) -> (phase: Phase, subscribe: () -> Void) {
+  func value(coordinator: Coordinator) -> (phase: Phase, refresher: () -> Void) {
     (
       phase: coordinator.state.phase,
-      subscribe: {
+      refresher: {
         assertMainThread()
         
         guard !coordinator.state.isDisposed else {
@@ -40,7 +37,6 @@ private struct PublisherSubscribeHook<P: Publisher>: Hook {
         }
         
         coordinator.state.phase = .running
-        coordinator.updateView()
         
         coordinator.state.cancellable = makePublisher()
           .sink(
