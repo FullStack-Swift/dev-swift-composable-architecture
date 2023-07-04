@@ -32,8 +32,6 @@
 		87B3929C2A0B5B7B0095F6A4 /* CounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B3929B2A0B5B7B0095F6A4 /* CounterView.swift */; };
 		87B3929F2A0B5BAA0095F6A4 /* Exports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B3929E2A0B5BAA0095F6A4 /* Exports.swift */; };
 		87B392A12A0B61150095F6A4 /* TemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B392A02A0B61150095F6A4 /* TemplateView.swift */; };
-		87DF96D02A3971AA0006B774 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 87DF96CF2A3971AA0006B774 /* Realm */; };
-		87DF96D22A3971AA0006B774 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 87DF96D12A3971AA0006B774 /* RealmSwift */; };
 		87EA1BD72A2D8CBF00A616FC /* SwiftUIBottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 87EA1BD62A2D8CBF00A616FC /* SwiftUIBottomSheet */; };
 		87EA1BDA2A2D8CDB00A616FC /* SwiftUIColor in Frameworks */ = {isa = PBXBuildFile; productRef = 87EA1BD92A2D8CDB00A616FC /* SwiftUIColor */; };
 		87EA1BDD2A2D8CFC00A616FC /* SwiftUIButtonStyles in Frameworks */ = {isa = PBXBuildFile; productRef = 87EA1BDC2A2D8CFC00A616FC /* SwiftUIButtonStyles */; };
@@ -81,7 +79,6 @@
 			files = (
 				870EBA9B2A2D82ED00B84F52 /* SwiftLogger in Frameworks */,
 				87B3928A2A0B59930095F6A4 /* CombineWebSocket in Frameworks */,
-				87DF96D22A3971AA0006B774 /* RealmSwift in Frameworks */,
 				87EA1BE02A2D8DB300A616FC /* SwiftUIAdditions in Frameworks */,
 				87B392862A0B59930095F6A4 /* CombineRequest in Frameworks */,
 				87EA1BDD2A2D8CFC00A616FC /* SwiftUIButtonStyles in Frameworks */,
@@ -91,7 +88,6 @@
 				87EA1BDA2A2D8CDB00A616FC /* SwiftUIColor in Frameworks */,
 				870EBA982A2D828200B84F52 /* SwiftUIViewModifier in Frameworks */,
 				87B3928D2A0B59BE0095F6A4 /* Json in Frameworks */,
-				87DF96D02A3971AA0006B774 /* Realm in Frameworks */,
 				87B392882A0B59930095F6A4 /* CombineSocketIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -239,8 +235,6 @@
 				87EA1BD92A2D8CDB00A616FC /* SwiftUIColor */,
 				87EA1BDC2A2D8CFC00A616FC /* SwiftUIButtonStyles */,
 				87EA1BDF2A2D8DB300A616FC /* SwiftUIAdditions */,
-				87DF96CF2A3971AA0006B774 /* Realm */,
-				87DF96D12A3971AA0006B774 /* RealmSwift */,
 			);
 			productName = TodoList;
 			productReference = 87B3926F2A0B59010095F6A4 /* TodoList.app */;
@@ -280,7 +274,6 @@
 				87EA1BD82A2D8CDB00A616FC /* XCRemoteSwiftPackageReference "swiftui-color" */,
 				87EA1BDB2A2D8CFC00A616FC /* XCRemoteSwiftPackageReference "swiftui-button-styles" */,
 				87EA1BDE2A2D8DB300A616FC /* XCRemoteSwiftPackageReference "swiftui-additions" */,
-				87DF96CE2A3971AA0006B774 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 87B392702A0B59010095F6A4 /* Products */;
 			projectDirPath = "";
@@ -580,14 +573,6 @@
 				kind = branch;
 			};
 		};
-		87DF96CE2A3971AA0006B774 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift.git";
-			requirement = {
-				kind = exactVersion;
-				version = 10.40.2;
-			};
-		};
 		87EA1BD52A2D8CBF00A616FC /* XCRemoteSwiftPackageReference "swiftui-bottom-sheet" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/FullStack-Swift/swiftui-bottom-sheet.git";
@@ -661,16 +646,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 87B3928E2A0B59DF0095F6A4 /* XCRemoteSwiftPackageReference "swift-extension" */;
 			productName = Transform;
-		};
-		87DF96CF2A3971AA0006B774 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 87DF96CE2A3971AA0006B774 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		87DF96D12A3971AA0006B774 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 87DF96CE2A3971AA0006B774 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
 		};
 		87EA1BD62A2D8CBF00A616FC /* SwiftUIBottomSheet */ = {
 			isa = XCSwiftPackageProductDependency;

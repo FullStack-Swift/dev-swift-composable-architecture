@@ -30,3 +30,17 @@ public extension AsyncUseCaseProtocol where Self.Input == Void {
     try await run(())
   }
 }
+
+public protocol IOCaseProtocol {
+  associatedtype Input
+  
+  associatedtype Output
+  
+  func run(_ input: Input) -> IO<Output>
+}
+
+extension IOCaseProtocol where Self.Input == Void {
+  func run(_ input: ()) ->IO<Output> {
+    run(input)
+  }
+}

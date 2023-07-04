@@ -29,22 +29,60 @@ private struct _ValueAtom: ValueAtom, Hashable {
   }
 }
 
+struct _RecoilViewContext: View {
+    
+  var body: some View {
+    HookScope {
+      VStack {
+        HookScope {
+          HStack {
+            let state = useRecoilState(_StateAtom(id: "1"))
+            let value = useRecoilValue(_ValueAtom(id: "1"))
+            AtomRowTextValue(state.wrappedValue)
+            AtomRowTextValue(value)
+            Stepper("Count: \(state.wrappedValue)", value: state)
+              .labelsHidden()
+          }
+        }
+        HookScope {
+          HStack {
+            let state = useRecoilState(_StateAtom(id: "1"))
+            let value = useRecoilValue(_ValueAtom(id: "1"))
+            AtomRowTextValue(state.wrappedValue)
+            AtomRowTextValue(value)
+            Stepper("Count: \(state.wrappedValue)", value: state)
+              .labelsHidden()
+          }
+        }
+      }
+    }
+  }
+}
+
 struct _ProviderGlobalView: ProviderGlobalView {
-  
-  @RecoilGlobalViewContext
-//  @LocalViewContext
-  var context
-  
+    
   func build(context: Context, ref: ViewRef) -> some View {
-    HStack {
-      let state = context.useRecoilState(_StateAtom(id: "1"))
-      let value = context.useRecoilValue(_ValueAtom(id: "1"))
-//      let state = self.context.state(_StateAtom(id: "1"))
-//      let value = self.context.watch(_ValueAtom(id: "1"))
-      AtomRowTextValue(state.wrappedValue)
-      AtomRowTextValue(value)
-      Stepper("Count: \(state.wrappedValue)", value: state)
-        .labelsHidden()
+    VStack {
+      HookScope {
+        HStack {
+          let state = context.useRecoilState(_StateAtom(id: "1"))
+          let value = context.useRecoilValue(_ValueAtom(id: "1"))
+          AtomRowTextValue(state.wrappedValue)
+          AtomRowTextValue(value)
+          Stepper("Count: \(state.wrappedValue)", value: state)
+            .labelsHidden()
+        }
+      }
+      HookScope {
+        HStack {
+          let state = context.useRecoilState(_StateAtom(id: "1"))
+          let value = context.useRecoilValue(_ValueAtom(id: "1"))
+          AtomRowTextValue(state.wrappedValue)
+          AtomRowTextValue(value)
+          Stepper("Count: \(state.wrappedValue)", value: state)
+            .labelsHidden()
+        }
+      }
     }
   }
 }
@@ -52,30 +90,93 @@ struct _ProviderGlobalView: ProviderGlobalView {
 struct _ProviderLocalView: ProviderLocalView {
   
   func build(context: Context, ref: ViewRef) -> some View {
-    HStack {
-      let state = context.useRecoilState(_StateAtom(id: "1"))
-      let value = context.useRecoilValue(_ValueAtom(id: "1"))
-      AtomRowTextValue(state.wrappedValue)
-      AtomRowTextValue(value)
-      Stepper("Count: \(state.wrappedValue)", value: state)
-        .labelsHidden()
+    VStack {
+      HookScope {
+        HStack {
+          let state = context.useRecoilState(_StateAtom(id: "1"))
+          let value = context.useRecoilValue(_ValueAtom(id: "1"))
+          AtomRowTextValue(state.wrappedValue)
+          AtomRowTextValue(value)
+          Stepper("Count: \(state.wrappedValue)", value: state)
+            .labelsHidden()
+        }
+      }
+      HookScope {
+        HStack {
+          let state = context.useRecoilState(_StateAtom(id: "1"))
+          let value = context.useRecoilValue(_ValueAtom(id: "1"))
+          AtomRowTextValue(state.wrappedValue)
+          AtomRowTextValue(value)
+          Stepper("Count: \(state.wrappedValue)", value: state)
+            .labelsHidden()
+        }
+      }
     }
   }
 }
 
-struct _TestView: View {
+struct _ViewContext: View {
   
   @ViewContext
   var context
   
   var body: some View {
-    HStack {
-      let state = context.state(_StateAtom(id: "1"))
-      let value = context.watch(_ValueAtom(id: "1"))
-      AtomRowTextValue(state.wrappedValue)
-      AtomRowTextValue(value)
-      Stepper("Count: \(state.wrappedValue)", value: state)
-        .labelsHidden()
+    HookScope {
+      VStack {
+        HookScope {
+          HStack {
+            let state = context.useRecoilState(_StateAtom(id: "1"))
+            let value = context.useRecoilValue(_ValueAtom(id: "1"))
+            AtomRowTextValue(state.wrappedValue)
+            AtomRowTextValue(value)
+            Stepper("Count: \(state.wrappedValue)", value: state)
+              .labelsHidden()
+          }
+        }
+        HookScope {
+          HStack {
+            let state = context.state(_StateAtom(id: "1"))
+            let value = context.watch(_ValueAtom(id: "1"))
+            AtomRowTextValue(state.wrappedValue)
+            AtomRowTextValue(value)
+            Stepper("Count: \(state.wrappedValue)", value: state)
+              .labelsHidden()
+          }
+        }
+      }
+    }
+  }
+}
+
+struct _LocalViewContext: View {
+  
+  @LocalViewContext
+  var context
+  
+  var body: some View {
+    HookScope {
+      VStack {
+        HookScope {
+          HStack {
+            let state = context.useRecoilState(_StateAtom(id: "1"))
+            let value = context.useRecoilValue(_ValueAtom(id: "1"))
+            AtomRowTextValue(state.wrappedValue)
+            AtomRowTextValue(value)
+            Stepper("Count: \(state.wrappedValue)", value: state)
+              .labelsHidden()
+          }
+        }
+        HookScope {
+          HStack {
+            let state = context.state(_StateAtom(id: "1"))
+            let value = context.watch(_ValueAtom(id: "1"))
+            AtomRowTextValue(state.wrappedValue)
+            AtomRowTextValue(value)
+            Stepper("Count: \(state.wrappedValue)", value: state)
+              .labelsHidden()
+          }
+        }
+      }
     }
   }
 }
@@ -127,6 +228,7 @@ struct RiverpodCaseStudiesView: View {
       }
       .foregroundColor(.accentColor)
       Group {
+        Text("Global Context")
         _ProviderGlobalView()
         _ProviderGlobalView()
         _ProviderGlobalView()
@@ -134,17 +236,35 @@ struct RiverpodCaseStudiesView: View {
       }
 
       Group {
+        Text("Local Context")
         _ProviderLocalView()
         _ProviderLocalView()
         _ProviderLocalView()
         Divider()
       }
       Group {
-        _TestView()
-        _TestView()
-        _TestView()
+        Text("Global ViewContext")
+        _ViewContext()
+        _ViewContext()
+        _ViewContext()
         Divider()
       }
+      Group {
+        Text("Local ViewContext")
+        _LocalViewContext()
+        _LocalViewContext()
+        _LocalViewContext()
+        Divider()
+      }
+      
+      Group {
+        Text("Recoil")
+        _RecoilViewContext()
+        _RecoilViewContext()
+        _RecoilViewContext()
+        Divider()
+      }
+
     }
     .padding()
     .navigationBarTitle(Text("Riverpod"), displayMode: .inline)

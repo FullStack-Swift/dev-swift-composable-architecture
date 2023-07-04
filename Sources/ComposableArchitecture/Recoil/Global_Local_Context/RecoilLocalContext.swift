@@ -16,6 +16,10 @@ public struct RecoilLocalContext: AtomWatchableContext {
     nonmutating set { state.onUpdate = newValue }
   }
   
+  public var objectWillChange: AnyPublisher<Void, Never> {
+    state.notifier.eraseToAnyPublisher()
+  }
+  
   @discardableResult
   public func waitForUpdate(timeout interval: TimeInterval? = nil) async -> Bool {
     let updates = AsyncStream<Void> { continuation in
@@ -104,9 +108,6 @@ public struct RecoilLocalContext: AtomWatchableContext {
 
 private extension RecoilLocalContext {
   final class State {
-    
-//    static let identity = State()
-    
     let store = AtomStore()
     let token = ScopeKey.Token()
     let container = SubscriptionContainer()
@@ -147,9 +148,6 @@ extension RecoilLocalContext: RecoilProtocol {
 @propertyWrapper
 @MainActor
 public struct RecoilLocalViewContext {
-  
-  @Dependency(\.storeContext)
-  private var _store
   
   private let location: SourceLocation
   

@@ -3,7 +3,7 @@ import Foundation
 // MARK: useSelectorRecoil
 @MainActor func useSelectorRecoil<Node: StateAtom>(
   _ initialState: Node,
-  context: AtomViewContext
+  context: GlobalViewContext
 ) {
   fatalError()
 }

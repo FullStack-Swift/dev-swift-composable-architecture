@@ -8,7 +8,7 @@ public protocol RecoilProtocol {
   var context: Context { get }
 }
 
-extension AtomViewContext: RecoilProtocol {
+extension GlobalViewContext: RecoilProtocol {
   public var context: Self {
     self
   }

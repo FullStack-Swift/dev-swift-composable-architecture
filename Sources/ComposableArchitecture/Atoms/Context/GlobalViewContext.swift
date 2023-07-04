@@ -3,7 +3,7 @@
 /// Through this context, watching of an atom is initiated, and when that atom is updated,
 /// the view to which this context is used will be rebuilt.
 @MainActor
-public struct AtomViewContext: AtomWatchableContext {
+public struct GlobalViewContext: AtomWatchableContext {
   @usableFromInline
   internal let _store: StoreContext
   @usableFromInline

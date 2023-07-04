@@ -75,7 +75,7 @@ public struct AtomScope<Content: View>: View {
   ///   - context: The parent view context that for inheriting store explicitly.
   ///   - content: The view content that inheriting from the parent.
   public init(
-    _ context: AtomViewContext,
+    _ context: GlobalViewContext,
     @ViewBuilder content: () -> Content
   ) {
     self.store = context._store

@@ -119,8 +119,6 @@ public struct LocalWatchStateObject<Node: ObservableObjectAtom>: DynamicProperty
   }
 }
 
-
-
 @MainActor
 public struct AtomLocalViewContext: AtomWatchableContext {
   @usableFromInline
