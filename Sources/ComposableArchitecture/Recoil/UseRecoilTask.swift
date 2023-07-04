@@ -57,7 +57,7 @@ extension RecoilTaskHook {
   // MARK: State
   final class State {
 
-    @RecoilViewContext
+    @RecoilGlobalViewContext
     var context
 
     var node: Node

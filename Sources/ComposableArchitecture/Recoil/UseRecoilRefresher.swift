@@ -108,7 +108,7 @@ where Node.Loader == PublisherAtomLoader<Node> {
 extension RecoilPublisherRefresherHook {
   @MainActor
   final class State {
-    @RecoilViewContext
+    @RecoilGlobalViewContext
     var context
     var state: Node
     var phase: Phase = .suspending
@@ -189,7 +189,7 @@ extension RecoilTaskRefresherHook {
   // MARK: State
   final class State {
     var state: Node
-    @RecoilViewContext
+    @RecoilGlobalViewContext
     var context
     var isDisposed = false
     var phase = Phase.suspending
@@ -275,7 +275,7 @@ where Node.Loader: AsyncAtomLoader {
 extension RecoilThrowingTaskRefresherHook {
   final class State {
 
-    @RecoilViewContext
+    @RecoilGlobalViewContext
     var context
     var isDisposed = false
     var state: Node

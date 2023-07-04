@@ -195,7 +195,7 @@ private struct _StateAtomView: HookView {
 
 private struct _ScopeRecoilView: View {
   
-  @ScopeRecoilViewContext
+  @RecoilLocalViewContext
   private var viewContext
   
   var body: some View {
@@ -228,9 +228,23 @@ private struct _GlobalRecoilView: View {
   }
 }
 
-private struct _RecoilViewCustom: RecoilView {
+private struct _RecoilGlobalView: RecoilGlobalView {
   
-  func recoilBody(context: AtomRecoilContext) -> some View {
+  func recoilBody(context: RecoilGlobalContext) -> some View {
+    HStack {
+      let state = context.useRecoilState(_StateAtom(id: "1"))
+      let value = context.useRecoilValue(_ValueAtom(id: "1"))
+      AtomRowTextValue(state.wrappedValue)
+      AtomRowTextValue(value)
+      Stepper("Count: \(state.wrappedValue)", value: state)
+        .labelsHidden()
+    }
+  }
+}
+
+private struct _RecoilLocalView: RecoilLocalView {
+  
+  func recoilBody(context: RecoilLocalContext) -> some View {
     HStack {
       let state = context.useRecoilState(_StateAtom(id: "1"))
       let value = context.useRecoilValue(_ValueAtom(id: "1"))
@@ -284,13 +298,23 @@ struct RecoilUseCaseStudiesView: View {
       }
       .padding()
       
-      Section("Recoil View") {
-        _RecoilViewCustom()
+      Section("Recoil Global View") {
+        _RecoilGlobalView()
+      }
+      .padding()
+      
+      Section("Other Recoil Global View") {
+        _RecoilGlobalView()
       }
       .padding()
 
-      Section("Other Recoil View") {
-        _RecoilViewCustom()
+      Section("Other Recoil Local View") {
+        _RecoilLocalView()
+      }
+      .padding()
+      
+      Section("Other Recoil Local View") {
+        _RecoilLocalView()
       }
       .padding()
       

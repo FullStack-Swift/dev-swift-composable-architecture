@@ -3,7 +3,7 @@ import SwiftUI
 import Foundation
 
 @propertyWrapper
-public struct ScopeRecoilViewContext: DynamicProperty {
+public struct LocalViewContext: DynamicProperty {
   @StateObject
   private var state = State()
   
@@ -16,8 +16,8 @@ public struct ScopeRecoilViewContext: DynamicProperty {
     location = SourceLocation(fileID: fileID, line: line)
   }
 
-  public var wrappedValue: ScopeAtomRecoilContext {
-    ScopeAtomRecoilContext(
+  public var wrappedValue: AtomLocalViewContext {
+    AtomLocalViewContext(
       store: StoreContext.scoped(
         key: ScopeKey(token: state.token),
         store: state.store,
@@ -30,7 +30,7 @@ public struct ScopeRecoilViewContext: DynamicProperty {
   }
 }
 
-private extension ScopeRecoilViewContext {
+private extension LocalViewContext {
   @MainActor
   final class State: ObservableObject {
     let container = SubscriptionContainer()
@@ -40,8 +40,89 @@ private extension ScopeRecoilViewContext {
   }
 }
 
+@propertyWrapper
+public struct LocalWatch<Node: Atom>: DynamicProperty {
+  private let atom: Node
+  
+  @LocalViewContext
+  private var context
+  
+  public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
+    self.atom = atom
+    self._context = LocalViewContext(fileID: fileID, line: line)
+  }
+
+  public var wrappedValue: Node.Loader.Value {
+    context.watch(atom)
+  }
+}
+
+@propertyWrapper
+public struct LocalWatchState<Node: StateAtom>: DynamicProperty {
+  private let atom: Node
+  
+  @LocalViewContext
+  private var context
+  
+  public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
+    self.atom = atom
+    self._context = LocalViewContext(fileID: fileID, line: line)
+  }
+
+  public var wrappedValue: Node.Loader.Value {
+    get { context.watch(atom) }
+    nonmutating set { context.set(newValue, for: atom) }
+  }
+
+  public var projectedValue: Binding<Node.Loader.Value> {
+    context.state(atom)
+  }
+}
+
+@propertyWrapper
+public struct LocalWatchStateObject<Node: ObservableObjectAtom>: DynamicProperty {
+
+  @dynamicMemberLookup
+  public struct Wrapper {
+    private let object: Node.Loader.Value
+
+    public subscript<T>(
+      dynamicMember keyPath: ReferenceWritableKeyPath<Node.Loader.Value, T>
+    ) -> Binding<T> {
+      Binding(
+        get: { object[keyPath: keyPath] },
+        set: { object[keyPath: keyPath] = $0 }
+      )
+    }
+    
+    fileprivate init(_ object: Node.Loader.Value) {
+      self.object = object
+    }
+  }
+  
+  private let atom: Node
+  
+  @LocalViewContext
+  private var context
+
+  public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
+    self.atom = atom
+    self._context = LocalViewContext(fileID: fileID, line: line)
+  }
+
+  public var wrappedValue: Node.Loader.Value {
+    context.watch(atom)
+  }
+  
+  public var projectedValue: Wrapper {
+    Wrapper(wrappedValue)
+  }
+}
+
+
+
 @MainActor
-public struct ScopeAtomRecoilContext: AtomWatchableContext {
+public struct AtomLocalViewContext: AtomWatchableContext {
   @usableFromInline
   internal let _store: StoreContext
   @usableFromInline
@@ -108,7 +189,7 @@ public struct ScopeAtomRecoilContext: AtomWatchableContext {
   }
 }
 
-extension ScopeAtomRecoilContext: RecoilProtocol {
+extension AtomLocalViewContext: RecoilProtocol {
   public var context: Self {
     self
   }

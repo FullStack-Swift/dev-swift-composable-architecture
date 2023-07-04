@@ -94,7 +94,7 @@ private let _statsAtom = MValueAtom<Stats>(id: "_statsAtom") { context in
 
 private struct TodoStats: View {
   
-  @RecoilViewContext
+  @RecoilGlobalViewContext
   private var context
   
   var body: some View {
@@ -121,7 +121,7 @@ private struct TodoStats: View {
 
 private struct TodoFilters: View {
   
-  @RecoilViewContext
+  @RecoilGlobalViewContext
   private var context
   
   var body: some View {
@@ -149,7 +149,7 @@ private struct TodoFilters: View {
 
 private struct TodoCreator: View {
   
-  @RecoilViewContext
+  @RecoilGlobalViewContext
   private var context
   
   var body: some View {
@@ -178,7 +178,7 @@ private struct TodoCreator: View {
 
 private struct TodoItem: View {
   
-  @RecoilViewContext
+  @RecoilGlobalViewContext
   private var context
   
   fileprivate let todoID: UUID
@@ -207,7 +207,7 @@ private struct TodoItem: View {
 
 struct RecoilTodoView: View {
   
-  @RecoilViewContext
+  @RecoilGlobalViewContext
   private var context
   
   var body: some View {

@@ -50,7 +50,7 @@ private extension RecoilValueHook {
   // MARK: State
   final class State {
 
-    @RecoilViewContext
+    @RecoilGlobalViewContext
     var context
 
     var node: Node
