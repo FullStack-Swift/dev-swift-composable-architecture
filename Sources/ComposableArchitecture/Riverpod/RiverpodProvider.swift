@@ -1,17 +1,33 @@
 import Foundation
+import Combine
+import SwiftUI
 
-protocol ProviderProtocol {
-  /// Returns any type
+public class Ref {
+  
 }
+
+let ref = ConsumerViewModel()
+
+public protocol ProviderProtocol: ObservableObject {
+  
+  associatedtype Value
+  
+  var value: Value { get set }
+}
+
 
 open class Provider<T>: ProviderProtocol {
   /// Returns any type
   /// A service class / computed property (filtered list)
   
-  let value: T
+  public var value: T
   
-  init(_ value: T) {
-    self.value = value
+  public init(_ initialState: T) {
+    self.value = initialState
+  }
+  
+  public convenience init(_ ref: Ref,_ initialState: () -> T) {
+    self.init(initialState())
   }
 }
 
@@ -19,21 +35,42 @@ open class StateProvider<T>: ProviderProtocol {
   /// Returns any type
   /// A filter condition / simple state object
   
-  let value: T
+  @Published public var value: T
   
-  init(_ value: T) {
-    self.value = value
+  public init(_ initialState: T) {
+    self.value = initialState
+  }
+  
+  public convenience init(_ initialState: () -> T) {
+    self.init(initialState())
   }
 }
 
-open class FutureProvider<T>: ProviderProtocol {
+open class FutureProvider<P: Publisher>: ProviderProtocol {
   /// Returns a Future of any type
   /// A result from an API call
   
-  let value: T
+  @Published
+  public var value: AsyncPhase<P.Output, P.Failure>
   
-  init(_ value: T) {
-    self.value = value
+  private var cancellable: AnyCancellable?
+  
+  public init(_ initialState: P) {
+    self.value = .suspending
+    cancellable = initialState.sink { completion in
+      switch completion {
+        case .finished:
+          break
+        case .failure(let error):
+          self.value = .failure(error)
+      }
+    } receiveValue: { output in
+      self.value = .success(output)
+    }
+  }
+  
+  public convenience init(_ initialState: () -> P) {
+    self.init(initialState())
   }
 }
 
@@ -41,30 +78,75 @@ open class StreamProvider<T>: ProviderProtocol {
   /// Returns a Stream of any type
   /// A stream of results from an API
   
-  let value: T
+  public var value: AsyncPhase<T, Error>
   
-  init(_ value: T) {
-    self.value = value
+  var task: Task<Void, Never>? {
+    didSet {
+      oldValue?.cancel()
+    }
+  }
+
+  public init(_ initialState: @escaping () async throws -> T) {
+    self.value = .suspending
+    task = Task { @MainActor in
+      let phase: AsyncPhase<T, Error>
+      do {
+        let output = try await initialState()
+        phase = .success(output)
+      }
+      catch {
+        phase = .failure(error)
+      }
+      
+      if !Task.isCancelled {
+        value = phase
+      }
+    }
   }
 }
 
-open class StateNotifierProvider<T>: ProviderProtocol {
+open class StateNotifierProvider<V,S: StateProvider<V>>: ProviderProtocol {
   /// Returns a subclass of StateNotifier
   /// A complex state object that is immutable except through an interface
-  let value: T
+  @Republished
+  public var state: S
   
-  init(_ value: T) {
-    self.value = value
+  public var value: V {
+    get {
+      state.value
+    } set {
+      state.value = newValue
+    }
+  }
+  
+  public init(_ initialState: S) {
+    self._state = Republished(wrappedValue: initialState)
+  }
+  
+  public convenience init(_ initialState: () -> S) {
+    self.init(initialState())
   }
 }
 
-open class ChangeNotifierProvider<T>: ProviderProtocol {
+open class ChangeNotifierProvider<V,S: StateProvider<V>>: ProviderProtocol {
   /// Returns a subclass of ChangeNotifier
   /// A complex state object that requires mutability
+
+  @Republished
+  public var state: S
   
-  let value: T
-  
-  init(_ value: T) {
-    self.value = value
+  public var value: V {
+    get {
+      state.value
+    } set {
+      state.value = newValue
+    }
   }
-}
+  
+  public init(_ initialState: S) {
+    self._state = Republished(wrappedValue: initialState)
+  }
+  
+  public convenience init(_ initialState: () -> S) {
+    self.init(initialState())
+  }}

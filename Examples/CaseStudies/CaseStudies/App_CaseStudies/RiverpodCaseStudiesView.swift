@@ -212,21 +212,15 @@ private struct AtomRowTextValue: View {
 
 struct RiverpodCaseStudiesView: View {
   
-  @State var count = 0
-  
   var body: some View {
     ScrollView {
-      HStack {
-        Button("+") {
-          count += 1
-        }
-        Text(count.description)
-          .font(.largeTitle)
-        Button("-") {
-          count -= 1
-        }
+      Group {
+        Text("Riverpod Pro")
+        _CounterView()
+        _CounterView()
+        _CounterView()
+        Divider()
       }
-      .foregroundColor(.accentColor)
       Group {
         Text("Global Context")
         _ProviderGlobalView()
@@ -276,14 +270,83 @@ struct RiverpodCaseStudiesView: View {
   }
   
   var trailing: some View {
-    Button("+") {
-      count += 1
-    }
+    EmptyView()
   }
 }
 
 struct RiverpodCaseStudiesView_Previews: PreviewProvider {
   static var previews: some View {
     RiverpodCaseStudiesView()
+  }
+}
+
+//class Counter: StateProvider<Int> {
+//
+//  init() {
+//    super.init(0)
+//  }
+//
+//  func increment() {
+//    value += 1
+//  }
+//
+//  func decrement() {
+//    value -= 1
+//  }
+//
+//}
+//
+//let counter = Counter()
+//
+//// A shared state that can be accessed by multiple
+//// objects at the same time
+//let counterProvider = StateNotifierProvider<Int, Counter> {
+//  counter
+//}
+
+
+// Consumes the shared state and rebuild when it changes
+private struct _CounterView: ConsumerView {
+  
+  class Counter: StateProvider<Int> {
+    
+    init() {
+      super.init(0)
+    }
+    
+    func increment() {
+      value += 1
+    }
+    
+    func decrement() {
+      value -= 1
+    }
+    
+  }
+  
+  let counter = Counter()
+  
+  // A shared state that can be accessed by multiple
+  // objects at the same time
+  let counterProvider = StateNotifierProvider<Int, Counter> {
+    Counter()
+  }
+  
+  func build(context: Context, ref: ViewRef) -> some View {
+    HStack {
+      Button("+") {
+        counterProvider.value += 1
+//        counter.increment()
+//        counterProvider.state.increment()
+      }
+      Text(context.watch(counterProvider).description)
+        .font(.largeTitle)
+      Button("-") {
+        counterProvider.value -= 1
+//        counter.decrement()
+//        counterProvider.state.decrement()
+      }
+    }
+    .foregroundColor(.accentColor)
   }
 }

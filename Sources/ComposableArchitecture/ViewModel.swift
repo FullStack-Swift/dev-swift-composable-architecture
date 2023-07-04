@@ -220,20 +220,10 @@ extension ViewModel where ViewAction == Void {
 /// with this property wrapper.
 ///
 /// ```swift
-/// @Republished private var inner: InnerObservableObject
-/// ```
-///
-/// The inner `ObservableObject's` `objectWillChange` notifications will be
-/// re-emitted by the outer `ObservableObject` allowing it to provide accessors
-/// derived from the inner one's values.
-///
-/// ```swift
-/// var infoFromInner: String { "\(inner.info)" }
-/// ```
-///
+/// @Republished private var state: StateProvider
+/// 
 /// > Note: The outer `ObservableObject` will only republish notifications
 /// > of inner `ObservableObjects` that it actually accesses.
-@MainActor
 @propertyWrapper
 public final class Republished<Republishing: ObservableObject>
 where Republishing.ObjectWillChangePublisher == ObservableObjectPublisher {
@@ -264,14 +254,20 @@ where Republishing.ObjectWillChangePublisher == ObservableObjectPublisher {
   )
   -> Republishing where Instance.ObjectWillChangePublisher == ObservableObjectPublisher {
     let storage = instance[keyPath: storageKeyPath]
-    if storage.cancellable == nil {
-      storage.cancellable = storage
-        .wrappedValue
-        .objectWillChange
-        .sink { [objectWillChange = instance.objectWillChange] in
-          objectWillChange.send()
-        }
-    }
+    storage.cancellable = instance.subscribe(publisher: storage.wrappedValue)
     return storage.wrappedValue
   }
 }
+
+public extension ObservableObject where ObjectWillChangePublisher == ObservableObjectPublisher {
+  func subscribe<T: ObservableObject>(publisher: T) -> AnyCancellable {
+    publisher
+      .objectWillChange
+      .sink(receiveCompletion: { _ in }, receiveValue: { [weak self] _ in
+        DispatchQueue.main.async {
+          self?.objectWillChange.send()
+        }
+      })
+  }
+}
+
