@@ -361,8 +361,8 @@ private struct _CounterView: ConsumerView {
 
     VStack {
       HStack {
-//        let phase = ref.watch(futureProvider)
-        let phase = ref.watch(publisherProvider)
+        let phase = ref.watch(futureProvider)
+//        let phase = ref.watch(publisherProvider)
         AsyncPhaseView(phase: phase) { text in
           Text(text)
             .font(.largeTitle)
@@ -371,8 +371,8 @@ private struct _CounterView: ConsumerView {
         }
       }
       .onTapGesture {
-//        publisherProvider.state.refresh()
-        futureProvider.refresh()
+        publisherProvider.state.refresh()
+//        futureProvider.refresh()
       }
       HStack {
         Button("+") {

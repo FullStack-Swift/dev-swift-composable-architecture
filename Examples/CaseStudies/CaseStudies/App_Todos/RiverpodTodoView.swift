@@ -177,41 +177,74 @@ private struct TodoItem: View {
   }
 }
 
-// MARK: RiverpodTodoView
-struct RiverpodTodoView: View {
-  
-  @State private var todos: IdentifiedArrayOf<Todo> = .mock
-  
-  @State private var filter: Filter = .all
-  
-  private var filteredTodos: IdentifiedArrayOf<Todo> {
-    switch filter {
-      case .all:
-        return todos
-      case .completed:
-        return todos.filter(\.isCompleted)
-      case .uncompleted:
-        return todos.filter { !$0.isCompleted }
-    }
+private class TodoProvider: StateProvider<IdentifiedArrayOf<Todo>> {
+
+  override init(_ initialState: IdentifiedArrayOf<Todo>) {
+    super.init(initialState)
   }
   
-  var body: some View {
+  convenience init() {
+    self.init(.mock)
+  }
+}
+
+private class FilterProvier: StateProvider<Filter> {
+  
+  override init(_ initialState: Filter) {
+    super.init(initialState)
+  }
+  
+  convenience init() {
+    self.init(.all)
+  }
+}
+
+private class FilterTodoProvider: StateProvider<IdentifiedArrayOf<Todo>> {
+  
+  override init(_ initialState: IdentifiedArrayOf<Todo>) {
+    super.init(initialState)
+  }
+  
+  convenience init() {
+    self.init(.mock)
+  }
+}
+
+// MARK: RiverpodTodoView
+struct RiverpodTodoView: ConsumerView {
+  
+  func build(context: Context, ref: ViewRef) -> some View {
+    let todoProvider = TodoProvider()
+    let filterProvier = FilterProvier()
+    let filterTodoProvider = FilterTodoProvider {
+      let filter = $0.watch(filterProvier)
+      let todos = $0.watch(todoProvider)
+      switch filter {
+        case .all:
+          return todos
+        case .completed:
+          return todos.filter(\.isCompleted)
+        case .uncompleted:
+          return todos.filter { !$0.isCompleted }
+      }
+    }
+    
     List {
       Section(header: Text("Information")) {
-        TodoStats(todos: $todos)
-        TodoCreator(todos: $todos)
+        TodoStats(todos: ref.binding(todoProvider))
+        TodoCreator(todos: ref.binding(todoProvider))
       }
       Section(header: Text("Filters")) {
-        TodoFilters(filter: $filter)
+        TodoFilters(filter: ref.binding(filterProvier))
       }
-      ForEach(filteredTodos, id: \.id) { todo in
-        TodoItem(todos: $todos, todoID: todo.id)
+      ForEach(filterTodoProvider.value, id: \.id) { todo in
+        TodoItem(todos: ref.binding(todoProvider), todoID: todo.id)
       }
       .onDelete { atOffsets in
-        todos.remove(atOffsets: atOffsets)
+        todoProvider.value.remove(atOffsets: atOffsets)
       }
       .onMove { fromOffsets, toOffset in
-        todos.move(fromOffsets: fromOffsets, toOffset: toOffset)
+        todoProvider.value.move(fromOffsets: fromOffsets, toOffset: toOffset)
       }
     }
     .listStyle(.sidebar)

@@ -41,8 +41,12 @@ struct HookCaseStudiesView: View {
               useRefView
               HookTitleView(title: "useMemo UseCase")
               useMemoView
-              HookTitleView(title: "useEffect UseCase")
-              useEffectView
+              Group {
+                HookTitleView(title: "useEffect UseCase")
+                useEffectView
+                HookTitleView(title: "useLayoutEffect UseCase")
+                useLayoutEffectView
+              }
               HookTitleView(title: "useEnvironment UseCase")
               useEnvironmentView
               HookTitleView(title: "useContext UseCase")
@@ -280,12 +284,57 @@ struct HookCaseStudiesView: View {
   }
   
   private var useEffectView: some View {
+    print("AAAAAAAA")
+    return HookScope {
+      let state = useState(999999999)
+      let isAutoIncrement = useState(false)
+      
+      //    useEffect(.preserved(by: isAutoIncrement.wrappedValue)) {
+      //      guard isAutoIncrement.wrappedValue else { return nil }
+      //      print("Timer.scheduledTimer")
+      //      let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+      //        state.wrappedValue += 1
+      //      }
+      //
+      //      return timer.invalidate
+      //    }
+      
+      useCallback(.preserved(by: isAutoIncrement.wrappedValue)) {
+        guard isAutoIncrement.wrappedValue else { return nil }
+        print("Timer.scheduledTimer")
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+          state.wrappedValue += 1
+        }
+        
+        return timer.invalidate
+      }
+      
+      return HookRowView("useEffect") {
+        HookRowTextValue(state.wrappedValue)
+        Spacer()
+        Stepper(value: state, in: 0...(.max), label: EmptyView.init).fixedSize()
+        Toggle("Auto +", isOn: isAutoIncrement).fixedSize()
+      }
+    }
+  }
+  
+  private var useLayoutEffectView: some View {
     let state = useState(999999999)
     let isAutoIncrement = useState(false)
     
-    useEffect(.preserved(by: isAutoIncrement.wrappedValue)) {
+//    useLayoutEffect(.preserved(by: isAutoIncrement.wrappedValue)) {
+//      guard isAutoIncrement.wrappedValue else { return nil }
+//      print("Timer.scheduledTimer")
+//      let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+//        state.wrappedValue += 1
+//      }
+//
+//      return timer.invalidate
+//    }
+    
+    useLayoutCallback(.preserved(by: isAutoIncrement.wrappedValue)) {
       guard isAutoIncrement.wrappedValue else { return nil }
-      
+      print("Timer.scheduledTimer")
       let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
         state.wrappedValue += 1
       }
@@ -330,16 +379,18 @@ struct HookCaseStudiesView: View {
   }
   
   private var useEnvironmentView: some View {
-    let locale = useEnvironment(\.locale)
-    let presentation = useEnvironment(\.presentationMode)
-    return HookRowView("useEnvironment") {
-      TextValue("Current Locale = \(locale.identifier)")
-        .frame(height: 60)
-      Spacer()
-      Button {
-        presentation.wrappedValue.dismiss()
-      } label: {
-        Text("Dismiss")
+    HookScope {
+      let locale = useEnvironment(\.locale)
+      let presentation = useEnvironment(\.presentationMode)
+      return HookRowView("useEnvironment") {
+        TextValue("Current Locale = \(locale.identifier)")
+          .frame(height: 60)
+        Spacer()
+        Button {
+          presentation.wrappedValue.dismiss()
+        } label: {
+          Text("Dismiss")
+        }
       }
     }
   }
