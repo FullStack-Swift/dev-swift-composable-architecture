@@ -6,7 +6,7 @@ public protocol ConsumerView: View {
 
   associatedtype RiverBody: View
   
-  typealias Context = ConsumerViewModel
+  typealias Context = RiverpodStore
   typealias ViewRef = ConsumerViewModel
   
   @ViewBuilder
@@ -16,8 +16,8 @@ public protocol ConsumerView: View {
 
 extension ConsumerView {
   public var body:  some View {
-    ProviderScope { viewModel in
-      build(context: viewModel, ref: viewModel)
+    ProviderScope { store, viewModel in
+      build(context: store, ref: viewModel)
     }
   }
 }
@@ -29,14 +29,14 @@ private struct ProviderScope<Content: View>: View {
   @Environment(\.self)
   private var environment
   
-  private let content: (ConsumerViewModel) -> Content
+  private let content: (RiverpodStore, ConsumerViewModel) -> Content
   
-  init(@ViewBuilder _ content: @escaping (ConsumerViewModel) -> Content) {
+  init(@ViewBuilder _ content: @escaping (RiverpodStore, ConsumerViewModel) -> Content) {
     self.content = content
   }
   
   var body: some View {
-    content(viewModel)
+    content(viewModel.rivepodStore, viewModel)
   }
 }
 
@@ -46,9 +46,20 @@ public class ConsumerViewModel: ObservableObject {
   
   private var cancellables = Set<AnyCancellable>()
   
+  @Dependency(\.rivepodStore) var rivepodStore
+  
   @discardableResult
   public func watch<Node: ProviderProtocol>(_ node: Node) -> Node.Value {
     subscribe(publisher: node)
+      .store(in: &cancellables)
+    return node.value
+  }
+  
+  @discardableResult
+  public func watch<Value, Node: StateNotifierProvider<Value>>(_ node: Node) -> Value.Value {
+    subscribe(publisher: node)
+      .store(in: &cancellables)
+    subscribe(publisher: node.state)
       .store(in: &cancellables)
     return node.value
   }

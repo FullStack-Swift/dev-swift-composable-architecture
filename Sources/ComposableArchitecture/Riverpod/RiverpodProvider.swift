@@ -2,6 +2,71 @@ import Foundation
 import Combine
 import SwiftUI
 
+/// @Republished is a property wrapper which allows an `ObservableObject` nested
+/// within another `ObservableObject` to notify SwiftUI of changes.
+///
+/// The outer `ObservableObject` should hold the inner one in a var annotated
+/// with this property wrapper.
+///
+/// ```swift
+/// @Republished private var state: StateProvider
+///
+/// > Note: The outer `ObservableObject` will only republish notifications
+/// > of inner `ObservableObjects` that it actually accesses.
+@propertyWrapper
+public final class Republished<Republishing: ObservableObject>
+where Republishing.ObjectWillChangePublisher == ObservableObjectPublisher {
+  
+  private var republished: Republishing
+  private var cancellable: AnyCancellable?
+  
+  public init(wrappedValue republished: Republishing) {
+    self.republished = republished
+  }
+  
+  public var wrappedValue: Republishing {
+    republished
+  }
+  
+  public var projectedValue: Binding<Republishing> {
+    Binding {
+      self.republished
+    } set: { newValue in
+      self.republished = newValue
+    }
+  }
+  
+  public static subscript<Instance: ObservableObject>(
+    _enclosingInstance instance: Instance,
+    wrapped _: KeyPath<Instance, Republishing>,
+    storage storageKeyPath: KeyPath<Instance, Republished>
+  )
+  -> Republishing where Instance.ObjectWillChangePublisher == ObservableObjectPublisher {
+    let storage = instance[keyPath: storageKeyPath]
+    storage.cancellable = instance.subscribe(publisher: storage.wrappedValue)
+    return storage.wrappedValue
+  }
+}
+
+public extension ObservableObject where ObjectWillChangePublisher == ObservableObjectPublisher {
+  func subscribe<T: ObservableObject>(publisher: T) -> AnyCancellable {
+    publisher
+      .objectWillChange
+      .sink(
+        receiveCompletion: { _ in },
+        receiveValue: { [weak self] _ in
+          DispatchQueue.main.async {
+            self?.objectWillChange.send()
+          }
+        }
+      )
+  }
+}
+
+public struct RiverpodStore {
+  
+}
+
 public class Ref {
   
 }
@@ -55,22 +120,29 @@ open class FutureProvider<P: Publisher>: ProviderProtocol {
   
   private var cancellable: AnyCancellable?
   
-  public init(_ initialState: P) {
+  let makePublisher: () -> P
+  
+  public convenience init(_ initialState: P) {
+    self.init({initialState})
+  }
+  
+  public init(_ initialState: @escaping () -> P) {
     self.value = .suspending
-    cancellable = initialState.sink { completion in
+    self.makePublisher = initialState
+    refresh()
+  }
+  
+  open func refresh() {
+    cancellable = makePublisher().sink { [weak self] completion in
       switch completion {
         case .finished:
           break
         case .failure(let error):
-          self.value = .failure(error)
+          self?.value = .failure(error)
       }
-    } receiveValue: { output in
-      self.value = .success(output)
+    } receiveValue: { [weak self] output in
+      self?.value = .success(output)
     }
-  }
-  
-  public convenience init(_ initialState: () -> P) {
-    self.init(initialState())
   }
 }
 
@@ -78,7 +150,10 @@ open class StreamProvider<T>: ProviderProtocol {
   /// Returns a Stream of any type
   /// A stream of results from an API
   
+  @Published
   public var value: AsyncPhase<T, Error>
+  
+  let operation: () async throws -> T
   
   var task: Task<Void, Never>? {
     didSet {
@@ -88,10 +163,14 @@ open class StreamProvider<T>: ProviderProtocol {
 
   public init(_ initialState: @escaping () async throws -> T) {
     self.value = .suspending
+    self.operation = initialState
+  }
+  
+  public func refresh() {
     task = Task { @MainActor in
       let phase: AsyncPhase<T, Error>
       do {
-        let output = try await initialState()
+        let output = try await operation()
         phase = .success(output)
       }
       catch {
@@ -105,13 +184,13 @@ open class StreamProvider<T>: ProviderProtocol {
   }
 }
 
-open class StateNotifierProvider<V,S: StateProvider<V>>: ProviderProtocol {
+open class StateNotifierProvider<P: ProviderProtocol>: ProviderProtocol where P.ObjectWillChangePublisher == ObservableObjectPublisher {
   /// Returns a subclass of StateNotifier
   /// A complex state object that is immutable except through an interface
   @Republished
-  public var state: S
+  public var state: P
   
-  public var value: V {
+  public var value: P.Value {
     get {
       state.value
     } set {
@@ -119,23 +198,23 @@ open class StateNotifierProvider<V,S: StateProvider<V>>: ProviderProtocol {
     }
   }
   
-  public init(_ initialState: S) {
+  public init(_ initialState: P) {
     self._state = Republished(wrappedValue: initialState)
   }
   
-  public convenience init(_ initialState: () -> S) {
+  public convenience init(_ initialState: () -> P) {
     self.init(initialState())
   }
 }
 
-open class ChangeNotifierProvider<V,S: StateProvider<V>>: ProviderProtocol {
+open class ChangeNotifierProvide<P: ProviderProtocol>: ProviderProtocol where P.ObjectWillChangePublisher == ObservableObjectPublisher {
   /// Returns a subclass of ChangeNotifier
   /// A complex state object that requires mutability
 
   @Republished
-  public var state: S
+  public var state: P
   
-  public var value: V {
+  public var value: P.Value {
     get {
       state.value
     } set {
@@ -143,10 +222,10 @@ open class ChangeNotifierProvider<V,S: StateProvider<V>>: ProviderProtocol {
     }
   }
   
-  public init(_ initialState: S) {
+  public init(_ initialState: P) {
     self._state = Republished(wrappedValue: initialState)
   }
   
-  public convenience init(_ initialState: () -> S) {
+  public convenience init(_ initialState: () -> P) {
     self.init(initialState())
   }}

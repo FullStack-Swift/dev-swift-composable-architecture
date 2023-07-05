@@ -15,6 +15,13 @@ private struct StoreEnvironmentKey: EnvironmentKey {
   }
 }
 
+private struct RivePodEnvironmentKey: EnvironmentKey {
+  static var defaultValue: RiverpodStore {
+    @Dependency(\.rivepodStore) var rivepodStore
+    return rivepodStore
+  }
+}
+
 extension DependencyValues {
   var storeContext: StoreContext {
     get {
@@ -45,4 +52,22 @@ extension DependencyValues {
 // MARK: StoreContextDependencyKey
 private struct RecoilStoreContextDependencyKey: DependencyKey {
   static var liveValue = StoreContext(AtomStore(), enablesAssertion: false)
+}
+
+extension DependencyValues {
+  var rivepodStore: RiverpodStore {
+    get {
+      self[RiverpodStoreDependencyKey.self]
+    }
+    set {
+      self[RiverpodStoreDependencyKey.self] = newValue
+    }
+  }
+}
+
+// MARK: RiverpodStoreDependencyKey
+private struct RiverpodStoreDependencyKey: DependencyKey {
+  static var liveValue = RiverpodStore()
+  
+  
 }
