@@ -2,8 +2,8 @@ import Combine
 import SwiftUI
 
 /// A class that manages list of states of hooks used inside `HookDispatcher.scoped(environment:_)`.
-public final class HookDispatcher: ObservableObject {
-  internal private(set) static weak var current: HookDispatcher?
+public final class HookObservable: ObservableObject {
+  internal private(set) static weak var current: HookObservable?
   
   /// A publisher that emits before the object has changed.
   public let objectWillChange = PassthroughSubject<(), Never>()
@@ -140,7 +140,7 @@ public final class HookDispatcher: ObservableObject {
   }
 }
 
-private extension HookDispatcher {
+private extension HookObservable {
   func sweepRemainingRecords() {
     guard let scopedState = scopedState, let currentRecord = scopedState.currentRecord else {
       return

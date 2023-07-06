@@ -39,7 +39,7 @@ public struct HookScope<Content: View>: View {
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 private struct HookScopeBody<Content: View>: View {
   @StateObject
-  private var dispatcher = HookDispatcher()
+  private var hookObservable = HookObservable()
   
   @Environment(\.self)
   private var environment
@@ -51,7 +51,7 @@ private struct HookScopeBody<Content: View>: View {
   }
   
   var body: some View {
-    dispatcher.scoped(environment: environment, content)
+    hookObservable.scoped(environment: environment, content)
   }
 }
 
@@ -62,25 +62,25 @@ private struct HookScopeBody<Content: View>: View {
 private struct HookScopeCompatBody<Content: View>: View {
   struct Body: View {
     @ObservedObject
-    private var dispatcher: HookDispatcher
+    private var hookObservable: HookObservable
     
     @Environment(\.self)
     private var environment
     
     private let content: () -> Content
     
-    init(dispatcher: HookDispatcher, @ViewBuilder _ content: @escaping () -> Content) {
-      self.dispatcher = dispatcher
+    init(hookObservable: HookObservable, @ViewBuilder _ content: @escaping () -> Content) {
+      self.hookObservable = hookObservable
       self.content = content
     }
     
     var body: some View {
-      dispatcher.scoped(environment: environment, content)
+      hookObservable.scoped(environment: environment, content)
     }
   }
   
   @State
-  private var dispatcher = HookDispatcher()
+  private var hookObservable = HookObservable()
   private let content: () -> Content
   
   init(@ViewBuilder _ content: @escaping () -> Content) {
@@ -88,6 +88,6 @@ private struct HookScopeCompatBody<Content: View>: View {
   }
   
   var body: Body {
-    Body(dispatcher: dispatcher, content)
+    Body(hookObservable: hookObservable, content)
   }
 }

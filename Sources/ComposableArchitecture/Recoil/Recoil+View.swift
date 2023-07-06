@@ -17,6 +17,7 @@ import SwiftUI
 ///  }
 ///
 /// ```
+@MainActor
 public struct RecoilScope<Content: View>: View {
 
   private let content: (RecoilGlobalContext) -> Content

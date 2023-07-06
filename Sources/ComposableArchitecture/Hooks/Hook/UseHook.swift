@@ -12,7 +12,7 @@
 public func useHook<H: Hook>(_ hook: H) -> H.Value {
   assertMainThread()
   
-  guard let dispatcher = HookDispatcher.current else {
+  guard let dispatcher = HookObservable.current else {
     fatalErrorHooksRules()
   }
   

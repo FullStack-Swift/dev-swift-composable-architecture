@@ -12,7 +12,7 @@ public final class HookTester<Parameter, Value> {
   
   private var currentParameter: Parameter
   private let hook: (Parameter) -> Value
-  private let dispatcher = HookDispatcher()
+  private let dispatcher = HookObservable()
   private let environment: EnvironmentValues
   private var cancellable: AnyCancellable?
   

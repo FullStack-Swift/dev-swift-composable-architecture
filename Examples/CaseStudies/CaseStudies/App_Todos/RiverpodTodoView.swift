@@ -216,9 +216,9 @@ struct RiverpodTodoView: ConsumerView {
   func build(context: Context, ref: ViewRef) -> some View {
     let todoProvider = TodoProvider()
     let filterProvier = FilterProvier()
-    let filterTodoProvider = FilterTodoProvider {
-      let filter = $0.watch(filterProvier)
-      let todos = $0.watch(todoProvider)
+    let filterTodoProvider = FilterTodoProvider { ref in
+      let filter = ref.watch(filterProvier)
+      let todos = ref.watch(todoProvider)
       switch filter {
         case .all:
           return todos
