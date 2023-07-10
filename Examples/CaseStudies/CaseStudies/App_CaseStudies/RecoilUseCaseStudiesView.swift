@@ -1,6 +1,7 @@
 import SwiftUI
 import Combine
 import ComposableArchitecture
+import SwiftUIViewModifier
 
 // MARK: StateAtom
 private struct _StateAtom: StateAtom, Hashable {
@@ -27,6 +28,10 @@ private struct _ValueAtom: ValueAtom, Hashable {
   
   func value(context: Context) -> Int {
     context.watch(_StateAtom(id: id))
+  }
+  
+  var key: any Hashable {
+    id
   }
 }
 
@@ -105,13 +110,6 @@ private struct _StateAtomView: HookView {
         // MARK: useRecoilRefresher
         VStack {
           let (phase,refresh) = useRecoilRefresher(_PublisherAtom(id: "useRecoilRefresher"))
-          Text("useRecoilRefresher")
-            .task {
-              refresh()
-            }
-            .onTapGesture {
-              refresh()
-            }
           AsyncPhaseView(phase: phase) { value in
             HStack {
               Text(value.timeIntervalSince1970.description)
@@ -123,10 +121,14 @@ private struct _StateAtomView: HookView {
             Text(error.localizedDescription)
           }
           .frame(height: 60)
+          .onFirstAppear {
+            refresh()
+          }
           .onTapGesture {
             refresh()
           }
         }
+
         // MARK: useRecoilPublisher
         VStack {
           let phase = useRecoilPublisher(_PublisherAtom(id: "useRecoilPublisher"))
@@ -159,7 +161,6 @@ private struct _StateAtomView: HookView {
           } failureContent: { error in
             Text(error.localizedDescription)
           }
-          
         }
         headerView
           .padding()
@@ -186,30 +187,29 @@ private struct _StateAtomView: HookView {
   }
   
   var headerView: some View {
-    let state1 = useRecoilValue(_StateAtom(id: "1"))
-    let state2 = useRecoilValue(_StateAtom(id: "2"))
-    let state3 = useRecoilValue(_StateAtom(id: "3"))
-    return Text(state1.description + " + ")
-      .foregroundColor(.red)
-    + Text(state2.description + " + ")
-      .foregroundColor(.green)
-    + Text(state3.description + " = ")
-      .foregroundColor(.blue)
-    + Text((state1 + state2 + state3).description)
-      .foregroundColor(.cyan)
+    HookScope {
+      let state1 = useRecoilValue(_StateAtom(id: "1"))
+      let state2 = useRecoilValue(_StateAtom(id: "2"))
+      let state3 = useRecoilValue(_StateAtom(id: "3"))
+      return Text(state1.description + " + ")
+        .foregroundColor(.red)
+      + Text(state2.description + " + ")
+        .foregroundColor(.green)
+      + Text(state3.description + " = ")
+        .foregroundColor(.blue)
+      + Text((state1 + state2 + state3).description)
+        .foregroundColor(.cyan)
+    }
   }
 }
 
-private struct _ScopeRecoilView: View {
-  
-  @RecoilLocalViewContext
-  private var viewContext
+private struct _RecoilLocalScope: View {
   
   var body: some View {
-    HookScope {
+    RecoilLocalScope { localViewContext in
       HStack {
-        let state = viewContext.useRecoilState(_StateAtom(id: "1"))
-        let value = viewContext.useRecoilValue(_ValueAtom(id: "1"))
+        let state = localViewContext.useRecoilState(_StateAtom(id: "1"))
+        let value = localViewContext.useRecoilValue(_ValueAtom(id: "1"))
         AtomRowTextValue(state.wrappedValue)
         AtomRowTextValue(value)
         Stepper("Count: \(state.wrappedValue)", value: state)
@@ -219,15 +219,15 @@ private struct _ScopeRecoilView: View {
   }
 }
 
-private struct _GlobalRecoilView: View {
+private struct _RecoilGlobalScope: View {
   
   var body: some View {
-    HookScope {
+    RecoilGlobalScope { globalViewContext in
       HStack {
-        let state = useRecoilState(_StateAtom(id: "1"))
-//        let value = useRecoilValue(_ValueAtom(id: "1"))
+        let state = globalViewContext.useRecoilState(_StateAtom(id: "1"))
+        let value = globalViewContext.useRecoilValue(_ValueAtom(id: "1"))
         AtomRowTextValue(state.wrappedValue)
-//        AtomRowTextValue(value)
+        AtomRowTextValue(value)
         Stepper("Count: \(state.wrappedValue)", value: state)
           .labelsHidden()
       }
@@ -295,67 +295,75 @@ struct RecoilUseCaseStudiesView: View {
   
   var body: some View {
     List {
-      Section("ViewContext") {
-        _StateAtomView()
-      }
-      .padding()
-      
-      Section("Other ViewContext") {
-        _StateAtomView()
-      }
-      .padding()
-      
-      Section("Recoil Global View") {
-        _RecoilGlobalView()
-      }
-      .padding()
-      
-      Section("Other Recoil Global View") {
-        _RecoilGlobalView()
-      }
-      .padding()
-
-      Section("Recoil Local View") {
-        _RecoilLocalView()
-      }
-      .padding()
-      
-      Section("Other Recoil Local View") {
-        _RecoilLocalView()
-      }
-      .padding()
-      
-      Section("Scope Recoil") {
-        _ScopeRecoilView()
-      }
-      .padding()
-      
-      Section("Other Scope Recoil") {
-        _ScopeRecoilView()
-      }
-      .padding()
-      
-      Section("Global Recoil") {
-        _GlobalRecoilView()
-      }
-      .padding()
-      
-      Section("Other Global Recoil") {
-        _GlobalRecoilView()
-        HookScope {
-          HStack {
-//            let state = useRecoilState(_StateAtom(id: "1"))
-                    let value = useRecoilValue(_ValueAtom(id: "1"))
-//            AtomRowTextValue(state.wrappedValue)
-                    AtomRowTextValue(value)
-//            Stepper("Count: \(state.wrappedValue)", value: state)
-//              .labelsHidden()
-          }
+      // MARK: ViewContext
+      Group {
+        Section("ViewContext") {
+          _StateAtomView()
         }
+        .padding()
+        
+        Section("Other ViewContext") {
+          _StateAtomView()
+        }
+        .padding()
       }
-      .padding()
+
+      // MARK: Local
+      Group {
+        Section("func recoilBody(context: RecoilLocalContext)") {
+          _RecoilLocalView()
+        }
+        .padding()
+        
+        Section("func recoilBody(context: RecoilLocalContext)") {
+          _RecoilLocalView()
+        }
+        .padding()
+        
+        Section("RecoilLocalScope { localViewContext in") {
+          _RecoilLocalScope()
+        }
+        .padding()
+        
+        Section("RecoilLocalScope { localViewContext in") {
+          _RecoilLocalScope()
+        }
+        .padding()
+      }
+      
+      // MARK: Global
+      Group {
+        Section("func recoilBody(context: RecoilGlobalContext)") {
+          _RecoilGlobalView()
+        }
+        .padding()
+        
+        Section("func recoilBody(context: RecoilGlobalContext)") {
+          _RecoilGlobalView()
+        }
+        .padding()
+        
+        Section("RecoilGlobalScope { globalViewContext in") {
+          _RecoilGlobalScope()
+        }
+        .padding()
+        
+        Section("RecoilGlobalScope { globalViewContext in") {
+          _RecoilGlobalScope()
+        }
+        .padding()
+      }
+      
+      // MARK: Other
+      Group {
+        Section("Other") {
+          RecoilUseCaseStudies2View()
+        }
+        .padding()
+      }
     }
     .listStyle(.sidebar)
     .navigationBarTitle(Text("Recoil"), displayMode: .inline)
   }
 }
+

@@ -67,7 +67,7 @@ extension DependencyValues {
 
 // MARK: RiverpodContextDependencyKey
 private struct RiverpodContextDependencyKey: DependencyKey {
-  static var liveValue = RiverpodContext()
+  static var liveValue = RiverpodContext(weakStore: RiverpodStore.shared)
   
   
 }

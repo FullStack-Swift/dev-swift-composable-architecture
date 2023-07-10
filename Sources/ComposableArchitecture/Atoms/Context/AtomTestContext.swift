@@ -23,6 +23,12 @@ public struct AtomTestContext: AtomWatchableContext {
     nonmutating set { state.onUpdate = newValue }
   }
   
+  /// A callback to perform when any of atoms watched by this context is updated.
+  private let notifier = PassthroughSubject<Void, Never>()
+  public var objectWillChange: AnyPublisher<Void, Never> {
+    notifier.eraseToAnyPublisher()
+  }
+  
   /// Waits until any of atoms watched through this context is updated for up to
   /// the specified timeout, and then return a boolean value indicating whether an update is done.
   ///

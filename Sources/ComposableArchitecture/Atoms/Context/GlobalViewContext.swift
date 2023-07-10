@@ -1,3 +1,4 @@
+import Combine
 /// A context structure that to read, watch, and otherwise interacting with atoms.
 ///
 /// Through this context, watching of an atom is initiated, and when that atom is updated,
@@ -19,6 +20,12 @@ public struct GlobalViewContext: AtomWatchableContext {
     _store = store
     _container = container
     _notifyUpdate = notifyUpdate
+  }
+  
+  /// A callback to perform when any of atoms watched by this context is updated.
+  private let notifier = PassthroughSubject<Void, Never>()
+  public var objectWillChange: AnyPublisher<Void, Never> {
+    notifier.eraseToAnyPublisher()
   }
   
   /// Accesses the value associated with the given atom without watching to it.

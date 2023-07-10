@@ -78,6 +78,14 @@ where Node.Loader == PublisherAtomLoader<Node> {
     guard !coordinator.state.isDisposed else {
       return
     }
+//    coordinator.state.phase = .suspending
+//    coordinator.state.task = Task { @MainActor in
+//      let value = await coordinator.state.refresh
+//      if !Task.isCancelled {
+//        coordinator.state.phase = value
+//        coordinator.updateView()
+//      }
+//    }
   }
 
   @MainActor
@@ -88,9 +96,9 @@ where Node.Loader == PublisherAtomLoader<Node> {
     return (
     coordinator.state.phase,
     refresher: {
-//      coordinator.state.phase = .suspending
+      coordinator.state.phase = .suspending
 //      coordinator.updateView()
-      Task { @MainActor in
+      coordinator.state.task = Task { @MainActor in
         let refresh = await coordinator.state.refresh
         guard !coordinator.state.isDisposed else {
           return
@@ -122,6 +130,11 @@ extension RecoilPublisherRefresherHook {
     var phase: Phase = .suspending
     var cancellables: Set<AnyCancellable> = []
     var isDisposed = false
+    var task: Task<Void, Never>? {
+      didSet {
+        oldValue?.cancel()
+      }
+    }
     init(initialState: Node) {
       self.node = initialState
     }

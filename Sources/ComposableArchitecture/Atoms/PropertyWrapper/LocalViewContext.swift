@@ -138,6 +138,12 @@ public struct AtomLocalViewContext: AtomWatchableContext {
     _notifyUpdate = notifyUpdate
   }
   
+  /// A callback to perform when any of atoms watched by this context is updated.
+  private let notifier = PassthroughSubject<Void, Never>()
+  public var objectWillChange: AnyPublisher<Void, Never> {
+    notifier.eraseToAnyPublisher()
+  }
+  
   @inlinable
   public func read<Node: Atom>(_ atom: Node) -> Node.Loader.Value {
     _store.read(atom)

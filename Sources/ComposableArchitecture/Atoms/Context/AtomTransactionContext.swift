@@ -1,3 +1,4 @@
+import Combine
 /// A context structure that to read, watch, and otherwise interacting with atoms.
 ///
 /// Through this context, watching of an atom is initiated, and when that atom is updated,
@@ -11,6 +12,12 @@ public struct AtomTransactionContext<Coordinator>: AtomWatchableContext {
   
   /// The atom's associated coordinator.
   public let coordinator: Coordinator
+  
+  /// A callback to perform when any of atoms watched by this context is updated.
+  private let notifier = PassthroughSubject<Void, Never>()
+  public var objectWillChange: AnyPublisher<Void, Never> {
+    notifier.eraseToAnyPublisher()
+  }
   
   internal init(
     store: StoreContext,

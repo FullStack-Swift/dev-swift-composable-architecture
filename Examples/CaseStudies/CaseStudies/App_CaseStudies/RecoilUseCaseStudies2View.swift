@@ -28,10 +28,14 @@ private struct _ValueAtom: ValueAtom, Hashable {
   func value(context: Context) -> Int {
     context.watch(_StateAtom(id: id))
   }
+  
+  var key: any Hashable {
+    id
+  }
 }
 
 private struct _RecoilViewContext: View {
-    
+  
   var body: some View {
     HookScope {
       VStack {
@@ -61,7 +65,7 @@ private struct _RecoilViewContext: View {
 }
 
 private struct _ProviderGlobalView: ProviderGlobalView {
-    
+  
   func build(context: Context, ref: ViewRef) -> some View {
     VStack {
       HookScope {
@@ -211,17 +215,10 @@ private struct AtomRowTextValue: View {
   }
 }
 
-struct RiverpodCaseStudiesView: View {
+struct RecoilUseCaseStudies2View: View {
   
   var body: some View {
     ScrollView {
-      Group {
-        Text("Riverpod Pro")
-//        _CounterView()
-//        _CounterView()
-//        _CounterView()
-        Divider()
-      }
       Group {
         Text("Global Context")
         _ProviderGlobalView()
@@ -229,7 +226,7 @@ struct RiverpodCaseStudiesView: View {
         _ProviderGlobalView()
         Divider()
       }
-
+      
       Group {
         Text("Local Context")
         _ProviderLocalView()
@@ -259,7 +256,7 @@ struct RiverpodCaseStudiesView: View {
         _RecoilViewContext()
         Divider()
       }
-
+      
     }
     .padding()
     .navigationBarTitle(Text("Riverpod"), displayMode: .inline)
@@ -275,138 +272,8 @@ struct RiverpodCaseStudiesView: View {
   }
 }
 
-struct RiverpodCaseStudiesView_Previews: PreviewProvider {
+struct RecoilUseCaseStudies2View_Previews: PreviewProvider {
   static var previews: some View {
-    RiverpodCaseStudiesView()
+    RecoilUseCaseStudies2View()
   }
 }
-
-//class Counter: StateProvider<Int> {
-//
-//  init() {
-//    super.init(0)
-//  }
-//
-//  func increment() {
-//    value += 1
-//  }
-//
-//  func decrement() {
-//    value -= 1
-//  }
-//
-//}
-//
-//let counter = Counter()
-//
-//// A shared state that can be accessed by multiple
-//// objects at the same time
-//let counterProvider = StateNotifierProvider<Int, Counter> {
-//  counter
-//}
-
-
-// Consumes the shared state and rebuild when it changes
-//private struct _CounterView: ConsumerView {
-//  
-//  class Counter: StateProvider<Int> {
-//    
-//    init() {
-//      super.init(0)
-//    }
-//    
-//    func increment() {
-//      value += 1
-//    }
-//    
-//    func decrement() {
-//      value -= 1
-//    }
-//    
-//  }
-//  
-//  class _FutureProvider: FutureProvider<AnyPublisher<String, Never>> {
-//    
-//    let current = CurrentValueSubject<Int, Never>(0)
-//    
-//    init() {
-//      super.init { [current] in
-//        current
-//          .map(\.description)
-//          .delay(for: 1, scheduler: UIScheduler.shared)
-//          .eraseToAnyPublisher()
-//      }
-//    }
-//    
-//    override func refresh() {
-//      current.value += 1
-//      super.refresh()
-//    }
-//  }
-//  
-//  let counter = Counter()
-//  
-//  let futureProvider = _FutureProvider()
-//  
-//  func build(context: Context, ref: ViewRef) -> some View {
-//    // A shared state that can be accessed by multiple
-//    // objects at the same time
-//    let counterProvider = StateNotifierProvider<Counter> {
-//      counter
-//    }
-//    
-//    let publisherProvider = StateNotifierProvider<_FutureProvider> {
-//      futureProvider
-//    }
-//
-//    VStack {
-//      HStack {
-//        let phase = ref.watch(futureProvider)
-////        let phase = ref.watch(publisherProvider)
-//        AsyncPhaseView(phase: phase) { text in
-//          Text(text)
-//            .font(.largeTitle)
-//        } suspending: {
-//          ProgressView()
-//        }
-//      }
-//      .onTapGesture {
-//        publisherProvider.state.refresh()
-////        futureProvider.refresh()
-//      }
-//      HStack {
-//        Button("+") {
-//          counter.value += 1
-//        }
-//        Text(ref.watch(counterProvider).description)
-//          .font(.largeTitle)
-//        Button("-") {
-//          counter.value += 1
-//        }
-//      }
-//      .foregroundColor(.accentColor)
-//      HStack {
-//        Button("+") {
-//          counter.increment()
-//        }
-//        Text(ref.watch(counterProvider).description)
-//          .font(.largeTitle)
-//        Button("-") {
-//          counter.decrement()
-//        }
-//      }
-//      .foregroundColor(.accentColor)
-//      HStack {
-//        Button("+") {
-//          counterProvider.state.increment()
-//        }
-//        Text(ref.watch(counterProvider).description)
-//          .font(.largeTitle)
-//        Button("-") {
-//          counterProvider.state.decrement()
-//        }
-//      }
-//      .foregroundColor(.accentColor)
-//    }
-//  }
-//}

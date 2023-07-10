@@ -3,14 +3,19 @@ import Combine
 import SwiftUI
 
 public struct RiverpodContext {
+  
   private(set) weak var weakStore: RiverpodStore?
   
   init() {
-  
+    
   }
   
   init(weakStore: RiverpodStore? = nil) {
     self.weakStore = weakStore ?? .init()
+  }
+  
+  static func scoped(store: RiverpodStore) -> Self {
+    Self.init(weakStore: store)
   }
   
   public func watch<Node: ProviderProtocol>(_ node: Node) -> Node.Value  {
@@ -27,15 +32,17 @@ public struct RiverpodContext {
 }
 
 class RiverpodStore {
+  static let shared = RiverpodStore()
   var states = [any ProviderProtocol]()
 }
 
 extension RiverpodStore {
   struct StoreState {
+    
     var states = [any ProviderProtocol]()
   }
 }
 
 public class Ref {
-
+  
 }

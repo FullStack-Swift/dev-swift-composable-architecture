@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 /// A context structure that to read, write, and otherwise interacting with atoms.
 ///
@@ -151,6 +152,8 @@ public protocol AtomWatchableContext: AtomContext {
   /// - Returns: The value associated with the given atom.
   @discardableResult
   func watch<Node: Atom>(_ atom: Node) -> Node.Loader.Value
+  
+  var objectWillChange: AnyPublisher<Void, Never> { get }
 }
 
 public extension AtomWatchableContext {

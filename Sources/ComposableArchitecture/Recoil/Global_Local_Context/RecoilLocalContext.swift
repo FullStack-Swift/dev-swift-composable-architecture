@@ -270,19 +270,17 @@ public struct RecoilLocalProvider<Content: View>: View {
   }
 }
 
-/// A view that wrapper around the `HookScope` to use hooks inside.
-/// The view that is returned from `recoilBody` will be encluded with `HookScope` and be able to use hooks.
+/// A view that wrapper around the `RecoilLocalScope` to use hooks inside.
+/// The view that is returned from `recoilBody` will be encluded with `RecoilLocalScope` and `HookScope` and be able to use hooks.
 ///
-///     struct ContentView: RecoilView {
-///         var recoilBody: some View {
-///             let count = useState(0)
+/// ```swift
+/// private struct _RecoilLocalView: RecoilLocalView {
 ///
-///             Button("\(count.wrappedValue)") {
-///                 count.wrappedValue += 1
-///             }
-///         }
-///     }
-
+///  func recoilBody(context: RecoilLocalContext) -> some View {
+///
+///  }
+///}
+///```
 @MainActor
 public protocol RecoilLocalView: View {
   // The type of view representing the body of this view that can use recoil.
@@ -296,16 +294,111 @@ public protocol RecoilLocalView: View {
 extension RecoilLocalView {
   /// The content and behavior of the view.
   public var body: some View {
-    HookScope {
+    RecoilLocalScope { context in
       recoilBody(context: context)
     }
   }
+}
+/// A view that wrapper around "RecoilLocalScope"  to use hooks inside.
+/// ```swift
+///RecoilLocalScope { localViewContext in
+///
+///}
+/// ```
+
+public struct RecoilLocalScope<Content: View>: View {
+  private let content: (RecoilLocalContext) -> Content
   
-  @MainActor
-  var context: RecoilLocalContext {
-    @RecoilLocalViewContext
-    var context
-    return context
+  /// Creates a `HookScope` that hosts the state of hooks.
+  /// - Parameter content: A content view that uses the hooks.
+  public init(@ViewBuilder _ content: @escaping (RecoilLocalContext) -> Content) {
+    self.content = content
+  }
+  
+  /// The content and behavior of the hook scoped view.
+  public var body: some View {
+    if #available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *) {
+      RecoilScopeBody(content)
+    }
+    else {
+      RecoilScopeCompatBody(content)
+    }
   }
 }
 
+private class RecoilLocalObservable: ObservableObject {
+  
+  @RecoilLocalViewContext
+  var context
+  
+  var cancellables: Set<AnyCancellable> = []
+  
+  init() {
+    context.objectWillChange.sink { [weak self] _ in
+      self?.objectWillChange.send()
+    }
+    .store(in: &cancellables)
+  }
+}
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+private struct RecoilScopeBody<Content: View>: View {
+  @StateObject
+  private var hookObservable = RecoilLocalObservable()
+  
+  
+  private let content: (RecoilLocalContext) -> Content
+  
+  init(@ViewBuilder _ content: @escaping (RecoilLocalContext) -> Content) {
+    self.content = content
+  }
+  
+  var body: some View {
+    HookScope {
+      content(hookObservable.context)
+    }
+  }
+}
+
+@available(iOS, deprecated: 14.0)
+@available(macOS, deprecated: 11.0)
+@available(tvOS, deprecated: 14.0)
+@available(watchOS, deprecated: 7.0)
+@MainActor
+private struct RecoilScopeCompatBody<Content: View>: View {
+  struct Body: View {
+    @ObservedObject
+    private var recoilGlobalObservable: RecoilLocalObservable
+    
+    @Environment(\.self)
+    private var environment
+    
+    private let content: (RecoilLocalContext) -> Content
+    
+    init(
+      recoilGlobalObservable: RecoilLocalObservable,
+      @ViewBuilder _ content: @escaping (RecoilLocalContext) -> Content)
+    {
+    self.recoilGlobalObservable = recoilGlobalObservable
+    self.content = content
+    }
+    
+    var body: some View {
+      HookScope {
+        content(recoilGlobalObservable.context)
+      }
+    }
+  }
+  
+  @State
+  private var recoilGlobalObservable = RecoilLocalObservable()
+  private let content: (RecoilLocalContext) -> Content
+  
+  init(@ViewBuilder _ content: @escaping (RecoilLocalContext) -> Content) {
+    self.content = content
+  }
+  
+  var body: Body {
+    Body(recoilGlobalObservable: recoilGlobalObservable, content)
+  }
+}

@@ -330,7 +330,10 @@ private struct RecoilValueHook<Node: ValueAtom, Context: AtomWatchableContext>: 
   
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    coordinator.state.value
+    coordinator.state.context.objectWillChange
+      .sink(receiveValue: coordinator.updateView)
+      .store(in: &coordinator.state.cancellables)
+    return coordinator.state.value
   }
   
   @MainActor
@@ -343,6 +346,9 @@ private struct RecoilValueHook<Node: ValueAtom, Context: AtomWatchableContext>: 
   @MainActor
   func dispose(state: State) {
     state.isDisposed = true
+    for cancellable in state.cancellables {
+      cancellable.cancel()
+    }
   }
 }
 
@@ -352,6 +358,7 @@ private extension RecoilValueHook {
     
     let context: Context
     var state: Node
+    var cancellables: Set<AnyCancellable> = []
     var isDisposed = false
     
     init(initialState: Node, context: Context) {
@@ -383,7 +390,10 @@ private struct RecoilStateHook<Node: StateAtom, Context: AtomWatchableContext>: 
   
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    Binding(
+    coordinator.state.context.objectWillChange
+      .sink(receiveValue: coordinator.updateView)
+      .store(in: &coordinator.state.cancellables)
+    return Binding(
       get: {
         coordinator.state.context.watch(coordinator.state.state)
       },
@@ -409,6 +419,9 @@ private struct RecoilStateHook<Node: StateAtom, Context: AtomWatchableContext>: 
   
   func dispose(state: State) {
     state.isDisposed = true
+    for cancellable in state.cancellables {
+      cancellable.cancel()
+    }
   }
 }
 
@@ -418,6 +431,7 @@ private extension RecoilStateHook {
     
     let context: Context
     var state: Node
+    var cancellables: Set<AnyCancellable> = []
     var isDisposed = false
     
     init(initialState: Node, context: Context) {

@@ -25,6 +25,7 @@
 		90ACBBB72A4B4EE10041D7E2 /* AtomTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBB22A4B4EE10041D7E2 /* AtomTodoView.swift */; };
 		90ACBBB82A4B4EE10041D7E2 /* RiverpodTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBB32A4B4EE10041D7E2 /* RiverpodTodoView.swift */; };
 		90FDE91D2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FDE91C2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift */; };
+		EB92CD102A5C1705007640AF /* RecoilUseCaseStudies2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		90ACBBB22A4B4EE10041D7E2 /* AtomTodoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtomTodoView.swift; sourceTree = "<group>"; };
 		90ACBBB32A4B4EE10041D7E2 /* RiverpodTodoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiverpodTodoView.swift; sourceTree = "<group>"; };
 		90FDE91C2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverpodCaseStudiesView.swift; sourceTree = "<group>"; };
+		EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoilUseCaseStudies2View.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 				87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */,
 				87647C852A42C932009BD13F /* RecoilUseCaseStudiesView.swift */,
 				90FDE91C2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift */,
+				EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */,
 			);
 			path = App_CaseStudies;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				90ACBBB62A4B4EE10041D7E2 /* RecoilTodoView.swift in Sources */,
 				90ACBBB72A4B4EE10041D7E2 /* AtomTodoView.swift in Sources */,
 				87ABACAE2A4D1C2A00545682 /* MVVMTodoView.swift in Sources */,
+				EB92CD102A5C1705007640AF /* RecoilUseCaseStudies2View.swift in Sources */,
 				90ACBBB42A4B4EE10041D7E2 /* TCATodoView.swift in Sources */,
 				87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */,
 				876C21B52A4023A600B980DA /* TCACaseStudiesView.swift in Sources */,
