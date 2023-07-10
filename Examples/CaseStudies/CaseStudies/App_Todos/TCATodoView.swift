@@ -297,7 +297,9 @@ struct TCATodoView: View {
     }
     .listStyle(.sidebar)
     .toolbar {
-      EditButton()
+      if viewStore.filter == .all {
+        EditButton()
+      }
     }
     .navigationTitle("TCA-Todos")
     .navigationBarTitleDisplayMode(.inline)

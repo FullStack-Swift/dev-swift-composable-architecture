@@ -249,7 +249,9 @@ struct RiverpodTodoView: ConsumerView {
     }
     .listStyle(.sidebar)
     .toolbar {
-      EditButton()
+      if filterProvier.value == .all {
+        EditButton()
+      }
     }
     .navigationTitle("Riverpod-Todos")
     .navigationBarTitleDisplayMode(.inline)

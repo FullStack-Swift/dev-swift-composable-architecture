@@ -216,7 +216,10 @@ struct HookTodoView: View {
         }
         .listStyle(.sidebar)
         .toolbar {
-          EditButton()
+          if filter.wrappedValue == .all {
+            EditButton()
+          }
+
         }
         .navigationTitle("Hook-Todos")
         .navigationBarTitleDisplayMode(.inline)

@@ -247,7 +247,9 @@ struct AtomTodoView: View {
       }
       .listStyle(.sidebar)
       .toolbar {
-        EditButton()
+        if context.useRecoilState(FilterAtom()).wrappedValue == .all {
+          EditButton()
+        }
       }
       .navigationTitle("Atom-Todos")
       .navigationBarTitleDisplayMode(.inline)

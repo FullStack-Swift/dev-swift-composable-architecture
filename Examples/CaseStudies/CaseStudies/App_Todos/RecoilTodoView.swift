@@ -219,7 +219,9 @@ struct RecoilTodoView: View {
       }
       .listStyle(.sidebar)
       .toolbar {
-        EditButton()
+        if useRecoilState(_filterAtom).wrappedValue == .all {
+          EditButton()
+        }
       }
       .navigationTitle("Recoil-Todos")
       .navigationBarTitleDisplayMode(.inline)
