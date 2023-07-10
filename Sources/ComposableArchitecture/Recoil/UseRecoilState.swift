@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 // MARK: useRecoilState
 public func useRecoilState<Node: StateAtom>(
@@ -28,9 +29,12 @@ private struct RecoilStateHook<Node: StateAtom>: Hook {
   
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    Binding(
+    coordinator.state.context.objectWillChange
+      .sink(receiveValue: coordinator.updateView)
+      .store(in: &coordinator.state.cancellables)
+    return Binding(
       get: {
-        coordinator.state.context.watch(coordinator.state.state)
+        coordinator.state.context.watch(coordinator.state.node)
       },
       set: { newState, transaction in
         assertMainThread()
@@ -38,7 +42,7 @@ private struct RecoilStateHook<Node: StateAtom>: Hook {
           return
         }
         withTransaction(transaction) {
-          coordinator.state.context.set(newState, for: coordinator.state.state)
+          coordinator.state.context.set(newState, for: coordinator.state.node)
           coordinator.updateView()
         }
       }
@@ -48,6 +52,9 @@ private struct RecoilStateHook<Node: StateAtom>: Hook {
   @MainActor
   func dispose(state: State) {
     state.isDisposed = true
+    for cancellable in state.cancellables {
+      cancellable.cancel()
+    }
   }
 }
 
@@ -58,16 +65,17 @@ private extension RecoilStateHook {
     @RecoilGlobalViewContext
     var context
 
-    var state: Node
+    var node: Node
+    var cancellables: Set<AnyCancellable> = []
     var isDisposed = false
     
     init(initialState: Node) {
-      self.state = initialState
+      self.node = initialState
     }
 
     /// Get current value from Recoilcontext
     var value: Value {
-      context.state(state)
+      context.state(node)
     }
   }
 }

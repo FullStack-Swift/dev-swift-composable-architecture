@@ -26,6 +26,7 @@ where Node.Loader == PublisherAtomLoader<Node> {
   
   let initialState: () -> Node
   let updateStrategy: HookUpdateStrategy?
+  
   @MainActor
   func makeState() -> State {
     State(initialState: initialState())
@@ -41,12 +42,18 @@ where Node.Loader == PublisherAtomLoader<Node> {
   
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    coordinator.state.phase
+    coordinator.state.context.objectWillChange
+      .sink(receiveValue: coordinator.updateView)
+      .store(in: &coordinator.state.cancellables)
+    return coordinator.state.phase
   }
   
   @MainActor
   func dispose(state: State) {
     state.isDisposed = true
+    for cancellable in state.cancellables {
+      cancellable.cancel()
+    }
   }
 }
 
@@ -60,6 +67,7 @@ extension RecoilPublisherHook {
     var node: Node
     var phase = Value.suspending
     var isDisposed = false
+    var cancellables: Set<AnyCancellable> = []
 
     init(initialState: Node) {
       self.node = initialState
@@ -68,6 +76,13 @@ extension RecoilPublisherHook {
     /// Get current value from Recoilcontext
     var value: Value {
       context.watch(node)
+    }
+    
+    /// Refresh to get newValue from RedoilContext
+    var refresh: Value {
+      get async {
+        await context.refresh(node)
+      }
     }
   }
 }

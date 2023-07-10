@@ -100,22 +100,29 @@ private struct _StateAtomView: HookView {
   private var context
   
   var hookBody: some View {
-    RecoilScope { context in
+    HookScope {
       VStack {
         // MARK: useRecoilRefresher
         VStack {
           let (phase,refresh) = useRecoilRefresher(_PublisherAtom(id: "useRecoilRefresher"))
+          Text("useRecoilRefresher")
+            .task {
+              refresh()
+            }
+            .onTapGesture {
+              refresh()
+            }
           AsyncPhaseView(phase: phase) { value in
-            Text(value.timeIntervalSince1970.description)
+            HStack {
+              Text(value.timeIntervalSince1970.description)
+            }
+
           } suspending: {
             ProgressView()
           } failureContent: { error in
             Text(error.localizedDescription)
           }
           .frame(height: 60)
-          .task {
-            refresh()
-          }
           .onTapGesture {
             refresh()
           }
@@ -218,9 +225,9 @@ private struct _GlobalRecoilView: View {
     HookScope {
       HStack {
         let state = useRecoilState(_StateAtom(id: "1"))
-        let value = useRecoilValue(_ValueAtom(id: "1"))
+//        let value = useRecoilValue(_ValueAtom(id: "1"))
         AtomRowTextValue(state.wrappedValue)
-        AtomRowTextValue(value)
+//        AtomRowTextValue(value)
         Stepper("Count: \(state.wrappedValue)", value: state)
           .labelsHidden()
       }
@@ -308,7 +315,7 @@ struct RecoilUseCaseStudiesView: View {
       }
       .padding()
 
-      Section("Other Recoil Local View") {
+      Section("Recoil Local View") {
         _RecoilLocalView()
       }
       .padding()
@@ -335,6 +342,16 @@ struct RecoilUseCaseStudiesView: View {
       
       Section("Other Global Recoil") {
         _GlobalRecoilView()
+        HookScope {
+          HStack {
+//            let state = useRecoilState(_StateAtom(id: "1"))
+                    let value = useRecoilValue(_ValueAtom(id: "1"))
+//            AtomRowTextValue(state.wrappedValue)
+                    AtomRowTextValue(value)
+//            Stepper("Count: \(state.wrappedValue)", value: state)
+//              .labelsHidden()
+          }
+        }
       }
       .padding()
     }

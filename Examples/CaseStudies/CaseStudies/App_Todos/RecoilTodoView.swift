@@ -52,7 +52,7 @@ extension IdentifiedArray where ID == Todo.ID, Element == Todo {
 // MARK: Recoil Atom
 
 @MainActor
-private let _todosAtom = MStateAtom<IdentifiedArray<Todo.ID,Todo>>(id: "_todosatom") { context in
+private let _todosAtom = MStateAtom<IdentifiedArray<Todo.ID,Todo>>(id: "_todosAtom") { context in
   return .mock
 }
 
@@ -94,12 +94,9 @@ private let _statsAtom = MValueAtom<Stats>(id: "_statsAtom") { context in
 
 private struct TodoStats: View {
   
-  @RecoilGlobalViewContext
-  private var context
-  
   var body: some View {
     HookScope {
-      let stats = context.useRecoilValue(_statsAtom)
+      let stats = useRecoilValue(_statsAtom)
       VStack(alignment: .leading, spacing: 4) {
         stat("Total", "\(stats.total)")
         stat("Completed", "\(stats.totalCompleted)")
@@ -121,12 +118,9 @@ private struct TodoStats: View {
 
 private struct TodoFilters: View {
   
-  @RecoilGlobalViewContext
-  private var context
-  
   var body: some View {
     HookScope {
-      let filter = context.useRecoilState(_filterAtom)
+      let filter = useRecoilState(_filterAtom)
       Picker("Filter", selection: filter) {
         ForEach(Filter.allCases, id: \.self) { filter in
           switch filter {
@@ -149,13 +143,10 @@ private struct TodoFilters: View {
 
 private struct TodoCreator: View {
   
-  @RecoilGlobalViewContext
-  private var context
-  
   var body: some View {
     HookScope {
       let text = useState("")
-      let todos = context.useRecoilState(_todosAtom)
+      let todos = useRecoilState(_todosAtom)
       HStack {
         TextField("Enter your todo", text: text)
 #if os(iOS) || os(macOS)
@@ -178,9 +169,6 @@ private struct TodoCreator: View {
 
 private struct TodoItem: View {
   
-  @RecoilGlobalViewContext
-  private var context
-  
   fileprivate let todoID: UUID
   
   fileprivate init(todoID: UUID) {
@@ -189,7 +177,7 @@ private struct TodoItem: View {
   
   var body: some View {
     HookScope {
-      let todos = context.useRecoilState(_todosAtom)
+      let todos = useRecoilState(_todosAtom)
       if let todo = todos.first(where: {$0.wrappedValue.id == self.todoID}) {
         Toggle(isOn: todo.map(\.isCompleted)) {
           TextField("", text: todo.map(\.text)) {
@@ -207,13 +195,10 @@ private struct TodoItem: View {
 
 struct RecoilTodoView: View {
   
-  @RecoilGlobalViewContext
-  private var context
-  
   var body: some View {
     HookScope {
-      let filteredTodos = context.useRecoilValue(_filteredTodosAtom)
-      let todos = context.useRecoilState(_todosAtom)
+      let filteredTodos = useRecoilValue(_filteredTodosAtom)
+      let todos = useRecoilState(_todosAtom)
       List {
         Section(header: Text("Information")) {
           TodoStats()

@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 // MARK: useRecoilValue
 public func useRecoilValue<Node: Atom>(
@@ -30,7 +31,10 @@ private struct RecoilValueHook<Node: Atom>: Hook {
   
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    coordinator.state.value
+    coordinator.state.context.objectWillChange
+      .sink(receiveValue: coordinator.updateView)
+      .store(in: &coordinator.state.cancellables)
+    return coordinator.state.value
   }
   
   @MainActor
@@ -43,6 +47,9 @@ private struct RecoilValueHook<Node: Atom>: Hook {
   @MainActor
   func dispose(state: State) {
     state.isDisposed = true
+    for cancellable in state.cancellables {
+      cancellable.cancel()
+    }
   }
 }
 
@@ -54,6 +61,7 @@ private extension RecoilValueHook {
     var context
 
     var node: Node
+    var cancellables: Set<AnyCancellable> = []
     var isDisposed = false
 
     init(initialState: Node) {

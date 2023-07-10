@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 // MARK: useRecoilThrowingTask
 public func useRecoilThrowingTask<Node: ThrowingTaskAtom>(
@@ -38,7 +39,10 @@ where Node.Loader: AsyncAtomLoader {
 
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    coordinator.state.phase
+    coordinator.state.context.objectWillChange
+      .sink(receiveValue: coordinator.updateView)
+      .store(in: &coordinator.state.cancellables)
+    return coordinator.state.phase
   }
 
   @MainActor
@@ -56,6 +60,9 @@ where Node.Loader: AsyncAtomLoader {
   @MainActor
   func dispose(state: State) {
     state.task = nil
+    for cancellable in state.cancellables {
+      cancellable.cancel()
+    }
   }
 }
 
@@ -68,7 +75,7 @@ extension RecoilThrowingTaskHook {
 
     var node: Node
     var phase = Value.suspending
-
+    var cancellables: Set<AnyCancellable> = []
     var task: Task<Void, Never>? {
       didSet {
         oldValue?.cancel()

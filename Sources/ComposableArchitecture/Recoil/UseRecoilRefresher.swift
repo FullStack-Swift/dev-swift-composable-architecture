@@ -82,18 +82,23 @@ where Node.Loader == PublisherAtomLoader<Node> {
 
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    (
+    coordinator.state.context.objectWillChange
+      .sink(receiveValue: coordinator.updateView)
+      .store(in: &coordinator.state.cancellables)
+    return (
     coordinator.state.phase,
     refresher: {
-      coordinator.state.phase = .suspending
+//      coordinator.state.phase = .suspending
 //      coordinator.updateView()
       Task { @MainActor in
         let refresh = await coordinator.state.refresh
         guard !coordinator.state.isDisposed else {
           return
         }
-        coordinator.state.phase = refresh
-        coordinator.updateView()
+        if !Task.isCancelled {
+          coordinator.state.phase = refresh
+          coordinator.updateView()
+        }
       }
     }
     )
@@ -102,6 +107,9 @@ where Node.Loader == PublisherAtomLoader<Node> {
   @MainActor
   func dispose(state: State) {
     state.isDisposed = true
+    for cancellable in state.cancellables {
+      cancellable.cancel()
+    }
   }
 }
 
@@ -110,23 +118,24 @@ extension RecoilPublisherRefresherHook {
   final class State {
     @RecoilGlobalViewContext
     var context
-    var state: Node
+    var node: Node
     var phase: Phase = .suspending
+    var cancellables: Set<AnyCancellable> = []
     var isDisposed = false
     init(initialState: Node) {
-      self.state = initialState
+      self.node = initialState
     }
 
     /// Get current value from RecoilContext
     var value: Phase {
-      context.watch(state)
+      context.watch(node)
     }
 
 
     /// Refresh to get newValue from RecoilContext
     var refresh: Phase {
       get async {
-        await context.refresh(state)
+        await context.refresh(node)
       }
     }
   }
@@ -236,7 +245,10 @@ where Node.Loader: AsyncAtomLoader {
 
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    (
+    coordinator.state.context.objectWillChange
+      .sink(receiveValue: coordinator.updateView)
+      .store(in: &coordinator.state.cancellables)
+    return (
       coordinator.state.phase,
       refresher: {
         coordinator.state.phase = .suspending
@@ -269,6 +281,9 @@ where Node.Loader: AsyncAtomLoader {
   func dispose(state: State) {
     state.task = nil
     state.isDisposed = true
+    for cancellable in state.cancellables {
+      cancellable.cancel()
+    }
   }
 }
 
@@ -277,10 +292,11 @@ extension RecoilThrowingTaskRefresherHook {
 
     @RecoilGlobalViewContext
     var context
-    var isDisposed = false
+    
     var state: Node
     var phase = Phase.suspending
-
+    var isDisposed = false
+    var cancellables: Set<AnyCancellable> = []
     var task: Task<Void, Never>? {
       didSet {
         oldValue?.cancel()
