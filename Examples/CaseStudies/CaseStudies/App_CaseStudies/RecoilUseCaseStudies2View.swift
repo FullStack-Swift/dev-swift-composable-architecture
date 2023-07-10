@@ -64,9 +64,9 @@ private struct _RecoilViewContext: View {
   }
 }
 
-private struct _ProviderGlobalView: ProviderGlobalView {
+private struct Test_RecoilGlobalView: _RecoilGlobalView {
   
-  func build(context: Context, ref: ViewRef) -> some View {
+  func build(context: Context) -> some View {
     VStack {
       HookScope {
         HStack {
@@ -92,9 +92,9 @@ private struct _ProviderGlobalView: ProviderGlobalView {
   }
 }
 
-private struct _ProviderLocalView: ProviderLocalView {
+private struct Test_RecoilLocalView: _RecoilLocalView {
   
-  func build(context: Context, ref: ViewRef) -> some View {
+  func build(context: Context) -> some View {
     VStack {
       HookScope {
         HStack {
@@ -220,18 +220,18 @@ struct RecoilUseCaseStudies2View: View {
   var body: some View {
     ScrollView {
       Group {
-        Text("Global Context")
-        _ProviderGlobalView()
-        _ProviderGlobalView()
-        _ProviderGlobalView()
+        Text("Test_RecoilGlobalView")
+        Test_RecoilGlobalView()
+        Test_RecoilGlobalView()
+        Test_RecoilGlobalView()
         Divider()
       }
       
       Group {
-        Text("Local Context")
-        _ProviderLocalView()
-        _ProviderLocalView()
-        _ProviderLocalView()
+        Text("Test_RecoilLocalView")
+        Test_RecoilLocalView()
+        Test_RecoilLocalView()
+        Test_RecoilLocalView()
         Divider()
       }
       Group {

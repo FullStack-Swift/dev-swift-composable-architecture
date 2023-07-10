@@ -256,10 +256,12 @@ public struct RecoilLocalProvider<Content: View>: View {
   
   private let content: (RecoilLocalContext) -> Content
   
+  public typealias Context = RecoilLocalContext
+  
   @RecoilLocalViewContext
   private var context
   
-  public init(@ViewBuilder _ content: @escaping (RecoilLocalContext) -> Content) {
+  public init(@ViewBuilder _ content: @escaping (Context) -> Content) {
     self.content = content
   }
   
@@ -267,6 +269,33 @@ public struct RecoilLocalProvider<Content: View>: View {
     HookScope {
       content(context)
     }
+  }
+}
+
+@MainActor
+public protocol _RecoilLocalView: View {
+  // The type of view representing the body of this view that can use river.
+  associatedtype RiverBody: View
+  
+  typealias Context = RecoilLocalContext
+  
+  @ViewBuilder
+  func build(context: Context) -> RiverBody
+  
+}
+
+extension _RecoilLocalView {
+  public var body: some View {
+    HookScope {
+      build(context: context)
+    }
+  }
+  
+  @MainActor
+  var context: RecoilLocalContext {
+    @RecoilLocalViewContext
+    var context
+    return context
   }
 }
 
@@ -309,7 +338,7 @@ extension RecoilLocalView {
 public struct RecoilLocalScope<Content: View>: View {
   private let content: (RecoilLocalContext) -> Content
   
-  /// Creates a `HookScope` that hosts the state of hooks.
+  /// Creates a `RecoilScopeBody` that hosts the state of hooks.
   /// - Parameter content: A content view that uses the hooks.
   public init(@ViewBuilder _ content: @escaping (RecoilLocalContext) -> Content) {
     self.content = content

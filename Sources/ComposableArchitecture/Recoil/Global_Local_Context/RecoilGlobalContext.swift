@@ -258,14 +258,16 @@ struct RecoilGlobalWatchStateObject<Node: ObservableObjectAtom> {
 ///  }
 ///
 /// ```
-public struct RecoilGlobalProvider<Content: View>: View {
+public struct _RecoilGlobalScope<Content: View>: View {
   
   private let content: (RecoilGlobalContext) -> Content
+  
+  public typealias Context = RecoilGlobalContext
   
   @RecoilGlobalViewContext
   private var context
   
-  public init(@ViewBuilder _ content: @escaping (RecoilGlobalContext) -> Content) {
+  public init(@ViewBuilder _ content: @escaping (Context) -> Content) {
     self.content = content
   }
   
@@ -275,6 +277,34 @@ public struct RecoilGlobalProvider<Content: View>: View {
     }
   }
 }
+
+@MainActor
+public protocol _RecoilGlobalView: View {
+  // The type of view representing the body of this view that can use river.
+  associatedtype RiverBody: View
+  
+  typealias Context = RecoilGlobalContext
+  
+  @ViewBuilder
+  func build(context: Context) -> RiverBody
+  
+}
+
+extension _RecoilGlobalView {
+  public var body:  some View {
+    HookScope {
+      build(context: context)
+    }
+  }
+  
+  @MainActor
+  var context: RecoilGlobalContext {
+    @RecoilGlobalViewContext
+    var context
+    return context
+  }
+}
+
 
 /// A view that wrapper around the `RecoilGlobalScope` to use hooks inside.
 /// The view that is returned from `recoilBody` will be encluded with `RecoilGlobalScope` and `HookScope` and be able to use hooks.
@@ -292,9 +322,11 @@ public protocol RecoilGlobalView: View {
   // The type of view representing the body of this view that can use recoil.
   associatedtype RecoilBody: View
   
+  typealias Context = RecoilGlobalContext
+  
   /// The content and behavior of the hook scoped view.
   @ViewBuilder
-  func recoilBody(context: RecoilGlobalContext) -> RecoilBody
+  func recoilBody(context: Context) -> RecoilBody
 }
 
 extension RecoilGlobalView {
@@ -313,11 +345,14 @@ extension RecoilGlobalView {
 ///}
 /// ```
 public struct RecoilGlobalScope<Content: View>: View {
-  private let content: (RecoilGlobalContext) -> Content
+  
+  public typealias Context = RecoilGlobalContext
+  
+  private let content: (Context) -> Content
   
   /// Creates a `HookScope` that hosts the state of hooks.
   /// - Parameter content: A content view that uses the hooks.
-  public init(@ViewBuilder _ content: @escaping (RecoilGlobalContext) -> Content) {
+  public init(@ViewBuilder _ content: @escaping (Context) -> Content) {
     self.content = content
   }
   
