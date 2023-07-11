@@ -1,7 +1,7 @@
 import Foundation
 
 
-func useDate() -> Date? {
+public func useDate() -> Date? {
   let phase = usePublisher(.once) {
     Timer.publish(every: 1, on: .main, in: .common)
       .autoconnect()
@@ -10,7 +10,7 @@ func useDate() -> Date? {
   return phase.value
 }
 
-func useDate(date: Date) -> Date? {
+public func useDate(date: Date) -> Date? {
   let phase = usePublisher(.once) {
     Timer.publish(every: 1, on: .main, in: .common)
       .autoconnect()
@@ -19,7 +19,7 @@ func useDate(date: Date) -> Date? {
   return phase.value
 }
 
-func usePhaseDate() -> HookAsyncPhase<Date, Never> {
+public func usePhaseDate() -> HookAsyncPhase<Date, Never> {
   usePublisher(.once) {
     Timer.publish(every: 1, on: .main, in: .common)
       .autoconnect()

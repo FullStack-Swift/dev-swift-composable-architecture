@@ -2,20 +2,24 @@ import Combine
 import SwiftUI
 
 public class RiverpodObservable: ObservableObject {
-  
-  var items: [any ProviderProtocol] = []
-  
+
   private var cancellables = Set<AnyCancellable>()
   
   @Dependency(\.riverpodContext) var riverpodContext
   
+  public private(set) lazy var objectWillChange = ObservableObjectPublisher()
+  
+  init() {
+    objectWillChange
+      .subscribe(riverpodContext.objectWillChange)
+      .store(in: &cancellables)
+  }
   
   @discardableResult
   public func watch<Node: ProviderProtocol>(_ node: Node) -> Node.Value {
-    riverpodContext.weakStore?.states.append(node)
     subscribe(publisher: node)
       .store(in: &cancellables)
-    return node.value
+    return riverpodContext.watch(node)
   }
   
   @discardableResult
@@ -24,29 +28,25 @@ public class RiverpodObservable: ObservableObject {
       .store(in: &cancellables)
     subscribe(publisher: node.state)
       .store(in: &cancellables)
-    return node.value
+    return riverpodContext.watch(node)
   }
   
   @discardableResult
   public func binding<Node: ProviderProtocol>(_ node: Node) -> Binding<Node.Value> {
     subscribe(publisher: node)
       .store(in: &cancellables)
-    return Binding {
-      node.value
-    } set: { newValue in
-      node.value = newValue
-    }
+    return riverpodContext.binding(node)
     
   }
   
   @discardableResult
   public func read<Node: ProviderProtocol>(_ node: Node) -> Node.Value {
-    return node.value
+    riverpodContext.read(node)
   }
   
   @discardableResult
   public func set<Node: ProviderProtocol>(_ node: Node) -> Node.Value {
-    return node.value
+    riverpodContext.set(node)
   }
   
   @discardableResult

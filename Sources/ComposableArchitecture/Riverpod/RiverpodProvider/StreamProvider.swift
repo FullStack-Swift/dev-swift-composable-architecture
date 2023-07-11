@@ -15,6 +15,8 @@ open class StreamProvider<T>: ProviderProtocol {
     }
   }
   
+  public let id = UUID()
+  
   public init(_ initialState: @escaping () async throws -> T) {
     self.value = .suspending
     self.operation = initialState

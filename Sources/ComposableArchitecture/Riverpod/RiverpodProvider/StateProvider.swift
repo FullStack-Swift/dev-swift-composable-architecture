@@ -10,6 +10,8 @@ open class StateProvider<T>: ProviderProtocol {
   @Dependency(\.riverpodContext)
   public var riverpodContext
   
+  public let id = UUID()
+  
   public init(_ initialState: T) {
     self.value = initialState
   }

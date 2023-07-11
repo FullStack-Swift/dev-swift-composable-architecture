@@ -11,6 +11,14 @@ struct ContentView: View {
   var body: some View {
     _NavigationView {
       Form {
+        Section(header: Text("Test")) {
+          HookScope {
+            if let date = useDate() {
+              Text(date, style: .date)
+            }
+          }
+        }
+        
         Section(header: Text("Getting started")) {
           HStack {
             Text("TCA-CaseStudies")

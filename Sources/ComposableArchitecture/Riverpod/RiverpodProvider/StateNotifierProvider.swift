@@ -16,6 +16,8 @@ where P.ObjectWillChangePublisher == ObservableObjectPublisher {
     }
   }
   
+  public let id = UUID()
+  
   public init(_ initialState: P) {
     self._state = Republished(wrappedValue: initialState)
   }
