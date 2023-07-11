@@ -31,7 +31,9 @@ private struct ProviderScope<Content: View>: View {
   
   private let content: (RiverpodContext, RiverpodObservable) -> Content
   
-  init(@ViewBuilder _ content: @escaping (RiverpodContext, RiverpodObservable) -> Content) {
+  init(
+    @ViewBuilder _ content: @escaping (RiverpodContext, RiverpodObservable) -> Content
+  ) {
     self.content = content
   }
   

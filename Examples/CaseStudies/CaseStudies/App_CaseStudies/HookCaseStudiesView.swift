@@ -37,10 +37,12 @@ struct HookCaseStudiesView: View {
             }
             
             Group {
-              HookTitleView(title: "useRef UseCase")
-              useRefView
-              HookTitleView(title: "useMemo UseCase")
-              useMemoView
+              Group {
+                HookTitleView(title: "useRef UseCase")
+                useRefView
+                HookTitleView(title: "useMemo UseCase")
+                useMemoView
+              }
               Group {
                 HookTitleView(title: "useEffect UseCase")
                 useEffectView
@@ -51,6 +53,8 @@ struct HookCaseStudiesView: View {
               useEnvironmentView
               HookTitleView(title: "useContext UseCase")
               useContextView
+              HookTitleView(title: "userTimerView UseCase")
+              userTimerView
             }
           }
         }
@@ -548,6 +552,40 @@ struct HookCaseStudiesView: View {
         await phase.perform()
       }
     }
+  }
+  private var userTimerView: some View {
+    let timer = useCountDownTimer(countdown: 10, withTimeInterval: 1)
+    return HStack {
+      switch timer.phase.wrappedValue {
+        case .pending:
+          Text("Pending")
+        case .start(let value):
+          Text(Int(value).description)
+        case .stop:
+          Text("Stop")
+        case .cancel:
+          Text("Cancel")
+        case .process(let value):
+          Text(Int(value).description)
+        case .completion:
+          Text("Completion")
+
+      }
+      Spacer()
+      Button("Start") {
+        timer.start()
+      }
+      Button("Stop") {
+        timer.stop()
+      }
+      Button("Play") {
+        timer.play()
+      }
+      Button("Canncel") {
+        timer.canncel()
+      }
+    }
+    .padding()
   }
 }
 

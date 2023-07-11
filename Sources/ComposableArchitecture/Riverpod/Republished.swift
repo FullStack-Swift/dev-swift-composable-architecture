@@ -39,8 +39,7 @@ where Republishing.ObjectWillChangePublisher == ObservableObjectPublisher {
     _enclosingInstance instance: Instance,
     wrapped _: KeyPath<Instance, Republishing>,
     storage storageKeyPath: KeyPath<Instance, Republished>
-  )
-  -> Republishing where Instance.ObjectWillChangePublisher == ObservableObjectPublisher {
+  ) -> Republishing where Instance.ObjectWillChangePublisher == ObservableObjectPublisher {
     let storage = instance[keyPath: storageKeyPath]
     storage.cancellable = instance.subscribe(publisher: storage.wrappedValue)
     return storage.wrappedValue
