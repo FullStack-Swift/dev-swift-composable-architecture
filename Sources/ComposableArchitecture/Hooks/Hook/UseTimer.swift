@@ -3,6 +3,7 @@ import SwiftUI
 import Combine
 
 /// Description
+/// using useState, useEffect.
 /// - Parameters:
 ///   - countdown: countdown description
 ///   - withTimeInterval: withTimeInterval description
