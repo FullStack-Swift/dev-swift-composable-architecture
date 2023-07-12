@@ -5,6 +5,9 @@
       location = "group:">
    </FileRef>
    <FileRef
+      location = "group:Examples/TheMovie/TheMovie.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Examples/NavigationCaseStudies/NavigationCaseStudies.xcodeproj">
    </FileRef>
    <FileRef
