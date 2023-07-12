@@ -10,22 +10,17 @@ public protocol ProviderProtocol: ObservableObject, Identifiable, Hashable {
 }
 
 extension ProviderProtocol {
-//  public var id: UUID {
-//    UUID()
-//  }
-  
-  public func eraseAnyProvider() -> AnyProvider {
-    AnyProvider(wrapped: self)
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(self.id)
   }
   
   public static func == (lhs: Self, rhs: Self) -> Bool {
     lhs.eraseAnyProvider() == rhs.eraseAnyProvider()
   }
   
-  public func hash(into hasher: inout Hasher) {
-    hasher.combine(self.id)
+  public func eraseAnyProvider() -> AnyProvider {
+    AnyProvider(wrapped: self)
   }
-  
 }
 
 open class Provider<T>: ProviderProtocol {
@@ -43,7 +38,7 @@ open class Provider<T>: ProviderProtocol {
 }
 
 public struct AnyProvider: Identifiable, Hashable {
-  //implement the same equality as in your AnyProvider
+
   public static func == (lhs: AnyProvider, rhs: AnyProvider) -> Bool {
     rhs.wrapped.id == lhs.wrapped.id
   }

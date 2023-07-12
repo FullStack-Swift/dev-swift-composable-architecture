@@ -2,19 +2,19 @@ import Foundation
 import SwiftUI
 
 public struct LoadMoreHookModel<Model> {
-  let selectedMovie: Binding<Model?>
-  let loadPhase: HookAsyncPhase<[Model], Error>
-  let hasNextPage: Bool
-  let load: () async -> Void
-  let loadNext: () async -> Void
+  public let selectedMovie: Binding<Model?>
+  public let loadPhase: HookAsyncPhase<[Model], Error>
+  public let hasNextPage: Bool
+  public let load: () async -> Void
+  public let loadNext: () async -> Void
 }
 
-struct PagedResponse<T> {
-  let page: Int
-  let totalPages: Int
-  let results: [T]
+public struct PagedResponse<T> {
+  public let page: Int
+  public let totalPages: Int
+  public let results: [T]
   
-  var hasNextPage: Bool {
+  public var hasNextPage: Bool {
     page < totalPages
   }
 }
@@ -23,11 +23,15 @@ extension PagedResponse: Decodable where T: Decodable {}
 
 extension PagedResponse: Equatable where T: Equatable {}
 
-public func useLoadMoreHookModel<Model>() -> LoadMoreHookModel<Model> {
+public func useLoadMoreHookModel<Model>(_ loader: @escaping () -> () async throws -> PagedResponse<Model>) -> LoadMoreHookModel<Model> {
+  useLoadMoreHookModel(loader())
+}
+
+public func useLoadMoreHookModel<Model>(_ loader: @escaping () async throws -> PagedResponse<Model>) -> LoadMoreHookModel<Model> {
   let selectedMovie = useState(nil as Model?)
   let nextMovies = useRef([Model]())
-  let (loadPhase, load) = useLoadModels(Model.self)
-  let (loadNextPhase, loadNext) = useLoadModels(Model.self)
+  let (loadPhase, load) = useLoadModels(Model.self, loader)
+  let (loadNextPhase, loadNext) = useLoadModels(Model.self, loader)
   let latestResponse = loadNextPhase.value ?? loadPhase.value
   
   useLayoutEffect(.preserved(by: loadPhase.isSuccess)) {
@@ -58,13 +62,12 @@ public func useLoadMoreHookModel<Model>() -> LoadMoreHookModel<Model> {
 }
 
 private func useLoadModels<Model>(
-  _ type: Model.Type
+  _ type: Model.Type,
+  _ loader: @escaping( () async throws -> PagedResponse<Model>)
 ) -> (phase: HookAsyncPhase<PagedResponse<Model>, Error>, load: (Int) async -> Void) {
   let page = useRef(0)
-  let (phase, load) = useAsyncPerform {
-    try await Task.sleep(nanoseconds: 1_000_000_000)
-    print(page.current)
-    return PagedResponse<Model>(page: 0, totalPages: 0, results: [])
+  let (phase, load) = useAsyncPerform { [loader] in
+    return try await loader()
   }
   
   return (

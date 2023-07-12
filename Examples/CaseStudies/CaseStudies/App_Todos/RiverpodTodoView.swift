@@ -49,17 +49,78 @@ extension IdentifiedArray where ID == Todo.ID, Element == Todo {
   ]
 }
 
-// MARK: TodoStats
-private struct TodoStats: View {
+private class TodoProvider: StateProvider<IdentifiedArrayOf<Todo>> {
   
-  private var todos: Binding<IdentifiedArrayOf<Todo>>
-  
-  init(todos: Binding<IdentifiedArrayOf<Todo>>) {
-    self.todos = todos
+  override init(_ initialState: IdentifiedArrayOf<Todo>) {
+    super.init(initialState)
   }
   
-  var body: some View {
-    let todos = todos.wrappedValue
+  convenience init() {
+    self.init(.mock)
+  }
+}
+
+private class FilterProvier: StateProvider<Filter> {
+  
+  override init(_ initialState: Filter) {
+    super.init(initialState)
+  }
+  
+  convenience init() {
+    self.init(.all)
+  }
+}
+
+private class FilterTodoProvider: ValueProvider<IdentifiedArrayOf<Todo>> {
+  
+  override var result: IdentifiedArrayOf<Todo> {
+    let filter = context.watch(filterProvier)
+    let todos = context.watch(todoProvider)
+    switch filter {
+      case .all:
+        return todos
+      case .completed:
+        return todos.filter(\.isCompleted)
+      case .uncompleted:
+        return todos.filter { !$0.isCompleted }
+    }
+  }
+  
+  override init(_ initialState: IdentifiedArrayOf<Todo>) {
+    super.init(initialState)
+  }
+  
+  convenience override init() {
+    self.init(.mock)
+  }
+}
+
+private class StatsProvider: ValueProvider<Stats> {
+  
+  override var result: Stats {
+    let todos = context.watch(todoProvider)
+    let total = todos.count
+    let totalCompleted = todos.filter(\.isCompleted).count
+    let totalUncompleted = todos.filter { !$0.isCompleted }.count
+    let percentCompleted = total <= 0 ? 0 : (Double(totalCompleted) / Double(total))
+    return Stats(
+      total: total,
+      totalCompleted: totalCompleted,
+      totalUncompleted: totalUncompleted,
+      percentCompleted: percentCompleted
+    )
+  }
+}
+
+
+private let todoProvider = TodoProvider()
+private let filterProvier = FilterProvier()
+private let filterTodoProvider = FilterTodoProvider()
+
+// MARK: TodoStats
+private struct TodoStats: ConsumerView {
+  func build(context: Context, ref: ViewRef) -> some View {
+    let todos = ref.watch(todoProvider)
     let total = todos.count
     let totalCompleted = todos.filter(\.isCompleted).count
     let totalUncompleted = todos.filter { !$0.isCompleted }.count
@@ -70,7 +131,7 @@ private struct TodoStats: View {
       totalUncompleted: totalUncompleted,
       percentCompleted: percentCompleted
     )
-
+    
     VStack(alignment: .leading, spacing: 4) {
       stat("Total", "\(stats.total)")
       stat("Completed", "\(stats.totalCompleted)")
@@ -90,15 +151,10 @@ private struct TodoStats: View {
 }
 
 // MARK: TodoFilters
-private struct TodoFilters: View {
+private struct TodoFilters: ConsumerView {
   
-  private var filter: Binding<Filter>
-  
-  init(filter: Binding<Filter>) {
-    self.filter = filter
-  }
-  
-  var body: some View {
+  func build(context: Context, ref: ViewRef) -> some View {
+    let filter = ref.binding(filterProvier)
     Picker("Filter", selection: filter) {
       ForEach(Filter.allCases, id: \.self) { filter in
         switch filter {
@@ -121,17 +177,12 @@ private struct TodoFilters: View {
 }
 
 // MARK: TodoCreator
-private struct TodoCreator: View {
+private struct TodoCreator: ConsumerView {
   
   @State private var text: String = ""
   
-  private var todos: Binding<IdentifiedArrayOf<Todo>>
-  
-  init(todos: Binding<IdentifiedArrayOf<Todo>>) {
-    self.todos = todos
-  }
-  
-  var body: some View {
+  func build(context: Context, ref: ViewRef) -> some View {
+    let todos = ref.binding(todoProvider)
     HStack {
       TextField("Enter your todo", text: $text)
 #if os(iOS) || os(macOS)
@@ -152,18 +203,16 @@ private struct TodoCreator: View {
 }
 
 // MARK: TodoItem
-private struct TodoItem: View {
+private struct TodoItem: ConsumerView {
   
   fileprivate let todoID: UUID
   
-  private var todos: Binding<IdentifiedArrayOf<Todo>>
-  
-  fileprivate init(todos: Binding<IdentifiedArrayOf<Todo>>, todoID: UUID) {
+  fileprivate init(todoID: UUID) {
     self.todoID = todoID
-    self.todos = todos
   }
   
-  var body: some View {
+  func build(context: Context, ref: ViewRef) -> some View {
+    let todos = ref.binding(todoProvider)
     if let todo = todos.first(where: {$0.wrappedValue.id == self.todoID}) {
       Toggle(isOn: todo.map(\.isCompleted)) {
         TextField("", text: todo.map(\.text)) {
@@ -178,69 +227,21 @@ private struct TodoItem: View {
   }
 }
 
-private class TodoProvider: StateProvider<IdentifiedArrayOf<Todo>> {
-
-  override init(_ initialState: IdentifiedArrayOf<Todo>) {
-    super.init(initialState)
-  }
-  
-  convenience init() {
-    self.init(.mock)
-  }
-}
-
-private class FilterProvier: StateProvider<Filter> {
-  
-  override init(_ initialState: Filter) {
-    super.init(initialState)
-  }
-  
-  convenience init() {
-    self.init(.all)
-  }
-}
-
-private class FilterTodoProvider: StateProvider<IdentifiedArrayOf<Todo>> {
-  
-  override init(_ initialState: IdentifiedArrayOf<Todo>) {
-    super.init(initialState)
-  }
-  
-  convenience init() {
-    self.init(.mock)
-  }
-}
-
-private let todoProvider = TodoProvider()
-private let filterProvier = FilterProvier()
-
 // MARK: RiverpodTodoView
 struct RiverpodTodoView: ConsumerView {
   
   func build(context: Context, ref: ViewRef) -> some View {
-    let filterTodoProvider = FilterTodoProvider { ref in
-      let filter = ref.watch(filterProvier)
-      let todos = ref.watch(todoProvider)
-      switch filter {
-        case .all:
-          return todos
-        case .completed:
-          return todos.filter(\.isCompleted)
-        case .uncompleted:
-          return todos.filter { !$0.isCompleted }
-      }
-    }
-
+    let filterTodoProvider = FilterTodoProvider()
     List {
       Section(header: Text("Information")) {
-        TodoStats(todos: ref.binding(todoProvider))
-        TodoCreator(todos: ref.binding(todoProvider))
+        TodoStats()
+        TodoCreator()
       }
       Section(header: Text("Filters")) {
-        TodoFilters(filter: ref.binding(filterProvier))
+        TodoFilters()
       }
       ForEach(filterTodoProvider.value, id: \.id) { todo in
-        TodoItem(todos: ref.binding(todoProvider), todoID: todo.id)
+        TodoItem(todoID: todo.id)
       }
       .onDelete { atOffsets in
         todoProvider.value.remove(atOffsets: atOffsets)
