@@ -58,52 +58,71 @@ let counterProvider = StateNotifierProvider<Counter> {
   counter
 }
 
+class _FutureProvider: FutureProvider<AnyPublisher<String, Never>> {
+  
+  let current = CurrentValueSubject<Int, Never>(0)
+  
+  init() {
+    super.init { [current] in
+      current
+        .map(\.description)
+        .delay(for: 1, scheduler: UIScheduler.shared)
+        .eraseToAnyPublisher()
+    }
+  }
+  
+  override func refresh() {
+    current.value += 1
+    super.refresh()
+  }
+}
+
+let futureProvider = _FutureProvider()
 
 // Consumes the shared state and rebuild when it changes
 private struct _CounterView: ConsumerView {
   
-  class Counter: StateProvider<Int> {
-    
-    init() {
-      super.init(0)
-    }
-    
-    func increment() {
-      value += 1
-    }
-    
-    func decrement() {
-      value -= 1
-    }
-    
-  }
-  
-  class _FutureProvider: FutureProvider<AnyPublisher<String, Never>> {
-    
-    let current = CurrentValueSubject<Int, Never>(0)
-    
-    init() {
-      super.init { [current] in
-        current
-          .map(\.description)
-          .delay(for: 1, scheduler: UIScheduler.shared)
-          .eraseToAnyPublisher()
-      }
-    }
-    
-    override func refresh() {
-      current.value += 1
-      super.refresh()
-    }
-  }
-  
-  let counter = Counter()
-  
-  let futureProvider = _FutureProvider()
+//  class Counter: StateProvider<Int> {
+//
+//    init() {
+//      super.init(0)
+//    }
+//
+//    func increment() {
+//      value += 1
+//    }
+//
+//    func decrement() {
+//      value -= 1
+//    }
+//
+//  }
+//
+//  class _FutureProvider: FutureProvider<AnyPublisher<String, Never>> {
+//
+//    let current = CurrentValueSubject<Int, Never>(0)
+//
+//    init() {
+//      super.init { [current] in
+//        current
+//          .map(\.description)
+//          .delay(for: 1, scheduler: UIScheduler.shared)
+//          .eraseToAnyPublisher()
+//      }
+//    }
+//
+//    override func refresh() {
+//      current.value += 1
+//      super.refresh()
+//    }
+//  }
+//
+//  let counter = Counter()
+//
+//  let futureProvider = _FutureProvider()
   
   func build(context: Context, ref: ViewRef) -> some View {
-    // A shared state that can be accessed by multiple
-    // objects at the same time
+
     let counterProvider = StateNotifierProvider<Counter> {
       counter
     }

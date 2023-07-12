@@ -1,6 +1,15 @@
 import SwiftUI
 import ComposableArchitecture
 
+private extension DateFormatter {
+  static let time: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .none
+    formatter.timeStyle = .medium
+    return formatter
+  }()
+}
+
 struct ContentView: View {
   
   @Dependency(\.navigationPath) var navigationPath
@@ -14,7 +23,14 @@ struct ContentView: View {
         Section(header: Text("Test")) {
           HookScope {
             if let date = useDate() {
-              Text(date, style: .date)
+              Text(DateFormatter.time.string(from: date))
+                .background(Color.white.opacity(0.0001))
+                .clipShape(Rectangle())
+                .onTapGesture {
+                  navigationPath.commit {
+                    $0.path.append(.init(id: "APIRequestPage", state: "APIRequestPage"))
+                  }
+                }
             }
           }
         }
@@ -158,7 +174,7 @@ struct ContentView: View {
           case "Riverpod-Todos":
             RiverpodTodoView()
           default:
-            EmptyView()
+            APIRequestPage()
         }
       }
     }

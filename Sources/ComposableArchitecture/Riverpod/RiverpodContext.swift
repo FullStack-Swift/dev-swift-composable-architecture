@@ -9,6 +9,8 @@ public struct RiverpodContext {
   /// A callback to perform when any of atoms watched by this context is updated.
   public let objectWillChange = PassthroughSubject<Void, Never>()
   
+  private var cancellables = Set<AnyCancellable>()
+  
   init() {
     
   }
@@ -31,7 +33,6 @@ public struct RiverpodContext {
       return node.value
     } else {
       store.state.updateOrAppend(node.eraseAnyProvider())
-      sendChange()
       return node.value
     }
   }

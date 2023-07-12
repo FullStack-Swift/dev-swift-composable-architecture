@@ -17,9 +17,19 @@ open class StreamProvider<T>: ProviderProtocol {
   
   public let id = UUID()
   
+  public convenience init(_ initialState: () -> (() async throws -> T)) {
+    self.init(initialState())
+  }
+  
   public init(_ initialState: @escaping () async throws -> T) {
     self.value = .suspending
     self.operation = initialState
+    refresh()
+  }
+  
+  public convenience init(_ initialState: (RiverpodContext) -> ( () async throws -> T)) {
+    @Dependency(\.riverpodContext) var riverpodContext
+    self.init(initialState(riverpodContext))
   }
   
   public func refresh() {

@@ -288,7 +288,6 @@ struct HookCaseStudiesView: View {
   }
   
   private var useEffectView: some View {
-    print("AAAAAAAA")
     return HookScope {
       let state = useState(999999999)
       let isAutoIncrement = useState(false)

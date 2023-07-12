@@ -25,4 +25,11 @@ where P.ObjectWillChangePublisher == ObservableObjectPublisher {
   public convenience init(_ initialState: () -> P) {
     self.init(initialState())
   }
+  
+  public convenience init(
+    _ initialState: @escaping (RiverpodContext) -> P
+  ) {
+    @Dependency(\.riverpodContext) var riverpodContext
+    self.init(initialState(riverpodContext))
+  }
 }

@@ -1,7 +1,11 @@
 import Combine
 import Foundation
 
+@propertyWrapper
 open class FutureProvider<P: Publisher>: ProviderProtocol {
+  public var wrappedValue: AsyncPhase<P.Output, P.Failure> {
+    value
+  }
   /// Returns a Future of any type
   /// A result from an API call
   
@@ -14,14 +18,21 @@ open class FutureProvider<P: Publisher>: ProviderProtocol {
   
   public let id = UUID()
   
-  public convenience init(_ initialState: P) {
-    self.init({initialState})
-  }
-  
   public init(_ initialState: @escaping () -> P) {
     self.value = .suspending
     self.makePublisher = initialState
     refresh()
+  }
+  
+  public convenience init(_ initialState: P) {
+    self.init({initialState})
+  }
+  
+  public convenience init(
+    _ initialState: @escaping (RiverpodContext) -> P
+  ) {
+    @Dependency(\.riverpodContext) var riverpodContext
+    self.init(initialState(riverpodContext))
   }
   
   open func refresh() {

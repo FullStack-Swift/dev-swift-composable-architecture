@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 import ComposableArchitecture
 
 // MARK: Model
@@ -210,12 +211,13 @@ private class FilterTodoProvider: StateProvider<IdentifiedArrayOf<Todo>> {
   }
 }
 
+private let todoProvider = TodoProvider()
+private let filterProvier = FilterProvier()
+
 // MARK: RiverpodTodoView
 struct RiverpodTodoView: ConsumerView {
   
   func build(context: Context, ref: ViewRef) -> some View {
-    let todoProvider = TodoProvider()
-    let filterProvier = FilterProvier()
     let filterTodoProvider = FilterTodoProvider { ref in
       let filter = ref.watch(filterProvier)
       let todos = ref.watch(todoProvider)
@@ -228,7 +230,7 @@ struct RiverpodTodoView: ConsumerView {
           return todos.filter { !$0.isCompleted }
       }
     }
-    
+
     List {
       Section(header: Text("Information")) {
         TodoStats(todos: ref.binding(todoProvider))
@@ -262,6 +264,106 @@ struct RiverpodTodoView_Previews: PreviewProvider {
   static var previews: some View {
     _NavigationView {
       RiverpodTodoView()
+    }
+  }
+}
+
+struct Post: Codable {
+  let id: Int
+  let title: String
+  let body: String
+}
+
+class PostStreamProvider: StreamProvider<[Post]> {
+  
+  init() {
+    super.init {
+      let url = URL(string: "https://jsonplaceholder.typicode.com/posts")!
+      let decoder = JSONDecoder()
+      let (data, _) = try await URLSession.shared.data(from: url)
+      return try decoder.decode([Post].self, from: data)
+    }
+  }
+}
+
+class PostFutureProvider: FutureProvider<AnyPublisher<[Post], any Error>> {
+  
+  init() {
+    super.init {
+      let url = URL(string: "https://jsonplaceholder.typicode.com/posts")!
+      let decoder = JSONDecoder()
+      return URLSession.shared.dataTaskPublisher(for: url)
+        .tryMap({ try decoder.decode([Post].self, from: $0.data)})
+        .eraseToAnyPublisher()
+    }
+  }
+}
+
+
+
+struct APIRequestPage: ConsumerView {
+ 
+//  let stream = PostStreamProvider()
+//  let stream = PostFutureProvider()
+  
+  let stream = PostFutureProvider()
+
+  func build(context: Context, ref: ViewRef) -> some View {
+//    let phase = ref.watch(stream)
+    
+//    let stream = PostStreamProvider()
+    let state = StateProvider<AsyncPhase<[Post], Error>> { context in
+      context.watch(stream)
+    }
+    let phase = state.value
+    ScrollView {
+      VStack {
+        switch phase {
+          case .suspending:
+            ProgressView()
+            
+          case .success(let posts):
+            postRows(posts)
+            
+          case .failure(let error):
+            errorRow(error, retry: {
+              stream.refresh()
+            })
+        }
+      }
+      .padding(.vertical, 16)
+      .padding(.horizontal, 24)
+    }
+    .onAppear {
+      stream.refresh()
+    }
+    .navigationTitle("API Request")
+    .background(Color(.systemBackground).ignoresSafeArea())
+  }
+  
+  func postRows(_ posts: [Post]) -> some View {
+    ForEach(posts, id: \.id) { post in
+      VStack(alignment: .leading) {
+        Text(post.title).bold()
+        Text(post.body).padding(.vertical, 16)
+        Divider()
+      }
+      .frame(maxWidth: .infinity)
+    }
+  }
+  
+  func errorRow(_ error: Error, retry: @escaping () async -> Void) -> some View {
+    VStack {
+      Text("Error: \(error.localizedDescription)")
+        .fixedSize(horizontal: false, vertical: true)
+      
+      Divider()
+      
+      Button("Refresh") {
+        Task {
+          await retry()
+        }
+      }
     }
   }
 }

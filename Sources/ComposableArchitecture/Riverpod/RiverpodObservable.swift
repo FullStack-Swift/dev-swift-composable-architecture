@@ -9,6 +9,10 @@ public class RiverpodObservable: ObservableObject {
   
   public private(set) lazy var objectWillChange = ObservableObjectPublisher()
   
+  deinit {
+    riverpodContext.store.state.removeAll()
+  }
+  
   init() {
     objectWillChange
       .subscribe(riverpodContext.objectWillChange)
@@ -67,5 +71,9 @@ public class RiverpodObservable: ObservableObject {
   @discardableResult
   public func pull<Node: ProviderProtocol>(_ node: Node) -> Node.Value {
     return node.value
+  }
+    
+  public func removeAll() {
+    self.riverpodContext.store.state.removeAll()
   }
 }
