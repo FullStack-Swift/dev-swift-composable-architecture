@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 
 @MainActor
-public protocol ConsumerView: View {
+public protocol RiverpodView: View {
 
   associatedtype RiverBody: View
   
@@ -14,15 +14,15 @@ public protocol ConsumerView: View {
   
 }
 
-extension ConsumerView {
+extension RiverpodView {
   public var body:  some View {
-    ProviderScope { store, viewModel in
+    RiverpodScope { store, viewModel in
       build(context: store, ref: viewModel)
     }
   }
 }
 
-private struct ProviderScope<Content: View>: View {
+private struct RiverpodScope<Content: View>: View {
   @StateObject
   private var viewModel = RiverpodObservable()
   
@@ -38,6 +38,6 @@ private struct ProviderScope<Content: View>: View {
   }
   
   var body: some View {
-    content(viewModel.riverpodContext, viewModel)
+    content(viewModel.context, viewModel)
   }
 }

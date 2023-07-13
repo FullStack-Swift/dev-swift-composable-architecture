@@ -118,7 +118,7 @@ private let filterProvier = FilterProvier()
 private let filterTodoProvider = FilterTodoProvider()
 
 // MARK: TodoStats
-private struct TodoStats: ConsumerView {
+private struct TodoStats: RiverpodView {
   func build(context: Context, ref: ViewRef) -> some View {
     let todos = ref.watch(todoProvider)
     let total = todos.count
@@ -151,7 +151,7 @@ private struct TodoStats: ConsumerView {
 }
 
 // MARK: TodoFilters
-private struct TodoFilters: ConsumerView {
+private struct TodoFilters: RiverpodView {
   
   func build(context: Context, ref: ViewRef) -> some View {
     let filter = ref.binding(filterProvier)
@@ -177,7 +177,7 @@ private struct TodoFilters: ConsumerView {
 }
 
 // MARK: TodoCreator
-private struct TodoCreator: ConsumerView {
+private struct TodoCreator: RiverpodView {
   
   @State private var text: String = ""
   
@@ -203,7 +203,7 @@ private struct TodoCreator: ConsumerView {
 }
 
 // MARK: TodoItem
-private struct TodoItem: ConsumerView {
+private struct TodoItem: RiverpodView {
   
   fileprivate let todoID: UUID
   
@@ -228,10 +228,10 @@ private struct TodoItem: ConsumerView {
 }
 
 // MARK: RiverpodTodoView
-struct RiverpodTodoView: ConsumerView {
+struct RiverpodTodoView: RiverpodView {
   
   func build(context: Context, ref: ViewRef) -> some View {
-    let filterTodoProvider = FilterTodoProvider()
+    let filterTodos = ref.watch(filterTodoProvider)
     List {
       Section(header: Text("Information")) {
         TodoStats()
@@ -240,7 +240,7 @@ struct RiverpodTodoView: ConsumerView {
       Section(header: Text("Filters")) {
         TodoFilters()
       }
-      ForEach(filterTodoProvider.value, id: \.id) { todo in
+      ForEach(filterTodos, id: \.id) { todo in
         TodoItem(todoID: todo.id)
       }
       .onDelete { atOffsets in
@@ -302,7 +302,7 @@ class PostFutureProvider: FutureProvider<AnyPublisher<[Post], any Error>> {
 
 
 
-struct APIRequestPage: ConsumerView {
+struct APIRequestPage: RiverpodView {
  
 //  let stream = PostStreamProvider()
 //  let stream = PostFutureProvider()

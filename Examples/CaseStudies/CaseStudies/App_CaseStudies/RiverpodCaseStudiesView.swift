@@ -80,7 +80,7 @@ class _FutureProvider: FutureProvider<AnyPublisher<String, Never>> {
 let futureProvider = _FutureProvider()
 
 // Consumes the shared state and rebuild when it changes
-private struct _CounterView: ConsumerView {
+private struct _CounterView: RiverpodView {
   
 //  class Counter: StateProvider<Int> {
 //
