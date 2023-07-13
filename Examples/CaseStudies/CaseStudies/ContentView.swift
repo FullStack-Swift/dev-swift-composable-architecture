@@ -23,14 +23,17 @@ struct ContentView: View {
         Section(header: Text("Test")) {
           HookScope {
             if let date = useDate() {
-              Text(DateFormatter.time.string(from: date))
-                .background(Color.white.opacity(0.0001))
-                .clipShape(Rectangle())
-                .onTapGesture {
-                  navigationPath.commit {
-                    $0.path.append(.init(id: "APIRequestPage", state: "APIRequestPage"))
-                  }
+              HStack {
+                Text(DateFormatter.time.string(from: date))
+                Spacer()
+              }
+              .background(Color.white.opacity(0.0001))
+              .clipShape(Rectangle())
+              .onTapGesture {
+                navigationPath.commit {
+                  $0.path.append(.init(id: "APIRequestPage", state: "APIRequestPage"))
                 }
+              }
             }
           }
         }
@@ -173,8 +176,10 @@ struct ContentView: View {
             RecoilTodoView()
           case "Riverpod-Todos":
             RiverpodTodoView()
-          default:
+          case "APIRequestPage":
             APIRequestPage()
+          default:
+            EmptyView()
         }
       }
     }

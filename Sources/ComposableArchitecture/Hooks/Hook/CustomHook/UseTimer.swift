@@ -31,7 +31,7 @@ public func useCountDownTimer(
   }
   
   return TimerHook(
-    count: count,
+    value: count,
     isIncrement: isIncrement,
     start: {
       phase.wrappedValue = .start(countdown)
@@ -65,7 +65,7 @@ public struct TimerHook {
     case completion
   }
   
-  public let count: Binding<Double>
+  public let value: Binding<Double>
   public let isIncrement: Binding<Bool>
   public var start: () -> ()
   public var stop: () -> ()
