@@ -32,6 +32,10 @@ open class Provider<T>: ProviderProtocol {
   public init(_ initialState: T) {
     self.value = initialState
   }
+  
+  public convenience init(_ initialState: () -> T) {
+    self.init(initialState())
+  }
 
   public let id = UUID()
   
