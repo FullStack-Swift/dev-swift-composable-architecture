@@ -12,16 +12,15 @@ public func useCountDownTimer(
   countdown: Double,
   withTimeInterval: TimeInterval = 0.1
 ) -> TimerHook {
-  let _countdown = countdown + 1
-  let count = useState(_countdown)
-  let isIncrement = useState(false)
+  let count = useState(countdown)
+  let isAutoCountdown = useState(false)
   let phase = useState(TimerHook.TimerPhase.pending)
-  useEffect(.preserved(by: isIncrement.wrappedValue)) {
-    guard isIncrement.wrappedValue else { return nil }
+  useEffect(.preserved(by: isAutoCountdown.wrappedValue)) {
+    guard isAutoCountdown.wrappedValue else { return nil }
     let timer = Timer.scheduledTimer(withTimeInterval: withTimeInterval, repeats: true) { _ in
       if count.wrappedValue <= 0 {
         phase.wrappedValue = .completion
-        isIncrement.wrappedValue = false
+        isAutoCountdown.wrappedValue = false
       } else {
         count.wrappedValue -= withTimeInterval
         phase.wrappedValue = .process(count.wrappedValue)
@@ -32,23 +31,23 @@ public func useCountDownTimer(
   
   return TimerHook(
     value: count,
-    isIncrement: isIncrement,
+    isAutoCountdown: isAutoCountdown,
     start: {
       phase.wrappedValue = .start(countdown)
       count.wrappedValue = countdown
-      isIncrement.wrappedValue = true
+      isAutoCountdown.wrappedValue = true
     },
     stop: {
       phase.wrappedValue = .stop
-      isIncrement.wrappedValue = false
+      isAutoCountdown.wrappedValue = false
     },
     play: {
-      isIncrement.wrappedValue = true
+      isAutoCountdown.wrappedValue = true
     },
     canncel: {
       phase.wrappedValue = .cancel
       count.wrappedValue = countdown
-      isIncrement.wrappedValue = false
+      isAutoCountdown.wrappedValue = false
     },
     phase: phase
   )
@@ -66,7 +65,7 @@ public struct TimerHook {
   }
   
   public let value: Binding<Double>
-  public let isIncrement: Binding<Bool>
+  public let isAutoCountdown: Binding<Bool>
   public var start: () -> ()
   public var stop: () -> ()
   public var play: () -> ()

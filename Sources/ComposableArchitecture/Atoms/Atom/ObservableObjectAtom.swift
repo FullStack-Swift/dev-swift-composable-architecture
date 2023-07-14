@@ -77,7 +77,7 @@ public struct MObservableObjectAtom<M: ObservableObject>: ObservableObjectAtom {
 
   public typealias ObjectType = M
 
-  var id: String
+  public var id: String
   var initialState: (Self.Context) -> M
 
   public init(id: String, initialState: @escaping (Context) -> M) {

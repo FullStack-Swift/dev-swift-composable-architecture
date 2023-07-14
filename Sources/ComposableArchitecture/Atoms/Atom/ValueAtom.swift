@@ -59,7 +59,7 @@ public struct MValueAtom<M>: ValueAtom {
   public typealias Value = M
 
   var initialState: (Self.Context) -> M
-  var id: String
+  public var id: String
 
   public init(id: String,_ initialState: @escaping (Self.Context) -> M) {
     self.id = id

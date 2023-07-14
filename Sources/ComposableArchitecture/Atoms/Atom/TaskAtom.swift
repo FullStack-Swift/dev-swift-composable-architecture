@@ -64,7 +64,7 @@ public struct MTaskAtom<M>: TaskAtom {
   public typealias Value = M
 
   var initialState: (Self.Context) async -> M
-  var id: String
+  public var id: String
 
   public init(id: String,_ initialState: @escaping (Self.Context) async -> M) {
     self.id = id

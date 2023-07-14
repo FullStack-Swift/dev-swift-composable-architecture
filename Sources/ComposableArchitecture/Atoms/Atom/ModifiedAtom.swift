@@ -29,6 +29,10 @@ public struct ModifiedAtom<Node: Atom, Modifier: AtomModifier>: Atom where Node.
     Key(atomKey: atom.key, modifierKey: modifier.key)
   }
   
+  public var id: Key {
+    key
+  }
+  
   /// A loader that represents an actual implementation of this atom.
   public var _loader: ModifiedAtomLoader<Node, Modifier> {
     Loader(atom: atom, modifier: modifier)

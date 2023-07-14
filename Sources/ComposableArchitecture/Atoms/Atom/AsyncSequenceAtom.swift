@@ -74,7 +74,7 @@ public struct MAsyncSequenceAtom<M: AsyncSequence>: AsyncSequenceAtom {
 
   public typealias Sequence = M
 
-  var id: String
+  public var id: String
   var initialState: (Self.Context) -> M
 
   public init(id: String, initialState: @escaping (Context) -> M) {

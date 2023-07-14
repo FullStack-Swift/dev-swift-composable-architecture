@@ -68,7 +68,7 @@ public struct MThrowingTaskAtom<M>: ThrowingTaskAtom {
   public typealias Value = M
 
   var initialState: (Self.Context) async throws -> M
-  var id: String
+  public var id: String
 
   public init(id: String,_ initialState: @escaping (Self.Context) async throws -> M) {
     self.id = id

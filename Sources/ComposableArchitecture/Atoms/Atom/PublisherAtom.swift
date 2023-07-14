@@ -66,7 +66,7 @@ public extension PublisherAtom {
 public struct MPublisherAtom<Publisher: Combine.Publisher>: PublisherAtom {
 
   var initialState: (Self.Context) -> Publisher
-  var id: String
+  public var id: String
 
   public init(id: String, _ initialState: @escaping (Context) -> Publisher) {
     self.initialState = initialState

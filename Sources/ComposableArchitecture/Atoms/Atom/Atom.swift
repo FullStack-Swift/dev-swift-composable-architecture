@@ -5,7 +5,7 @@
 ///
 /// If the atom value needs to be preserved even if no longer watched to, you can consider
 /// conform the ``KeepAlive`` protocol to the atom.
-public protocol Atom {
+public protocol Atom: Identifiable {
   /// A type representing the stable identity of this atom.
   associatedtype Key: Hashable
   
@@ -72,5 +72,9 @@ public extension Atom {
 public extension Atom where Self == Key {
   var key: Self {
     self
+  }
+  
+  var id: Self {
+    key
   }
 }
