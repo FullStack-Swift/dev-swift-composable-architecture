@@ -26,7 +26,7 @@ let package = Package(
     .package(url: "https://github.com/pointfreeco/swift-custom-dump", from: "0.10.0"),
     .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "0.4.1"),
     .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "0.7.0"),
-    .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "0.7.1"),
+    .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "0.8.0"),
     .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "0.8.4"),
     // MARK: custom
     .package(url: "https://github.com/lm/navigation-stack-backport.git", .upToNextMajor(from: "1.0.0")),
@@ -42,7 +42,8 @@ let package = Package(
         .product(name: "IdentifiedCollections", package: "swift-identified-collections"),
         .product(name: "OrderedCollections", package: "swift-collections"),
         .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
-        .product(name: "_SwiftUINavigationState", package: "swiftui-navigation"),
+        .product(name: "SwiftUINavigation", package: "swiftui-navigation"),
+        .product(name: "SwiftUINavigationCore", package: "swiftui-navigation"),
         .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay"),
         // MARK: custom
           .product(

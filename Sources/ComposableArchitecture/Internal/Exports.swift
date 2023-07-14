@@ -5,4 +5,5 @@
 @_exported import Dependencies
 @_exported import IdentifiedCollections
 @_exported import AsyncAlgorithms
-@_exported import _SwiftUINavigationState
+//@_exported import SwiftUINavigation
+@_exported import SwiftUINavigationCore
