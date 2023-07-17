@@ -19,9 +19,13 @@ public struct PagedResponse<T> {
   }
 }
 
+extension PagedResponse: Encodable where T: Encodable {}
+
 extension PagedResponse: Decodable where T: Decodable {}
 
 extension PagedResponse: Equatable where T: Equatable {}
+
+extension PagedResponse: Sendable where T: Sendable {}
 
 public func useLoadMoreHookModel<Model>(_ loader: @escaping () -> (Int) async throws -> PagedResponse<Model>) -> LoadMoreHookModel<Model> {
   useLoadMoreHookModel(loader())

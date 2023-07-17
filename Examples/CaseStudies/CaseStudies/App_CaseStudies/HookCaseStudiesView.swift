@@ -302,7 +302,7 @@ struct HookCaseStudiesView: View {
       //      return timer.invalidate
       //    }
       
-      useCallback(.preserved(by: isAutoIncrement.wrappedValue)) {
+      useEffect(.preserved(by: isAutoIncrement.wrappedValue)) {
         guard isAutoIncrement.wrappedValue else { return nil }
         print("Timer.scheduledTimer")
         let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
@@ -335,7 +335,7 @@ struct HookCaseStudiesView: View {
 //      return timer.invalidate
 //    }
     
-    useLayoutCallback(.preserved(by: isAutoIncrement.wrappedValue)) {
+    useLayoutEffect(.preserved(by: isAutoIncrement.wrappedValue)) {
       guard isAutoIncrement.wrappedValue else { return nil }
       print("Timer.scheduledTimer")
       let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
