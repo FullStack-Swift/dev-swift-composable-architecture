@@ -1,6 +1,5 @@
 import Foundation
 
-
 public func useDate() -> Date? {
   let phase = usePublisher(.once) {
     Timer.publish(every: 1, on: .main, in: .common)

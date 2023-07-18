@@ -25,17 +25,38 @@ extension PagedResponse: Decodable where T: Decodable {}
 
 extension PagedResponse: Equatable where T: Equatable {}
 
+extension PagedResponse: Hashable where T: Hashable {}
+
 extension PagedResponse: Sendable where T: Sendable {}
 
-public func useLoadMoreHookModel<Model>(_ loader: @escaping () -> (Int) async throws -> PagedResponse<Model>) -> LoadMoreHookModel<Model> {
+/// LoadMoreModel
+/// - Parameter loader:
+/// page  = 1 => LoadFirst
+/// page > 1 => LoadMore
+/// - Returns: `LoadMoreHookModel`
+public func useLoadMoreHookModel<Model>(
+  _ loader: @escaping () -> (Int) async throws -> PagedResponse<Model>
+) -> LoadMoreHookModel<Model> {
   useLoadMoreHookModel(loader())
 }
 
-public func useLoadMoreHookModel<Model>(_ loader: @escaping (Int) async throws -> PagedResponse<Model>) -> LoadMoreHookModel<Model> {
+/// LoadMoreModel
+/// - Parameter loader:
+/// page  = 1 => LoadFirst
+/// page > 1 => LoadMore
+/// - Returns: `LoadMoreHookModel
+public func useLoadMoreHookModel<Model>(
+  _ loader: @escaping (Int) async throws -> PagedResponse<Model>
+) -> LoadMoreHookModel<Model> {
+  
   let selectedMovie = useState(nil as Model?)
+  
   let nextMovies = useRef([Model]())
+  
   let (loadPhase, load) = useLoadModels(Model.self, loader)
+  
   let (loadNextPhase, loadNext) = useLoadModels(Model.self, loader)
+  
   let latestResponse = loadNextPhase.value ?? loadPhase.value
   
   useLayoutEffect(.preserved(by: loadPhase.isSuccess)) {

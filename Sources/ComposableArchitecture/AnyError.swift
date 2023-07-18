@@ -15,4 +15,12 @@ public extension Error {
   }
 }
 
+extension AnyError: Decodable where Failure: Decodable {}
+
+extension AnyError: Encodable where Failure: Encodable {}
+
 extension AnyError: Equatable where Failure: Equatable {}
+
+extension AnyError: Hashable where Failure: Hashable {}
+
+extension AnyError: Sendable where Failure: Sendable {}
