@@ -54,6 +54,8 @@ public extension AnyPublisher where Failure == Never {
 
 public typealias ActionSubject<Action> = PassthroughSubject<Action, Never>
 
+public typealias ObservableEvent = PassthroughSubject<(), Never>
+
 extension CurrentValueSubject {
   public func commit(_ block: (inout Output) -> Void) {
     var clone = self.value

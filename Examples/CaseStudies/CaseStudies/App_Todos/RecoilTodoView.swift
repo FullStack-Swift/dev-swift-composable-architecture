@@ -76,7 +76,7 @@ private let _filteredTodosAtom = MValueAtom<IdentifiedArrayOf<Todo>>(id: "_filte
 }
 
 @MainActor
-private let _statsAtom = MValueAtom<Stats>(id: "_statsAtom") { context in
+private let _statsAtom = MValueAtom<Stats>(id: "_todosAtom") { context in
   let todos = context.watch(_todosAtom)
   let total = todos.count
   let totalCompleted = todos.filter(\.isCompleted).count
@@ -89,6 +89,11 @@ private let _statsAtom = MValueAtom<Stats>(id: "_statsAtom") { context in
     percentCompleted: percentCompleted
   )
 }
+
+//@MainActor
+//let total = selector(key: "total") { context in
+//  return context.watch(_todosAtom).count
+//}
 
 // MARK: View
 

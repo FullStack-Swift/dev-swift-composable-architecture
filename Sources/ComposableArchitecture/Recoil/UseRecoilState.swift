@@ -79,3 +79,5 @@ private extension RecoilStateHook {
     }
   }
 }
+
+typealias StoreCancellables = Set<AnyCancellable>

@@ -10,20 +10,15 @@ public struct RecoilLocalContext: AtomWatchableContext {
   public init(fileID: String = #fileID, line: UInt = #line) {
     location = SourceLocation(fileID: fileID, line: line)
   }
-  
-  public var onUpdate: (() -> Void)? {
-    get { state.onUpdate }
-    nonmutating set { state.onUpdate = newValue }
-  }
-  
+    
   public var objectWillChange: AnyPublisher<Void, Never> {
-    state.notifier.eraseToAnyPublisher()
+    state.observable.objectWillChange
   }
   
   @discardableResult
   public func waitForUpdate(timeout interval: TimeInterval? = nil) async -> Bool {
     let updates = AsyncStream<Void> { continuation in
-      let cancellable = state.notifier.sink(
+      let cancellable = state.$observable.sink(
         receiveCompletion: { completion in
           continuation.finish()
         },
@@ -108,16 +103,17 @@ public struct RecoilLocalContext: AtomWatchableContext {
 
 private extension RecoilLocalContext {
   final class State {
+    
     let store = AtomStore()
     let token = ScopeKey.Token()
     let container = SubscriptionContainer()
-    let notifier = PassthroughSubject<Void, Never>()
     var overrides = [OverrideKey: any AtomOverrideProtocol]()
-    var onUpdate: (() -> Void)?
+    
+    @ObservableListener
+    var observable
     
     func notifyUpdate() {
-      onUpdate?()
-      notifier.send()
+      observable.send()
     }
   }
   

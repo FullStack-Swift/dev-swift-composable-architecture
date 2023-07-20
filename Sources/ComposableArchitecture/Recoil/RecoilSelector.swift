@@ -1,7 +1,7 @@
 import Foundation
 
 @MainActor
-public func atomFamily<Value>(
+public func atomSelector<Value>(
   key: String,
   _ initialState: @escaping (MStateAtom<Value>.Context) -> Value,
   fileID: String = #fileID,
@@ -12,6 +12,6 @@ public func atomFamily<Value>(
   return MStateAtom(id: key, initialState)
 }
 
-public class RecoilFamily<T> {
-  
+private struct RecoilSelector {
+
 }

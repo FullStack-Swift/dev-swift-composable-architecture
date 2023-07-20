@@ -1,0 +1,71 @@
+import Combine
+
+// MARK: - ObservableListener
+@propertyWrapper
+public struct ObservableListener {
+  
+  private let viewModel = ObservableListenerViewModel()
+  
+  public init() {
+    
+  }
+  
+  public var wrappedValue: Self {
+    self
+  }
+  
+  public var projectedValue: ObservableEvent {
+    viewModel.observableEvent
+  }
+  
+  public var publisher: ObservableEvent {
+    viewModel.observableEvent
+  }
+  
+  public var objectWillChange: AnyPublisher<Void, Never> {
+    viewModel.observableEvent.eraseToAnyPublisher()
+  }
+  
+  public func send() {
+    viewModel.send()
+  }
+  
+  public func sink(_ receiveValue: @escaping () -> Void) {
+    viewModel.observableEvent.sink(receiveValue: receiveValue)
+      .store(in: &viewModel.cancellables)
+  }
+  
+  public func sink(_ receiveValue: @escaping () async throws -> Void) {
+    viewModel.observableEvent.sink { action in
+      Task.init {
+        try await receiveValue()
+      }
+    }
+    .store(in: &viewModel.cancellables)
+  }
+  
+  public func onAction(_ onAction: @escaping () -> Void) {
+    sink(onAction)
+  }
+  
+  public func onAction(_ onAction: @escaping ()  async throws -> Void) {
+    sink(onAction)
+  }
+}
+
+fileprivate final class ObservableListenerViewModel {
+  
+  fileprivate let observableEvent = ObservableEvent()
+  
+  fileprivate var cancellables = Set<AnyCancellable>()
+  
+  deinit {
+    for cancellable in cancellables {
+      cancellable.cancel()
+    }
+  }
+  
+  fileprivate func send() {
+    observableEvent.send()
+  }
+}
