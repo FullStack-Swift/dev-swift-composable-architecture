@@ -11,6 +11,10 @@ public struct RecoilGlobalContext: AtomWatchableContext {
     location = SourceLocation(fileID: fileID, line: line)
   }
   
+  init(location: SourceLocation) {
+    self.location = location
+  }
+  
   public var objectWillChange: AnyPublisher<Void, Never> {
     state.observable.objectWillChange
   }
@@ -83,9 +87,7 @@ public struct RecoilGlobalContext: AtomWatchableContext {
 
   @discardableResult
   public func watch<Node: Atom>(_ atom: Node) -> Node.Loader.Value {
-    store.watch(atom, container: container, requiresObjectUpdate: true) { [weak state] in
-      state?.notifyUpdate()
-    }
+    store.watch(atom, container: container, requiresObjectUpdate: true, notifyUpdate: state.observable.send)
   }
   
   public func unwatch(_ atom: some Atom) {
@@ -113,10 +115,6 @@ private extension RecoilGlobalContext {
     
     @ObservableListener
     var observable
-
-    func notifyUpdate() {
-      observable.send()
-    }
   }
   
   var store: StoreContext {
@@ -154,6 +152,10 @@ public struct RecoilGlobalViewContext {
   
   public init(fileID: String = #fileID, line: UInt = #line) {
     location = SourceLocation(fileID: fileID, line: line)
+  }
+  
+  init(location: SourceLocation) {
+    self.location = location
   }
   
   public var wrappedValue: RecoilGlobalContext {
@@ -276,12 +278,12 @@ public struct _RecoilGlobalScope<Content: View>: View {
 @MainActor
 public protocol _RecoilGlobalView: View {
   // The type of view representing the body of this view that can use river.
-  associatedtype RiverBody: View
+  associatedtype RecoilBody: View
   
   typealias Context = RecoilGlobalContext
   
   @ViewBuilder
-  func build(context: Context) -> RiverBody
+  func build(context: Context) -> RecoilBody
   
 }
 

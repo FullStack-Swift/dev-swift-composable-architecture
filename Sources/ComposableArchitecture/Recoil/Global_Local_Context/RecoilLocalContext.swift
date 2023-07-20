@@ -10,6 +10,10 @@ public struct RecoilLocalContext: AtomWatchableContext {
   public init(fileID: String = #fileID, line: UInt = #line) {
     location = SourceLocation(fileID: fileID, line: line)
   }
+  
+  init(location: SourceLocation) {
+    self.location = location
+  }
     
   public var objectWillChange: AnyPublisher<Void, Never> {
     state.observable.objectWillChange
@@ -83,9 +87,7 @@ public struct RecoilLocalContext: AtomWatchableContext {
   
   @discardableResult
   public func watch<Node: Atom>(_ atom: Node) -> Node.Loader.Value {
-    store.watch(atom, container: container, requiresObjectUpdate: true) { [weak state] in
-      state?.notifyUpdate()
-    }
+    store.watch(atom, container: container, requiresObjectUpdate: true, notifyUpdate: state.observable.send)
   }
   
   public func unwatch(_ atom: some Atom) {
@@ -111,10 +113,6 @@ private extension RecoilLocalContext {
     
     @ObservableListener
     var observable
-    
-    func notifyUpdate() {
-      observable.send()
-    }
   }
   
   var store: StoreContext {
@@ -271,12 +269,12 @@ public struct RecoilLocalProvider<Content: View>: View {
 @MainActor
 public protocol _RecoilLocalView: View {
   // The type of view representing the body of this view that can use river.
-  associatedtype RiverBody: View
+  associatedtype RecoilBody: View
   
   typealias Context = RecoilLocalContext
   
   @ViewBuilder
-  func build(context: Context) -> RiverBody
+  func build(context: Context) -> RecoilBody
   
 }
 

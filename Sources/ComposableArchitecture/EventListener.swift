@@ -39,7 +39,7 @@ public struct ActionListener<Action> {
   
   public func sink(_ receiveValue: @escaping (Action) async throws -> Void) {
     viewModel.actionSubject.sink { action in
-      Task.init {
+      withTask {
         try await receiveValue(action)
       }
     }

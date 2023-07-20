@@ -842,9 +842,7 @@ extension Store {
 // MARK: Store + ActionHandler
 extension Store: ActionHandler {
   public func dispatch(_ dispatchedAction: DispatchedAction<Action>) {
-    Task { @MainActor in
-      handleAsap(dispatchedAction: dispatchedAction)
-    }
+    withMainTask { self.handleAsap(dispatchedAction: dispatchedAction) }
   }
 }
 
@@ -853,9 +851,7 @@ extension Store {
   private func handleAsap(dispatchedAction: DispatchedAction<Action>) {
     let middlewares = middleware.middlewares
     if middlewares.isEmpty {
-      Task { @MainActor in
-        _ = self.send(dispatchedAction.action)
-      }
+      withMainTask { _ = self.send(dispatchedAction.action) }
     } else {
       for middleware in middlewares {
         let io = handle(

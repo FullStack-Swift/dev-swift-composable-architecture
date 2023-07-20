@@ -9,8 +9,10 @@ public struct GlobalViewContext: AtomWatchableContext {
   internal let _store: StoreContext
   @usableFromInline
   internal let _container: SubscriptionContainer.Wrapper
+
   @usableFromInline
-  internal let _notifyUpdate: () -> Void
+  @ObservableListener
+  var observable
   
   internal init(
     store: StoreContext,
@@ -19,13 +21,12 @@ public struct GlobalViewContext: AtomWatchableContext {
   ) {
     _store = store
     _container = container
-    _notifyUpdate = notifyUpdate
+    observable.sink(notifyUpdate)
   }
   
   /// A callback to perform when any of atoms watched by this context is updated.
-  private let notifier = PassthroughSubject<Void, Never>()
   public var objectWillChange: AnyPublisher<Void, Never> {
-    notifier.eraseToAnyPublisher()
+    observable.objectWillChange
   }
   
   /// Accesses the value associated with the given atom without watching to it.
@@ -162,7 +163,7 @@ public struct GlobalViewContext: AtomWatchableContext {
       atom,
       container: _container,
       requiresObjectUpdate: false,
-      notifyUpdate: _notifyUpdate
+      notifyUpdate: observable.send
     )
   }
   

@@ -37,7 +37,7 @@ public struct ObservableListener {
   
   public func sink(_ receiveValue: @escaping () async throws -> Void) {
     viewModel.observableEvent.sink { action in
-      Task.init {
+      withTask {
         try await receiveValue()
       }
     }

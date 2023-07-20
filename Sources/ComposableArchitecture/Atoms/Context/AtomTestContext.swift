@@ -17,6 +17,10 @@ public struct AtomTestContext: AtomWatchableContext {
     location = SourceLocation(fileID: fileID, line: line)
   }
   
+  init(location: SourceLocation) {
+    self.location = location
+  }
+  
   /// A callback to perform when any of atoms watched by this context is updated.
   public var onUpdate: (() -> Void)? {
     get { state.onUpdate }
