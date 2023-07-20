@@ -10,3 +10,18 @@ public func apply<T>(_ transform: (inout T) -> Void, to input: T) -> T {
   transform(&transformed)
   return transformed
 }
+
+/// Description
+/// - Parameter fn: fn description
+func runAsync<Success>(_ fn: @escaping @Sendable () async throws -> Success) {
+  Task(operation: fn)
+}
+
+/// Description
+/// - Parameter fn: fn description
+func runMainAsync<Success>(_ fn: @escaping @Sendable () async throws -> Success) {
+  Task { @MainActor in
+    return try await fn()
+  }
+}
+
