@@ -1,6 +1,13 @@
 import Combine
 
 // MARK: - ObservableListener
+
+/// ```swift
+///
+/// @ObservableListener
+/// var observable
+///
+/// ```
 @propertyWrapper
 public struct ObservableListener {
   
@@ -53,6 +60,8 @@ public struct ObservableListener {
   }
 }
 
+
+/// ViewModel
 fileprivate final class ObservableListenerViewModel {
   
   fileprivate let observableEvent = ObservableEvent()

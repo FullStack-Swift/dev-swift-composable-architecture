@@ -60,7 +60,7 @@ public struct SharedState<Value>: DynamicProperty {
         })
     }
 
-    public subscript<Value>(
+    public subscript(
       dynamicMember keyPath: WritableKeyPath<SharedStateReducer.State, Value>
     ) -> Value {
       get {

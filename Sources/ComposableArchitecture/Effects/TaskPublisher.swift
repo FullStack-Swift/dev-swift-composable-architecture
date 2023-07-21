@@ -20,7 +20,7 @@ public struct TaskPublisher<Output>: Publisher {
     subscription.start()
   }
 
-  final class TaskSubscription<Output, Downstream: Subscriber>: Combine.Subscription where Downstream.Input == Output, Downstream.Failure == Never {
+  final class TaskSubscription<Downstream: Subscriber>: Combine.Subscription where Downstream.Input == Output, Downstream.Failure == Never {
     private var handle: Task<Output, Never>?
     private let work: () async -> Output
     private let subscriber: Downstream
@@ -68,7 +68,7 @@ public struct TaskThrowsPublisher<Output>: Publisher {
     subscription.start()
   }
 
-  final class TaskSubscription<Output, Downstream: Subscriber>: Combine.Subscription where Downstream.Input == Output, Downstream.Failure == Failure {
+  final class TaskSubscription<Downstream: Subscriber>: Combine.Subscription where Downstream.Input == Output, Downstream.Failure == Failure {
     private var handle: Task<Output, Failure>?
     private let work: () async throws -> Output
     private let subscriber: Downstream

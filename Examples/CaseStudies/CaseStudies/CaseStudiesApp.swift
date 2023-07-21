@@ -8,8 +8,8 @@ struct CaseStudiesApp: App {
     WindowGroup {
       HookRoot {
         AtomRoot {
-//          ContentView()
-          ExampleActionStateListenerView()
+          ContentView()
+//          ExampleActionStateListenerView()
         }
       }
     }
