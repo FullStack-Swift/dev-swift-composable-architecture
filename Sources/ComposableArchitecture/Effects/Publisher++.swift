@@ -1,13 +1,21 @@
 import Combine
 
-public extension Publisher where Output == Never, Failure == Never {
-  func start() -> Cancellable {
+extension Set where Element: AnyCancellable {
+  public func dispose() {
+    for item in self {
+      item.cancel()
+    }
+  }
+}
+
+extension Publisher where Output == Never, Failure == Never {
+   public func start() -> Cancellable {
     return sink(receiveValue: { _ in })
   }
 }
 
-public extension Publisher where Self.Failure == Never {
-  func assign<Root: AnyObject>(
+ extension Publisher where Self.Failure == Never {
+   public func assign<Root: AnyObject>(
     to keyPath: WritableKeyPath<Root, Self.Output>,
     weakly object: Root
   ) -> AnyCancellable {
@@ -17,8 +25,8 @@ public extension Publisher where Self.Failure == Never {
   }
 }
 
-public extension Publisher {
-  func replaceError(
+ extension Publisher {
+   public func replaceError(
     replace: @escaping (Failure) -> Self.Output
   ) -> AnyPublisher<Self.Output, Never> {
     return `catch` { error in
@@ -26,7 +34,7 @@ public extension Publisher {
     }.eraseToAnyPublisher()
   }
 
-  func ignoreError() -> AnyPublisher<Output, Never> {
+   public func ignoreError() -> AnyPublisher<Output, Never> {
     return `catch` { _ in
       Empty()
     }.eraseToAnyPublisher()
@@ -34,7 +42,7 @@ public extension Publisher {
 }
 
 extension AnyPublisher {
-  func bindValue<S: Subject>(
+  public func bindValue<S: Subject>(
     subject: S
   ) -> AnyCancellable where S.Output == Output?, S.Failure == Failure {
     sink { completion in
@@ -52,9 +60,7 @@ public extension AnyPublisher where Failure == Never {
   }
 }
 
-public typealias ActionSubject<Action> = PassthroughSubject<Action, Never>
 
-public typealias ObservableEvent = PassthroughSubject<(), Never>
 
 extension CurrentValueSubject {
   public func commit(_ block: (inout Output) -> Void) {
@@ -66,7 +72,7 @@ extension CurrentValueSubject {
 
 extension Publisher where Failure == Never {
   /// Converts publisher to AsyncSequence
-  var valuesAsync: any AsyncSequence {
+  public var valuesAsync: any AsyncSequence {
     if #available(iOS 15, macOS 12, tvOS 15, watchOS 8, *) {
       return values
     } else {
@@ -77,7 +83,7 @@ extension Publisher where Failure == Never {
 
 /// AsyncSequence from a Publisher that never errors.
 /// Combine.AsyncPublisher is used when available, otherwise AsyncStream is used.
-struct _AsyncPublisher<P>: AsyncSequence where P: Publisher, P.Failure == Never {
+private struct _AsyncPublisher<P>: AsyncSequence where P: Publisher, P.Failure == Never {
   typealias Element = P.Output
 
   private let publisher: P

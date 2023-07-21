@@ -21,6 +21,10 @@ public struct RecoilLocalContext: AtomWatchableContext {
     state.observable.objectWillChange
   }
   
+  public var observable: ObservableListener {
+    state.observable
+  }
+  
   @discardableResult
   public func waitForUpdate(timeout interval: TimeInterval? = nil) async -> Bool {
     let updates = AsyncStream<Void> { continuation in
@@ -357,7 +361,7 @@ private class RecoilLocalObservable: ObservableObject {
   @RecoilLocalViewContext
   var context
   
-  var cancellables: Set<AnyCancellable> = []
+  var cancellables: SetCancellables = []
   
   init() {
     context.objectWillChange.sink { [weak self] _ in

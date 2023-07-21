@@ -106,9 +106,9 @@ public class Getter {
   }
   
   public func callAsFunction<T>(_ atom: Provider<T>) -> T {
-    dependecies[atom.id] = atom.objectWillChange.sink {
-      self.sink()
-    }
+//    dependecies[atom.id] = atom.objectWillChange.sink {
+//      self.sink()
+//    }
     
     return atom.value
   }
@@ -116,18 +116,18 @@ public class Getter {
 
 
 class Source<T>: ObservableObject {
-  let objectWillChange: ObservableObjectPublisher
+//  let objectWillChange: ObservableObjectPublisher
   var valueProvider: () -> T
   
   var value: T { valueProvider() }
   
   public init(node: Provider<T>) {
-    self.objectWillChange = node.objectWillChange
+//    self.objectWillChange = node.objectWillChange
     self.valueProvider = { node.value }
   }
   
   init(selector: Selector<T>) {
-    self.objectWillChange = selector.objectWillChange
+//    self.objectWillChange = selector.objectWillChange
     self.valueProvider = { selector.value }
   }
 }

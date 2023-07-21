@@ -5,7 +5,7 @@ import SwiftUI
 /// Primitive and flexible state management
 
 // MARK: Atom
-public func atom<State>(
+public func atomValue<State>(
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) -> State
 ) -> MValueAtom<State> {
@@ -14,7 +14,7 @@ public func atom<State>(
   }
 }
 
-public func atom<State>(
+public func atomValue<State>(
   id: String,
   _ initialState: State
 ) -> MValueAtom<State> {
@@ -23,7 +23,7 @@ public func atom<State>(
   }
 }
 
-public func atom<State>(
+public func atomState<State>(
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) -> State
 ) -> MStateAtom<State> {
@@ -32,30 +32,30 @@ public func atom<State>(
   }
 }
 
-public func atom<State>(
+public func atomState<State>(
   id: String,
   _ initialState: State
 ) -> MStateAtom<State> {
-  atom(id: id) { _ in
+  MStateAtom<State>(id: id) { _ in
     initialState
   }
 }
 
-public func atom<State>(
+public func atomTask<State>(
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) async -> State
 ) -> MTaskAtom<State> {
   MTaskAtom(id: id, initialState)
 }
 
-public func atom<State>(
+public func atomTask<State>(
   id: String,
   _ initialState: @escaping () async -> State
 ) -> MTaskAtom<State> {
   MTaskAtom(id: id, initialState)
 }
 
-public func atom<State>(
+public func atomThrowingTask<State>(
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) async throws -> State
 ) -> MThrowingTaskAtom<State> {
@@ -63,14 +63,14 @@ public func atom<State>(
 }
 
 
-public func atom<State>(
+public func atomThrowingTask<State>(
   id: String,
   _ initialState: @escaping () async throws -> State
 ) -> MThrowingTaskAtom<State> {
   MThrowingTaskAtom(id: id, initialState)
 }
 
-public func atom<Publisher: Combine.Publisher>(
+public func atomPublisher<Publisher: Combine.Publisher>(
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) -> Publisher
 ) -> MPublisherAtom<Publisher> {
@@ -78,7 +78,7 @@ public func atom<Publisher: Combine.Publisher>(
 }
 
 
-public func atom<Publisher: Combine.Publisher>(
+public func atomPublisher<Publisher: Combine.Publisher>(
   id: String,
   _ initialState: Publisher
 ) -> MPublisherAtom<Publisher> {

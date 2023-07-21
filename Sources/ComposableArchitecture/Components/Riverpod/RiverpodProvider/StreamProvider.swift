@@ -1,10 +1,11 @@
 import Foundation
 
+/// Returns a Stream of any type
+/// A stream of results from an API
 open class StreamProvider<T>: ProviderProtocol {
-  /// Returns a Stream of any type
-  /// A stream of results from an API
   
-  @Published
+  public var observable: ObservableListener = ObservableListener()
+  
   public var value: AsyncPhase<T, Error>
   
   let operation: () async throws -> T
@@ -42,7 +43,7 @@ open class StreamProvider<T>: ProviderProtocol {
       catch {
         phase = .failure(error)
       }
-      
+      observable.send()
       if !Task.isCancelled {
         value = phase
       }

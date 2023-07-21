@@ -138,11 +138,12 @@ public final class Store<State, Action> {
   #endif
 
   @_spi(Internals) public var storage = Storage()
-  @_spi(Internals) public var action = ActionSubject<Action>()
-//  public var onChangedState: (() -> Void)?
+
+  @ActionListener<Action>
+  @_spi(Internals) public var action
   
   @ObservableListener
-  var observable
+  @_spi(Internals) public var observable
   
   /// Initializes a store from an initial state and a reducer.
   ///
@@ -171,6 +172,7 @@ public final class Store<State, Action> {
     }
   }
 
+  /// Returns the resulting value of a given key path.
   public subscript<Value>(dynamicMember keyPath: WritableKeyPath<State, Value>) -> Value {
     get { self.state.value[keyPath: keyPath] }
     set {
@@ -947,13 +949,17 @@ extension Store {
 }
 
 extension Store {
-  public func sinkState(_ completion: @escaping (State) -> Void) -> Cancellable {
+  public func sinkState(
+    _ completion: @escaping (State) -> Void
+  ) -> Cancellable {
     state.eraseToAnyPublisher()
       .sink(receiveValue: completion)
   }
   
-  public func sinkAction(_ completion: @escaping (Action) -> Void) -> Cancellable {
-    action.eraseToAnyPublisher()
+  public func sinkAction(
+    _ completion: @escaping (Action) -> Void
+  ) -> Cancellable {
+    $action.eraseToAnyPublisher()
       .sink(receiveValue: completion)
   }
 }

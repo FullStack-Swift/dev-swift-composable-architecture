@@ -60,9 +60,7 @@ where Node.Loader: AsyncAtomLoader {
   @MainActor
   func dispose(state: State) {
     state.task = nil
-    for cancellable in state.cancellables {
-      cancellable.cancel()
-    }
+    state.cancellables.dispose()
   }
 }
 
@@ -75,7 +73,7 @@ extension RecoilThrowingTaskHook {
 
     var node: Node
     var phase = Value.suspending
-    var cancellables: Set<AnyCancellable> = []
+    var cancellables: SetCancellables = []
     var task: Task<Void, Never>? {
       didSet {
         oldValue?.cancel()

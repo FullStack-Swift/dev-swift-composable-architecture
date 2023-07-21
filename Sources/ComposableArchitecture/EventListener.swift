@@ -61,7 +61,11 @@ fileprivate final class ActionListenerViewModel<Action> {
   
   fileprivate let actionSubject = ActionSubject<Action>()
   
-  fileprivate var cancellables = Set<AnyCancellable>()
+  fileprivate var cancellables = SetCancellables()
+  
+  fileprivate init() {
+    
+  }
   
   deinit {
     for cancellable in cancellables {
@@ -78,22 +82,22 @@ fileprivate final class ActionListenerViewModel<Action> {
 @propertyWrapper
 public struct StateListener<State> {
   
-  private let viewModel = StateListenerViewModel<State>()
+  private let viewModel: StateListenerViewModel<State>
   
-  public init() {
-    
+  public init(_ initialValue: State) {
+    viewModel = StateListenerViewModel(initialValue)
   }
   
   public var wrappedValue: Self {
     self
   }
   
-  public var projectedValue: ActionSubject<State> {
+  public var projectedValue: StateSubject<State> {
     viewModel.stateSubject
   }
   
   /// the publisher State
-  public var publisher: ActionSubject<State> {
+  public var publisher: StateSubject<State> {
     viewModel.stateSubject
   }
   
@@ -119,9 +123,13 @@ public struct StateListener<State> {
 
 fileprivate final class StateListenerViewModel<State> {
   
-  fileprivate let stateSubject = ActionSubject<State>()
+  fileprivate let stateSubject: StateSubject<State>
   
-  fileprivate var cancellables = Set<AnyCancellable>()
+  fileprivate var cancellables = SetCancellables()
+  
+  fileprivate init(_ initialValue: State) {
+    stateSubject = StateSubject(initialValue)
+  }
   
   deinit {
     for cancellable in cancellables {

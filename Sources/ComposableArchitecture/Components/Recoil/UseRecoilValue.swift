@@ -5,16 +5,16 @@ import Combine
 /// - Parameters:
 ///   - fileID: fileID description
 ///   - line: line description
-///   - initialState: initialState description
+///   - initialNode: initialState description
 /// - Returns: Value from AtomLoader
 @MainActor
 public func useRecoilValue<Node: Atom>(
   fileID: String = #fileID,
   line: UInt = #line,
-  _ initialState: Node
+  _ initialNode: Node
 ) -> Node.Loader.Value {
   useRecoilValue(fileID: fileID, line: line) {
-    initialState
+    initialNode
   }
 }
 
@@ -22,72 +22,46 @@ public func useRecoilValue<Node: Atom>(
 /// - Parameters:
 ///   - fileID: fileID description
 ///   - line: line description
-///   - initialState: initialState description
+///   - initialNode: initialState description
 /// - Returns: description
 @MainActor
 public func useRecoilValue<Node: Atom>(
   fileID: String = #fileID,
   line: UInt = #line,
-  _ initialState: @escaping() -> Node
+  _ initialNode: @escaping() -> Node
 ) -> Node.Loader.Value {
-  useHook(RecoilValueHook<Node>(initialState: initialState))
+  useHook(
+    RecoilValueHook<Node>(
+      initialNode: initialNode,
+      location: SourceLocation(fileID: fileID, line: line)
+    )
+  )
 }
 
-private struct RecoilValueHook<Node: Atom>: Hook {
+private struct RecoilValueHook<Node: Atom>: RecoilHook {
+  
+  typealias State = RecoilHookRef<Node>
   
   typealias Value = Node.Loader.Value
   
-  let initialState: () -> Node
   let updateStrategy: HookUpdateStrategy? = .once
   
-  @MainActor
-  func makeState() -> State {
-    State(initialState: initialState())
+  let initialNode: () -> Node
+  
+  let location: SourceLocation
+  
+  init(
+    updateStrategy: HookUpdateStrategy? = .once,
+    initialNode: @escaping () -> Node,
+    location: SourceLocation
+  ) {
+    self.initialNode = initialNode
+    self.location = location
   }
   
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    coordinator.state.context.objectWillChange
-      .sink(receiveValue: coordinator.updateView)
-      .store(in: &coordinator.state.cancellables)
+    coordinator.recoilUpdateView()
     return coordinator.state.value
-  }
-  
-  @MainActor
-  func updateState(coordinator: Coordinator) {
-    guard !coordinator.state.isDisposed else {
-      return
-    }
-  }
-  
-  @MainActor
-  func dispose(state: State) {
-    state.isDisposed = true
-    for cancellable in state.cancellables {
-      cancellable.cancel()
-    }
-  }
-}
-
-private extension RecoilValueHook {
-  // MARK: State
-  final class State {
-
-    @RecoilGlobalViewContext
-    var context
-
-    var node: Node
-    var cancellables: Set<AnyCancellable> = []
-    var isDisposed = false
-
-    init(initialState: Node) {
-      self.node = initialState
-    }
-
-    /// Get current value from Recoilcontext
-    @MainActor
-    var value: Value {
-      context.watch(node)
-    }
   }
 }

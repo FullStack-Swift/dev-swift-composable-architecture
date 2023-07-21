@@ -358,7 +358,7 @@ private extension RecoilValueHook {
     
     let context: Context
     var state: Node
-    var cancellables: Set<AnyCancellable> = []
+    var cancellables: SetCancellables = []
     var isDisposed = false
     
     init(initialState: Node, context: Context) {
@@ -431,7 +431,7 @@ private extension RecoilStateHook {
     
     let context: Context
     var state: Node
-    var cancellables: Set<AnyCancellable> = []
+    var cancellables: SetCancellables = []
     var isDisposed = false
     
     init(initialState: Node, context: Context) {

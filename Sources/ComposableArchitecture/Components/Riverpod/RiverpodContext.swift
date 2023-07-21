@@ -6,7 +6,7 @@ public struct RiverpodContext {
   
   private(set) weak var weakStore: RiverpodStore?
   
-  private var cancellables = Set<AnyCancellable>()
+  private var cancellables = SetCancellables()
   
   @ObservableListener
   var observable
@@ -24,7 +24,6 @@ public struct RiverpodContext {
   
   static func scoped(store: RiverpodStore) -> Self {
     Self.init(weakStore: store)
-    
   }
   
   @discardableResult
@@ -33,6 +32,7 @@ public struct RiverpodContext {
       return node.value
     } else {
       store.state.value.updateOrAppend(node.eraseAnyProvider())
+      node.observable.sink(observable.send)
       return node.value
     }
   }
@@ -42,6 +42,7 @@ public struct RiverpodContext {
     if let node = store.state.value[id: node.id]?.wrapped as? Node {
       return node.value
     } else {
+      node.observable.sink(observable.send)
       store.state.value.updateOrAppend(node.eraseAnyProvider())
       return node.value
     }
@@ -49,8 +50,23 @@ public struct RiverpodContext {
   
   @discardableResult
   public func set<Node: ProviderProtocol>(_ node: Node) -> Node.Value {
+    if let node = store.state.value[id: node.id]?.wrapped as? Node {
+      return node.value
+    } else {
+      node.observable.sink(observable.send)
+      store.state.value.updateOrAppend(node.eraseAnyProvider())
+      return node.value
+    }
+  }
+  
+  @discardableResult
+  public func update<Node: ProviderProtocol>(node: Node, newValue: Node.Value) -> Node.Value {
     store.state.value.updateOrAppend(node.eraseAnyProvider())
-    return node.value
+    var newNode = node
+    newNode.value = newValue
+    store.state.value[id: node.id] = newNode.eraseAnyProvider()
+    observable.send()
+    return newNode.value
   }
   
   @discardableResult
@@ -58,10 +74,8 @@ public struct RiverpodContext {
     Binding {
       read(node)
     } set: { newValue in
-      node.value = newValue
-      set(node)
+      update(node: node, newValue: newValue)
     }
-
   }
   
   public func removeAll() {
@@ -69,6 +83,6 @@ public struct RiverpodContext {
   }
   
   var store: RiverpodStore {
-    weakStore ?? .shared
+    weakStore ?? .identity
   }
 }

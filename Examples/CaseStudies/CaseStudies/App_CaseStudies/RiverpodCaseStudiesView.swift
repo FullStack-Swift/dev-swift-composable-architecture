@@ -79,62 +79,21 @@ class _FutureProvider: FutureProvider<AnyPublisher<String, Never>> {
 
 let futureProvider = _FutureProvider()
 
-// Consumes the shared state and rebuild when it changes
 private struct _CounterView: RiverpodView {
   
-//  class Counter: StateProvider<Int> {
-//
-//    init() {
-//      super.init(0)
-//    }
-//
-//    func increment() {
-//      value += 1
-//    }
-//
-//    func decrement() {
-//      value -= 1
-//    }
-//
-//  }
-//
-//  class _FutureProvider: FutureProvider<AnyPublisher<String, Never>> {
-//
-//    let current = CurrentValueSubject<Int, Never>(0)
-//
-//    init() {
-//      super.init { [current] in
-//        current
-//          .map(\.description)
-//          .delay(for: 1, scheduler: UIScheduler.shared)
-//          .eraseToAnyPublisher()
-//      }
-//    }
-//
-//    override func refresh() {
-//      current.value += 1
-//      super.refresh()
-//    }
-//  }
-//
-//  let counter = Counter()
-//
-//  let futureProvider = _FutureProvider()
+  let counterProvider = StateNotifierProvider<Counter> {
+    counter
+  }
+  
+  let publisherProvider = StateNotifierProvider<_FutureProvider> {
+    futureProvider
+  }
   
   func build(context: Context, ref: ViewRef) -> some View {
-
-    let counterProvider = StateNotifierProvider<Counter> {
-      counter
-    }
-    
-    let publisherProvider = StateNotifierProvider<_FutureProvider> {
-      futureProvider
-    }
-
     VStack {
       HStack {
-        let phase = ref.watch(futureProvider)
-//        let phase = ref.watch(publisherProvider)
+//        let phase = ref.watch(futureProvider)
+        let phase = ref.watch(publisherProvider)
         AsyncPhaseView(phase: phase) { text in
           Text(text)
             .font(.largeTitle)
@@ -151,34 +110,37 @@ private struct _CounterView: RiverpodView {
           counter.value += 1
         }
         Text(ref.watch(counterProvider).description)
-          .font(.largeTitle)
         Button("-") {
           counter.value += 1
         }
       }
+      .font(.largeTitle)
       .foregroundColor(.accentColor)
       HStack {
         Button("+") {
           counter.increment()
         }
         Text(ref.watch(counterProvider).description)
-          .font(.largeTitle)
         Button("-") {
           counter.decrement()
         }
       }
+      .font(.largeTitle)
       .foregroundColor(.accentColor)
       HStack {
         Button("+") {
           counterProvider.state.increment()
         }
         Text(ref.watch(counterProvider).description)
-          .font(.largeTitle)
         Button("-") {
           counterProvider.state.decrement()
         }
       }
+      .font(.largeTitle)
       .foregroundColor(.accentColor)
+    }
+    .onAppear {
+      futureProvider.refresh()
     }
   }
 }

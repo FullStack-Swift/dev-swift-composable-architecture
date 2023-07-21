@@ -218,8 +218,8 @@ private struct HookRecord<H: Hook>: HookRecordProtocol {
     String(describing: type(of: hook))
   }
   
-  func state<H: Hook>(of hookType: H.Type) -> H.State? {
-    coordinator.state as? H.State
+  func state<HookType: Hook>(of hookType: HookType.Type) -> HookType.State? {
+    coordinator.state as? HookType.State
   }
   
   func shouldUpdate<New: Hook>(newHook: New) -> Bool {

@@ -32,6 +32,7 @@ public extension AsyncUseCaseProtocol where Self.Input == Void {
 }
 
 public protocol IOCaseProtocol {
+  
   associatedtype Input
   
   associatedtype Output

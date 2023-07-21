@@ -3,20 +3,36 @@ import Foundation
 
 /// Returns any type
 /// A filter condition / simple state object
-open class StateProvider<T>: ProviderProtocol {
+open class ValueProvider<T>: ProviderProtocol {
   
   public var observable: ObservableListener = ObservableListener()
   
+  open var result: T {
+    fatalError()
+  }
+  
   public var value: T {
-    willSet {
-      observable.send()
+    get {
+      result
+    }
+    set {
+      
     }
   }
   
+  private var _value: T?
+  
+  @Dependency(\.riverpodContext)
+  public var context
+  
   public let id = UUID()
   
+  public init() {
+    _value = nil
+  }
+  
   public init(_ initialState: T) {
-    self.value = initialState
+    self._value = initialState
   }
   
   public convenience init(_ initialState: () -> T) {
@@ -25,7 +41,8 @@ open class StateProvider<T>: ProviderProtocol {
   
   public convenience init(_ initialState: (RiverpodContext) -> T) {
     @Dependency(\.riverpodContext)
-    var riverpodContext
-    self.init(initialState(riverpodContext))
+    var context
+    self.init(initialState(context))
+//    context.observable.sink(observable.send)
   }
 }

@@ -44,7 +44,7 @@ import SwiftUI
 ///
 public struct AtomRoot<Content: View>: View {
   @StateObject
-  private var state = State()
+  private var state = State.identity
   private var overrides = [OverrideKey: any AtomOverrideProtocol]()
   private var observers = [Observer]()
   private let content: Content
@@ -112,15 +112,19 @@ public struct AtomRoot<Content: View>: View {
 }
 
 private extension AtomRoot {
-  @MainActor
-  final class State: ObservableObject {
-    let store = AtomStore()
-    let token = ScopeKey.Token()
-  }
-  
+
   func `mutating`(_ mutation: (inout Self) -> Void) -> Self {
     var view = self
     mutation(&view)
     return view
   }
+}
+
+@MainActor
+private final class State: ObservableObject {
+  
+  static let identity = State()
+  
+  let store = AtomStore()
+  let token = ScopeKey.Token()
 }

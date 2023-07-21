@@ -128,7 +128,7 @@ extension RecoilPublisherRefresherHook {
     var context
     var node: Node
     var phase: Phase = .suspending
-    var cancellables: Set<AnyCancellable> = []
+    var cancellables: SetCancellables = []
     var isDisposed = false
     var task: Task<Void, Never>? {
       didSet {
@@ -309,7 +309,7 @@ extension RecoilThrowingTaskRefresherHook {
     var state: Node
     var phase = Phase.suspending
     var isDisposed = false
-    var cancellables: Set<AnyCancellable> = []
+    var cancellables: SetCancellables = []
     var task: Task<Void, Never>? {
       didSet {
         oldValue?.cancel()

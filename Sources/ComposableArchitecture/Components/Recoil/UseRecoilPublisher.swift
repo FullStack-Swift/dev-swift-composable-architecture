@@ -67,7 +67,7 @@ extension RecoilPublisherHook {
     var node: Node
     var phase = Value.suspending
     var isDisposed = false
-    var cancellables: Set<AnyCancellable> = []
+    var cancellables: SetCancellables = []
 
     init(initialState: Node) {
       self.node = initialState

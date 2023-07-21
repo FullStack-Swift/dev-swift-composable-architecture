@@ -12,12 +12,12 @@ public struct LocalViewContext: DynamicProperty {
 
   private let location: SourceLocation
   
-  public init(fileID: String = #fileID, line: UInt = #line) {
-    location = SourceLocation(fileID: fileID, line: line)
-  }
-  
   init(location: SourceLocation) {
     self.location = location
+  }
+  
+  public init(fileID: String = #fileID, line: UInt = #line) {
+    location = SourceLocation(fileID: fileID, line: line)
   }
 
   public var wrappedValue: AtomLocalViewContext {

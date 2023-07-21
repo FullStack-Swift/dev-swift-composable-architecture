@@ -7,16 +7,20 @@ public struct RecoilGlobalContext: AtomWatchableContext {
   private let state = State.identity
   private let location: SourceLocation
 
-  public init(fileID: String = #fileID, line: UInt = #line) {
-    location = SourceLocation(fileID: fileID, line: line)
-  }
-  
   init(location: SourceLocation) {
     self.location = location
   }
   
+  public init(fileID: String = #fileID, line: UInt = #line) {
+    location = SourceLocation(fileID: fileID, line: line)
+  }
+  
   public var objectWillChange: AnyPublisher<Void, Never> {
     state.observable.objectWillChange
+  }
+  
+  public var observable: ObservableListener {
+    state.observable
   }
   
   @discardableResult
@@ -139,7 +143,7 @@ extension RecoilGlobalContext: RecoilProtocol {
   }
 }
 
-// MARK: View Unit
+// MARK: PropertyWrapper
 
 @MainActor
 @propertyWrapper
@@ -369,7 +373,7 @@ private class RecoilGlobalObservable: ObservableObject {
   @RecoilGlobalViewContext
   var context
   
-  var cancellables: Set<AnyCancellable> = []
+  var cancellables: SetCancellables = []
   
   init() {
     context.objectWillChange.sink { [weak self] _ in

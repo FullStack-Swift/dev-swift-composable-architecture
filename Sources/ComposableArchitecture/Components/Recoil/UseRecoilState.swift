@@ -3,35 +3,49 @@ import Combine
 
 // MARK: useRecoilState
 public func useRecoilState<Node: StateAtom>(
-  _ initialState: Node
+  fileID: String = #fileID,
+  line: UInt = #line,
+  _ initialNode: Node
 ) -> Binding<Node.Loader.Value> {
-  useRecoilState({initialState})
+  useRecoilState(fileID: fileID, line: line) {
+    initialNode
+  }
 }
 
 // MARK: useRecoilState
 public func useRecoilState<Node: StateAtom>(
-  _ initialState: @escaping() -> Node
+  fileID: String = #fileID,
+  line: UInt = #line,
+  _ initialNode: @escaping() -> Node
 ) -> Binding<Node.Loader.Value> {
-  useHook(RecoilStateHook<Node>(initialState: initialState))
+  useHook(
+    RecoilStateHook<Node>(
+      initialNode: initialNode,
+      location: SourceLocation(fileID: fileID, line: line)
+    )
+  )
 }
 
-private struct RecoilStateHook<Node: StateAtom>: Hook {
+private struct RecoilStateHook<Node: StateAtom>: RecoilHook {
+  
+  typealias State = RecoilHookRef<Node>
   
   typealias Value = Binding<Node.Loader.Value>
   
-  let initialState: () -> Node
   let updateStrategy: HookUpdateStrategy? = .once
   
-  @MainActor
-  func makeState() -> State {
-    State(initialState: initialState())
+  let initialNode: () -> Node
+  
+  let location: SourceLocation
+
+  init(initialNode: @escaping () -> Node, location: SourceLocation) {
+    self.initialNode = initialNode
+    self.location = location
   }
   
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    coordinator.state.context.objectWillChange
-      .sink(receiveValue: coordinator.updateView)
-      .store(in: &coordinator.state.cancellables)
+    coordinator.recoilUpdateView()
     return Binding(
       get: {
         coordinator.state.context.watch(coordinator.state.node)
@@ -48,36 +62,4 @@ private struct RecoilStateHook<Node: StateAtom>: Hook {
       }
     )
   }
-  
-  @MainActor
-  func dispose(state: State) {
-    state.isDisposed = true
-    for cancellable in state.cancellables {
-      cancellable.cancel()
-    }
-  }
 }
-
-private extension RecoilStateHook {
-  // MARK: State
-  final class State {
-
-    @RecoilGlobalViewContext
-    var context
-
-    var node: Node
-    var cancellables: Set<AnyCancellable> = []
-    var isDisposed = false
-    
-    init(initialState: Node) {
-      self.node = initialState
-    }
-
-    /// Get current value from Recoilcontext
-    var value: Value {
-      context.state(node)
-    }
-  }
-}
-
-typealias StoreCancellables = Set<AnyCancellable>

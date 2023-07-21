@@ -60,13 +60,12 @@ public struct ObservableListener {
   }
 }
 
-
 /// ViewModel
 fileprivate final class ObservableListenerViewModel {
   
   fileprivate let observableEvent = ObservableEvent()
   
-  fileprivate var cancellables = Set<AnyCancellable>()
+  fileprivate var cancellables = SetCancellables()
   
   deinit {
     for cancellable in cancellables {

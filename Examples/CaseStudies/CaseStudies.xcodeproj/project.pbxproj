@@ -26,6 +26,7 @@
 		90ACBBB82A4B4EE10041D7E2 /* RiverpodTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBB32A4B4EE10041D7E2 /* RiverpodTodoView.swift */; };
 		90FDE91D2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FDE91C2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift */; };
 		EB92CD102A5C1705007640AF /* RecoilUseCaseStudies2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */; };
+		EBBC4A412A6A930B0052FD1F /* APIRequestPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		90ACBBB32A4B4EE10041D7E2 /* RiverpodTodoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiverpodTodoView.swift; sourceTree = "<group>"; };
 		90FDE91C2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverpodCaseStudiesView.swift; sourceTree = "<group>"; };
 		EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoilUseCaseStudies2View.swift; sourceTree = "<group>"; };
+		EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 		90ACBBAE2A4B4EE10041D7E2 /* App_Todos */ = {
 			isa = PBXGroup;
 			children = (
+				EBBC4A3F2A6A92FD0052FD1F /* Examples */,
 				87ABACAF2A4D1C3F00545682 /* Architecture */,
 				90ACBBAF2A4B4EE10041D7E2 /* TCATodoView.swift */,
 				90ACBBB02A4B4EE10041D7E2 /* HookTodoView.swift */,
@@ -142,6 +145,14 @@
 				EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */,
 			);
 			path = App_CaseStudies;
+			sourceTree = "<group>";
+		};
+		EBBC4A3F2A6A92FD0052FD1F /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */,
+			);
+			path = Examples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +247,7 @@
 				90ACBBB42A4B4EE10041D7E2 /* TCATodoView.swift in Sources */,
 				87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */,
 				876C21B52A4023A600B980DA /* TCACaseStudiesView.swift in Sources */,
+				EBBC4A412A6A930B0052FD1F /* APIRequestPage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

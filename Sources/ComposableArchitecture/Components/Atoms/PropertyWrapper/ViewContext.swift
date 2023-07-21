@@ -52,7 +52,9 @@ public struct ViewContext: DynamicProperty {
   /// access ``wrappedValue`` directly.
   /// Instead, you use the property variable created with the `@ViewContext` attribute.
   public var wrappedValue: GlobalViewContext {
-    GlobalViewContext(store: _store, container: state.container.wrapper(location: location)) {
+    GlobalViewContext(
+      store: _store,
+      container: state.container.wrapper(location: location)) {
       state.objectWillChange.send()
     }
   }

@@ -1,18 +1,19 @@
 import SwiftUI
 import Combine
 
-open class ChangeNotifierProvider<P: ProviderProtocol>: ProviderProtocol
-where P.ObjectWillChangePublisher == ObservableObjectPublisher {
-  /// Returns a subclass of ChangeNotifier
-  /// A complex state object that requires mutability
+/// Returns a subclass of ChangeNotifier
+/// A complex state object that requires mutability
+open class ChangeNotifierProvider<P: ProviderProtocol>: ProviderProtocol {
   
-  @Republished
+  public var observable: ObservableListener = ObservableListener()
+  
   public var state: P
   
   public var value: P.Value {
     get {
       state.value
     } set {
+      observable.send()
       state.value = newValue
     }
   }
@@ -20,7 +21,7 @@ where P.ObjectWillChangePublisher == ObservableObjectPublisher {
   public let id = UUID()
   
   public init(_ initialState: P) {
-    self._state = Republished(wrappedValue: initialState)
+    self.state = initialState
   }
   
   public convenience init(_ initialState: () -> P) {

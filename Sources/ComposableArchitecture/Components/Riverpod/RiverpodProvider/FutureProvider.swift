@@ -1,15 +1,12 @@
 import Combine
 import Foundation
 
-@propertyWrapper
+/// Returns a Future of any type
+/// A result from an API call
 open class FutureProvider<P: Publisher>: ProviderProtocol {
-  public var wrappedValue: AsyncPhase<P.Output, P.Failure> {
-    value
-  }
-  /// Returns a Future of any type
-  /// A result from an API call
   
-  @Published
+  public var observable: ObservableListener = ObservableListener()
+
   public var value: AsyncPhase<P.Output, P.Failure>
   
   private var cancellable: AnyCancellable?
@@ -21,7 +18,7 @@ open class FutureProvider<P: Publisher>: ProviderProtocol {
   public init(_ initialState: @escaping () -> P) {
     self.value = .suspending
     self.makePublisher = initialState
-    refresh()
+//    refresh()
   }
   
   public convenience init(_ initialState: P) {
@@ -41,9 +38,11 @@ open class FutureProvider<P: Publisher>: ProviderProtocol {
         case .finished:
           break
         case .failure(let error):
+          self?.observable.send()
           self?.value = .failure(error)
       }
     } receiveValue: { [weak self] output in
+      self?.observable.send()
       self?.value = .success(output)
     }
   }

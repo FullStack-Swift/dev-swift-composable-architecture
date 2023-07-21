@@ -1,36 +1,71 @@
 import Foundation
 import Combine
 
-// MARK: useRecoilTask
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
 public func useRecoilTask<Node: TaskAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ updateStrategy: HookUpdateStrategy,
-  _ initialState: Node
+  _ initialNode: Node
 ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
 where Node.Loader: AsyncAtomLoader {
-  useRecoilTask(updateStrategy, {initialState})
+  useRecoilTask(fileID: fileID, line: line, updateStrategy) {
+    initialNode
+  }
 }
 
-// MARK: useRecoilTask
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
 public func useRecoilTask<Node: TaskAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ updateStrategy: HookUpdateStrategy,
-  _ initialState: @escaping() -> Node
+  _ initialNode: @escaping() -> Node
 ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
 where Node.Loader: AsyncAtomLoader {
-  useHook(RecoilTaskHook<Node>(initialState: initialState, updateStrategy: updateStrategy))
+  useHook(
+    RecoilTaskHook<Node>(
+      updateStrategy: updateStrategy,
+      initialNode: initialNode,
+      location: SourceLocation(fileID: fileID, line: line)
+    )
+  )
 }
 
 private struct RecoilTaskHook<Node: TaskAtom>: Hook where Node.Loader: AsyncAtomLoader {
   
   typealias Value = AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
   
-  let initialState: () -> Node
   let updateStrategy: HookUpdateStrategy?
-
+  
+  let initialNode: () -> Node
+  
+  let location: SourceLocation
+  
+  init(
+    updateStrategy: HookUpdateStrategy,
+    initialNode: @escaping () -> Node,
+    location: SourceLocation
+  ) {
+    self.updateStrategy = updateStrategy
+    self.initialNode = initialNode
+    self.location = location
+  }
+  
   @MainActor
   func makeState() -> State {
-    State(initialState: initialState())
+    State(initialState: initialNode())
   }
-
+  
   @MainActor
   func value(coordinator: Coordinator) -> Value {
     coordinator.state.context.objectWillChange
@@ -38,7 +73,7 @@ private struct RecoilTaskHook<Node: TaskAtom>: Hook where Node.Loader: AsyncAtom
       .store(in: &coordinator.state.cancellables)
     return coordinator.state.phase
   }
-
+  
   @MainActor
   func updateState(coordinator: Coordinator) {
     coordinator.state.phase = .suspending
@@ -50,7 +85,7 @@ private struct RecoilTaskHook<Node: TaskAtom>: Hook where Node.Loader: AsyncAtom
       }
     }
   }
-
+  
   @MainActor
   func dispose(state: State) {
     state.task = nil
@@ -63,24 +98,24 @@ private struct RecoilTaskHook<Node: TaskAtom>: Hook where Node.Loader: AsyncAtom
 extension RecoilTaskHook {
   // MARK: State
   final class State {
-
+    
     @RecoilGlobalViewContext
     var context
-
+    
     var node: Node
     var phase = Value.suspending
     
-    var cancellables: Set<AnyCancellable> = []
+    var cancellables: SetCancellables = []
     var task: Task<Void, Never>? {
       didSet {
         oldValue?.cancel()
       }
     }
-
+    
     init(initialState: Node) {
       self.node = initialState
     }
-
+    
     /// Get current value from Recoilcontext
     var value: Value {
       get async {
