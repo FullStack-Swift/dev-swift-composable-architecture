@@ -1,57 +1,107 @@
 import Foundation
 import Combine
 
-// MARK: useRecoilThrowingTask
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useRecoilThrowingTask<Node: ThrowingTaskAtom>(
-  _ updateStrategy: HookUpdateStrategy,
+  fileID: String = #fileID,
+  line: UInt = #line,
+  _ updateStrategy: HookUpdateStrategy = .once,
   _ initialState: Node
 ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
 where Node.Loader: AsyncAtomLoader {
-  useRecoilThrowingTask(updateStrategy, {initialState})
+  useRecoilThrowingTask(fileID: fileID, line: line, updateStrategy) {
+    initialState
+  }
 }
 
-// MARK: useRecoilThrowingTask
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useRecoilThrowingTask<Node: ThrowingTaskAtom>(
-  _ updateStrategy: HookUpdateStrategy,
+  fileID: String = #fileID,
+  line: UInt = #line,
+  _ updateStrategy: HookUpdateStrategy = .once,
   _ initialState: @escaping() -> Node
 ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
 where Node.Loader: AsyncAtomLoader {
   useHook(
     RecoilThrowingTaskHook<Node>(
-      initialState: initialState,
-      updateStrategy: updateStrategy
+      updateStrategy: updateStrategy,
+      initialNode: initialState,
+      location: SourceLocation(fileID: fileID, line: line)
     )
   )
 }
 
-private struct RecoilThrowingTaskHook<Node: ThrowingTaskAtom>: Hook
+private struct RecoilThrowingTaskHook<Node: ThrowingTaskAtom>: RecoilHook
 where Node.Loader: AsyncAtomLoader {
+
+  typealias State = _RecoilHookRef
   
   typealias Value = AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
   
-  let initialState: () -> Node
   let updateStrategy: HookUpdateStrategy?
-
+  
+  let initialNode: () -> Node
+  
+  let location: SourceLocation
+  
+  init(
+    updateStrategy: HookUpdateStrategy,
+    initialNode: @escaping () -> Node,
+    location: SourceLocation
+  ) {
+    self.updateStrategy = updateStrategy
+    self.initialNode = initialNode
+    self.location = location
+  }
+  
   @MainActor
   func makeState() -> State {
-    State(initialState: initialState())
+    State(location: location, initialNode: initialNode())
   }
 
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    coordinator.state.context.objectWillChange
-      .sink(receiveValue: coordinator.updateView)
-      .store(in: &coordinator.state.cancellables)
-    return coordinator.state.phase
+    coordinator.state.phase
   }
 
   @MainActor
   func updateState(coordinator: Coordinator) {
-    coordinator.state.phase = .suspending
+    guard !coordinator.state.isDisposed else {
+      return
+    }
+    coordinator.recoilobservable()
+    coordinator.state.context.observable.publisher.sink {
+      Task { @MainActor in
+        let result = await coordinator.state.value.result
+        if !Task.isCancelled {
+          guard !coordinator.state.isDisposed else {
+            return
+          }
+          coordinator.state.phase = AsyncPhase(result)
+          coordinator.updateView()
+        }
+      }
+    }
+    .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
-      let value = await coordinator.state.value
+      let refresh = await coordinator.state.refresh
       if !Task.isCancelled {
-        coordinator.state.phase = value
+        guard !coordinator.state.isDisposed else {
+          return
+        }
+        coordinator.state.phase = refresh
         coordinator.updateView()
       }
     }
@@ -59,35 +109,27 @@ where Node.Loader: AsyncAtomLoader {
 
   @MainActor
   func dispose(state: State) {
-    state.task = nil
-    state.cancellables.dispose()
+    state.dispose()
   }
 }
 
 extension RecoilThrowingTaskHook {
   // MARK: State
-  final class State {
-
-    @RecoilGlobalViewContext
-    var context
-
-    var node: Node
+  fileprivate final class _RecoilHookRef: RecoilHookRef<Node> {
+    
     var phase = Value.suspending
-    var cancellables: SetCancellables = []
-    var task: Task<Void, Never>? {
-      didSet {
-        oldValue?.cancel()
-      }
+    
+    override init(location: SourceLocation, initialNode: Node) {
+      super.init(location: location, initialNode: initialNode)
     }
-
-    init(initialState: Node) {
-      self.node = initialState
+    
+    var value: Task<Node.Loader.Success, Node.Loader.Failure> {
+      context.watch(node)
     }
-
-    /// Get current value from Recoilcontext
-    var value: Value {
+    
+    var refresh: Value {
       get async {
-        await AsyncPhase(context.watch(node).result)
+        await AsyncPhase(context.refresh(node).result)
       }
     }
   }

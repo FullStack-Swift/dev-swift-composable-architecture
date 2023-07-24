@@ -9,13 +9,13 @@ public protocol RecoilHook: Hook {
   var location: SourceLocation { get }
 }
 
-extension RecoilHook where State == RecoilHookRef<Node> {
+extension RecoilHook where State: RecoilHookRef<Node> {
   
   @MainActor
   func makeState() -> RecoilHookRef<Node> {
     RecoilHookRef(
       location: location,
-      initialState: initialNode()
+      initialNode: initialNode()
     )
   }
   
@@ -39,8 +39,8 @@ extension RecoilHook where State == RecoilHookRef<Node> {
 
 internal class RecoilHookRef<Node: Atom> {
   
-  private(set) var node: Node
-  private(set) var isDisposed = false
+  var node: Node
+  var isDisposed = false
   
   internal var cancellables: SetCancellables = []
   
@@ -55,9 +55,9 @@ internal class RecoilHookRef<Node: Atom> {
   
   internal init(
     location: SourceLocation,
-    initialState: Node
+    initialNode: Node
   ) {
-    node = initialState
+    node = initialNode
     _context = RecoilGlobalViewContext(location: location)
   }
   
@@ -68,47 +68,23 @@ internal class RecoilHookRef<Node: Atom> {
   }
 }
 
-internal extension RecoilHookRef
-where Node: Atom {
-  /// Get  value from RecoilGlobalContext
-  @MainActor
-  var value: Node.Loader.Value {
-    context.watch(node)
-  }
-}
-
-internal extension RecoilHookRef
-where Node: ThrowingTaskAtom, Node.Loader: AsyncAtomLoader {
-  /// Get value from RecoilGlobalContext
-  var value: AsyncPhase<Node.Loader.Success, Node.Loader.Failure> {
-    get async {
-      await AsyncPhase(context.watch(node).result)
-    }
-  }
-}
-
-internal extension RecoilHookRef
-where Node: TaskAtom, Node.Loader: AsyncAtomLoader {
-  /// Get value from RecoilGlobalContext
-  var value: AsyncPhase<Node.Loader.Success, Node.Loader.Failure> {
-    get async {
-      await AsyncPhase(context.watch(node).result)
-    }
-  }
-}
-
 // MARK: HookCoordinator + Recoil
 extension HookCoordinator
-where H: RecoilHook, H.State == RecoilHookRef<H.Node> {
+where H: RecoilHook, H.State: RecoilHookRef<H.Node> {
   
   @MainActor
-  func recoilUpdateView() {
-    state.context.observable
-      .sink {
-        guard !state.isDisposed else {
-          return
+  func recoilobservable() {
+    state.cancellables.dispose()
+    if !state.isDisposed {
+      state.context.observable
+        .objectWillChange
+        .sink {
+          guard !state.isDisposed else {
+            return
+          }
+          updateView()
         }
-        updateView()
-      }
+        .store(in: &state.cancellables)
+    }
   }
 }

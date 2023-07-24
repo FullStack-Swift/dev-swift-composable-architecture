@@ -7,10 +7,11 @@ import Combine
 ///   - line: line description
 ///   - initialNode: initialState description
 /// - Returns: Value from AtomLoader
+@MainActor
 public func useRecoilTask<Node: TaskAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
-  _ updateStrategy: HookUpdateStrategy,
+  _ updateStrategy: HookUpdateStrategy = .once,
   _ initialNode: Node
 ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
 where Node.Loader: AsyncAtomLoader {
@@ -25,10 +26,11 @@ where Node.Loader: AsyncAtomLoader {
 ///   - line: line description
 ///   - initialNode: initialState description
 /// - Returns: Value from AtomLoader
+@MainActor
 public func useRecoilTask<Node: TaskAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
-  _ updateStrategy: HookUpdateStrategy,
+  _ updateStrategy: HookUpdateStrategy = .once,
   _ initialNode: @escaping() -> Node
 ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
 where Node.Loader: AsyncAtomLoader {
@@ -41,7 +43,9 @@ where Node.Loader: AsyncAtomLoader {
   )
 }
 
-private struct RecoilTaskHook<Node: TaskAtom>: Hook where Node.Loader: AsyncAtomLoader {
+private struct RecoilTaskHook<Node: TaskAtom>: RecoilHook where Node.Loader: AsyncAtomLoader {
+
+  typealias State = _RecoilHookRef
   
   typealias Value = AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
   
@@ -63,24 +67,40 @@ private struct RecoilTaskHook<Node: TaskAtom>: Hook where Node.Loader: AsyncAtom
   
   @MainActor
   func makeState() -> State {
-    State(initialState: initialNode())
+    State(location: location, initialNode: initialNode())
   }
   
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    coordinator.state.context.objectWillChange
-      .sink(receiveValue: coordinator.updateView)
-      .store(in: &coordinator.state.cancellables)
-    return coordinator.state.phase
+    coordinator.state.phase
   }
   
   @MainActor
   func updateState(coordinator: Coordinator) {
-    coordinator.state.phase = .suspending
+    guard !coordinator.state.isDisposed else {
+      return
+    }
+//    coordinator.recoilobservable()
+    coordinator.state.context.observable.publisher.sink {
+      Task { @MainActor in
+        let result = await coordinator.state.value.result
+        if !Task.isCancelled {
+          guard !coordinator.state.isDisposed else {
+            return
+          }
+          coordinator.state.phase = AsyncPhase(result)
+          coordinator.updateView()
+        }
+      }
+    }
+    .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
-      let value = await coordinator.state.value
+      let refresh = await coordinator.state.refresh
       if !Task.isCancelled {
-        coordinator.state.phase = value
+        guard !coordinator.state.isDisposed else {
+          return
+        }
+        coordinator.state.phase = refresh
         coordinator.updateView()
       }
     }
@@ -88,38 +108,27 @@ private struct RecoilTaskHook<Node: TaskAtom>: Hook where Node.Loader: AsyncAtom
   
   @MainActor
   func dispose(state: State) {
-    state.task = nil
-    for cancellable in state.cancellables {
-      cancellable.cancel()
-    }
+    state.dispose()
   }
 }
 
 extension RecoilTaskHook {
   // MARK: State
-  final class State {
+  fileprivate final class _RecoilHookRef: RecoilHookRef<Node> {
     
-    @RecoilGlobalViewContext
-    var context
-    
-    var node: Node
     var phase = Value.suspending
     
-    var cancellables: SetCancellables = []
-    var task: Task<Void, Never>? {
-      didSet {
-        oldValue?.cancel()
-      }
+    override init(location: SourceLocation, initialNode: Node) {
+      super.init(location: location, initialNode: initialNode)
     }
     
-    init(initialState: Node) {
-      self.node = initialState
+    var value: Task<Node.Loader.Success, Node.Loader.Failure> {
+      context.watch(node)
     }
     
-    /// Get current value from Recoilcontext
-    var value: Value {
+    var refresh: Value {
       get async {
-        await AsyncPhase(context.watch(node).result)
+        await AsyncPhase(context.refresh(node).result)
       }
     }
   }

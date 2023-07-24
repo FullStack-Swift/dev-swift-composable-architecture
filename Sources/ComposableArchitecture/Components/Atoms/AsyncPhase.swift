@@ -24,6 +24,21 @@ public enum AsyncPhase<Success, Failure: Error> {
     }
   }
   
+  /// Creates a new phase with the given result by mapping either of a `success` or
+  /// a `failure`.
+  ///
+  /// - Parameter result: A result value to be mapped.
+  public init(_ result: TaskResult<Success>) where Failure == Error {
+    switch result {
+      case .success(let value):
+        self = .success(value)
+        
+      case .failure(let error):
+        self = .failure(error)
+    }
+  }
+
+  
   /// Creates a new phase by evaluating a async throwing closure, capturing the
   /// returned value as a success, or any thrown error as a failure.
   ///

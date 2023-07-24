@@ -4,8 +4,18 @@ public typealias RecoilCallback<R> = (RecoilGlobalContext) -> R
 
 public typealias RecoilAsyncCallback<R> = (RecoilGlobalContext) async throws -> R
 
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+
 @discardableResult
-@MainActor public func useRecoilCallback<Node: StateAtom>(
+@MainActor
+public func useRecoilCallback<Node: StateAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ updateStrategy: HookUpdateStrategy? = nil,
   _ fn: @escaping RecoilCallback<Node>
 ) -> Callback<Node> {
@@ -18,8 +28,18 @@ public typealias RecoilAsyncCallback<R> = (RecoilGlobalContext) async throws -> 
   )
 }
 
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+
 @discardableResult
-@MainActor public func useRecoilCallback<Node: StateAtom>(
+@MainActor
+public func useRecoilCallback<Node: StateAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ updateStrategy: HookUpdateStrategy? = nil,
   _ fn: @escaping RecoilAsyncCallback< Node>
 ) -> AsyncCallback<Node> {
@@ -33,7 +53,10 @@ public typealias RecoilAsyncCallback<R> = (RecoilGlobalContext) async throws -> 
 }
 
 @discardableResult
-@MainActor public func useRecoilLayoutCallback<Node: StateAtom>(
+@MainActor
+public func useRecoilLayoutCallback<Node: StateAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ updateStrategy: HookUpdateStrategy? = nil,
   _ fn: @escaping RecoilCallback<Node>
 ) -> Callback<Node> {
@@ -47,7 +70,10 @@ public typealias RecoilAsyncCallback<R> = (RecoilGlobalContext) async throws -> 
 }
 
 @discardableResult
-@MainActor public func useRecoilLayoutCallback<Node: StateAtom>(
+@MainActor
+public func useRecoilLayoutCallback<Node: StateAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ updateStrategy: HookUpdateStrategy? = nil,
   _ fn: @escaping RecoilAsyncCallback<Node>
 ) -> AsyncCallback<Node> {

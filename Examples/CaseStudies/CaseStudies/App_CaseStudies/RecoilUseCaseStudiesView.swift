@@ -97,13 +97,15 @@ private struct _PublisherAtom: PublisherAtom, Hashable {
         .eraseToAnyPublisher()
     }
   }
+  
+  var key: Self {
+    self
+  }
 }
 
 private struct _StateAtomView: HookView {
-  
-  @ViewContext
-  private var context
-  
+
+  @MainActor
   var hookBody: some View {
     HookScope {
       VStack {
@@ -114,7 +116,7 @@ private struct _StateAtomView: HookView {
             HStack {
               Text(value.timeIntervalSince1970.description)
             }
-
+            
           } suspending: {
             ProgressView()
           } failureContent: { error in
@@ -128,10 +130,10 @@ private struct _StateAtomView: HookView {
             refresh()
           }
         }
-
+        
         // MARK: useRecoilPublisher
         VStack {
-          let phase = useRecoilPublisher(_PublisherAtom(id: "useRecoilPublisher"))
+          let phase = useRecoilPublisher(_PublisherAtom(id: "_useRecoilRefresher"))
           AsyncPhaseView(phase: phase) { value in
             Text(value.timeIntervalSince1970.description)
           } suspending: {
@@ -145,7 +147,9 @@ private struct _StateAtomView: HookView {
         VStack {
           let phase = useRecoilTask(.once, _TaskAatom(id: "1"))
           AsyncPhaseView(phase: phase) { value in
+            let _ = print(value)
             Text(value)
+              .lineLimit(nil)
           } suspending: {
             ProgressView()
           }
@@ -186,6 +190,7 @@ private struct _StateAtomView: HookView {
     }
   }
   
+  @MainActor
   var headerView: some View {
     HookScope {
       let state1 = useRecoilValue(_StateAtom(id: "1"))
@@ -307,7 +312,7 @@ struct RecoilUseCaseStudiesView: View {
         }
         .padding()
       }
-
+      
       // MARK: Local
       Group {
         Section("func recoilBody(context: RecoilLocalContext)") {

@@ -4,7 +4,13 @@ import SwiftUI
 
 /// Primitve and flexible useAtom
 
-// MARK: UseAtom
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useAtomState<State>(
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) -> State
@@ -13,6 +19,13 @@ public func useAtomState<State>(
   return useRecoilState(atom)
 }
 
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useAtomState<State>(
   id: String,
   _ initialState: State
@@ -21,6 +34,12 @@ public func useAtomState<State>(
   return useRecoilState(atom)
 }
 
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
 @MainActor
 public func useAtomValue<V>(
   id: String,
@@ -30,6 +49,12 @@ public func useAtomValue<V>(
   return useRecoilValue(atom)
 }
 
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
 @MainActor
 public func useAtomValue<V>(
   id: String,
@@ -39,6 +64,13 @@ public func useAtomValue<V>(
   return useRecoilValue(atom)
 }
 
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useAtomTask<V>(
   id: String,
   _ initialState: @escaping () async -> V
@@ -47,6 +79,13 @@ public func useAtomTask<V>(
   return useRecoilTask(.once, atom)
 }
 
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useAtomTask<V>(
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) async -> V
@@ -55,6 +94,13 @@ public func useAtomTask<V>(
   return useRecoilTask(.once, atom)
 }
 
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useAtomThrowingTask<V>(
   id: String,
   _ initialState: @escaping () async throws -> V
@@ -63,6 +109,13 @@ public func useAtomThrowingTask<V>(
   return useRecoilThrowingTask(.once, atom)
 }
 
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useAtomThrowingTask<V>(
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) async throws -> V
@@ -71,6 +124,13 @@ public func useAtomThrowingTask<V>(
   return useRecoilThrowingTask(.once, atom)
 }
 
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useAtomPublisher<Publisher: Combine.Publisher>(
   id: String,
   _ initialState: Publisher
@@ -79,6 +139,13 @@ public func useAtomPublisher<Publisher: Combine.Publisher>(
   return useRecoilPublisher(atom)
 }
 
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useAtomPublisher<Publisher: Combine.Publisher>(
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) -> Publisher

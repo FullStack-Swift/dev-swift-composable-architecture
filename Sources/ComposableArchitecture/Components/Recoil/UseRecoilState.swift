@@ -1,7 +1,13 @@
 import SwiftUI
 import Combine
 
-// MARK: useRecoilState
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useRecoilState<Node: StateAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
@@ -12,7 +18,13 @@ public func useRecoilState<Node: StateAtom>(
   }
 }
 
-// MARK: useRecoilState
+/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// - Parameters:
+///   - fileID: fileID description
+///   - line: line description
+///   - initialNode: initialState description
+/// - Returns: Value from AtomLoader
+@MainActor
 public func useRecoilState<Node: StateAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
@@ -45,13 +57,11 @@ private struct RecoilStateHook<Node: StateAtom>: RecoilHook {
   
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    coordinator.recoilUpdateView()
     return Binding(
       get: {
-        coordinator.state.context.watch(coordinator.state.node)
+        coordinator.state.value
       },
       set: { newState, transaction in
-        assertMainThread()
         guard !coordinator.state.isDisposed else {
           return
         }
@@ -61,5 +71,20 @@ private struct RecoilStateHook<Node: StateAtom>: RecoilHook {
         }
       }
     )
+  }
+  
+  @MainActor
+  func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
+    coordinator.recoilobservable()
+  }
+}
+
+fileprivate extension RecoilHookRef {
+  @MainActor
+  var value: Node.Loader.Value {
+    context.watch(node)
   }
 }

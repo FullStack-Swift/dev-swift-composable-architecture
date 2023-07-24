@@ -60,8 +60,27 @@ private struct RecoilValueHook<Node: Atom>: RecoilHook {
   }
   
   @MainActor
+  func makeState() -> RecoilHookRef<Node> {
+    RecoilHookRef(location: location, initialNode: initialNode())
+  }
+  
+  @MainActor
   func value(coordinator: Coordinator) -> Value {
-    coordinator.recoilUpdateView()
     return coordinator.state.value
   }
+  
+  @MainActor
+  func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
+    coordinator.recoilobservable()
+  }
+}
+
+fileprivate extension RecoilHookRef {
+    @MainActor
+    var value: Node.Loader.Value {
+      context.watch(node)
+    }
 }

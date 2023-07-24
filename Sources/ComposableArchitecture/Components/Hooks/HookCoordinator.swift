@@ -2,9 +2,6 @@ import SwiftUI
 
 /// Contextual information about the state of the hook.
 public struct HookCoordinator<H: Hook> {
-  /// The event of the hook update  in the scope.
-  @ObservableListener
-  var observable
   
   /// The state of the hook stored in the scope.
   public let state: H.State

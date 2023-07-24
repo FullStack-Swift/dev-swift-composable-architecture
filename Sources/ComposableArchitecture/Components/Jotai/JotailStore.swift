@@ -53,10 +53,31 @@ public final class JotailStore {
 ///   - reducer: A function that to return a new state with an action.
 /// - Returns: A store tca.
 public func useReducerProtocol<R: ReducerProtocol>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   initialState: R.State,
   _ reducer: R
 ) -> StoreOf<R> {
-  useHook(ReducerProtocolHook(initialState: initialState, reducer: reducer))
+  useHook(
+    ReducerProtocolHook(
+      initialState: initialState,
+      reducer: reducer
+    )
+  )
+}
+
+public func useReducerProtocol<R: ReducerProtocol>(
+  fileID: String = #fileID,
+  line: UInt = #line,
+  initialState: () -> R.State,
+  _ reducer: R
+) -> StoreOf<R> {
+  useHook(
+    ReducerProtocolHook(
+      initialState: initialState(),
+      reducer: reducer
+    )
+  )
 }
 
 private struct ReducerProtocolHook<R: ReducerProtocol>: Hook {
@@ -87,9 +108,7 @@ private struct ReducerProtocolHook<R: ReducerProtocol>: Hook {
   func dispose(state: Ref) {
     state.isDisposed = true
     state.nextAction = nil
-    for item in state.cancellables {
-      item.cancel()
-    }
+    state.cancellables.dispose()
   }
 }
 

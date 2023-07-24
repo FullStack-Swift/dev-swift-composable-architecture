@@ -100,6 +100,7 @@ private struct AsyncThrowingHook<Output>: Hook {
   
   func updateState(coordinator: Coordinator) {
     coordinator.state.phase = .running
+    coordinator.updateView()
     coordinator.state.task = withMainTask {
       let phase: HookAsyncPhase<Output, Error>
       

@@ -1,5 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
+import SwiftLogger
 
 // MARK: ValueAtom
 private struct _ValueAtom: ValueAtom, Hashable {
@@ -13,6 +14,7 @@ private struct _ValueAtomView: View {
   private var locale
   
   var body: some View {
+    let _ = log.info("Refresh")
     HStack {
       Text("Locale Current")
       Spacer()
@@ -51,6 +53,7 @@ private struct _StateAtomView: View {
   
   var body: some View {
     VStack {
+      let _ = log.info("Refresh")
       HStack {
         AtomRowTextValue(state_1)
         Stepper("Count: \(state_1)", value: $state_1)
@@ -104,6 +107,7 @@ private struct _TaskAtomView: View {
   private var context
   
   var body: some View {
+    let _ = log.info("Refresh")
     HStack {
       Suspense(taskAtom) { value in
         Text(value)
@@ -138,8 +142,8 @@ private struct _ThrowingTaskAtom: ThrowingTaskAtom, Hashable {
       throw DateError(id: "DateError")
     }
   }
-  
 }
+
 private struct _ThrowingTaskAtomView: View {
   
   @Watch(_ThrowingTaskAtom())
@@ -149,6 +153,7 @@ private struct _ThrowingTaskAtomView: View {
   private var context
   
   var body: some View {
+    let _ = log.info("Refresh")
     HStack {
       Suspense(throwingTaskAtom) { value in
         Text(value.formatted(date: .numeric, time: .shortened))
@@ -187,6 +192,7 @@ private struct _AsyncSequenceAtomView: View {
   @ViewContext
   private var context
   var body: some View {
+    let _ = log.info("Refresh")
     switch asyncSequenceAtom {
       case .suspending:
         ProgressView()
@@ -235,6 +241,7 @@ private struct _PublisherAtomView: View {
   private var context
   
   var body: some View {
+    let _ = log.info("Refresh")
     HStack {
       AsyncPhaseView(phase: publisherAtom) { value in
         Text(value.formatted(date: .numeric, time: .shortened))
@@ -278,6 +285,7 @@ private struct _ObservableObjectAtomView: View {
   private var viewModel
   
   var body: some View {
+    let _ = log.info("Refresh")
     VStack {
       TextField("Enter your name", text: $viewModel.name)
       Text("Name: \(viewModel.name), Age: \(viewModel.age)")
@@ -304,6 +312,7 @@ private struct _ObservableObjectAtomView: View {
 struct AtomCaseStudiesView: View {
   
   var body: some View {
+    let _ = log.info("Refresh")
     ZStack {
       ScrollView {
         VStack(spacing: 8) {
