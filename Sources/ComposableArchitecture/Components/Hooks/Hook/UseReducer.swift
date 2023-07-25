@@ -30,47 +30,54 @@ public func useReducer<State, Action>(
 }
 
 private struct ReducerHook<State, Action>: Hook {
-  let reducer: (State, Action) -> State
-  let initialState: State
+  
+  typealias Value = (state: State, dispatch: (Action) -> Void)
+  
   let updateStrategy: HookUpdateStrategy? = nil
   
-  func makeState() -> Ref {
-    Ref(initialState: initialState)
+  let reducer: (State, Action) -> State
+  
+  let initialState: State
+  
+  func makeState() -> _HookRef {
+    _HookRef(initialState: initialState)
+  }
+  
+
+  
+  func value(coordinator: Coordinator) -> Value {
+    let state = coordinator.state.state
+    let dispatch: (Action) -> Void = { action in
+      guard !coordinator.state.isDisposed else {
+        return
+      }
+      coordinator.state.nextAction = action
+      coordinator.updateView()
+    }
+    return (state: state, dispatch: dispatch)
   }
   
   func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
     guard let action = coordinator.state.nextAction else {
       return
     }
-    
     coordinator.state.state = reducer(coordinator.state.state, action)
     coordinator.state.nextAction = nil
   }
   
-  func value(coordinator: Coordinator) -> (
-    state: State,
-    dispatch: (Action) -> Void
-  ) {
-    return (
-      state: coordinator.state.state,
-      dispatch: { action in
-        guard !coordinator.state.isDisposed else {
-          return
-        }
-        coordinator.state.nextAction = action
-        coordinator.updateView()
-      }
-    )
-  }
-  
-  func dispose(state: Ref) {
+  func dispose(state: _HookRef) {
     state.isDisposed = true
     state.nextAction = nil
   }
 }
 
 private extension ReducerHook {
-  final class Ref {
+  // MARK: State
+  final class _HookRef {
+
     var state: State
     var nextAction: Action?
     var isDisposed = false
@@ -112,14 +119,31 @@ public func useReducer<State, Action>(
 }
 
 private struct ComposableReducerHook<State, Action>: Hook {
-  let reducer: (inout State, Action) -> Void
-  let initialState: State
+  
+  typealias Value = (state: State, dispatch: (Action) -> Void)
+  
   let updateStrategy: HookUpdateStrategy? = nil
+  
+  let reducer: (inout State, Action) -> Void
+  
+  let initialState: State
 
-  func makeState() -> Ref {
-    Ref(initialState: initialState)
+  func makeState() -> _HookRef {
+    _HookRef(initialState)
   }
 
+  func value(coordinator: Coordinator) -> Value {
+    let state = coordinator.state.state
+    let dispatch: (Action) -> Void = { action in
+      guard !coordinator.state.isDisposed else {
+        return
+      }
+      coordinator.state.nextAction = action
+      coordinator.updateView()
+    }
+    return (state: state, dispatch: dispatch)
+  }
+  
   func updateState(coordinator: Coordinator) {
     guard let action = coordinator.state.nextAction else {
       return
@@ -128,39 +152,28 @@ private struct ComposableReducerHook<State, Action>: Hook {
     coordinator.state.nextAction = nil
   }
 
-  func value(coordinator: Coordinator) -> (
-    state: State,
-    dispatch: (Action) -> Void
-  ) {
-    (
-      state: coordinator.state.state,
-      dispatch: { action in
-        assertMainThread()
-
-        guard !coordinator.state.isDisposed else {
-          return
-        }
-
-        coordinator.state.nextAction = action
-        coordinator.updateView()
-      }
-    )
-  }
-
-  func dispose(state: Ref) {
-    state.isDisposed = true
-    state.nextAction = nil
+  func dispose(state: _HookRef) {
+    state.dispose()
   }
 }
 
 private extension ComposableReducerHook {
-  final class Ref {
+  // MARK: State
+  final class _HookRef {
+    
     var state: State
+    
     var nextAction: Action?
+    
     var isDisposed = false
 
-    init(initialState: State) {
+    init(_ initialState: State) {
       state = initialState
+    }
+    
+    func dispose() {
+      isDisposed = true
+      nextAction = nil
     }
   }
 }

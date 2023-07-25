@@ -66,6 +66,8 @@ private struct _RecoilViewContext: View {
 
 private struct Test_RecoilGlobalView: _RecoilGlobalView {
   
+  var _context: RecoilGlobalViewContext = .init()
+  
   func build(context: Context) -> some View {
     VStack {
       HookScope {

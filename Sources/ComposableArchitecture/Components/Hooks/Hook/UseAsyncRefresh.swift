@@ -9,7 +9,7 @@
 @discardableResult
 public func useAsyncRefresh<Output>(
   _ operation: @escaping @MainActor () async -> Output
-) -> (phase: HookAsyncPhase<Output, Never>, refresher: @MainActor () async -> Void) {
+) -> (phase: HookAsyncPhase<Output, Never>, refresher: () -> Void) {
   useHook(AsyncRefreshHook(operation: operation))
 }
 
@@ -24,76 +24,102 @@ public func useAsyncRefresh<Output>(
 @discardableResult
 public func useAsyncRefresh<Output>(
   _ operation: @escaping @MainActor () async throws -> Output
-) -> (phase: HookAsyncPhase<Output, Error>, refresher: @MainActor () async -> Void) {
+) -> (phase: HookAsyncPhase<Output, Error>, refresher: () -> Void) {
   useHook(AsyncThrowingRefreshHook(operation: operation))
 }
 
 private struct AsyncRefreshHook<Output>: Hook {
   
+  typealias State = _HookRef
+  
   typealias Phase = HookAsyncPhase<Output, Never>
   
+  typealias Value = (phase: Phase, refresher: () -> Void)
+  
   let updateStrategy: HookUpdateStrategy? = .once
+  
   let operation: @MainActor () async -> Output
   
   func makeState() -> State {
     State()
   }
   
-  func value(coordinator: Coordinator) -> (phase: Phase, refresher: @MainActor () async -> Void) {
-    (
-      phase: coordinator.state.phase,
-      refresher: {
-        guard !coordinator.state.isDisposed else {
-          return
-        }
-        
-        coordinator.state.phase = .running
-        
+  func value(coordinator: Coordinator) -> Value {
+    let phase = coordinator.state.phase
+    let refresher: () -> Void = {
+      guard !coordinator.state.isDisposed else {
+        return
+      }
+      coordinator.state.task = Task { @MainActor in
         let output = await operation()
-        
-        if !Task.isCancelled {
+        if !Task.isCancelled && !coordinator.state.isDisposed {
           coordinator.state.phase = .success(output)
           coordinator.updateView()
         }
       }
-    )
+    }
+    return (phase: phase, refresher: refresher)
+  }
+  
+  func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
   }
   
   func dispose(state: State) {
-    state.isDisposed = true
+    state.dispose()
   }
 }
 
 private extension AsyncRefreshHook {
-  final class State {
-    var phase = Phase.pending
+  // MARK: State
+  final class _HookRef {
+    
+    var phase: Phase = .pending
+    
+    var task: Task<Void, Never>? {
+      didSet {
+        oldValue?.cancel()
+      }
+    }
+    
     var isDisposed = false
+    
+    func dispose() {
+      task = nil
+      isDisposed = true
+    }
   }
 }
 
 private struct AsyncThrowingRefreshHook<Output>: Hook {
   
+  typealias State = _HookRef
+  
   typealias Phase = HookAsyncPhase<Output, Error>
   
+  typealias Value = (phase: Phase, refresher: () -> Void)
+  
   let updateStrategy: HookUpdateStrategy? = .once
+  
   let operation: @MainActor () async throws -> Output
   
   func makeState() -> State {
     State()
   }
   
-  func value(coordinator: Coordinator) -> (phase: Phase, refresher: @MainActor () async -> Void) {
-    (
-      phase: coordinator.state.phase,
-      refresher: {
+  func value(coordinator: Coordinator) -> Value {
+    let phase = coordinator.state.phase
+    let refresher: () -> Void = {
+      guard !coordinator.state.isDisposed else {
+        return
+      }
+      coordinator.state.task = Task { @MainActor in
         guard !coordinator.state.isDisposed else {
           return
         }
-        
-        coordinator.state.phase = .running
-        
         let phase: HookAsyncPhase<Output, Error>
-        
         do {
           let output = try await operation()
           phase = .success(output)
@@ -101,13 +127,19 @@ private struct AsyncThrowingRefreshHook<Output>: Hook {
         catch {
           phase = .failure(error)
         }
-        
-        if !Task.isCancelled {
+        if !Task.isCancelled && !coordinator.state.isDisposed {
           coordinator.state.phase = phase
           coordinator.updateView()
         }
       }
-    )
+    }
+    return (phase: phase, refresher: refresher)
+  }
+  
+  func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
   }
   
   func dispose(state: State) {
@@ -116,8 +148,22 @@ private struct AsyncThrowingRefreshHook<Output>: Hook {
 }
 
 private extension AsyncThrowingRefreshHook {
-  final class State {
-    var phase = Phase.pending
+  // MARK: State
+  final class _HookRef {
+    
+    var phase: Phase = .pending
+    
+    var task: Task<Void, Never>? {
+      didSet {
+        oldValue?.cancel()
+      }
+    }
+    
     var isDisposed = false
+    
+    func dispose() {
+      task = nil
+      isDisposed = true
+    }
   }
 }

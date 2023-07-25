@@ -1,37 +1,91 @@
 import SwiftUI
-import Combine
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+///
+///```swift
+///struct ThrowingAsyncTextAtom: ThrowingTaskAtom, Hashable {
+///  func value(context: Context) async throws -> String {
+///    try await Task.sleep(nanoseconds: 1_000_000_000)
+///    return "Swift"
+///  }
+///}
+///
+///
+///struct TextContentView: View {
+///  var body: some View {
+///    HookScope {
+///      let phase = useRecoilThrowingTask(ThrowingAsyncTextAtom())
+///      AsyncPhaseView(phase: phase) { value in
+///        Text(value)
+///      } suspending: {
+///        ProgressView()
+///      } failureContent: { error in
+///        Text(error.localizedDescription)
+///      }
+///    }
+///  }
+///}
+///```
 @MainActor
 public func useRecoilState<Node: StateAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: Node
 ) -> Binding<Node.Loader.Value> {
-  useRecoilState(fileID: fileID, line: line) {
+  useRecoilState(fileID: fileID, line: line, updateStrategy: updateStrategy) {
     initialNode
   }
 }
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+///
+///```swift
+///struct ThrowingAsyncTextAtom: ThrowingTaskAtom, Hashable {
+///  func value(context: Context) async throws -> String {
+///    try await Task.sleep(nanoseconds: 1_000_000_000)
+///    return "Swift"
+///  }
+///}
+///
+///
+///struct TextContentView: View {
+///  var body: some View {
+///    HookScope {
+///      let phase = useRecoilThrowingTask(ThrowingAsyncTextAtom())
+///      AsyncPhaseView(phase: phase) { value in
+///        Text(value)
+///      } suspending: {
+///        ProgressView()
+///      } failureContent: { error in
+///        Text(error.localizedDescription)
+///      }
+///    }
+///  }
+///}
+///```
 @MainActor
 public func useRecoilState<Node: StateAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping() -> Node
 ) -> Binding<Node.Loader.Value> {
   useHook(
     RecoilStateHook<Node>(
+      updateStrategy: updateStrategy,
       initialNode: initialNode,
       location: SourceLocation(fileID: fileID, line: line)
     )
@@ -44,13 +98,18 @@ private struct RecoilStateHook<Node: StateAtom>: RecoilHook {
   
   typealias Value = Binding<Node.Loader.Value>
   
-  let updateStrategy: HookUpdateStrategy? = .once
+  let updateStrategy: HookUpdateStrategy?
   
   let initialNode: () -> Node
   
   let location: SourceLocation
-
-  init(initialNode: @escaping () -> Node, location: SourceLocation) {
+  
+  init(
+    updateStrategy: HookUpdateStrategy? = .once,
+    initialNode: @escaping () -> Node,
+    location: SourceLocation
+  ) {
+    self.updateStrategy = updateStrategy
     self.initialNode = initialNode
     self.location = location
   }
@@ -79,6 +138,7 @@ private struct RecoilStateHook<Node: StateAtom>: RecoilHook {
       return
     }
     coordinator.recoilobservable()
+    coordinator.updateView()
   }
 }
 

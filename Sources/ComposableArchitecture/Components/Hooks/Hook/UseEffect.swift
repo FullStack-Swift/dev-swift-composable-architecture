@@ -54,12 +54,19 @@ public func useLayoutEffect(
 }
 
 private struct EffectHook: Hook {
+  
   let updateStrategy: HookUpdateStrategy?
+  
   let shouldDeferredUpdate: Bool
+  
   let effect: () -> (() -> Void)?
   
   func makeState() -> State {
     State()
+  }
+  
+  func value(coordinator: Coordinator) {
+    
   }
   
   func updateState(coordinator: Coordinator) {

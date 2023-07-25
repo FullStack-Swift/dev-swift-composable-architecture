@@ -13,7 +13,7 @@ import Combine
 /// - Returns: A most recent publisher phase.
 @discardableResult
 public func usePublisher<P: Publisher>(
-  _ updateStrategy: HookUpdateStrategy,
+  _ updateStrategy: HookUpdateStrategy = .once,
   _ makePublisher: @escaping () -> P
 ) -> HookAsyncPhase<P.Output, P.Failure> {
   useHook(
@@ -26,10 +26,21 @@ public func usePublisher<P: Publisher>(
 
 private struct PublisherHook<P: Publisher>: Hook {
   
+  typealias State = _HookRef
+  
   typealias Phase = HookAsyncPhase<P.Output, P.Failure>
   
   let updateStrategy: HookUpdateStrategy?
+  
   let makePublisher: () -> P
+  
+  init(
+    updateStrategy: HookUpdateStrategy? = .once,
+    makePublisher: @escaping () -> P
+  ) {
+    self.updateStrategy = updateStrategy
+    self.makePublisher = makePublisher
+  }
   
   func makeState() -> State {
     State()
@@ -37,19 +48,25 @@ private struct PublisherHook<P: Publisher>: Hook {
   
   func updateState(coordinator: Coordinator) {
     coordinator.state.phase = .running
+    coordinator.updateView()
     coordinator.state.cancellable = makePublisher()
       .sink(
         receiveCompletion: { completion in
           switch completion {
             case .failure(let error):
+              guard !coordinator.state.isDisposed else {
+                return
+              }
               coordinator.state.phase = .failure(error)
-              
+              coordinator.updateView()
             case .finished:
               break
           }
-          coordinator.updateView()
         },
         receiveValue: { output in
+          guard !coordinator.state.isDisposed else {
+            return
+          }
           coordinator.state.phase = .success(output)
           coordinator.updateView()
         }
@@ -61,13 +78,23 @@ private struct PublisherHook<P: Publisher>: Hook {
   }
   
   func dispose(state: State) {
-    state.cancellable = nil
+    state.dispose()
   }
 }
 
 private extension PublisherHook {
-  final class State {
-    var phase = Phase.pending
+  // MARK: State
+  final class _HookRef {
+    
+    var phase: Phase = .pending
+    
+    var isDisposed = false
+    
     var cancellable: AnyCancellable?
+    
+    func dispose() {
+      cancellable = nil
+      isDisposed = true
+    }
   }
 }

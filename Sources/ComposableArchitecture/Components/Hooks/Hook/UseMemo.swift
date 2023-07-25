@@ -9,7 +9,7 @@
 ///   - makeValue: A closure that to create a new value.
 /// - Returns: A memoized value.
 public func useMemo<Value>(
-  _ updateStrategy: HookUpdateStrategy,
+  _ updateStrategy: HookUpdateStrategy = .once,
   _ makeValue: @escaping () -> Value
 ) -> Value {
   useHook(
@@ -21,19 +21,34 @@ public func useMemo<Value>(
 }
 
 private struct MemoHook<Value>: Hook {
+  
   let updateStrategy: HookUpdateStrategy?
+  
   let makeValue: () -> Value
+  
+  
+  init(
+    updateStrategy: HookUpdateStrategy?,
+       makeValue: @escaping () -> Value
+  ) {
+    self.updateStrategy = updateStrategy
+    self.makeValue = makeValue
+  }
   
   func makeState() -> State {
     State()
   }
   
+  func value(coordinator: Coordinator) -> Value {
+    coordinator.state.value ?? makeValue()
+  }
+  
   func updateState(coordinator: Coordinator) {
     coordinator.state.value = makeValue()
   }
-  
-  func value(coordinator: Coordinator) -> Value {
-    coordinator.state.value ?? makeValue()
+
+  func dispose(state: State) {
+    
   }
 }
 

@@ -94,8 +94,13 @@ public func useLayoutCallback<Value>(
 }
 
 private struct UseCallBackHook<Value>: Hook {
+  
+  typealias State = _HookRef
+  
   let updateStrategy: HookUpdateStrategy?
+  
   let shouldDeferredUpdate: Bool
+  
   let fn: Callback<Value>
   
   func makeState() -> State {
@@ -116,14 +121,20 @@ private struct UseCallBackHook<Value>: Hook {
 }
 
 private extension UseCallBackHook {
-  final class State {
+  // MARK: State
+  final class _HookRef {
     var fn: Callback<Value>?
   }
 }
 
 private struct UseAsyncCallBackHook<Value>: Hook {
+  
+  typealias State = _HookRef
+  
   let updateStrategy: HookUpdateStrategy?
+  
   let shouldDeferredUpdate: Bool
+  
   let fn: AsyncCallback<Value>
   
   func makeState() -> State {
@@ -144,7 +155,8 @@ private struct UseAsyncCallBackHook<Value>: Hook {
 }
 
 private extension UseAsyncCallBackHook {
-  final class State {
+  // MARK: State
+  final class _HookRef {
     var fn: AsyncCallback<Value>?
   }
 }

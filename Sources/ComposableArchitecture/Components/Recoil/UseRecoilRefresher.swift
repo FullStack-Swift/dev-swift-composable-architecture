@@ -1,127 +1,137 @@
 import Combine
-import Foundation
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
 @MainActor
 public func useRecoilRefresher<Node: PublisherAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: Node
 ) -> (phase: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>, refresher: () -> ())
 where Node.Loader == PublisherAtomLoader<Node> {
-  useRecoilRefresher(fileID: fileID, line: line) {
+  useRecoilRefresher(fileID: fileID, line: line, updateStrategy: updateStrategy) {
     initialNode
   }
 }
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
 @MainActor
 public func useRecoilRefresher<Node: PublisherAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping() -> Node
 ) -> (phase: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>, refresher: () -> ())
 where Node.Loader == PublisherAtomLoader<Node> {
   useHook(
     RecoilPublisherRefresherHook(
-      updateStrategy: .once,
+      updateStrategy: updateStrategy,
       initialNode: initialNode,
       location: SourceLocation(fileID: fileID, line: line)
     )
   )
 }
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
 @MainActor
 public func useRecoilRefresher<Node: TaskAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: Node
 ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
 where Node.Loader: AsyncAtomLoader {
-  useRecoilRefresher(fileID: fileID, line: line) {
+  useRecoilRefresher(fileID: fileID, line: line, updateStrategy: updateStrategy) {
     initialNode
   }
 }
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
 @MainActor
 public func useRecoilRefresher<Node: TaskAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping() -> Node
 ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
 where Node.Loader: AsyncAtomLoader {
   useHook(
     RecoilTaskRefresherHook<Node>(
-      updateStrategy: .once,
+      updateStrategy: updateStrategy,
       initialNode: initialNode,
       location: SourceLocation(fileID: fileID, line: line)
     )
   )
 }
-
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
 @MainActor
 public func useRecoilRefresher<Node: ThrowingTaskAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: Node
 ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
 where Node.Loader: AsyncAtomLoader {
-  useRecoilRefresher(fileID: fileID, line: line) {
+  useRecoilRefresher(fileID: fileID, line: line, updateStrategy: updateStrategy) {
     initialNode
   }
 }
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
 @MainActor
 public func useRecoilRefresher<Node: ThrowingTaskAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping() -> Node
 ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
 where Node.Loader: AsyncAtomLoader {
   useHook(
     RecoilThrowingTaskRefresherHook(
-      updateStrategy: .once,
+      updateStrategy: updateStrategy,
       initialNode: initialNode,
       location: SourceLocation(fileID: fileID, line: line)
     )
   )
 }
 
-// MARK: Private Refresher Hook
+// MARK: Recoil Refresher Hook
 
 private struct RecoilPublisherRefresherHook<Node: PublisherAtom>: RecoilHook
 where Node.Loader == PublisherAtomLoader<Node> {
@@ -159,12 +169,12 @@ where Node.Loader == PublisherAtomLoader<Node> {
     return (
       coordinator.state.phase,
       refresher: {
+        guard !coordinator.state.isDisposed else {
+          return
+        }
         coordinator.state.task = Task { @MainActor in
           let refresh = await coordinator.state.refresh
-          if !Task.isCancelled {
-            guard !coordinator.state.isDisposed else {
-              return
-            }
+          if !Task.isCancelled && !coordinator.state.isDisposed {
             coordinator.state.phase = refresh
             coordinator.updateView()
           }
@@ -180,16 +190,16 @@ where Node.Loader == PublisherAtomLoader<Node> {
     }
     coordinator.recoilobservable()
     coordinator.state.context.observable.publisher.sink {
+      guard !coordinator.state.isDisposed else {
+        return
+      }
       coordinator.state.phase = coordinator.state.value
       coordinator.updateView()
     }
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
       let refresh = await coordinator.state.refresh
-      if !Task.isCancelled {
-        guard !coordinator.state.isDisposed else {
-          return
-        }
+      if !Task.isCancelled && !coordinator.state.isDisposed {
         coordinator.state.phase = refresh
         coordinator.updateView()
       }
@@ -202,9 +212,9 @@ where Node.Loader == PublisherAtomLoader<Node> {
   }
 }
 
-extension RecoilPublisherRefresherHook {
+private extension RecoilPublisherRefresherHook {
   // MARK: State
-  fileprivate final class _RecoilHookRef: RecoilHookRef<Node> {
+  final class _RecoilHookRef: RecoilHookRef<Node> {
     
     var phase = Phase.suspending
     
@@ -265,10 +275,7 @@ where Node.Loader: AsyncAtomLoader {
           }
           coordinator.state.task = Task { @MainActor in
             let refresh = await coordinator.state.refresh
-            if !Task.isCancelled {
-              guard !coordinator.state.isDisposed else {
-                return
-              }
+            if !Task.isCancelled && !coordinator.state.isDisposed {
               coordinator.state.phase = refresh
               coordinator.updateView()
             }
@@ -285,23 +292,21 @@ where Node.Loader: AsyncAtomLoader {
     }
     coordinator.recoilobservable()
     coordinator.state.context.observable.publisher.sink {
+      guard !coordinator.state.isDisposed else {
+        return
+      }
       coordinator.state.task = Task { @MainActor in
         let value = await coordinator.state.value.result
-        if !Task.isCancelled {
-          guard !coordinator.state.isDisposed else {
-            return
-          }
+        if !Task.isCancelled && !coordinator.state.isDisposed {
           coordinator.state.phase = AsyncPhase(value)
+          coordinator.updateView()
         }
       }
     }
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
       let refresh = await coordinator.state.refresh
-      if !Task.isCancelled {
-        guard !coordinator.state.isDisposed else {
-          return
-        }
+      if !Task.isCancelled && !coordinator.state.isDisposed {
         coordinator.state.phase = refresh
         coordinator.updateView()
       }
@@ -314,15 +319,11 @@ where Node.Loader: AsyncAtomLoader {
   }
 }
 
-extension RecoilTaskRefresherHook {
+private extension RecoilTaskRefresherHook {
   // MARK: State
-  fileprivate final class _RecoilHookRef: RecoilHookRef<Node> {
+  final class _RecoilHookRef: RecoilHookRef<Node> {
     
-    var phase = Phase.suspending
-    
-    override init(location: SourceLocation, initialNode: Node) {
-      super.init(location: location, initialNode: initialNode)
-    }
+    var phase: Phase = .suspending
     
     var value: Task<Node.Loader.Success, Node.Loader.Failure> {
       context.watch(node)
@@ -361,12 +362,12 @@ where Node.Loader: AsyncAtomLoader {
     return (
       coordinator.state.phase,
       refresher: {
+        guard !coordinator.state.isDisposed else {
+          return
+        }
         Task { @MainActor in
           let refresh = await coordinator.state.refresh
-          if !Task.isCancelled {
-            guard !coordinator.state.isDisposed else {
-              return
-            }
+          if !Task.isCancelled && !coordinator.state.isDisposed {
             coordinator.state.phase = refresh
             coordinator.updateView()
           }
@@ -382,12 +383,12 @@ where Node.Loader: AsyncAtomLoader {
     }
     coordinator.recoilobservable()
     coordinator.state.context.observable.publisher.sink {
+      guard !coordinator.state.isDisposed else {
+        return
+      }
       coordinator.state.task = Task { @MainActor in
         let value = await coordinator.state.value.result
-        if !Task.isCancelled {
-          guard !coordinator.state.isDisposed else {
-            return
-          }
+        if !Task.isCancelled && !coordinator.state.isDisposed {
           coordinator.state.phase = AsyncPhase(value)
         }
       }
@@ -395,10 +396,7 @@ where Node.Loader: AsyncAtomLoader {
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
       let refresh = await coordinator.state.refresh
-      if !Task.isCancelled {
-        guard !coordinator.state.isDisposed else {
-          return
-        }
+      if !Task.isCancelled && !coordinator.state.isDisposed {
         coordinator.state.phase = refresh
         coordinator.updateView()
       }
@@ -411,15 +409,11 @@ where Node.Loader: AsyncAtomLoader {
   }
 }
 
-extension RecoilThrowingTaskRefresherHook {
+private extension RecoilThrowingTaskRefresherHook {
   // MARK: State
-  fileprivate final class _RecoilHookRef: RecoilHookRef<Node> {
+  final class _RecoilHookRef: RecoilHookRef<Node> {
     
-    var phase = Phase.suspending
-    
-    override init(location: SourceLocation, initialNode: Node) {
-      super.init(location: location, initialNode: initialNode)
-    }
+    var phase: Phase = .suspending
     
     var value: Task<Node.Loader.Success, Node.Loader.Failure> {
       context.watch(node)

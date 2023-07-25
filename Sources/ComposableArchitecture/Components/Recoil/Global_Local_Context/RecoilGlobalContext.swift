@@ -4,137 +4,191 @@ import Foundation
 
 @MainActor
 public struct RecoilGlobalContext: AtomWatchableContext {
-  private let state = State.identity
-  private let location: SourceLocation
-
-  init(location: SourceLocation) {
-    self.location = location
+  @usableFromInline
+  internal let _store: StoreContext
+  @usableFromInline
+  internal let _container: SubscriptionContainer.Wrapper
+  
+  @usableFromInline
+  @ObservableListener
+  var observable
+  
+  internal init(
+    store: StoreContext,
+    container: SubscriptionContainer.Wrapper,
+    notifyUpdate: @escaping () -> Void
+  ) {
+    _store = store
+    _container = container
+    observable.sink(notifyUpdate)
   }
   
-  public init(fileID: String = #fileID, line: UInt = #line) {
-    location = SourceLocation(fileID: fileID, line: line)
-  }
-  
+  /// A callback to perform when any of atoms watched by this context is updated.
   public var objectWillChange: AnyPublisher<Void, Never> {
-    state.observable.objectWillChange
+    observable.objectWillChange
   }
   
-  public var observable: ObservableListener {
-    state.observable
-  }
-  
-  @discardableResult
-  public func waitForUpdate(timeout interval: TimeInterval? = nil) async -> Bool {
-    let updates = AsyncStream<Void> { continuation in
-      let cancellable = state.$observable.sink(
-        receiveCompletion: { completion in
-          continuation.finish()
-        },
-        receiveValue: {
-          continuation.yield()
-        }
-      )
-      
-      continuation.onTermination = { termination in
-        switch termination {
-          case .cancelled:
-            cancellable.cancel()
-          case .finished:
-            break
-          @unknown default:
-            break
-        }
-      }
-    }
-    
-    return await withTaskGroup(of: Bool.self) { group in
-      group.addTask {
-        var iterator = updates.makeAsyncIterator()
-        await iterator.next()
-        return true
-      }
-      
-      if let interval {
-        group.addTask {
-          try? await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
-          return false
-        }
-      }
-      
-      let didUpdate = await group.next() ?? false
-      group.cancelAll()
-      
-      return didUpdate
-    }
-  }
-
+  /// Accesses the value associated with the given atom without watching to it.
+  ///
+  /// This method returns a value for the given atom. Even if you access to a value with this method,
+  /// it doesn't initiating watch the atom, so if none of other atoms or views is watching as well,
+  /// the value will not be cached.
+  ///
+  /// ```swift
+  /// let context = ...
+  /// print(context.read(TextAtom()))  // Prints the current value associated with `TextAtom`.
+  /// ```
+  ///
+  /// - Parameter atom: An atom that associates the value.
+  ///
+  /// - Returns: The value associated with the given atom.
+  @inlinable
   public func read<Node: Atom>(_ atom: Node) -> Node.Loader.Value {
-    store.read(atom)
+    _store.read(atom)
   }
   
+  /// Sets the new value for the given writable atom.
+  ///
+  /// This method only accepts writable atoms such as types conforming to ``StateAtom``,
+  /// and assign a new value for the atom.
+  /// When you assign a new value, it notifies update immediately to downstream atoms or views.
+  ///
+  /// - SeeAlso: ``AtomViewContext/subscript``
+  ///
+  /// ```swift
+  /// let context = ...
+  /// print(context.watch(TextAtom())) // Prints "Text"
+  /// context.set("New text", for: TextAtom())
+  /// print(context.read(TextAtom()))  // Prints "New text"
+  /// ```
+  ///
+  /// - Parameters
+  ///   - value: A value to be set.
+  ///   - atom: An atom that associates the value.
+  @inlinable
   public func set<Node: StateAtom>(_ value: Node.Loader.Value, for atom: Node) {
-    store.set(value, for: atom)
+    _store.set(value, for: atom)
   }
   
+  /// Modifies the cached value of the given writable atom.
+  ///
+  /// This method only accepts writable atoms such as types conforming to ``StateAtom``,
+  /// and assign a new value for the atom.
+  /// When you modify value, it notifies update to downstream atoms or views after all
+  /// the modification completed.
+  ///
+  /// ```swift
+  /// let context = ...
+  /// print(context.watch(TextAtom())) // Prints "Text"
+  /// context.modify(TextAtom()) { text in
+  ///     text.append(" modified")
+  /// }
+  /// print(context.read(TextAtom()))  // Prints "Text modified"
+  /// ```
+  ///
+  /// - Parameters
+  ///   - atom: An atom that associates the value.
+  ///   - body: A value modification body.
+  @inlinable
   public func modify<Node: StateAtom>(_ atom: Node, body: (inout Node.Loader.Value) -> Void) {
-    store.modify(atom, body: body)
+    _store.modify(atom, body: body)
   }
-
+  
+  /// Refreshes and then return the value associated with the given refreshable atom.
+  ///
+  /// This method only accepts refreshable atoms such as types conforming to:
+  /// ``TaskAtom``, ``ThrowingTaskAtom``, ``AsyncSequenceAtom``, ``PublisherAtom``.
+  /// It refreshes the value for the given atom and then return, so the caller can await until
+  /// the value completes the update.
+  /// Note that it can be used only in a context that supports concurrency.
+  ///
+  /// ```swift
+  /// let context = ...
+  /// let image = await context.refresh(AsyncImageDataAtom()).value
+  /// print(image) // Prints the data obtained through network.
+  /// ```
+  ///
+  /// - Parameter atom: An atom that associates the value.
+  ///
+  /// - Returns: The value which completed refreshing associated with the given atom.
   @discardableResult
+  @inlinable
   public func refresh<Node: Atom>(_ atom: Node) async -> Node.Loader.Value where Node.Loader: RefreshableAtomLoader {
-    await store.refresh(atom)
+    await _store.refresh(atom)
   }
-
+  
+  /// Resets the value associated with the given atom, and then notify.
+  ///
+  /// This method resets a value for the given atom, and then notify update to the downstream
+  /// atoms and views. Thereafter, if any of other atoms or views is watching the atom, a newly
+  /// generated value will be produced.
+  ///
+  /// ```swift
+  /// let context = ...
+  /// print(context.watch(TextAtom())) // Prints "Text"
+  /// context[TextAtom()] = "New text"
+  /// print(context.read(TextAtom())) // Prints "New text"
+  /// context.reset(TextAtom())
+  /// print(context.read(TextAtom())) // Prints "Text"
+  /// ```
+  ///
+  /// - Parameter atom: An atom that associates the value.
+  @inlinable
   public func reset(_ atom: some Atom) {
-    store.reset(atom)
+    _store.reset(atom)
   }
-
+  
+  /// Accesses the value associated with the given atom for reading and initialing watch to
+  /// receive its updates.
+  ///
+  /// This method returns a value for the given atom and initiate watching the atom so that
+  /// the current context to get updated when the atom notifies updates.
+  /// The value associated with the atom is cached until it is no longer watched to or until
+  /// it is updated.
+  ///
+  /// ```swift
+  /// let context = ...
+  /// let text = context.watch(TextAtom())
+  /// print(text) // Prints the current value associated with `TextAtom`.
+  /// ```
+  ///
+  /// - Parameter atom: An atom that associates the value.
+  ///
+  /// - Returns: The value associated with the given atom.
   @discardableResult
+  @inlinable
   public func watch<Node: Atom>(_ atom: Node) -> Node.Loader.Value {
-    store.watch(atom, container: container, requiresObjectUpdate: true, notifyUpdate: state.observable.send)
+    _store.watch(
+      atom,
+      container: _container,
+      requiresObjectUpdate: true,
+      notifyUpdate: observable.send
+    )
   }
   
-  public func unwatch(_ atom: some Atom) {
-    store.unwatch(atom, container: container)
+  /// For debugging, takes a snapshot that captures specific set of values of atoms.
+  ///
+  /// This method captures all atom values and dependencies currently in use somewhere in
+  /// the descendants of `AtomRoot` and returns a `Snapshot` that allows you to analyze
+  /// or rollback to a specific state.
+  ///
+  /// - Returns: A snapshot that captures specific set of values of atoms.
+  @discardableResult
+  @inlinable
+  public func snapshot() -> Snapshot {
+    _store.snapshot()
   }
   
-  public func override<Node: Atom>(_ atom: Node, with value: @escaping (Node) -> Node.Loader.Value) {
-    state.overrides[OverrideKey(atom)] = AtomOverride(value: value)
+  /// For debugging, restore atom values and the dependency graph captured at a point in time in the given snapshot.
+  ///
+  /// Atoms and their dependencies that are no longer subscribed to from anywhere are then released.
+  ///
+  /// - Parameter snapshot: A snapshot that captures specific set of values of atoms.
+  @inlinable
+  public func restore(_ snapshot: Snapshot) {
+    _store.restore(snapshot)
   }
 
-  public func override<Node: Atom>(_ atomType: Node.Type, with value: @escaping (Node) -> Node.Loader.Value) {
-    state.overrides[OverrideKey(atomType)] = AtomOverride(value: value)
-  }
-}
-
-private extension RecoilGlobalContext {
-  final class State {
-
-    static let identity = State()
-
-    let store = AtomStore()
-    let token = ScopeKey.Token()
-    let container = SubscriptionContainer()
-    var overrides = [OverrideKey: any AtomOverrideProtocol]()
-    
-    @ObservableListener
-    var observable
-  }
-  
-  var store: StoreContext {
-    @Dependency(\.recoilStoreContext) var store
-    return store
-      .scoped(
-        weakStore: state.store,
-        key: ScopeKey(token: state.token),
-        observers: [],
-        overrides: state.overrides
-      )
-  }
-  
-  var container: SubscriptionContainer.Wrapper {
-    state.container.wrapper(location: location)
-  }
 }
 
 extension RecoilGlobalContext: RecoilProtocol {
@@ -149,8 +203,14 @@ extension RecoilGlobalContext: RecoilProtocol {
 @propertyWrapper
 public struct RecoilGlobalViewContext {
   
-  @Dependency(\.storeContext)
+  @Dependency(\.recoilStoreContext)
   private var _store
+  
+  private var state = State()
+  
+  private var overrides = [OverrideKey: any AtomOverrideProtocol]()
+  
+  private var observers = [Observer]()
   
   private let location: SourceLocation
   
@@ -163,20 +223,40 @@ public struct RecoilGlobalViewContext {
   }
   
   public var wrappedValue: RecoilGlobalContext {
-    RecoilGlobalContext(location: location)
+    RecoilGlobalContext(
+      store: .scoped(
+        key: ScopeKey(token: state.token),
+        store: State.store,
+        observers: observers,
+        overrides: overrides
+      ),
+      container: state.container.wrapper(location: location)
+    ) {
+        print("🟡 RefreshUI in: \(location)")
+      }
+  }
+  
+  final class State {
+    let container = SubscriptionContainer()
+    let token = ScopeKey.Token()
+    static let store = AtomStore()
   }
 }
 
 @propertyWrapper
+@MainActor
 struct RecoilGlobalWatch<Node: Atom> {
+  
   private let atom: Node
   
-  @RecoilGlobalViewContext
-  private var context
+  private var _context: RecoilGlobalViewContext
+  
+  private var context: RecoilGlobalContext
   
   public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
     self.atom = atom
     self._context = RecoilGlobalViewContext(fileID: fileID, line: line)
+    context = _context.wrappedValue
   }
   
   public var wrappedValue: Node.Loader.Value {
@@ -186,15 +266,19 @@ struct RecoilGlobalWatch<Node: Atom> {
 
 
 @propertyWrapper
+@MainActor
 struct RecoilGlobalWatchState<Node: StateAtom> {
+  
   private let atom: Node
   
-  @RecoilGlobalViewContext
-  private var context
+  private var _context: RecoilGlobalViewContext
+  
+  private var context: RecoilGlobalContext
   
   public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
     self.atom = atom
     self._context = RecoilGlobalViewContext(fileID: fileID, line: line)
+    context = _context.wrappedValue
   }
   
   public var wrappedValue: Node.Loader.Value {
@@ -208,6 +292,7 @@ struct RecoilGlobalWatchState<Node: StateAtom> {
 }
 
 @propertyWrapper
+@MainActor
 struct RecoilGlobalWatchStateObject<Node: ObservableObjectAtom> {
   
   @dynamicMemberLookup
@@ -228,12 +313,14 @@ struct RecoilGlobalWatchStateObject<Node: ObservableObjectAtom> {
   
   private let atom: Node
   
-  @RecoilGlobalViewContext
-  private var context
+  private var _context: RecoilGlobalViewContext
+  
+  private var context: RecoilGlobalContext
   
   public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
     self.atom = atom
     self._context = RecoilGlobalViewContext(fileID: fileID, line: line)
+    context = _context.wrappedValue
   }
   
   public var wrappedValue: Node.Loader.Value {
@@ -259,17 +346,26 @@ struct RecoilGlobalWatchStateObject<Node: ObservableObjectAtom> {
 ///  }
 ///
 /// ```
+@MainActor
 public struct _RecoilGlobalScope<Content: View>: View {
   
   private let content: (RecoilGlobalContext) -> Content
   
   public typealias Context = RecoilGlobalContext
   
-  @RecoilGlobalViewContext
-  private var context
+  private var _context: RecoilGlobalViewContext
   
-  public init(@ViewBuilder _ content: @escaping (Context) -> Content) {
+  private var context: RecoilGlobalContext
+  
+  public init(
+    fileID: String = #fileID,
+    line: UInt = #line,
+    @ViewBuilder _ content: @escaping (Context) -> Content
+  ) {
     self.content = content
+    let location = SourceLocation(fileID: fileID, line: line)
+    _context = RecoilGlobalViewContext(location: location)
+    context = _context.wrappedValue
   }
   
   public var body: some View {
@@ -281,28 +377,27 @@ public struct _RecoilGlobalScope<Content: View>: View {
 
 @MainActor
 public protocol _RecoilGlobalView: View {
-  // The type of view representing the body of this view that can use river.
+  // The type of view representing the body of this view that can use recoil.
   associatedtype RecoilBody: View
   
   typealias Context = RecoilGlobalContext
-  
+
+  var _context: RecoilGlobalViewContext { get set }
+
   @ViewBuilder
   func build(context: Context) -> RecoilBody
   
 }
 
 extension _RecoilGlobalView {
-  public var body:  some View {
+  public var body: some View {
     HookScope {
       build(context: context)
     }
   }
   
-  @MainActor
   var context: RecoilGlobalContext {
-    @RecoilGlobalViewContext
-    var context
-    return context
+    _context.wrappedValue
   }
 }
 
@@ -368,14 +463,22 @@ public struct RecoilGlobalScope<Content: View>: View {
   }
 }
 
+@MainActor
 private class RecoilGlobalObservable: ObservableObject {
   
-  @RecoilGlobalViewContext
-  var context
+  var _context: RecoilGlobalViewContext
+  
+  var context: RecoilGlobalContext
   
   var cancellables: SetCancellables = []
   
-  init() {
+  init(
+    fileID: String = #fileID,
+    line: UInt = #line
+  ) {
+    let location = SourceLocation(fileID: fileID, line: line)
+    _context = RecoilGlobalViewContext(location: location)
+    context = _context.wrappedValue
     context.objectWillChange.sink { [weak self] _ in
       self?.objectWillChange.send()
     }

@@ -1,26 +1,26 @@
 import SwiftUI
 
-/// A hook to use a `Binding<State>` wrapping current state to be updated by setting a new state to `wrappedValue`.
+/// A hook to use a `Binding<Node>` wrapping current state to be updated by setting a new state to `wrappedValue`.
 /// Triggers a view update when the state has been changed.
 ///
 ///     let count = useState {
-///         let initialState = expensiveComputation() // Int
-///         return initialState
+///         let initialNode = expensiveComputation() // Int
+///         return initialNode
 ///     }                                             // Binding<Int>
 ///
 ///     Button("Increment") {
 ///         count.wrappedValue += 1
 ///     }
 ///
-/// - Parameter initialState: A closure creating an initial state. The closure will only be called once, during the initial render.
-/// - Returns: A `Binding<State>` wrapping current state.
-public func useState<State>(
-  _ initialState: @escaping () -> State
-) -> Binding<State> {
-  useHook(StateHook(initialState: initialState))
+/// - Parameter initialNode: A closure creating an initial state. The closure will only be called once, during the initial render.
+/// - Returns: A `Binding<Node>` wrapping current state.
+public func useState<Node>(
+  _ initialNode: @escaping () -> Node
+) -> Binding<Node> {
+  useHook(StateHook(initialNode: initialNode))
 }
 
-/// A hook to use a `Binding<State>` wrapping current state to be updated by setting a new state to `wrappedValue`.
+/// A hook to use a `Binding<Node>` wrapping current state to be updated by setting a new state to `wrappedValue`.
 /// Triggers a view update when the state has been changed.
 ///
 ///     let count = useState(0)  // Binding<Int>
@@ -29,53 +29,70 @@ public func useState<State>(
 ///         count.wrappedValue += 1
 ///     }
 ///
-/// - Parameter initialState: An initial state.
-/// - Returns: A `Binding<State>` wrapping current state.
-public func useState<State>(
-  _ initialState: State
-) -> Binding<State> {
+/// - Parameter initialNode: An initial state.
+/// - Returns: A `Binding<Node>` wrapping current state.
+public func useState<Node>(
+  _ initialNode: Node
+) -> Binding<Node> {
   useState {
-    initialState
+    initialNode
   }
 }
 
-private struct StateHook<State>: Hook {
-  let initialState: () -> State
-  var updateStrategy: HookUpdateStrategy? = .once
+private struct StateHook<Node>: Hook {
+
+  typealias State = _HookRef
   
-  func makeState() -> Ref {
-    Ref(initialState: initialState())
+  typealias Value = Binding<Node>
+  
+  var updateStrategy: HookUpdateStrategy? = .once
+
+  let initialNode: () -> Node
+  
+  func makeState() -> State {
+    State(initialNode())
   }
   
-  func value(coordinator: Coordinator) -> Binding<State> {
+  func value(coordinator: Coordinator) -> Value {
     Binding(
       get: {
-        coordinator.state.state
+        coordinator.state.node
       },
-      set: { newState, transaction in
+      set: { newValue, transaction in
         guard !coordinator.state.isDisposed else {
           return
         }
         withTransaction(transaction) {
-          coordinator.state.state = newState
+          coordinator.state.node = newValue
           coordinator.updateView()
         }
       }
     )
   }
   
-  func dispose(state: Ref) {
-    state.isDisposed = true
+  func updateState(coordinator: Coordinator) {
+    
+  }
+  
+  func dispose(state: State) {
+    state.dispose()
   }
 }
 
 private extension StateHook {
-  final class Ref {
-    var state: State
+  // MARK: State
+  final class _HookRef {
+    
+    var node: Node
+    
     var isDisposed = false
     
-    init(initialState: State) {
-      state = initialState
+    init(_ initialNode: Node) {
+      node = initialNode
+    }
+    
+    func dispose() {
+      isDisposed = true
     }
   }
 }

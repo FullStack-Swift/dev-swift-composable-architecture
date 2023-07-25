@@ -1,36 +1,85 @@
-import Foundation
-import Combine
-
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+///
+///```swift
+///struct AsyncTextAtom: TaskAtom, Hashable {
+///  func value(context: Context) async throws -> String {
+///    try! await Task.sleep(nanoseconds: 1_000_000_000)
+///    return "Swift"
+///  }
+///}
+///
+///
+///struct TextContentView: View {
+///  var body: some View {
+///    HookScope {
+///      let phase = useRecoilTask(AsyncTextAtom())
+///      AsyncPhaseView(phase: phase) { value in
+///        Text(value)
+///      } suspending: {
+///        ProgressView()
+///      } failureContent: { error in
+///        Text(error.localizedDescription)
+///      }
+///    }
+///  }
+///}
+///```
 @MainActor
 public func useRecoilTask<Node: TaskAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
-  _ updateStrategy: HookUpdateStrategy = .once,
+  updateStrategy: HookUpdateStrategy = .once,
   _ initialNode: Node
 ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
 where Node.Loader: AsyncAtomLoader {
-  useRecoilTask(fileID: fileID, line: line, updateStrategy) {
+  useRecoilTask(fileID: fileID, line: line, updateStrategy: updateStrategy) {
     initialNode
   }
 }
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+///
+///```swift
+///struct AsyncTextAtom: TaskAtom, Hashable {
+///  func value(context: Context) async throws -> String {
+///    try! await Task.sleep(nanoseconds: 1_000_000_000)
+///    return "Swift"
+///  }
+///}
+///
+///
+///struct TextContentView: View {
+///  var body: some View {
+///    HookScope {
+///      let phase = useRecoilTask(AsyncTextAtom())
+///      AsyncPhaseView(phase: phase) { value in
+///        Text(value)
+///      } suspending: {
+///        ProgressView()
+///      } failureContent: { error in
+///        Text(error.localizedDescription)
+///      }
+///    }
+///  }
+///}
+///```
 @MainActor
 public func useRecoilTask<Node: TaskAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
-  _ updateStrategy: HookUpdateStrategy = .once,
+  updateStrategy: HookUpdateStrategy = .once,
   _ initialNode: @escaping() -> Node
 ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
 where Node.Loader: AsyncAtomLoader {
@@ -44,7 +93,7 @@ where Node.Loader: AsyncAtomLoader {
 }
 
 private struct RecoilTaskHook<Node: TaskAtom>: RecoilHook where Node.Loader: AsyncAtomLoader {
-
+  
   typealias State = _RecoilHookRef
   
   typealias Value = AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
@@ -56,7 +105,7 @@ private struct RecoilTaskHook<Node: TaskAtom>: RecoilHook where Node.Loader: Asy
   let location: SourceLocation
   
   init(
-    updateStrategy: HookUpdateStrategy,
+    updateStrategy: HookUpdateStrategy = .once,
     initialNode: @escaping () -> Node,
     location: SourceLocation
   ) {
@@ -80,14 +129,14 @@ private struct RecoilTaskHook<Node: TaskAtom>: RecoilHook where Node.Loader: Asy
     guard !coordinator.state.isDisposed else {
       return
     }
-//    coordinator.recoilobservable()
+    coordinator.recoilobservable()
     coordinator.state.context.observable.publisher.sink {
       Task { @MainActor in
+        guard !coordinator.state.isDisposed else {
+          return
+        }
         let result = await coordinator.state.value.result
-        if !Task.isCancelled {
-          guard !coordinator.state.isDisposed else {
-            return
-          }
+        if !Task.isCancelled && !coordinator.state.isDisposed {
           coordinator.state.phase = AsyncPhase(result)
           coordinator.updateView()
         }
@@ -96,10 +145,7 @@ private struct RecoilTaskHook<Node: TaskAtom>: RecoilHook where Node.Loader: Asy
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
       let refresh = await coordinator.state.refresh
-      if !Task.isCancelled {
-        guard !coordinator.state.isDisposed else {
-          return
-        }
+      if !Task.isCancelled && !coordinator.state.isDisposed {
         coordinator.state.phase = refresh
         coordinator.updateView()
       }
@@ -112,15 +158,11 @@ private struct RecoilTaskHook<Node: TaskAtom>: RecoilHook where Node.Loader: Asy
   }
 }
 
-extension RecoilTaskHook {
+private extension RecoilTaskHook {
   // MARK: State
-  fileprivate final class _RecoilHookRef: RecoilHookRef<Node> {
+  final class _RecoilHookRef: RecoilHookRef<Node> {
     
-    var phase = Value.suspending
-    
-    override init(location: SourceLocation, initialNode: Node) {
-      super.init(location: location, initialNode: initialNode)
-    }
+    var phase: Value = .suspending
     
     var value: Task<Node.Loader.Success, Node.Loader.Failure> {
       context.watch(node)
