@@ -51,15 +51,12 @@ private struct ReducerHook<State, Action>: Hook {
     state: State,
     dispatch: (Action) -> Void
   ) {
-    (
+    return (
       state: coordinator.state.state,
       dispatch: { action in
-        assertMainThread()
-        
         guard !coordinator.state.isDisposed else {
           return
         }
-        
         coordinator.state.nextAction = action
         coordinator.updateView()
       }

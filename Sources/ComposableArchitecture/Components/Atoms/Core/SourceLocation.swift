@@ -1,4 +1,4 @@
-public  struct SourceLocation: Equatable {
+public struct SourceLocation: Codable, Equatable {
   public let fileID: String
   public let line: UInt
   

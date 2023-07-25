@@ -1,6 +1,7 @@
 import SwiftUI
 import Combine
 import ComposableArchitecture
+import SwiftLogger
 
 @main
 struct CaseStudiesApp: App {
@@ -10,6 +11,9 @@ struct CaseStudiesApp: App {
         AtomRoot {
           ContentView()
 //          ExampleActionStateListenerView()
+        }
+        .observe { snapShot in
+          log.info(snapShot)
         }
       }
     }

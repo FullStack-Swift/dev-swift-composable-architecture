@@ -163,7 +163,7 @@ public struct RecoilGlobalViewContext {
   }
   
   public var wrappedValue: RecoilGlobalContext {
-    RecoilGlobalContext(fileID: location.fileID, line: location.line)
+    RecoilGlobalContext(location: location)
   }
 }
 

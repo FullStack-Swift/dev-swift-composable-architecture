@@ -37,6 +37,7 @@ extension RecoilHook where State: RecoilHookRef<Node> {
   }
 }
 
+@MainActor
 internal class RecoilHookRef<Node: Atom> {
   
   var node: Node
@@ -44,8 +45,11 @@ internal class RecoilHookRef<Node: Atom> {
   
   internal var cancellables: SetCancellables = []
   
-  @RecoilGlobalViewContext
-  internal var context
+  internal var _context: RecoilGlobalViewContext
+  
+  internal var context: RecoilGlobalContext {
+    _context.wrappedValue
+  }
   
   internal var task: Task<Void, Never>? {
     didSet {

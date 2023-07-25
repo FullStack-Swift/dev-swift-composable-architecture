@@ -24,4 +24,12 @@ private struct RefHook<T>: Hook {
   func value(coordinator: Coordinator) -> RefObject<T> {
     coordinator.state
   }
+  
+  func updateState(coordinator: Coordinator) {
+    
+  }
+  
+  func dispose(state: RefObject<T>) {
+    
+  }
 }

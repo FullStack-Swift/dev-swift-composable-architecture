@@ -53,12 +53,9 @@ private struct StateHook<State>: Hook {
         coordinator.state.state
       },
       set: { newState, transaction in
-        assertMainThread()
-        
         guard !coordinator.state.isDisposed else {
           return
         }
-        
         withTransaction(transaction) {
           coordinator.state.state = newState
           coordinator.updateView()
