@@ -76,11 +76,11 @@ public func useLoadMoreHookModel<Model>(
     },
     hasNextPage: latestResponse?.hasNextPage ?? false,
     load: {
-      try await load(1)
+      load(1)
     },
     loadNext: {
       if let currentPage = latestResponse?.page {
-        try await loadNext(currentPage + 1)
+        loadNext(currentPage + 1)
       }
     }
   )
@@ -89,7 +89,7 @@ public func useLoadMoreHookModel<Model>(
 private func useLoadModels<Model>(
   _ type: Model.Type,
   _ loader: @escaping( (Int) async throws -> PagedResponse<Model>)
-) -> (phase: HookAsyncPhase<PagedResponse<Model>, Error>, load: (Int) async throws -> Void) {
+) -> (phase: HookAsyncPhase<PagedResponse<Model>, Error>, load: (Int) -> Void) {
   let page = useRef(0)
   let (phase, fetch) = useAsyncPerform { [loader] in
     return try await loader(page.current)
