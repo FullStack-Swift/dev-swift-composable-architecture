@@ -1,37 +1,58 @@
-import Foundation
-import Combine
-
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+///
+///```swift
+///
+///let value = useRecoilValue(TextAtom())
+///
+///print(value) // Prints the current value associated with ``TextAtom``.
+///
+///```
+///
 @MainActor
 public func useRecoilValue<Node: Atom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: Node
 ) -> Node.Loader.Value {
-  useRecoilValue(fileID: fileID, line: line) {
+  useRecoilValue(fileID: fileID, line: line, updateStrategy: updateStrategy) {
     initialNode
   }
 }
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: description
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+///
+///```swift
+///let context = ...
+///
+///let value = useRecoilValue{TextAtom()}
+///
+///print(value) // Prints the current value associated with ``TextAtom``.
+///
+///```
+///
 @MainActor
 public func useRecoilValue<Node: Atom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping() -> Node
 ) -> Node.Loader.Value {
   useHook(
     RecoilValueHook<Node>(
+      updateStrategy: updateStrategy,
       initialNode: initialNode,
       location: SourceLocation(fileID: fileID, line: line)
     )
@@ -44,7 +65,7 @@ private struct RecoilValueHook<Node: Atom>: RecoilHook {
   
   typealias Value = Node.Loader.Value
   
-  let updateStrategy: HookUpdateStrategy? = .once
+  let updateStrategy: HookUpdateStrategy?
   
   let initialNode: () -> Node
   
@@ -55,12 +76,13 @@ private struct RecoilValueHook<Node: Atom>: RecoilHook {
     initialNode: @escaping () -> Node,
     location: SourceLocation
   ) {
+    self.updateStrategy = updateStrategy
     self.initialNode = initialNode
     self.location = location
   }
   
   @MainActor
-  func makeState() -> RecoilHookRef<Node> {
+  func makeState() -> State {
     RecoilHookRef(location: location, initialNode: initialNode())
   }
   
@@ -75,12 +97,18 @@ private struct RecoilValueHook<Node: Atom>: RecoilHook {
       return
     }
     coordinator.recoilobservable()
+    coordinator.updateView()
+  }
+  
+  @MainActor
+  func dispose(state: State) {
+    state.dispose()
   }
 }
 
-fileprivate extension RecoilHookRef {
-    @MainActor
-    var value: Node.Loader.Value {
-      context.watch(node)
-    }
+private extension RecoilHookRef {
+  @MainActor
+  var value: Node.Loader.Value {
+    context.watch(node)
+  }
 }

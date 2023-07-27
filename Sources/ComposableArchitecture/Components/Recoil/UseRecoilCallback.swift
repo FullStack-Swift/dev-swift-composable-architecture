@@ -4,13 +4,13 @@ public typealias RecoilCallback<R> = (RecoilGlobalContext) -> R
 
 public typealias RecoilAsyncCallback<R> = (RecoilGlobalContext) async throws -> R
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
-
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
 @discardableResult
 @MainActor
 public func useRecoilCallback<Node: StateAtom>(
@@ -23,18 +23,19 @@ public func useRecoilCallback<Node: StateAtom>(
     UseRecoilCallBackHook(
       updateStrategy: updateStrategy,
       shouldDeferredUpdate: true,
-      fn: fn
+      fn: fn,
+      location: SourceLocation(fileID: fileID, line: line)
     )
   )
 }
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
-
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
 @discardableResult
 @MainActor
 public func useRecoilCallback<Node: StateAtom>(
@@ -47,7 +48,8 @@ public func useRecoilCallback<Node: StateAtom>(
     UseRecoilAsyncCallBackHook(
       updateStrategy: updateStrategy,
       shouldDeferredUpdate: true,
-      fn: fn
+      fn: fn,
+      location: SourceLocation(fileID: fileID, line: line)
     )
   )
 }
@@ -64,7 +66,8 @@ public func useRecoilLayoutCallback<Node: StateAtom>(
     UseRecoilCallBackHook(
       updateStrategy: updateStrategy,
       shouldDeferredUpdate: false,
-      fn: fn
+      fn: fn,
+      location: SourceLocation(fileID: fileID, line: line)
     )
   )
 }
@@ -81,19 +84,27 @@ public func useRecoilLayoutCallback<Node: StateAtom>(
     UseRecoilAsyncCallBackHook(
       updateStrategy: updateStrategy,
       shouldDeferredUpdate: false,
-      fn: fn
+      fn: fn,
+      location: SourceLocation(fileID: fileID, line: line)
     )
   )
 }
 
 private struct UseRecoilCallBackHook<Node: StateAtom>: Hook {
+  
+  typealias State = _RecoilHookRef
+  
   let updateStrategy: HookUpdateStrategy?
+  
   let shouldDeferredUpdate: Bool
+  
   let fn: RecoilCallback<Node>
+  
+  var location: SourceLocation
   
   @MainActor
   func makeState() -> State {
-    State()
+    State(location: location)
   }
   
   @MainActor
@@ -105,33 +116,58 @@ private struct UseRecoilCallBackHook<Node: StateAtom>: Hook {
   
   @MainActor
   func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
     coordinator.state.fn = fn
   }
   
   @MainActor
   func dispose(state: State) {
-    state.fn = nil
+    state.dispose()
   }
 }
 
 private extension UseRecoilCallBackHook {
-  final class State {
+  @MainActor
+  final class _RecoilHookRef {
     
-    @RecoilGlobalViewContext
-    var context
-
+    internal var _context: RecoilGlobalViewContext
+    
+    internal var context: RecoilGlobalContext
+    
     var fn: RecoilCallback<Node>?
+    
+    var isDisposed = false
+    
+    init(location: SourceLocation) {
+      _context = RecoilGlobalViewContext(location: location)
+      context = _context.wrappedValue
+    }
+    
+    func dispose() {
+      fn = nil
+      isDisposed = true
+    }
+
   }
 }
 
 private struct UseRecoilAsyncCallBackHook<Node: StateAtom>: Hook {
+  
+  typealias State = _RecoilHookRef
+  
   let updateStrategy: HookUpdateStrategy?
+  
   let shouldDeferredUpdate: Bool
+  
   let fn: RecoilAsyncCallback<Node>
+  
+  var location: SourceLocation
   
   @MainActor
   func makeState() -> State {
-    State()
+    State(location: location)
   }
   
   @MainActor
@@ -143,21 +179,39 @@ private struct UseRecoilAsyncCallBackHook<Node: StateAtom>: Hook {
   
   @MainActor
   func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
     coordinator.state.fn = fn
   }
   
   @MainActor
   func dispose(state: State) {
-    state.fn = nil
+    state.dispose()
   }
 }
 
 private extension UseRecoilAsyncCallBackHook {
-  final class State {
+  // MARK: State
+  @MainActor
+  final class _RecoilHookRef {
     
-    @RecoilGlobalViewContext
-    var context
-
+    var _context: RecoilGlobalViewContext
+    
+    var context: RecoilGlobalContext
+    
     var fn: RecoilAsyncCallback<Node>?
+    
+    var isDisposed = false
+    
+    init(location: SourceLocation) {
+      _context = RecoilGlobalViewContext(location: location)
+      context = _context.wrappedValue
+    }
+    
+    func dispose() {
+      fn = nil
+      isDisposed = true
+    }
   }
 }

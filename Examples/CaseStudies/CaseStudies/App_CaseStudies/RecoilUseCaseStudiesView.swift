@@ -49,13 +49,10 @@ private struct _TaskAatom: TaskAtom, Hashable {
     return UUID().uuidString
   }
   
-  static var value: String = "Swift"
-  
   func value(context: Context) async -> String {
     try? await Task.sleep(nanoseconds: 1_000_000_000)
-    Self.value += "_@"
-    context.set(Self.value.count, for: _StateAtom(id: "_TaskAatom"))
-    return Self.value
+    context.set(Int.random(in: 1..<1000), for: _StateAtom(id: "_TaskAatom"))
+    return Bool.random() ? "Swift" : "ObjectiveC"
   }
 }
 
@@ -144,20 +141,22 @@ private struct _StateAtomView: HookView {
           .frame(height: 60)
         }
         // MARK: useRecoilTask
-        VStack {
-          let phase = useRecoilTask(.once, _TaskAatom(id: "1"))
-          AsyncPhaseView(phase: phase) { value in
-            let _ = print(value)
-            Text(value)
-              .lineLimit(nil)
-          } suspending: {
-            ProgressView()
+        HookScope {
+          VStack {
+            let phase = useRecoilTask(updateStrategy: .once, _TaskAatom(id: "1"))
+            AsyncPhaseView(phase: phase) { value in
+              logRenderUI(value)
+              Text(value)
+                .lineLimit(nil)
+            } suspending: {
+              ProgressView()
+            }
+            .frame(height: 60)
           }
-          .frame(height: 60)
         }
         // MARK: useRecoilThrowingTask
         VStack {
-          let phase = useRecoilThrowingTask(.once, _ThrowingTaskAtom())
+          let phase = useRecoilThrowingTask(updateStrategy: .once, _ThrowingTaskAtom())
           AsyncPhaseView(phase: phase) { value in
             Text(value.timeIntervalSince1970.description)
           } suspending: {

@@ -529,9 +529,7 @@ struct HookCaseStudiesView: View {
               TextValue((error as? ErrorCode)?.title ?? "Error")
               Spacer()
               Button("Random") {
-                Task {
-                  await phase.perform()
-                }
+                phase.perform()
               }
             }
           case .success(let data):
@@ -539,16 +537,14 @@ struct HookCaseStudiesView: View {
               TextValue(data)
               Spacer()
               Button("Random") {
-                Task {
-                  await phase.perform()
-                }
+                phase.perform()
               }
             }
         }
       }
       .frame(height: 68)
       .task {
-        await phase.perform()
+        phase.perform()
       }
     }
   }

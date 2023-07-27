@@ -20,59 +20,72 @@ public func usePublisherSubscribe<P: Publisher>(
 
 private struct PublisherSubscribeHook<P: Publisher>: Hook {
   
+  typealias State = _HookRef
+  
   typealias Phase = HookAsyncPhase<P.Output, P.Failure>
   
-  let makePublisher: () -> P
+  typealias Value = (phase: Phase, subscribe: () -> Void)
+  
   let updateStrategy: HookUpdateStrategy? = .once
+  
+  let makePublisher: () -> P
   
   func makeState() -> State {
     State()
   }
   
-  func value(coordinator: Coordinator) -> (phase: Phase, subscribe: () -> Void) {
-    (
-      phase: coordinator.state.phase,
-      subscribe: {
-        assertMainThread()
-        
-        guard !coordinator.state.isDisposed else {
-          return
-        }
-        
-        coordinator.state.phase = .running
-        coordinator.updateView()
-        
-        coordinator.state.cancellable = makePublisher()
-          .sink(
-            receiveCompletion: { completion in
-              switch completion {
-                case .failure(let error):
-                  coordinator.state.phase = .failure(error)
-                  coordinator.updateView()
-                  
-                case .finished:
-                  break
-              }
-            },
-            receiveValue: { output in
-              coordinator.state.phase = .success(output)
-              coordinator.updateView()
-            }
-          )
+  func value(coordinator: Coordinator) -> Value {
+    let phase = coordinator.state.phase
+    let subscribe: () -> Void = {
+      guard !coordinator.state.isDisposed else {
+        return
       }
-    )
+      coordinator.state.phase = .running
+      coordinator.updateView()
+      coordinator.state.cancellable = makePublisher()
+        .sink(
+          receiveCompletion: { completion in
+            switch completion {
+              case .failure(let error):
+                guard !coordinator.state.isDisposed else {
+                  return
+                }
+                coordinator.state.phase = .failure(error)
+                coordinator.updateView()
+              case .finished:
+                break
+            }
+          },
+          receiveValue: { output in
+            guard !coordinator.state.isDisposed else {
+              return
+            }
+            coordinator.state.phase = .success(output)
+            coordinator.updateView()
+          }
+        )
+    }
+    return (phase, subscribe)
   }
   
   func dispose(state: State) {
-    state.isDisposed = true
-    state.cancellable = nil
+    state.dispose()
   }
 }
 
 private extension PublisherSubscribeHook {
-  final class State {
-    var phase = Phase.pending
+  // MARK: State
+  final class _HookRef {
+    
+    var phase: Phase = .pending
+    
     var isDisposed = false
+    
     var cancellable: AnyCancellable?
+    
+    func dispose() {
+      isDisposed = true
+      cancellable = nil
+    }
   }
 }

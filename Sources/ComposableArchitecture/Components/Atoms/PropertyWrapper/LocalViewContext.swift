@@ -195,9 +195,3 @@ public struct AtomLocalViewContext: AtomWatchableContext {
     _store.restore(snapshot)
   }
 }
-
-extension AtomLocalViewContext: RecoilProtocol {
-  public var context: Self {
-    self
-  }
-}

@@ -12,6 +12,8 @@ import SwiftUI
 /// - Returns: Value from AtomLoader
 @MainActor
 public func atomValue<State>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) -> State
 ) -> MValueAtom<State> {
@@ -28,6 +30,8 @@ public func atomValue<State>(
 /// - Returns: Value from AtomLoader
 @MainActor
 public func atomValue<State>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   id: String,
   _ initialState: State
 ) -> MValueAtom<State> {
@@ -44,6 +48,8 @@ public func atomValue<State>(
 /// - Returns: Value from AtomLoader
 @MainActor
 public func atomState<State>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) -> State
 ) -> MStateAtom<State> {
@@ -60,6 +66,8 @@ public func atomState<State>(
 /// - Returns: Value from AtomLoader
 @MainActor
 public func atomState<State>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   id: String,
   _ initialState: State
 ) -> MStateAtom<State> {
@@ -76,6 +84,8 @@ public func atomState<State>(
 /// - Returns: Value from AtomLoader
 @MainActor
 public func atomTask<State>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) async -> State
 ) -> MTaskAtom<State> {
@@ -90,6 +100,8 @@ public func atomTask<State>(
 /// - Returns: Value from AtomLoader
 @MainActor
 public func atomTask<State>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   id: String,
   _ initialState: @escaping () async -> State
 ) -> MTaskAtom<State> {
@@ -104,6 +116,8 @@ public func atomTask<State>(
 /// - Returns: Value from AtomLoader
 @MainActor
 public func atomThrowingTask<State>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) async throws -> State
 ) -> MThrowingTaskAtom<State> {
@@ -118,6 +132,8 @@ public func atomThrowingTask<State>(
 /// - Returns: Value from AtomLoader
 @MainActor
 public func atomThrowingTask<State>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   id: String,
   _ initialState: @escaping () async throws -> State
 ) -> MThrowingTaskAtom<State> {
@@ -132,6 +148,8 @@ public func atomThrowingTask<State>(
 /// - Returns: Value from AtomLoader
 @MainActor
 public func atomPublisher<Publisher: Combine.Publisher>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   id: String,
   _ initialState: @escaping (AtomTransactionContext<Void>) -> Publisher
 ) -> MPublisherAtom<Publisher> {
@@ -146,6 +164,8 @@ public func atomPublisher<Publisher: Combine.Publisher>(
 /// - Returns: Value from AtomLoader
 @MainActor
 public func atomPublisher<Publisher: Combine.Publisher>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   id: String,
   _ initialState: Publisher
 ) -> MPublisherAtom<Publisher> {

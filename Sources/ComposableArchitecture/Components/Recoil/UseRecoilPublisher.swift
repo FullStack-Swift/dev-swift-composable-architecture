@@ -1,34 +1,37 @@
 import Combine
-import Foundation
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: description
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
 @MainActor
 public func useRecoilPublisher<Node: PublisherAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: Node
 ) -> AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>
 where Node.Loader == PublisherAtomLoader<Node> {
-  useRecoilPublisher(fileID: fileID, line: line) {
+  useRecoilPublisher(fileID: fileID, line: line, updateStrategy: updateStrategy) {
     initialNode
   }
 }
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: description
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
 @MainActor
 public func useRecoilPublisher<Node: PublisherAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping() -> Node
 ) -> AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>
 where Node.Loader == PublisherAtomLoader<Node> {
@@ -71,7 +74,8 @@ where Node.Loader == PublisherAtomLoader<Node> {
 
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    coordinator.state.phase
+    coordinator.state.phase = coordinator.state.value
+    return coordinator.state.phase
   }
   
   @MainActor
@@ -79,7 +83,7 @@ where Node.Loader == PublisherAtomLoader<Node> {
     guard !coordinator.state.isDisposed else {
       return
     }
-//    coordinator.recoilobservable()
+    coordinator.recoilobservable()
     coordinator.state.context.observable.publisher.sink {
       let value = coordinator.state.value
       guard !coordinator.state.isDisposed else {
@@ -91,10 +95,7 @@ where Node.Loader == PublisherAtomLoader<Node> {
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
       let refresh = await coordinator.state.refresh
-      if !Task.isCancelled {
-        guard !coordinator.state.isDisposed else {
-          return
-        }
+      if !Task.isCancelled && !coordinator.state.isDisposed {
         coordinator.state.phase = refresh
         coordinator.updateView()
       }
@@ -107,16 +108,12 @@ where Node.Loader == PublisherAtomLoader<Node> {
   }
 }
 
-extension RecoilPublisherHook {
+private extension RecoilPublisherHook {
   // MARK: State
-  fileprivate final class _RecoilHookRef: RecoilHookRef<Node> {
+  final class _RecoilHookRef: RecoilHookRef<Node> {
     
-    var phase = Value.suspending
+    var phase: Value = .suspending
     
-    override init(location: SourceLocation, initialNode: Node) {
-      super.init(location: location, initialNode: initialNode)
-    }
-
     var value: Value {
       context.watch(node)
     }

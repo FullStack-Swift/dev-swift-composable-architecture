@@ -8,8 +8,7 @@ public struct RecoilLocalContext: AtomWatchableContext {
   private let state = State()
   private let location: SourceLocation
   
-  
-  init(location: SourceLocation) {
+  public init(location: SourceLocation) {
     self.location = location
   }
   
@@ -23,51 +22,6 @@ public struct RecoilLocalContext: AtomWatchableContext {
   
   public var observable: ObservableListener {
     state.observable
-  }
-  
-  @discardableResult
-  public func waitForUpdate(timeout interval: TimeInterval? = nil) async -> Bool {
-    let updates = AsyncStream<Void> { continuation in
-      let cancellable = state.$observable.sink(
-        receiveCompletion: { completion in
-          continuation.finish()
-        },
-        receiveValue: {
-          continuation.yield()
-        }
-      )
-      
-      continuation.onTermination = { termination in
-        switch termination {
-          case .cancelled:
-            cancellable.cancel()
-          case .finished:
-            break
-          @unknown default:
-            break
-        }
-      }
-    }
-    
-    return await withTaskGroup(of: Bool.self) { group in
-      group.addTask {
-        var iterator = updates.makeAsyncIterator()
-        await iterator.next()
-        return true
-      }
-      
-      if let interval {
-        group.addTask {
-          try? await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
-          return false
-        }
-      }
-      
-      let didUpdate = await group.next() ?? false
-      group.cancelAll()
-      
-      return didUpdate
-    }
   }
   
   public func read<Node: Atom>(_ atom: Node) -> Node.Loader.Value {
@@ -135,12 +89,6 @@ private extension RecoilLocalContext {
   
   var container: SubscriptionContainer.Wrapper {
     state.container.wrapper(location: location)
-  }
-}
-
-extension RecoilLocalContext: RecoilProtocol {
-  public var context: Self {
-    self
   }
 }
 

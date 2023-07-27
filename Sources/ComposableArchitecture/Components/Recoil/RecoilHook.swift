@@ -40,16 +40,11 @@ extension RecoilHook where State: RecoilHookRef<Node> {
 @MainActor
 internal class RecoilHookRef<Node: Atom> {
   
-  var node: Node
-  var isDisposed = false
-  
-  internal var cancellables: SetCancellables = []
-  
   internal var _context: RecoilGlobalViewContext
   
-  internal var context: RecoilGlobalContext {
-    _context.wrappedValue
-  }
+  internal var context: RecoilGlobalContext
+  
+  internal var node: Node
   
   internal var task: Task<Void, Never>? {
     didSet {
@@ -57,18 +52,23 @@ internal class RecoilHookRef<Node: Atom> {
     }
   }
   
+  internal var isDisposed = false
+  
+  internal var cancellables: SetCancellables = []
+  
   internal init(
     location: SourceLocation,
     initialNode: Node
   ) {
     node = initialNode
     _context = RecoilGlobalViewContext(location: location)
+    context = _context.wrappedValue
   }
   
   internal func dispose() {
-    isDisposed = true
     task = nil
     cancellables.dispose()
+    isDisposed = true
   }
 }
 

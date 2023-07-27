@@ -98,7 +98,7 @@ private func useLoadModels<Model>(
     phase: phase,
     load: { newPage in
       page.current = newPage
-       await fetch()
+      fetch()
     }
   )
 }
