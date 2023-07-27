@@ -92,12 +92,6 @@ private extension RecoilLocalContext {
   }
 }
 
-extension RecoilLocalContext: RecoilProtocol {
-  public var context: Self {
-    self
-  }
-}
-
 // MARK: View Unit
 
 @MainActor

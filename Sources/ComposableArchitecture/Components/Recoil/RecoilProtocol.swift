@@ -58,8 +58,14 @@ public protocol RecoilProtocol {
   var context: Context { get }
 }
 
+extension AtomWatchableContext {
+  var context: Self {
+    self
+  }
+}
+
 @MainActor
-extension RecoilProtocol {
+extension AtomWatchableContext {
   
   // MARK: Recoil Value
   

@@ -8,52 +8,61 @@
 ///   - updateStrategy: A strategy that determines when to update the value.
 ///   - makeValue: A closure that to create a new value.
 /// - Returns: A memoized value.
-public func useMemo<Value>(
+public func useMemo<Node>(
   _ updateStrategy: HookUpdateStrategy = .once,
-  _ makeValue: @escaping () -> Value
-) -> Value {
+  _ initialNode: @escaping () -> Node
+) -> Node {
   useHook(
     MemoHook(
       updateStrategy: updateStrategy,
-      makeValue: makeValue
+      initialNode: initialNode
     )
   )
 }
 
-private struct MemoHook<Value>: Hook {
+private struct MemoHook<Node>: Hook {
+  
+  typealias State = _HookRef
   
   let updateStrategy: HookUpdateStrategy?
   
-  let makeValue: () -> Value
+  let initialNode: () -> Node
   
   
   init(
     updateStrategy: HookUpdateStrategy?,
-       makeValue: @escaping () -> Value
+    initialNode: @escaping () -> Node
   ) {
     self.updateStrategy = updateStrategy
-    self.makeValue = makeValue
+    self.initialNode = initialNode
   }
   
   func makeState() -> State {
     State()
   }
   
-  func value(coordinator: Coordinator) -> Value {
-    coordinator.state.value ?? makeValue()
+  func value(coordinator: Coordinator) -> Node {
+    coordinator.state.node ?? initialNode()
   }
   
   func updateState(coordinator: Coordinator) {
-    coordinator.state.value = makeValue()
+    coordinator.state.node = initialNode()
   }
-
+  
   func dispose(state: State) {
-    
+    state.dispose()
   }
 }
 
 private extension MemoHook {
-  final class State {
-    var value: Value?
+  // MARK: State
+  final class _HookRef {
+    var node: Node?
+    
+    var isDisposed = false
+    
+    func dispose() {
+      isDisposed = true
+    }
   }
 }

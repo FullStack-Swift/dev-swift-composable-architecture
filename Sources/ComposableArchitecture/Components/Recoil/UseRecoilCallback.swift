@@ -91,9 +91,15 @@ public func useRecoilLayoutCallback<Node: StateAtom>(
 }
 
 private struct UseRecoilCallBackHook<Node: StateAtom>: Hook {
+  
+  typealias State = _RecoilHookRef
+  
   let updateStrategy: HookUpdateStrategy?
+  
   let shouldDeferredUpdate: Bool
+  
   let fn: RecoilCallback<Node>
+  
   var location: SourceLocation
   
   @MainActor
@@ -110,18 +116,21 @@ private struct UseRecoilCallBackHook<Node: StateAtom>: Hook {
   
   @MainActor
   func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
     coordinator.state.fn = fn
   }
   
   @MainActor
   func dispose(state: State) {
-    state.fn = nil
+    state.dispose()
   }
 }
 
 private extension UseRecoilCallBackHook {
   @MainActor
-  final class State {
+  final class _RecoilHookRef {
     
     internal var _context: RecoilGlobalViewContext
     
@@ -129,18 +138,31 @@ private extension UseRecoilCallBackHook {
     
     var fn: RecoilCallback<Node>?
     
+    var isDisposed = false
+    
     init(location: SourceLocation) {
       _context = RecoilGlobalViewContext(location: location)
       context = _context.wrappedValue
     }
     
+    func dispose() {
+      fn = nil
+      isDisposed = true
+    }
+
   }
 }
 
 private struct UseRecoilAsyncCallBackHook<Node: StateAtom>: Hook {
+  
+  typealias State = _RecoilHookRef
+  
   let updateStrategy: HookUpdateStrategy?
+  
   let shouldDeferredUpdate: Bool
+  
   let fn: RecoilAsyncCallback<Node>
+  
   var location: SourceLocation
   
   @MainActor
@@ -157,28 +179,39 @@ private struct UseRecoilAsyncCallBackHook<Node: StateAtom>: Hook {
   
   @MainActor
   func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
     coordinator.state.fn = fn
   }
   
   @MainActor
   func dispose(state: State) {
-    state.fn = nil
+    state.dispose()
   }
 }
 
 private extension UseRecoilAsyncCallBackHook {
+  // MARK: State
   @MainActor
-  final class State {
+  final class _RecoilHookRef {
     
-    internal var _context: RecoilGlobalViewContext
+    var _context: RecoilGlobalViewContext
     
-    internal var context: RecoilGlobalContext
-
+    var context: RecoilGlobalContext
+    
     var fn: RecoilAsyncCallback<Node>?
+    
+    var isDisposed = false
     
     init(location: SourceLocation) {
       _context = RecoilGlobalViewContext(location: location)
       context = _context.wrappedValue
+    }
+    
+    func dispose() {
+      fn = nil
+      isDisposed = true
     }
   }
 }

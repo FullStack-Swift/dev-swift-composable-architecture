@@ -188,13 +188,6 @@ public struct RecoilGlobalContext: AtomWatchableContext {
   public func restore(_ snapshot: Snapshot) {
     _store.restore(snapshot)
   }
-
-}
-
-extension RecoilGlobalContext: RecoilProtocol {
-  public var context: Self {
-    self
-  }
 }
 
 // MARK: PropertyWrapper

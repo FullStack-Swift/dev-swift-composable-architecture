@@ -143,7 +143,7 @@ private struct _StateAtomView: HookView {
         // MARK: useRecoilTask
         HookScope {
           VStack {
-            let phase = useRecoilTask(.once, _TaskAatom(id: "1"))
+            let phase = useRecoilTask(updateStrategy: .once, _TaskAatom(id: "1"))
             AsyncPhaseView(phase: phase) { value in
               logRenderUI(value)
               Text(value)
@@ -156,7 +156,7 @@ private struct _StateAtomView: HookView {
         }
         // MARK: useRecoilThrowingTask
         VStack {
-          let phase = useRecoilThrowingTask(.once, _ThrowingTaskAtom())
+          let phase = useRecoilThrowingTask(updateStrategy: .once, _ThrowingTaskAtom())
           AsyncPhaseView(phase: phase) { value in
             Text(value.timeIntervalSince1970.description)
           } suspending: {

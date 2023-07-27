@@ -67,7 +67,7 @@ public func useCallBack<Value>(
 ///             It is able to return a closure that to do something when this hook is unmount from the view or when the side-effect function is called again.
 @discardableResult
 public func useLayoutCallback<Value>(
-  _ updateStrategy: HookUpdateStrategy? = nil,
+  _ updateStrategy: HookUpdateStrategy? = .once,
   _ fn: @escaping Callback<Value>
 ) -> Callback<Value> {
   useHook(
@@ -81,7 +81,7 @@ public func useLayoutCallback<Value>(
 
 @discardableResult
 public func useLayoutCallback<Value>(
-  _ updateStrategy: HookUpdateStrategy? = nil,
+  _ updateStrategy: HookUpdateStrategy? = .once,
   _ fn: @escaping AsyncCallback<Value>
 ) -> AsyncCallback<Value> {
   useHook(
@@ -112,18 +112,29 @@ private struct UseCallBackHook<Value>: Hook {
   }
   
   func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
     coordinator.state.fn = fn
   }
   
   func dispose(state: State) {
-    state.fn = nil
+    state.dispose()
   }
 }
 
 private extension UseCallBackHook {
   // MARK: State
   final class _HookRef {
+    
     var fn: Callback<Value>?
+    
+    var isDisposed = false
+    
+    func dispose() {
+      fn = nil
+      isDisposed = true
+    }
   }
 }
 
@@ -146,17 +157,28 @@ private struct UseAsyncCallBackHook<Value>: Hook {
   }
   
   func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
     coordinator.state.fn = fn
   }
   
   func dispose(state: State) {
-    state.fn = nil
+    state.dispose()
   }
 }
 
 private extension UseAsyncCallBackHook {
   // MARK: State
   final class _HookRef {
+    
     var fn: AsyncCallback<Value>?
+    
+    var isDisposed = false
+    
+    func dispose() {
+      fn = nil
+      isDisposed = true
+    }
   }
 }

@@ -69,8 +69,7 @@ private struct ReducerHook<State, Action>: Hook {
   }
   
   func dispose(state: _HookRef) {
-    state.isDisposed = true
-    state.nextAction = nil
+    state.dispose()
   }
 }
 
@@ -84,6 +83,11 @@ private extension ReducerHook {
     
     init(initialState: State) {
       state = initialState
+    }
+    
+    func dispose() {
+      nextAction = nil
+      isDisposed = true
     }
   }
 }
@@ -172,8 +176,8 @@ private extension ComposableReducerHook {
     }
     
     func dispose() {
-      isDisposed = true
       nextAction = nil
+      isDisposed = true
     }
   }
 }
