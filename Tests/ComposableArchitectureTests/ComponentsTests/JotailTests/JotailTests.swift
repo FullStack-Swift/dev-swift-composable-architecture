@@ -5,8 +5,8 @@ import ComposableArchitecture
 @MainActor
 final class JotailTests: XCTestCase {
   
-  func testUpdateJotail() {
-    let counter: MStateAtom<Int> = atom(id: "counter", 0)
+  func test_Update_Jotail() {
+    let counter: MStateAtom<Int> = atomState(id: "counter", 0)
     let context = AtomTestContext()
     
     do {

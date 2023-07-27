@@ -1,4 +1,5 @@
 import Foundation
+import IdentifiedCollections
 
 /// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
 /// - Parameters:
@@ -18,6 +19,8 @@ public func atomFamily<Value>(
   return MStateAtom(id: key, initialState)
 }
 
-public class RecoilFamily<T> {
+public class RecoilFamily<Node: Atom> {
+  
+  var state: IdentifiedArrayOf<AnyAtom<Node>> = []
   
 }

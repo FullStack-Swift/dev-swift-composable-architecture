@@ -97,7 +97,7 @@ private struct RecoilValueHook<Node: Atom>: RecoilHook {
       return
     }
     coordinator.recoilobservable()
-    coordinator.updateView()
+//    coordinator.updateView()
   }
   
   @MainActor

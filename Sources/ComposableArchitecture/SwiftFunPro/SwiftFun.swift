@@ -10,3 +10,11 @@ public func apply<T>(_ transform: (inout T) -> Void, to input: T) -> T {
   transform(&transformed)
   return transformed
 }
+
+public func sourceId(
+  id: String = "",
+  fileID: String = #fileID,
+  line: UInt = #line
+) -> String {
+  "fileID: \(fileID) line: \(line) id: \(id)"
+}

@@ -68,6 +68,12 @@ private struct PublisherSubscribeHook<P: Publisher>: Hook {
     return (phase, subscribe)
   }
   
+  func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
+  }
+  
   func dispose(state: State) {
     state.dispose()
   }

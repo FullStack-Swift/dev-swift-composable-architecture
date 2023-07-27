@@ -43,8 +43,6 @@ private struct ReducerHook<State, Action>: Hook {
     _HookRef(initialState: initialState)
   }
   
-
-  
   func value(coordinator: Coordinator) -> Value {
     let state = coordinator.state.state
     let dispatch: (Action) -> Void = { action in
@@ -149,6 +147,9 @@ private struct ComposableReducerHook<State, Action>: Hook {
   }
   
   func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
     guard let action = coordinator.state.nextAction else {
       return
     }

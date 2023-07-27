@@ -138,7 +138,7 @@ private struct RecoilStateHook<Node: StateAtom>: RecoilHook {
       return
     }
     coordinator.recoilobservable()
-    coordinator.updateView()
+//    coordinator.updateView()
   }
 }
 

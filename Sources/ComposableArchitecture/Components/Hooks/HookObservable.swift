@@ -84,21 +84,15 @@ public final class HookObservable: ObservableObject {
       if oldRecord.shouldUpdate(newHook: hook) {
         if hook.shouldDeferredUpdate {
           scopedState.deferredUpdateRecords.append(newRecord)
-        }
-        else {
+        } else {
           hook.updateState(coordinator: coordinator)
         }
       }
-      
       return hook.value(coordinator: coordinator)
-    }
-    else {
+    } else {
       scopedState.assertRecordingFailure(hook: hook, record: record.element)
-      
       // Fallback process for wrong usage.
-      
       sweepRemainingRecords()
-      
       return appendNew()
     }
   }
@@ -113,6 +107,7 @@ public final class HookObservable: ObservableObject {
     environment: EnvironmentValues,
     _ body: () throws -> Result
   ) rethrows -> Result {
+    
     assertMainThread()
     
     let previous = Self.current
@@ -243,7 +238,10 @@ private protocol HookRecordProtocol {
   var hookName: String { get }
   
   func state<H: Hook>(of hookType: H.Type) -> H.State?
+  
   func shouldUpdate<New: Hook>(newHook: New) -> Bool
+  
   func updateState()
+  
   func dispose()
 }

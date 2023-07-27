@@ -3,22 +3,27 @@ import SwiftUI
 
 /// A testing tool that simulates the behaviors on a view of a given hook
 /// and manages the resulting values.
-public final class HookTester<Parameter, Value> {
+/// It instead for HookScope.
+public final class RecoilTester<Parameter, Value> {
+  
+  private var tester: HookTester<Parameter, Value>
+  
+  private var cancellable: AnyCancellable?
+  
   /// The latest result value that the given Hook was executed.
-  public private(set) var value: Value
+  public var value: Value {
+    tester.value
+  }
   
   /// A history of the resulting values of the given Hook being executed.
-  public private(set) var valueHistory: [Value]
+  public var valueHistory: [Value] {
+    tester.valueHistory
+  }
   
   /// Event update UI
-  @ObservableListener
-  public var observer
-  
-  private var currentParameter: Parameter
-  private let hook: (Parameter) -> Value
-  private let dispatcher = HookObservable()
-  private let environment: EnvironmentValues
-  private var cancellable: AnyCancellable?
+  public var observer: ObservableListener {
+    tester.observer
+  }
   
   /// Creates a new tester that simulates the behavior on a view of a given hook
   /// and manages the resulting values.
@@ -31,21 +36,8 @@ public final class HookTester<Parameter, Value> {
     _ hook: @escaping (Parameter) -> Value,
     environment: (inout EnvironmentValues) -> Void = { _ in }
   ) {
-    var environmentValues = EnvironmentValues()
-    environment(&environmentValues)
-    
-    self.currentParameter = initialParameter
-    self.hook = hook
-    self.value = dispatcher.scoped(
-      environment: environmentValues,
-      { hook(initialParameter) }
-    )
-    self.valueHistory = [value]
-    self.environment = environmentValues
-    self.cancellable = dispatcher.objectWillChange
-      .sink(receiveValue: { [weak self] in
-        self?.update()
-      })
+    self.tester = HookTester(initialParameter, hook, environment: environment)
+//    cancellable = observer.publisher.sink(receiveValue: update)
   }
   
   /// Creates a new tester that simulates the behavior on a view of a given hook
@@ -53,32 +45,35 @@ public final class HookTester<Parameter, Value> {
   /// - Parameters:
   ///   - hook: A closure for running the hook under test.
   ///   - environment: A closure for mutating an `EnvironmentValues` that to be used for testing environment.
-  public convenience init(
+  public init(
     _ hook: @escaping (Parameter) -> Value,
     environment: (inout EnvironmentValues) -> Void = { _ in }
   ) where Parameter == Void {
-    self.init((), hook, environment: environment)
+    self.tester = HookTester(hook, environment: environment)
+//    cancellable = observer.publisher.sink(receiveValue: update)
+  }
+  
+  public init<Context: AtomWatchableContext>(
+    context: Context,
+    _ hook: @escaping (Parameter) -> Value
+  ) where Parameter == Void {
+    self.tester = HookTester(hook)
+//    cancellable = observer.publisher.sink(receiveValue: update)
   }
   
   /// Simulate a view update and re-call the hook under test with a given parameter.
   /// - Parameter parameter: A parameter value passed when calling the hook.
   public func update(with parameter: Parameter) {
-    value = dispatcher.scoped(
-      environment: environment,
-      { hook(parameter) }
-    )
-    valueHistory.append(value)
-    currentParameter = parameter
+    tester.update(with: parameter)
   }
   
   /// Simulate a view update and re-call the hook under test with the latest parameter that already applied.
   public func update() {
-    observer.send()
-    update(with: currentParameter)
+    tester.update()
   }
   
   /// Simulate view unmounting and disposes the hook under test.
   public func dispose() {
-    dispatcher.disposeAll()
+    tester.dispose()
   }
 }

@@ -5,14 +5,20 @@ public struct LoadMoreHookModel<Model> {
   public let selectedMovie: Binding<Model?>
   public let loadPhase: HookAsyncPhase<[Model], Error>
   public let hasNextPage: Bool
-  public let load: () async throws -> Void
-  public let loadNext: () async throws -> Void
+  public let load: () -> Void
+  public let loadNext: () -> Void
 }
 
 public struct PagedResponse<T> {
   public let page: Int
   public let totalPages: Int
   public let results: [T]
+  
+  public init(page: Int, totalPages: Int, results: [T]) {
+    self.page = page
+    self.totalPages = totalPages
+    self.results = results
+  }
   
   public var hasNextPage: Bool {
     page < totalPages

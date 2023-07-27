@@ -8,7 +8,7 @@ public protocol ProviderProtocol: Identifiable, Hashable {
   
   var id: UUID { get }
   
-  var observable: ObservableListener {get set}
+  var observable: ObservableListener { get set }
 }
 
 extension ProviderProtocol {
