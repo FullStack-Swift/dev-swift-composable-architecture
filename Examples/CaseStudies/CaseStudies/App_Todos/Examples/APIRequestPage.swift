@@ -9,16 +9,17 @@ struct Post: Codable {
 }
 
 struct APIRequestPage: View {
+  typealias Mtask = MTaskAtom<Int>
   
   var body: some View {
     HookScope {
-//      let atomFamily: AtomFamily<Int, MTaskAtom<Int>> = recoilTaskFamily<Int, Int> { params in
-//        return params
-//      }
-      let atomFamily = MTaskAtom<String>(id: "") {
-        try! await Task.sleep(for: .seconds(2))
+      let atomFamily = RecoilParamNode<Int, MTaskAtom<String>>(param: 1, node: MTaskAtom(id: sourceId(), { context in
         return Int.random(in: 1..<1000).description
-      }
+      }))
+//      let atomFamily = MTaskAtom<String>(id: "") {
+//        try! await Task.sleep(for: .seconds(2))
+//        return Int.random(in: 1..<1000).description
+//      }
       let phase = useRecoilTask(atomFamily)
       switch phase {
         case .success(let value):

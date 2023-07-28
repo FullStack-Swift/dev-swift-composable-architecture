@@ -3,11 +3,16 @@ import IdentifiedCollections
 import SwiftUI
 import Combine
 
-public typealias AtomFamily<P: Hashable, Node: Atom> = (P) -> RecoilParamNode<P, Node>
+public typealias AtomFamily<P, Node: Atom> = (P) -> RecoilParamNode<P, Node>
 
 public struct RecoilParamNode<P, Node: Atom> {
   public let param: P
   public let node: Node
+  
+  public init(param: P, node: Node) {
+    self.param = param
+    self.node = node
+  }
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -136,9 +141,16 @@ public func recoilPublisherFamily<P: Hashable, T>(
 /// - Returns: Hook Value.
 @MainActor
 public func useRecoilValue<P: Equatable, Node: Atom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ value: RecoilParamNode<P, Node>
 ) -> Node.Loader.Value {
-  useRecoilValue(updateStrategy: .preserved(by: value.param), value.node)
+  useRecoilValue(
+    fileID: fileID,
+    line: line,
+    updateStrategy: .preserved(by: value.param),
+    value.node
+  )
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -150,9 +162,16 @@ public func useRecoilValue<P: Equatable, Node: Atom>(
 /// - Returns: Hook Value.
 @MainActor
 public func useRecoilState<P: Equatable, Node: StateAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ value: RecoilParamNode<P, Node>
 ) -> Binding<Node.Loader.Value> {
-  useRecoilState(updateStrategy: .preserved(by: value.param), value.node)
+  useRecoilState(
+    fileID: fileID,
+    line: line,
+    updateStrategy: .preserved(by: value.param),
+    value.node
+  )
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -164,10 +183,17 @@ public func useRecoilState<P: Equatable, Node: StateAtom>(
 /// - Returns: Hook Value.
 @MainActor
 public func useRecoilTask<P: Equatable, Node: TaskAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ value: RecoilParamNode<P, Node>
 ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
 where Node.Loader: AsyncAtomLoader {
-  useRecoilTask(updateStrategy: .preserved(by: value.param), value.node)
+  useRecoilTask(
+    fileID: fileID,
+    line: line,
+    updateStrategy: .preserved(by: value.param),
+    value.node
+  )
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -179,10 +205,17 @@ where Node.Loader: AsyncAtomLoader {
 /// - Returns: Hook Value.
 @MainActor
 public func useRecoilThrowingTask<P: Equatable, Node: ThrowingTaskAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ value: RecoilParamNode<P, Node>
 ) -> AsyncPhase<Node.Loader.Success, Node.Loader.Failure>
 where Node.Loader: AsyncAtomLoader {
-  useRecoilThrowingTask(updateStrategy: .preserved(by: value.param), value.node)
+  useRecoilThrowingTask(
+    fileID: fileID,
+    line: line,
+    updateStrategy: .preserved(by: value.param),
+    value.node
+  )
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -194,10 +227,17 @@ where Node.Loader: AsyncAtomLoader {
 /// - Returns: Hook Value.
 @MainActor
 public func useRecoilPublisher<P: Equatable, Node: PublisherAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ value: RecoilParamNode<P, Node>
 ) -> AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>
 where Node.Loader == PublisherAtomLoader<Node> {
-  useRecoilPublisher(updateStrategy: .preserved(by: value.param), value.node)
+  useRecoilPublisher(
+    fileID: fileID,
+    line: line,
+    updateStrategy: .preserved(by: value.param),
+    value.node
+  )
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -209,10 +249,17 @@ where Node.Loader == PublisherAtomLoader<Node> {
 /// - Returns: Hook Value.
 @MainActor
 public func useRecoilRefresher<P: Equatable, Node: PublisherAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ value: RecoilParamNode<P, Node>
 ) -> (phase: AsyncPhase<Node.Publisher.Output, Node.Publisher.Failure>, refresher: () -> ())
 where Node.Loader == PublisherAtomLoader<Node> {
-  useRecoilRefresher(updateStrategy: .preserved(by: value.param), value.node)
+  useRecoilRefresher(
+    fileID: fileID,
+    line: line,
+    updateStrategy: .preserved(by: value.param),
+    value.node
+  )
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -224,10 +271,17 @@ where Node.Loader == PublisherAtomLoader<Node> {
 /// - Returns: Hook Value.
 @MainActor
 public func useRecoilRefresher<P: Equatable, Node: TaskAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ value: RecoilParamNode<P, Node>
 ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
 where Node.Loader: AsyncAtomLoader {
-  useRecoilRefresher(updateStrategy: .preserved(by: value.param), value.node)
+  useRecoilRefresher(
+    fileID: fileID,
+    line: line,
+    updateStrategy: .preserved(by: value.param),
+    value.node
+  )
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -239,8 +293,15 @@ where Node.Loader: AsyncAtomLoader {
 /// - Returns: Hook Value.
 @MainActor
 public func useRecoilRefresher<P: Equatable, Node: ThrowingTaskAtom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
   _ value: RecoilParamNode<P, Node>
 ) -> (phase: AsyncPhase<Node.Loader.Success, Node.Loader.Failure>, refresher: () -> ())
 where Node.Loader: AsyncAtomLoader {
-  useRecoilRefresher(updateStrategy: .preserved(by: value.param), value.node)
+  useRecoilRefresher(
+    fileID: fileID,
+    line: line,
+    updateStrategy: .preserved(by: value.param),
+    value.node
+  )
 }

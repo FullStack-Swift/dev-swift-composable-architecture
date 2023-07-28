@@ -12,6 +12,14 @@ final class UseStateTests: XCTestCase {
     XCTAssertEqual(tester.value.wrappedValue, 0)
   }
   
+  func test_hook_scope() {
+    HookScopeTester {
+      let state = useState(0)
+      state.wrappedValue = 99
+      XCTAssertEqual(state.wrappedValue, 99)
+    }
+  }
+  
   func testInitialStateCreateOnceWhenGivenClosure() {
     /// Expect create value call only once time.
 
