@@ -225,7 +225,7 @@ public struct RecoilGlobalViewContext {
       ),
       container: state.container.wrapper(location: location)
     ) {
-        print("🟡 RefreshUI in: \(location)")
+        print("💚 Re-Render in: \(location)")
       }
   }
   

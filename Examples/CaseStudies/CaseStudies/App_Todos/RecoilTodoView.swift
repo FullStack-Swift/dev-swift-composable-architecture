@@ -90,10 +90,10 @@ private let _statsAtom = MValueAtom<Stats>(id: "_todosAtom") { context in
   )
 }
 
-//@MainActor
-//let total = selector(key: "total") { context in
-//  return context.watch(_todosAtom).count
-//}
+@MainActor
+private let totalTodos = selectorValue { context in
+  context.watch(_todosAtom).count
+}
 
 // MARK: View
 
@@ -228,7 +228,7 @@ struct RecoilTodoView: View {
           EditButton()
         }
       }
-      .navigationTitle("Recoil-Todos")
+      .navigationTitle("Recoil-Todos" + useRecoilValue(totalTodos).description)
       .navigationBarTitleDisplayMode(.inline)
     }
   }

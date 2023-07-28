@@ -83,7 +83,6 @@ where Node.Loader == PublisherAtomLoader<Node> {
     guard !coordinator.state.isDisposed else {
       return
     }
-    coordinator.recoilobservable()
     coordinator.state.context.observable.publisher.sink {
       let value = coordinator.state.value
       guard !coordinator.state.isDisposed else {

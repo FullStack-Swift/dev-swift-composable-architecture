@@ -975,7 +975,13 @@ private struct RecoilValueHook<
     guard !coordinator.state.isDisposed else {
       return
     }
-    coordinator.updateView()
+    coordinator.state.context.objectWillChange.sink {
+      guard !coordinator.state.isDisposed else {
+        return
+      }
+      coordinator.updateView()
+    }
+    .store(in: &coordinator.state.cancellables)
   }
   
   @MainActor
@@ -1052,7 +1058,14 @@ private struct RecoilStateHook<
     guard !coordinator.state.isDisposed else {
       return
     }
-    coordinator.updateView()
+    coordinator.state.context.objectWillChange.sink {
+      guard !coordinator.state.isDisposed else {
+        return
+      }
+      coordinator.updateView()
+    }
+    .store(in: &coordinator.state.cancellables)
+
   }
   
   @MainActor
@@ -1117,11 +1130,10 @@ private struct RecoilPublisherHook<
       return
     }
     coordinator.state.context.objectWillChange.sink {
-      let value = coordinator.state.value
       guard !coordinator.state.isDisposed else {
         return
       }
-      coordinator.state.phase = value
+      coordinator.state.phase = coordinator.state.value
       coordinator.updateView()
     }
     .store(in: &coordinator.state.cancellables)
@@ -1203,16 +1215,11 @@ private struct RecoilTaskHook<
       return
     }
     coordinator.state.context.objectWillChange.sink {
-      coordinator.state.task = Task { @MainActor in
-        guard !coordinator.state.isDisposed else {
-          return
-        }
-        let value = await coordinator.state.value.result
-        if !Task.isCancelled && !coordinator.state.isDisposed {
-          coordinator.state.phase = AsyncPhase(value)
-          coordinator.updateView()
-        }
+      guard !coordinator.state.isDisposed else {
+        return
       }
+      coordinator.state.phase = coordinator.state.value
+      coordinator.updateView()
     }
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
@@ -1235,8 +1242,8 @@ private extension RecoilTaskHook {
     
     var phase = Value.suspending
     
-    var value: Task<Node.Loader.Success, Node.Loader.Failure> {
-      context.watch(node)
+    var value: Value {
+      context.watch(node.phase)
     }
     
     var refresh: Value {
@@ -1294,16 +1301,8 @@ where Node.Loader: AsyncAtomLoader {
       return
     }
     coordinator.state.context.objectWillChange.sink {
-      coordinator.state.task = Task { @MainActor in
-        guard !coordinator.state.isDisposed else {
-          return
-        }
-        let value = await coordinator.state.value.result
-        if !Task.isCancelled && !coordinator.state.isDisposed {
-          coordinator.state.phase = AsyncPhase(value)
-          coordinator.updateView()
-        }
-      }
+      coordinator.state.phase = coordinator.state.value
+      coordinator.updateView()
     }
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
@@ -1325,10 +1324,10 @@ private extension RecoilThrowingTaskHook {
   // MARK: State
   final class _ContextRecoilHookRef: ContextRecoilHookRef<Node, Context> {
     
-    var phase = Value.suspending
+    var phase: Value = .suspending
     
-    var value: Task<Node.Loader.Success, Node.Loader.Failure> {
-      context.watch(node)
+    var value: Value {
+      context.watch(node.phase)
     }
     
     var refresh: Value {
@@ -1505,16 +1504,11 @@ where Node.Loader: AsyncAtomLoader {
       return
     }
     coordinator.state.context.objectWillChange.sink {
-      coordinator.state.task = Task { @MainActor in
-        guard !coordinator.state.isDisposed else {
-          return
-        }
-        let value = await coordinator.state.value.result
-        if !Task.isCancelled && !coordinator.state.isDisposed {
-          coordinator.state.phase = AsyncPhase(value)
-          coordinator.updateView()
-        }
+      guard !coordinator.state.isDisposed else {
+        return
       }
+      coordinator.state.phase = coordinator.state.value
+      coordinator.updateView()
     }
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
@@ -1536,10 +1530,10 @@ private extension RecoilTaskRefresherHook {
   // MARK: State
   final class _ContextRecoilHookRef: ContextRecoilHookRef<Node, Context> {
     
-    var phase = AsyncPhase<Node.Loader.Success, Node.Loader.Failure>.suspending
+    var phase: Phase = .suspending
     
-    var value: Task<Node.Loader.Success, Node.Loader.Failure> {
-      context.watch(node)
+    var value: Phase {
+      context.watch(node.phase)
     }
     
     var refresh: Phase {
@@ -1613,16 +1607,11 @@ where Node.Loader: AsyncAtomLoader {
       return
     }
     coordinator.state.context.objectWillChange.sink {
-      coordinator.state.task = Task { @MainActor in
-        guard !coordinator.state.isDisposed else {
-          return
-        }
-        let value = await coordinator.state.value.result
-        if !Task.isCancelled && !coordinator.state.isDisposed {
-          coordinator.state.phase = AsyncPhase(value)
-          coordinator.updateView()
-        }
+      guard !coordinator.state.isDisposed else {
+        return
       }
+      coordinator.state.phase = coordinator.state.value
+      coordinator.updateView()
     }
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
@@ -1644,10 +1633,10 @@ private extension RecoilThrowingTaskRefresherHook {
   // MARK: State
   final class _ContextRecoilHookRef: ContextRecoilHookRef<Node, Context> {
 
-    var phase = Phase.suspending
+    var phase: Phase = .suspending
     
-    var value: Task<Node.Loader.Success, Node.Loader.Failure> {
-      context.watch(node)
+    var value: Phase {
+      context.watch(node.phase)
     }
     
     var refresh: Phase {

@@ -188,7 +188,6 @@ where Node.Loader == PublisherAtomLoader<Node> {
     guard !coordinator.state.isDisposed else {
       return
     }
-    coordinator.recoilobservable()
     coordinator.state.context.observable.publisher.sink {
       guard !coordinator.state.isDisposed else {
         return
@@ -216,7 +215,7 @@ private extension RecoilPublisherRefresherHook {
   // MARK: State
   final class _RecoilHookRef: RecoilHookRef<Node> {
     
-    var phase = Phase.suspending
+    var phase: Phase = .suspending
     
     override init(location: SourceLocation, initialNode: Node) {
       super.init(location: location, initialNode: initialNode)
@@ -290,18 +289,12 @@ where Node.Loader: AsyncAtomLoader {
     guard !coordinator.state.isDisposed else {
       return
     }
-    coordinator.recoilobservable()
     coordinator.state.context.observable.publisher.sink {
       guard !coordinator.state.isDisposed else {
         return
       }
-      coordinator.state.task = Task { @MainActor in
-        let value = await coordinator.state.value.result
-        if !Task.isCancelled && !coordinator.state.isDisposed {
-          coordinator.state.phase = AsyncPhase(value)
-          coordinator.updateView()
-        }
-      }
+      coordinator.state.phase = coordinator.state.value
+      coordinator.updateView()
     }
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
@@ -325,8 +318,8 @@ private extension RecoilTaskRefresherHook {
     
     var phase: Phase = .suspending
     
-    var value: Task<Node.Loader.Success, Node.Loader.Failure> {
-      context.watch(node)
+    var value: Phase {
+      context.watch(node.phase)
     }
     
     var refresh: Phase {
@@ -381,17 +374,12 @@ where Node.Loader: AsyncAtomLoader {
     guard !coordinator.state.isDisposed else {
       return
     }
-    coordinator.recoilobservable()
     coordinator.state.context.observable.publisher.sink {
       guard !coordinator.state.isDisposed else {
         return
       }
-      coordinator.state.task = Task { @MainActor in
-        let value = await coordinator.state.value.result
-        if !Task.isCancelled && !coordinator.state.isDisposed {
-          coordinator.state.phase = AsyncPhase(value)
-        }
-      }
+      coordinator.state.phase = coordinator.state.value
+      coordinator.updateView()
     }
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
@@ -415,8 +403,8 @@ private extension RecoilThrowingTaskRefresherHook {
     
     var phase: Phase = .suspending
     
-    var value: Task<Node.Loader.Success, Node.Loader.Failure> {
-      context.watch(node)
+    var value: Phase {
+      context.watch(node.phase)
     }
     
     var refresh: Phase {

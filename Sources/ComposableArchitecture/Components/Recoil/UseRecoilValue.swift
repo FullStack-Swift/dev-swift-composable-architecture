@@ -96,8 +96,13 @@ private struct RecoilValueHook<Node: Atom>: RecoilHook {
     guard !coordinator.state.isDisposed else {
       return
     }
-    coordinator.recoilobservable()
-//    coordinator.updateView()
+    coordinator.state.context.observable.publisher.sink {
+      guard !coordinator.state.isDisposed else {
+        return
+      }
+      coordinator.updateView()
+    }
+    .store(in: &coordinator.state.cancellables)
   }
   
   @MainActor

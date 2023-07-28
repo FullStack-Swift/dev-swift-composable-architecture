@@ -149,7 +149,6 @@ private extension UseRecoilCallBackHook {
       fn = nil
       isDisposed = true
     }
-
   }
 }
 

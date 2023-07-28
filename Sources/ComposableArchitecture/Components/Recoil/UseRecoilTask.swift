@@ -129,18 +129,12 @@ private struct RecoilTaskHook<Node: TaskAtom>: RecoilHook where Node.Loader: Asy
     guard !coordinator.state.isDisposed else {
       return
     }
-    coordinator.recoilobservable()
     coordinator.state.context.observable.publisher.sink {
-      Task { @MainActor in
-        guard !coordinator.state.isDisposed else {
-          return
-        }
-        let result = await coordinator.state.value.result
-        if !Task.isCancelled && !coordinator.state.isDisposed {
-          coordinator.state.phase = AsyncPhase(result)
-          coordinator.updateView()
-        }
+      guard !coordinator.state.isDisposed else {
+        return
       }
+      coordinator.state.phase = coordinator.state.value
+      coordinator.updateView()
     }
     .store(in: &coordinator.state.cancellables)
     coordinator.state.task = Task { @MainActor in
@@ -164,8 +158,8 @@ private extension RecoilTaskHook {
     
     var phase: Value = .suspending
     
-    var value: Task<Node.Loader.Success, Node.Loader.Failure> {
-      context.watch(node)
+    var value: Value {
+      context.watch(node.phase)
     }
     
     var refresh: Value {

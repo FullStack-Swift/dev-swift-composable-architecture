@@ -7,3 +7,9 @@ public struct SourceLocation: Codable, Equatable {
     self.line = line
   }
 }
+
+extension SourceLocation {
+  public var sourceId: String {
+    "fileID: \(fileID) line: \(line)"
+  }
+}

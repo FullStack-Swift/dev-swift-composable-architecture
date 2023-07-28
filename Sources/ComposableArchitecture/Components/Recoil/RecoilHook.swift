@@ -72,7 +72,7 @@ internal class RecoilHookRef<Node: Atom> {
   }
 }
 
-// MARK: HookCoordinator + Recoil
+// MARK: HookCoordinator + Recoil + UpdateView
 extension HookCoordinator
 where H: RecoilHook, H.State: RecoilHookRef<H.Node> {
   

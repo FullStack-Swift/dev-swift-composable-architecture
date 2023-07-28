@@ -16,5 +16,9 @@ public func sourceId(
   fileID: String = #fileID,
   line: UInt = #line
 ) -> String {
-  "fileID: \(fileID) line: \(line) id: \(id)"
+  if id.isEmpty {
+    return "fileID: \(fileID) line: \(line)"
+  } else {
+    return "fileID: \(fileID) line: \(line) id: \(id)"
+  }
 }
