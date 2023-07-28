@@ -69,10 +69,10 @@ public func recoilTaskFamily<P: Hashable, T>(
   line: UInt = #line,
   id: String = "",
   _ initialState: @escaping (P) -> T
-) -> AtomFamily<P, MStateAtom<T>> {
+) -> AtomFamily<P, MTaskAtom<T>> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  let atomFamily: AtomFamily<P, MStateAtom<T>> = { (param: P) -> RecoilParamNode<P, MStateAtom<T>> in
-    RecoilParamNode(param: param, node: MStateAtom(id: id) { context in
+  let atomFamily: AtomFamily<P, MTaskAtom<T>> = { (param: P) -> RecoilParamNode<P, MTaskAtom<T>> in
+    RecoilParamNode(param: param, node: MTaskAtom(id: id) { context in
       initialState(param)
     })
   }

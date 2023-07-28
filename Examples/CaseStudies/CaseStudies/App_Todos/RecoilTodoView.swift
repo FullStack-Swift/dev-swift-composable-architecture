@@ -228,7 +228,7 @@ struct RecoilTodoView: View {
           EditButton()
         }
       }
-      .navigationTitle("Recoil-Todos" + useRecoilValue(totalTodos).description)
+      .navigationTitle("Recoil-Todos-" + useRecoilValue(totalTodos).description)
       .navigationBarTitleDisplayMode(.inline)
     }
   }
