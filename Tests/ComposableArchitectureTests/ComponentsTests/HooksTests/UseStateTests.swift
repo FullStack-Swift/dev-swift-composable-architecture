@@ -3,7 +3,14 @@ import XCTest
 import ComposableArchitecture
 
 @MainActor
-final class UseStateTest: XCTestCase {
+final class UseStateTests: XCTestCase {
+  
+  func test_State() {
+    let tester = HookTester {
+      useState(0)
+    }
+    XCTAssertEqual(tester.value.wrappedValue, 0)
+  }
   
   func testInitialStateCreateOnceWhenGivenClosure() {
     /// Expect create value call only once time.
