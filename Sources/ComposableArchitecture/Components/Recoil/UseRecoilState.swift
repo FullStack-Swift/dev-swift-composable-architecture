@@ -7,31 +7,6 @@ import SwiftUI
 ///   - updateStrategy: the Strategy update state.
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
-///
-///```swift
-///struct ThrowingAsyncTextAtom: ThrowingTaskAtom, Hashable {
-///  func value(context: Context) async throws -> String {
-///    try await Task.sleep(nanoseconds: 1_000_000_000)
-///    return "Swift"
-///  }
-///}
-///
-///
-///struct TextContentView: View {
-///  var body: some View {
-///    HookScope {
-///      let phase = useRecoilThrowingTask(ThrowingAsyncTextAtom())
-///      AsyncPhaseView(phase: phase) { value in
-///        Text(value)
-///      } suspending: {
-///        ProgressView()
-///      } failureContent: { error in
-///        Text(error.localizedDescription)
-///      }
-///    }
-///  }
-///}
-///```
 @MainActor
 public func useRecoilState<Node: StateAtom>(
   fileID: String = #fileID,
@@ -51,31 +26,6 @@ public func useRecoilState<Node: StateAtom>(
 ///   - updateStrategy: the Strategy update state.
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
-///
-///```swift
-///struct ThrowingAsyncTextAtom: ThrowingTaskAtom, Hashable {
-///  func value(context: Context) async throws -> String {
-///    try await Task.sleep(nanoseconds: 1_000_000_000)
-///    return "Swift"
-///  }
-///}
-///
-///
-///struct TextContentView: View {
-///  var body: some View {
-///    HookScope {
-///      let phase = useRecoilThrowingTask(ThrowingAsyncTextAtom())
-///      AsyncPhaseView(phase: phase) { value in
-///        Text(value)
-///      } suspending: {
-///        ProgressView()
-///      } failureContent: { error in
-///        Text(error.localizedDescription)
-///      }
-///    }
-///  }
-///}
-///```
 @MainActor
 public func useRecoilState<Node: StateAtom>(
   fileID: String = #fileID,

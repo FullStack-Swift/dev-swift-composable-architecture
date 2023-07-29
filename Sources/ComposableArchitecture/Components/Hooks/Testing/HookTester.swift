@@ -101,7 +101,7 @@ public final class HookScopeTester {
   
   /// Creates a new tester that simulates the behavior on a view of a given hook
   @discardableResult
-  public init(_ body: @escaping ()  -> Void) {
+  public init(_ body: @escaping () -> Void) {
     self.body = body
     observable.scoped(environment: environmentValues, body)
     cancellable = observable.objectWillChange.sink(receiveValue: updateView)

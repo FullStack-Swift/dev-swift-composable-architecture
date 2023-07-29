@@ -20,7 +20,8 @@ public struct RecoilGlobalContext: AtomWatchableContext {
   ) {
     _store = store
     _container = container
-    observable.sink(notifyUpdate)
+//    observable.sink(notifyUpdate)
+    _store.observable.sink(notifyUpdate)
   }
   
   /// A callback to perform when any of atoms watched by this context is updated.
@@ -161,7 +162,7 @@ public struct RecoilGlobalContext: AtomWatchableContext {
     _store.watch(
       atom,
       container: _container,
-      requiresObjectUpdate: true,
+      requiresObjectUpdate: false,
       notifyUpdate: observable.send
     )
   }
@@ -225,7 +226,7 @@ public struct RecoilGlobalViewContext {
       ),
       container: state.container.wrapper(location: location)
     ) {
-        print("💚 Re-Render in: \(location)")
+        print("💚 Global Context Re-Render in: \(location)")
       }
   }
   

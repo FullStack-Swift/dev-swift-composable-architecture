@@ -4,25 +4,24 @@ import ComposableArchitecture
 
 @MainActor
 final class AtomsTest: XCTestCase {
-
+  
+  
   func testValue() {
-    func testValue() {
-      let atom = MValueAtom(id: sourceId(), initialState: 0)
-      let context = AtomTestContext()
+    let atom = MValueAtom(id: sourceId(), initialState: 0)
+    let context = AtomTestContext()
+    
+    do {
+      // Initial value
+      let value = context.watch(atom)
+      XCTAssertEqual(value, 0)
+    }
+    
+    do {
+      // Override
+      context.unwatch(atom)
+      context.override(atom) { _ in 99 }
       
-      do {
-        // Initial value
-        let value = context.watch(atom)
-        XCTAssertEqual(value, 0)
-      }
-      
-      do {
-        // Override
-        context.unwatch(atom)
-        context.override(atom) { _ in 99 }
-        
-        XCTAssertEqual(context.watch(atom), 99)
-      }
+      XCTAssertEqual(context.watch(atom), 99)
     }
   }
   

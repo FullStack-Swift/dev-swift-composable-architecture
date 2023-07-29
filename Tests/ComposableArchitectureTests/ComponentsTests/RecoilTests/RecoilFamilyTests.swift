@@ -21,7 +21,7 @@ final class RecoilFamilyTests: XCTestCase {
         let selector = MValueAtom(id: sourceId(), initialState: param)
         let node = MValueAtom(id: UUID().uuidString, { context in
           let count = context.watch(MStateAtom(id: id, initialState: 0))
-          let prams = context.watch(selector)
+          let param = context.watch(selector)
           return (param + count).description
         })
         return RecoilParamNode<Int, MValueAtom<String>>(param: param, node: node)
@@ -81,7 +81,55 @@ final class RecoilFamilyTests: XCTestCase {
     tester.value.wrappedValue = 9
     XCTAssertEqual(tester.value.wrappedValue, 9)
     paramInit = 101
+    familyTester.update()
     await sleep(timeout: 1)
-    XCTAssertEqual(familyTester.value.value, "100")
+    XCTAssertEqual(familyTester.value.value, "10")
+  }
+  
+  func test_task_family() async {
+    let id = sourceId()
+    var family: (Int) -> RecoilParamNode<Int, MTaskAtom<String>> {
+      return { param in
+        let node = MTaskAtom(id: sourceId()) { context in
+          let count = context.watch(MStateAtom(id: id, initialState: 0))
+          return (param + count).description
+        }
+        return RecoilParamNode<Int, MTaskAtom<String>>(param: param, node: node)
+      }}
+    HookScopeTester {
+      let count = useState(0)
+      let phase = useRecoilTask(family(count.wrappedValue))
+      let callback = useCallback {
+        count.wrappedValue += 1
+      }
+      XCTAssertEqual(phase.value, nil)
+      callback()
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        XCTAssertEqual(phase.value, "1")
+      }
+      withMainAsync(delay: 2) {
+        
+      }
+      
+      callback()
+      withMainAsync(delay: 2) {
+        XCTAssertEqual(phase.value, "2")
+      }
+      
+      callback()
+      withMainAsync(delay: 2) {
+        XCTAssertEqual(phase.value, "3")
+      }
+      
+      // change State Atom
+      let state = useRecoilState(MStateAtom(id: id, initialState: 0))
+      state.wrappedValue = 1000
+  
+//      callback()
+      withMainAsync(delay: 2) {
+        XCTAssertEqual(phase.value, "10013")
+      }
+
+    }
   }
 }

@@ -8,6 +8,9 @@ internal struct StoreContext {
   private let observers: [Observer]
   private let enablesAssertion: Bool
   
+  @ObservableListener
+  var observable
+  
   nonisolated init(
     _ store: AtomStore? = nil,
     observers: [Observer] = [],
@@ -329,6 +332,11 @@ private extension StoreContext {
     cache: AtomCache<Node>,
     order: UpdateOrder
   ) {
+    var isChanges: Bool = false
+    defer {
+      observable.send()
+    }
+    
     let store = getStore()
     let oldValue = cache.value
     
@@ -353,6 +361,7 @@ private extension StoreContext {
           subscription.notifyUpdate()
         }
       }
+      isChanges = true
     }
     
     func notifyUpdate() {
