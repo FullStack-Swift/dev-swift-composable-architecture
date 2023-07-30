@@ -26,7 +26,7 @@ public typealias ThrowingAsyncCallback<R> = () async throws -> R
 ///             It is able to return a closure that to do something when this hook is unmount from the view or when the side-effect function is called again.
 @discardableResult
 public func useCallback<Value>(
-  _ updateStrategy: HookUpdateStrategy? = nil,
+  _ updateStrategy: HookUpdateStrategy? = .once,
   _ fn: @escaping Callback<Value>
 ) -> Callback<Value> {
   useHook(
@@ -40,7 +40,7 @@ public func useCallback<Value>(
 
 @discardableResult
 public func useCallBack<Value>(
-  _ updateStrategy: HookUpdateStrategy? = nil,
+  _ updateStrategy: HookUpdateStrategy? = .once,
   _ fn: @escaping AsyncCallback<Value>
 ) -> AsyncCallback<Value> {
   useHook(
@@ -54,7 +54,7 @@ public func useCallBack<Value>(
 
 @discardableResult
 public func useCallBack<Value>(
-  _ updateStrategy: HookUpdateStrategy? = nil,
+  _ updateStrategy: HookUpdateStrategy? = .once,
   _ fn: @escaping ThrowingAsyncCallback<Value>
 ) -> ThrowingAsyncCallback<Value> {
   useHook(
