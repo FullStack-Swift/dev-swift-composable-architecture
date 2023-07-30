@@ -21,7 +21,7 @@
 
 public typealias Callback<R> = () -> R
 
-public typealias AsyncCallback<R> = () async throws -> R
+public typealias AsyncCallback<R> = () -> R
 
 @discardableResult
 public func useCallback<Value>(
@@ -79,19 +79,19 @@ public func useLayoutCallback<Value>(
   )
 }
 
-@discardableResult
-public func useLayoutCallback<Value>(
-  _ updateStrategy: HookUpdateStrategy? = .once,
-  _ fn: @escaping AsyncCallback<Value>
-) -> AsyncCallback<Value> {
-  useHook(
-    UseAsyncCallBackHook(
-      updateStrategy: updateStrategy,
-      shouldDeferredUpdate: false,
-      fn: fn
-    )
-  )
-}
+//@discardableResult
+//public func useLayoutCallback<Value>(
+//  _ updateStrategy: HookUpdateStrategy? = .once,
+//  _ fn: @escaping AsyncCallback<Value>
+//) -> AsyncCallback<Value> {
+//  useHook(
+//    UseAsyncCallBackHook(
+//      updateStrategy: updateStrategy,
+//      shouldDeferredUpdate: false,
+//      fn: fn
+//    )
+//  )
+//}
 
 private struct UseCallBackHook<Value>: Hook {
   

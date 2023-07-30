@@ -15,6 +15,79 @@ public struct RecoilParamNode<P, Node: Atom> {
   }
 }
 
+// MARK: Make MParamValueAtom
+public struct MParamValueAtom<P, M>: ValueAtom {
+  
+  public typealias Value = M
+  
+  public let param: P
+  
+  var initialState: (Self.Context, P) -> M
+  
+  public var id: String
+  
+  public init(id: String, param: P,_ initialState: @escaping (Self.Context, P) -> M) {
+    self.id = id
+    self.param = param
+    self.initialState = initialState
+  }
+  
+  public init(id: String, param: P, initialState: M) {
+    self.init(id: id, param: param) { _,_  in
+      initialState
+    }
+  }
+  
+  public func value(context: Self.Context) -> M {
+    initialState(context, param)
+  }
+  
+  public var key: String {
+    self.id
+  }
+}
+
+// MARK: Make MParamTaskAtom
+public struct MParamTaskAtom<P: Hashable, M>: TaskAtom {
+  
+  public typealias Value = M
+  
+  public var id: String
+  
+  public var initialState: (Self.Context, P) async -> M
+  
+  public let param: P
+  
+  public init(id: String, param: P,_ initialState: @escaping (Self.Context, P) async -> M) {
+    self.id = id
+    self.param = param
+    self.initialState = initialState
+  }
+  
+  public init(id: String, param: P, _ initialState: @escaping() async -> M) {
+    self.init(id: id, param: param) { _,_ in
+      await initialState()
+    }
+  }
+  
+  public init(id: String, param: P, _ initialState: M) {
+    self.init(id: id, param: param) { _,_  in
+      initialState
+    }
+  }
+  
+  @MainActor
+  public func value(context: Self.Context) async -> Value {
+    await initialState(context, param)
+  }
+  
+  public var key: some Hashable {
+    self.id + param.hashValue.description
+  }
+}
+
+
+
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -27,13 +100,11 @@ public func recoilValueFamily<P: Hashable, T>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (P) -> T
-) -> AtomFamily<P, MValueAtom<T>> {
+  _ initialState: @escaping (MParamValueAtom<P, T>.Context, P) -> T
+) -> AtomFamily<P, MParamValueAtom<P, T>> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  let atomFamily: AtomFamily = { (param: P) -> RecoilParamNode<P, MValueAtom<T>> in
-    RecoilParamNode(param: param, node: MValueAtom(id: id) { context in
-      initialState(param)
-    })
+  let atomFamily: AtomFamily = { (param: P) -> RecoilParamNode<P, MParamValueAtom<P, T>> in
+    RecoilParamNode(param: param, node: MParamValueAtom<P,T>(id: id, param: param, initialState))
   }
   return atomFamily
 }
@@ -73,13 +144,11 @@ public func recoilTaskFamily<P: Hashable, T>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (P) -> T
-) -> AtomFamily<P, MTaskAtom<T>> {
+  _ initialState: @escaping (MParamTaskAtom<P, T>.Context, P) async -> T
+) -> AtomFamily<P, MParamTaskAtom<P, T>> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  let atomFamily: AtomFamily<P, MTaskAtom<T>> = { (param: P) -> RecoilParamNode<P, MTaskAtom<T>> in
-    RecoilParamNode(param: param, node: MTaskAtom(id: id) { context in
-      initialState(param)
-    })
+  let atomFamily: AtomFamily<P, MParamTaskAtom<P, T>> = { (param: P) -> RecoilParamNode<P, MParamTaskAtom<P, T>> in
+    RecoilParamNode(param: param, node: MParamTaskAtom<P, T>(id: id, param: param, initialState))
   }
   return atomFamily
 }

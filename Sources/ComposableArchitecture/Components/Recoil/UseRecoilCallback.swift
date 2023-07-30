@@ -2,7 +2,7 @@ import Foundation
 
 public typealias RecoilCallback<R> = (RecoilGlobalContext) -> R
 
-public typealias RecoilAsyncCallback<R> = (RecoilGlobalContext) async throws -> R
+public typealias RecoilAsyncCallback<R> = (RecoilGlobalContext) -> R
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
@@ -38,57 +38,7 @@ public func useRecoilCallback<Node: StateAtom>(
 /// - Returns: Hook Value.
 @discardableResult
 @MainActor
-public func useRecoilCallback<Node: StateAtom>(
-  fileID: String = #fileID,
-  line: UInt = #line,
-  _ updateStrategy: HookUpdateStrategy? = nil,
-  _ fn: @escaping RecoilAsyncCallback< Node>
-) -> AsyncCallback<Node> {
-  useHook(
-    UseRecoilAsyncCallBackHook(
-      updateStrategy: updateStrategy,
-      shouldDeferredUpdate: true,
-      fn: fn,
-      location: SourceLocation(fileID: fileID, line: line)
-    )
-  )
-}
-
-/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
-/// - Parameters:
-///   - fileID: the path to the file it appears in.
-///   - line: the line number on which it appears.
-///   - updateStrategy: the Strategy update state.
-///   - initialNode: the any Atom value.
-/// - Returns: Hook Value.
-@discardableResult
-@MainActor
-public func useRecoilLayoutCallback<Node: StateAtom>(
-  fileID: String = #fileID,
-  line: UInt = #line,
-  _ updateStrategy: HookUpdateStrategy? = nil,
-  _ fn: @escaping RecoilCallback<Node>
-) -> Callback<Node> {
-  useHook(
-    UseRecoilCallBackHook(
-      updateStrategy: updateStrategy,
-      shouldDeferredUpdate: false,
-      fn: fn,
-      location: SourceLocation(fileID: fileID, line: line)
-    )
-  )
-}
-
-/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
-/// - Parameters:
-///   - fileID: the path to the file it appears in.
-///   - line: the line number on which it appears.
-///   - updateStrategy: the Strategy update state.
-///   - initialNode: the any Atom value.
-/// - Returns: Hook Value.
-@discardableResult
-@MainActor
-public func useRecoilLayoutCallback<Node: StateAtom>(
+public func useRecoilCallback<Node: Atom>(
   fileID: String = #fileID,
   line: UInt = #line,
   _ updateStrategy: HookUpdateStrategy? = nil,
@@ -97,6 +47,31 @@ public func useRecoilLayoutCallback<Node: StateAtom>(
   useHook(
     UseRecoilAsyncCallBackHook(
       updateStrategy: updateStrategy,
+      shouldDeferredUpdate: true,
+      fn: fn,
+      location: SourceLocation(fileID: fileID, line: line)
+    )
+  )
+}
+
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
+/// - Parameters:
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+@discardableResult
+@MainActor
+public func useRecoilLayoutCallback<Node: Atom>(
+  fileID: String = #fileID,
+  line: UInt = #line,
+  _ updateStrategy: HookUpdateStrategy? = nil,
+  _ fn: @escaping RecoilCallback<Node>
+) -> Callback<Node> {
+  useHook(
+    UseRecoilCallBackHook(
+      updateStrategy: updateStrategy,
       shouldDeferredUpdate: false,
       fn: fn,
       location: SourceLocation(fileID: fileID, line: line)
@@ -104,7 +79,32 @@ public func useRecoilLayoutCallback<Node: StateAtom>(
   )
 }
 
-private struct UseRecoilCallBackHook<Node: StateAtom>: Hook {
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
+/// - Parameters:
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+//@discardableResult
+//@MainActor
+//public func useRecoilLayoutCallback<Node: Atom>(
+//  fileID: String = #fileID,
+//  line: UInt = #line,
+//  _ updateStrategy: HookUpdateStrategy? = nil,
+//  _ fn: @escaping RecoilAsyncCallback<Node>
+//) -> AsyncCallback<Node> {
+//  useHook(
+//    UseRecoilAsyncCallBackHook(
+//      updateStrategy: updateStrategy,
+//      shouldDeferredUpdate: false,
+//      fn: fn,
+//      location: SourceLocation(fileID: fileID, line: line)
+//    )
+//  )
+//}
+
+private struct UseRecoilCallBackHook<Node: Atom>: Hook {
   
   typealias State = _RecoilHookRef
   
@@ -166,7 +166,7 @@ private extension UseRecoilCallBackHook {
   }
 }
 
-private struct UseRecoilAsyncCallBackHook<Node: StateAtom>: Hook {
+private struct UseRecoilAsyncCallBackHook<Node: Atom>: Hook {
   
   typealias State = _RecoilHookRef
   
@@ -186,7 +186,7 @@ private struct UseRecoilAsyncCallBackHook<Node: StateAtom>: Hook {
   @MainActor
   func value(coordinator: Coordinator) -> AsyncCallback<Node> {
     return {
-    try await (coordinator.state.fn ?? fn)(coordinator.state.context)
+    (coordinator.state.fn ?? fn)(coordinator.state.context)
     }
   }
   
