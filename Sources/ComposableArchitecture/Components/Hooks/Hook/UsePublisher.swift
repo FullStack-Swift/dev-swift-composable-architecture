@@ -1,5 +1,7 @@
 import Combine
 
+// MARK: Call publisher only `updateStrategy` changes, It will updateUI status AsyncPhase.
+
 /// A hook to use the most recent phase of asynchronous operation of the passed publisher.
 /// The publisher will be subscribed at the first update and will be re-subscribed according to the given `updateStrategy`.
 ///

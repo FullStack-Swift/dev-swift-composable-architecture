@@ -1,5 +1,7 @@
 import Combine
 
+// MARK: Call operation only running `subscribe` action, It will updateUI status AsyncPhase.
+
 /// A hook to use the most recent phase of asynchronous operation of the passed publisher, and a `subscribe` function to subscribe to it at arbitrary timing.
 ///
 ///     let (phase, subscribe) = usePublisherSubscribe {

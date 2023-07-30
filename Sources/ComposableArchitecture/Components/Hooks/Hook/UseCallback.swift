@@ -1,3 +1,9 @@
+public typealias Callback<R> = () -> R
+
+public typealias AsyncCallback<R> = () async -> R
+
+public typealias ThrowingAsyncCallback<R> = () async throws -> R
+
 /// A hook to use a side effect function that is called the number of times according to the strategy specified with `updateStrategy`.
 /// Optionally the function can be cancelled when this hook is disposed or when the side-effect function is called again.
 /// Note that the execution is deferred until after ohter hooks have been updated.
@@ -18,11 +24,6 @@
 ///   - updateStrategy: A strategy that determines when to re-call the given side effect function.
 ///   - effect: A closure that typically represents a side-effect.
 ///             It is able to return a closure that to do something when this hook is unmount from the view or when the side-effect function is called again.
-
-public typealias Callback<R> = () -> R
-
-public typealias AsyncCallback<R> = () -> R
-
 @discardableResult
 public func useCallback<Value>(
   _ updateStrategy: HookUpdateStrategy? = nil,
@@ -44,6 +45,20 @@ public func useCallBack<Value>(
 ) -> AsyncCallback<Value> {
   useHook(
     UseAsyncCallBackHook(
+      updateStrategy: updateStrategy,
+      shouldDeferredUpdate: true,
+      fn: fn
+    )
+  )
+}
+
+@discardableResult
+public func useCallBack<Value>(
+  _ updateStrategy: HookUpdateStrategy? = nil,
+  _ fn: @escaping ThrowingAsyncCallback<Value>
+) -> ThrowingAsyncCallback<Value> {
+  useHook(
+    UseThrowingAsyncCallBackHook(
       updateStrategy: updateStrategy,
       shouldDeferredUpdate: true,
       fn: fn
@@ -79,19 +94,33 @@ public func useLayoutCallback<Value>(
   )
 }
 
-//@discardableResult
-//public func useLayoutCallback<Value>(
-//  _ updateStrategy: HookUpdateStrategy? = .once,
-//  _ fn: @escaping AsyncCallback<Value>
-//) -> AsyncCallback<Value> {
-//  useHook(
-//    UseAsyncCallBackHook(
-//      updateStrategy: updateStrategy,
-//      shouldDeferredUpdate: false,
-//      fn: fn
-//    )
-//  )
-//}
+@discardableResult
+public func useLayoutCallback<Value>(
+  _ updateStrategy: HookUpdateStrategy? = .once,
+  _ fn: @escaping AsyncCallback<Value>
+) -> AsyncCallback<Value> {
+  useHook(
+    UseAsyncCallBackHook(
+      updateStrategy: updateStrategy,
+      shouldDeferredUpdate: false,
+      fn: fn
+    )
+  )
+}
+
+@discardableResult
+public func useLayoutCallback<Value>(
+  _ updateStrategy: HookUpdateStrategy? = .once,
+  _ fn: @escaping ThrowingAsyncCallback<Value>
+) -> ThrowingAsyncCallback<Value> {
+  useHook(
+    UseThrowingAsyncCallBackHook(
+      updateStrategy: updateStrategy,
+      shouldDeferredUpdate: false,
+      fn: fn
+    )
+  )
+}
 
 private struct UseCallBackHook<Value>: Hook {
   
@@ -173,6 +202,51 @@ private extension UseAsyncCallBackHook {
   final class _HookRef {
     
     var fn: AsyncCallback<Value>?
+    
+    var isDisposed = false
+    
+    func dispose() {
+      fn = nil
+      isDisposed = true
+    }
+  }
+}
+
+private struct UseThrowingAsyncCallBackHook<Value>: Hook {
+  
+  typealias State = _HookRef
+  
+  let updateStrategy: HookUpdateStrategy?
+  
+  let shouldDeferredUpdate: Bool
+  
+  let fn: ThrowingAsyncCallback<Value>
+  
+  func makeState() -> State {
+    State()
+  }
+  
+  func value(coordinator: Coordinator) -> ThrowingAsyncCallback<Value> {
+    coordinator.state.fn ?? fn
+  }
+  
+  func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
+    coordinator.state.fn = fn
+  }
+  
+  func dispose(state: State) {
+    state.dispose()
+  }
+}
+
+private extension UseThrowingAsyncCallBackHook {
+  // MARK: State
+  final class _HookRef {
+    
+    var fn: ThrowingAsyncCallback<Value>?
     
     var isDisposed = false
     

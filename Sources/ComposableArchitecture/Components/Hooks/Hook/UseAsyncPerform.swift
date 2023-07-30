@@ -1,3 +1,5 @@
+// MARK: Call operation only running `perform` action, It will updateUI status AsyncPhase.
+
 /// A hook to use the most recent phase of the passed non-throwing asynchronous operation, and a `perform` function to call the it at arbitrary timing.
 ///
 ///     let (phase, perform) = useAsyncPerform {
@@ -8,9 +10,15 @@
 /// - Returns: A tuple of the most recent async phase and its perform function.
 @discardableResult
 public func useAsyncPerform<Output>(
+  updateStrategy: HookUpdateStrategy? = .once,
   _ operation: @escaping @MainActor () async -> Output
 ) -> (phase: HookAsyncPhase<Output, Never>, perform: () -> Void) {
-  useHook(AsyncPerformHook(operation: operation))
+  useHook(
+    AsyncPerformHook(
+    updateStrategy: updateStrategy,
+    operation: operation
+    )
+  )
 }
 
 /// A hook to use the most recent phase of the passed throwing asynchronous operation, and a `perform` function to call the it at arbitrary timing.
@@ -23,9 +31,15 @@ public func useAsyncPerform<Output>(
 /// - Returns: A most recent async phase.
 @discardableResult
 public func useAsyncPerform<Output>(
+  _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: @escaping @MainActor () async throws -> Output
 ) -> (phase: HookAsyncPhase<Output, Error>, perform: () -> Void) {
-  useHook(AsyncThrowingPerformHook(operation: operation))
+  useHook(
+    AsyncThrowingPerformHook(
+      updateStrategy: updateStrategy,
+      operation: operation
+    )
+  )
 }
 
 private struct AsyncPerformHook<Output>: Hook {
@@ -36,9 +50,17 @@ private struct AsyncPerformHook<Output>: Hook {
   
   typealias Value = (phase: Phase, perform: () -> Void)
   
-  let updateStrategy: HookUpdateStrategy? = .once
+  var updateStrategy: HookUpdateStrategy? = .once
   
   let operation: @MainActor () async -> Output
+  
+  init(
+    updateStrategy: HookUpdateStrategy? = .once,
+    operation: @escaping () async -> Output
+  ) {
+    self.updateStrategy = updateStrategy
+    self.operation = operation
+  }
   
   func makeState() -> State {
     State()
@@ -103,9 +125,17 @@ private struct AsyncThrowingPerformHook<Output>: Hook {
   
   typealias Value = (phase: Phase, perform: () -> Void)
   
-  let updateStrategy: HookUpdateStrategy? = .once
+  var updateStrategy: HookUpdateStrategy? = .once
   
   let operation: @MainActor () async throws -> Output
+  
+  init(
+    updateStrategy: HookUpdateStrategy? = .once,
+    operation: @escaping () async throws -> Output
+  ) {
+    self.updateStrategy = updateStrategy
+    self.operation = operation
+  }
   
   func makeState() -> State {
     State()
@@ -138,6 +168,12 @@ private struct AsyncThrowingPerformHook<Output>: Hook {
       }
     }
     return (phase: phase, perform: perform)
+  }
+  
+  func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
   }
   
   func dispose(state: State) {

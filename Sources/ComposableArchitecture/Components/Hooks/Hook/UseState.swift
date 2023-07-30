@@ -71,7 +71,9 @@ private struct StateHook<Node>: Hook {
   }
   
   func updateState(coordinator: Coordinator) {
-    
+    guard !coordinator.state.isDisposed else {
+      return
+    }
   }
   
   func dispose(state: State) {

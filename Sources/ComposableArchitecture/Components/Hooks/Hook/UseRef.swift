@@ -9,19 +9,41 @@
 ///
 /// - Parameter initialValue: A initial value that to initialize the ref object to be returned.
 /// - Returns: A mutable ref object.
-public func useRef<T>(_ initialValue: T) -> RefObject<T> {
-  useHook(RefHook(initialValue: initialValue))
+public func useRef<Node>(
+  _ initialNode: Node
+) -> RefObject<Node> {
+  useHook(
+    RefHook(
+      initialNode: initialNode
+    )
+  )
 }
 
-private struct RefHook<T>: Hook {
-  let initialValue: T
-  let updateStrategy: HookUpdateStrategy? = .once
+public func useRef<Node>(
+  _ initialNode: @escaping () -> Node
+) -> RefObject<Node> {
+  useHook(
+    RefHook(
+      initialNode: initialNode()
+    )
+  )
+}
+
+private struct RefHook<Node>: Hook {
   
-  func makeState() -> RefObject<T> {
-    RefObject(initialValue)
+  typealias State = RefObject<Node>
+  
+  typealias Value = RefObject<Node>
+  
+  let initialNode: Node
+  
+  var updateStrategy: HookUpdateStrategy? = .once
+  
+  func makeState() -> State {
+    State(initialNode)
   }
   
-  func value(coordinator: Coordinator) -> RefObject<T> {
+  func value(coordinator: Coordinator) -> Value {
     coordinator.state
   }
   
@@ -29,7 +51,7 @@ private struct RefHook<T>: Hook {
     
   }
   
-  func dispose(state: RefObject<T>) {
+  func dispose(state: State) {
     
   }
 }

@@ -1,5 +1,7 @@
 import Combine
 
+// MARK: Call operation only running `refresher` action, It will updateUI result status AsyncPhase.
+
 /// A hook to use the most recent phase of asynchronous operation of the passed publisher, and a `subscribe` function to subscribe to it at arbitrary timing.
 ///
 ///     let (phase, refresh) = usePublisherRefresh {
@@ -12,7 +14,11 @@ import Combine
 public func usePublisherRefresh<P: Publisher>(
   _ makePublisher: @escaping () -> P
 ) -> (phase: HookAsyncPhase<P.Output, P.Failure>, refresher: () -> Void) {
-  useHook(PublisherSubscribeHook(makePublisher: makePublisher))
+  useHook(
+    PublisherSubscribeHook(
+      makePublisher: makePublisher
+    )
+  )
 }
 
 private struct PublisherSubscribeHook<P: Publisher>: Hook {
@@ -61,6 +67,12 @@ private struct PublisherSubscribeHook<P: Publisher>: Hook {
         )
     }
     return (phase, refresher)
+  }
+  
+  func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
   }
   
   func dispose(state: State) {

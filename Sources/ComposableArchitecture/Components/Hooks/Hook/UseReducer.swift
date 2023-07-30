@@ -27,7 +27,12 @@ public func useReducer<State, Action>(
   _ reducer: @escaping (State, Action) -> State,
   initialState: State
 ) -> (state: State, dispatch: (Action) -> Void) {
-  useHook(ReducerHook(reducer: reducer, initialState: initialState))
+  useHook(
+    ReducerHook(
+      reducer: reducer,
+      initialState: initialState
+    )
+  )
 }
 
 private struct ReducerHook<State, Action>: Hook {
@@ -118,7 +123,12 @@ public func useReducer<State, Action>(
   _ reducer: @escaping (inout State, Action) -> Void,
   initialState: State
 ) -> (state: State, dispatch: (Action) -> Void) {
-  useHook(ComposableReducerHook(reducer: reducer, initialState: initialState))
+  useHook(
+    ComposableReducerHook(
+      reducer: reducer,
+      initialState: initialState
+    )
+  )
 }
 
 private struct ComposableReducerHook<State, Action>: Hook {

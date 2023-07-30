@@ -55,6 +55,8 @@ public func useLayoutEffect(
 
 private struct EffectHook: Hook {
   
+  typealias State = _HookRef
+  
   let updateStrategy: HookUpdateStrategy?
   
   let shouldDeferredUpdate: Bool
@@ -75,13 +77,20 @@ private struct EffectHook: Hook {
   }
   
   func dispose(state: State) {
-    state.cleanup?()
-    state.cleanup = nil
+    state.dispose()
   }
 }
 
 private extension EffectHook {
-  final class State {
+  final class _HookRef {
+    
+    var isDisposed = false
+    
     var cleanup: (() -> Void)?
+    
+    func dispose() {
+      cleanup?()
+      cleanup = nil
+    }
   }
 }

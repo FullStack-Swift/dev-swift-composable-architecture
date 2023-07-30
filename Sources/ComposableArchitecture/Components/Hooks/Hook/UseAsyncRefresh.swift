@@ -1,3 +1,5 @@
+// MARK: Call operation only running `refresher` action, It will updateUI result status AsyncPhase.
+
 /// A hook to use the most recent phase of the passed non-throwing asynchronous operation, and a `perform` function to call the it at arbitrary timing.
 ///
 ///     let (phase, refresh) = useAsyncRefresh {

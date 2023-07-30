@@ -1,3 +1,5 @@
+// MARK: Call operation only `updateStrategy` changes, It will updateUI status AsyncPhase.
+
 /// A hook to use the most recent phase of asynchronous operation of the passed non-throwing function.
 /// The function will be performed at the first update and will be re-performed according to the given `updateStrategy`.
 ///
