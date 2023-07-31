@@ -52,6 +52,8 @@ internal class RecoilHookRef<Node: Atom> {
     }
   }
   
+  internal var refreshViewCount: Int = 0
+  
   internal var isDisposed = false
   
   internal var cancellables: SetCancellables = []

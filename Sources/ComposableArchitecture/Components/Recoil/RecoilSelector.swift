@@ -12,15 +12,15 @@ import SwiftUI
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
 @MainActor
-public func selectorValue<State>(
+public func selectorValue<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (AtomTransactionContext<Void>) -> State
-) -> MValueAtom<State> {
+  _ initialNode: @escaping (AtomTransactionContext<Void>) -> Node
+) -> MValueAtom<Node> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  return MValueAtom<State>(id: id) { context in
-    initialState(context)
+  return MValueAtom(id: id) { context in
+    initialNode(context)
   }
 }
 
@@ -32,15 +32,15 @@ public func selectorValue<State>(
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
 @MainActor
-public func selectorValue<State>(
+public func selectorValue<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: State
-) -> MValueAtom<State> {
+  _ initialNode: Node
+) -> MValueAtom<Node> {
   let id = sourceId(id: id, fileID: fileID, line: line)
   return MValueAtom(id: id) { _ in
-    initialState
+    initialNode
   }
 }
 
@@ -52,15 +52,15 @@ public func selectorValue<State>(
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
 @MainActor
-public func selectorState<State>(
+public func selectorState<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (AtomTransactionContext<Void>) -> State
-) -> MStateAtom<State> {
+  _ initialNode: @escaping (AtomTransactionContext<Void>) -> Node
+) -> MStateAtom<Node> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  return MStateAtom<State>(id: id) { context in
-    return initialState(context)
+  return MStateAtom(id: id) { context in
+    return initialNode(context)
   }
 }
 
@@ -72,15 +72,15 @@ public func selectorState<State>(
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
 @MainActor
-public func selectorState<State>(
+public func selectorState<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: State
-) -> MStateAtom<State> {
+  _ initialNode: Node
+) -> MStateAtom<Node> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  return MStateAtom<State>(id: id) { _ in
-    initialState
+  return MStateAtom(id: id) { _ in
+    initialNode
   }
 }
 
@@ -92,14 +92,14 @@ public func selectorState<State>(
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
 @MainActor
-public func selectorTask<State>(
+public func selectorTask<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (AtomTransactionContext<Void>) async -> State
-) -> MTaskAtom<State> {
+  _ initialNode: @escaping (AtomTransactionContext<Void>) async -> Node
+) -> MTaskAtom<Node> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  return MTaskAtom(id: id, initialState)
+  return MTaskAtom(id: id, initialNode)
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -110,14 +110,14 @@ public func selectorTask<State>(
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
 @MainActor
-public func selectorTask<State>(
+public func selectorTask<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping () async -> State
-) -> MTaskAtom<State> {
+  _ initialNode: @escaping () async -> Node
+) -> MTaskAtom<Node> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  return MTaskAtom(id: id, initialState)
+  return MTaskAtom(id: id, initialNode)
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -128,14 +128,14 @@ public func selectorTask<State>(
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
 @MainActor
-public func selectorThrowingTask<State>(
+public func selectorThrowingTask<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (AtomTransactionContext<Void>) async throws -> State
-) -> MThrowingTaskAtom<State> {
+  _ initialNode: @escaping (AtomTransactionContext<Void>) async throws -> Node
+) -> MThrowingTaskAtom<Node> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  return MThrowingTaskAtom(id: id, initialState)
+  return MThrowingTaskAtom(id: id, initialNode)
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -146,14 +146,14 @@ public func selectorThrowingTask<State>(
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
 @MainActor
-public func selectorThrowingTask<State>(
+public func selectorThrowingTask<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping () async throws -> State
-) -> MThrowingTaskAtom<State> {
+  _ initialNode: @escaping () async throws -> Node
+) -> MThrowingTaskAtom<Node> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  return MThrowingTaskAtom(id: id, initialState)
+  return MThrowingTaskAtom(id: id, initialNode)
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -168,10 +168,10 @@ public func selectorPublisher<Publisher: Combine.Publisher>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (AtomTransactionContext<Void>) -> Publisher
+  _ initialNode: @escaping (AtomTransactionContext<Void>) -> Publisher
 ) -> MPublisherAtom<Publisher> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  return MPublisherAtom(id: id, initialState)
+  return MPublisherAtom(id: id, initialNode)
 }
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
@@ -186,8 +186,8 @@ public func selectorPublisher<Publisher: Combine.Publisher>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: Publisher
+  _ initialNode: Publisher
 ) -> MPublisherAtom<Publisher> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  return MPublisherAtom(id: id, initialState)
+  return MPublisherAtom(id: id, initialNode)
 }

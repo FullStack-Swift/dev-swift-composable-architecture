@@ -52,17 +52,17 @@ extension IdentifiedArray where ID == Todo.ID, Element == Todo {
 // MARK: Recoil Atom
 
 @MainActor
-private let _todosAtom = MStateAtom<IdentifiedArray<Todo.ID,Todo>>(id: "_todosAtom") { context in
+private let _todosAtom = MStateAtom<IdentifiedArray<Todo.ID,Todo>>(id: sourceId()) { context in
   return .mock
 }
 
 @MainActor
-private let _filterAtom = MStateAtom<Filter>(id: "_filterAtom") { context in
+private let _filterAtom = MStateAtom<Filter>(id: sourceId()) { context in
   return .all
 }
 
 @MainActor
-private let _filteredTodosAtom = MValueAtom<IdentifiedArrayOf<Todo>>(id: "_filteredTodosAtom") { context in
+private let _filteredTodosAtom = MValueAtom<IdentifiedArrayOf<Todo>>(id: sourceId()) { context in
   let filter = context.watch(_filterAtom)
   let todos = context.watch(_todosAtom)
   switch filter {
@@ -76,7 +76,7 @@ private let _filteredTodosAtom = MValueAtom<IdentifiedArrayOf<Todo>>(id: "_filte
 }
 
 @MainActor
-private let _statsAtom = MValueAtom<Stats>(id: "_todosAtom") { context in
+private let _statsAtom = MValueAtom<Stats>(id: sourceId()) { context in
   let todos = context.watch(_todosAtom)
   let total = todos.count
   let totalCompleted = todos.filter(\.isCompleted).count
@@ -243,3 +243,16 @@ struct RecoilTodoView_Previews: PreviewProvider {
     }
   }
 }
+
+//let phase = useRecoilThrowingTask {
+//  selectorThrowingTask { context async throws -> [Todo] in
+//    let request = MRequest {
+//      RUrl(urlString: "http://127.0.0.1:8080")
+//        .withPath("todos")
+//      RMethod(.get)
+//    }
+//    let value = try await request.data
+//    let models = value.toModel([Todo].self) ?? []
+//    return models
+//  }
+//}

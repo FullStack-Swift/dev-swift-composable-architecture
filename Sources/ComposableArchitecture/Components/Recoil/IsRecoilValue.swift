@@ -1,14 +1,43 @@
 import Foundation
 
-/// Description: A hook will subscribe the component to re-render if there are changing in the Recoil state.
-/// - Parameters:
-///   - fileID: fileID description
-///   - line: line description
-///   - initialNode: initialState description
-/// - Returns: Value from AtomLoader
-@MainActor
-public func isRecoilValue<V>(type: V) -> Bool {
+public func isRecoilType<T>(type: T) -> Bool {
   if type is (any Atom) {
+    return true
+  }
+  return false
+}
+
+
+public func isRecoilValue<V>(type: V) -> Bool {
+  if type is (any ValueAtom) {
+    return true
+  }
+  return false
+}
+
+public func isRecoilState<T>(type: T) -> Bool {
+  if type is (any StateAtom) {
+    return true
+  }
+  return false
+}
+
+public func isRecoilPublisher<T>(type: T) -> Bool {
+  if type is (any PublisherAtom) {
+    return true
+  }
+  return false
+}
+
+public func isRecoilTask<T>(type: T) -> Bool {
+  if type is (any TaskAtom) {
+    return true
+  }
+  return false
+}
+
+public func isRecoilThrowingTask<T>(type: T) -> Bool {
+  if type is (any ThrowingTaskAtom) {
     return true
   }
   return false

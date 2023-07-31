@@ -218,7 +218,7 @@ struct MVCTodoView: View {
     .toolbar {
       EditButton()
     }
-    .navigationTitle("Riverpod-Todos")
+    .navigationTitle("MVC-Todos")
     .navigationBarTitleDisplayMode(.inline)
   }
 }

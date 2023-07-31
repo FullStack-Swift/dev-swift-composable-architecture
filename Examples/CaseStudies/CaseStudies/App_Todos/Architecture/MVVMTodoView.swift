@@ -226,7 +226,7 @@ struct MVVMTodoView: View {
     .toolbar {
       EditButton()
     }
-    .navigationTitle("Riverpod-Todos")
+    .navigationTitle("MVVM-Todos")
     .navigationBarTitleDisplayMode(.inline)
   }
 }

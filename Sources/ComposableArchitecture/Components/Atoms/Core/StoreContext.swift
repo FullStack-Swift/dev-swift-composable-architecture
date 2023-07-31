@@ -334,7 +334,9 @@ private extension StoreContext {
   ) {
     var isChanges: Bool = false
     defer {
-      observable.send()
+      if isChanges {
+//        observable.send()
+      }
     }
     
     let store = getStore()

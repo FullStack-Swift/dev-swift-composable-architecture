@@ -16,7 +16,7 @@ import SwiftUI
 public func atomValue<State>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   _ initialState: @escaping (AtomTransactionContext<Void>) -> State
 ) -> MValueAtom<State> {
   let id = sourceId(id: id, fileID: fileID, line: line)
@@ -36,7 +36,7 @@ public func atomValue<State>(
 public func atomValue<State>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   _ initialState: State
 ) -> MValueAtom<State> {
   let id = sourceId(id: id, fileID: fileID, line: line)
@@ -56,7 +56,7 @@ public func atomValue<State>(
 public func atomState<State>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   _ initialState: @escaping (AtomTransactionContext<Void>) -> State
 ) -> MStateAtom<State> {
   let id = sourceId(id: id, fileID: fileID, line: line)
@@ -76,7 +76,7 @@ public func atomState<State>(
 public func atomState<State>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   _ initialState: State
 ) -> MStateAtom<State> {
   let id = sourceId(id: id, fileID: fileID, line: line)

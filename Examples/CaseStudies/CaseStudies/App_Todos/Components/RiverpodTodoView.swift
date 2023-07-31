@@ -256,7 +256,7 @@ struct RiverpodTodoView: RiverpodView {
         EditButton()
       }
     }
-    .navigationTitle("Riverpod-Todos")
+    .navigationTitle("Riverpod-Todos-" + ref.watch(filterTodoProvider).count.description)
     .navigationBarTitleDisplayMode(.inline)
   }
 }

@@ -95,6 +95,13 @@ private struct StatsAtom: ValueAtom, Hashable {
   }
 }
 
+private struct TodosCount: ValueAtom, Hashable {
+  
+  func value(context: Context) -> Int {
+    context.watch(TodosAtom()).count
+  }
+  
+}
 
 // MARK: View
 private struct TodoStats: View {
@@ -251,7 +258,7 @@ struct AtomTodoView: View {
           EditButton()
         }
       }
-      .navigationTitle("Atom-Todos")
+      .navigationTitle("Atom-Todos-" + context.watch(TodosCount()).description)
       .navigationBarTitleDisplayMode(.inline)
     }
   }

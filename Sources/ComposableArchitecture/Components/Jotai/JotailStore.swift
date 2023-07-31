@@ -1,22 +1,5 @@
 import Foundation
 
-
-public func createStore() -> JotailStore {
-  JotailStore()
-}
-
-public func getDefaultStore() -> JotailStore {
-  JotailStore()
-}
-
-public func useStore(_ store: JotailStore) -> JotailStore {
-  store
-}
-
-public final class JotailStore {
-  
-}
-
 /// A hook to use the state returned by the passed `reducer`, and a `dispatch` function to send actions to update the state.
 /// Triggers a view update when the state has been changed.
 ///
@@ -81,23 +64,25 @@ public func useReducerProtocol<R: ReducerProtocol>(
 }
 
 private struct ReducerProtocolHook<R: ReducerProtocol>: Hook {
+  
+  typealias State = _HookRef
+  
   let initialState: R.State
   let reducer: R
   let updateStrategy: HookUpdateStrategy? = nil
   
-  func makeState() -> Ref {
-    Ref(initialState: initialState, reducer: reducer)
+  func makeState() -> State {
+    State(initialState: initialState, reducer: reducer)
   }
   
-  func updateState(coordinator: Coordinator) {
-    coordinator.state.nextAction = nil
-  }
+
   
   func value(coordinator: Coordinator) -> StoreOf<R> {
-    assertMainThread()
     let store = coordinator.state.state
     store.$action.sink { action in
-      coordinator.state.nextAction = action
+      guard !coordinator.state.isDisposed else {
+        return
+      }
       coordinator.updateView()
     }
     .store(in: &coordinator.state.cancellables)
@@ -105,7 +90,14 @@ private struct ReducerProtocolHook<R: ReducerProtocol>: Hook {
     return store
   }
   
-  func dispose(state: Ref) {
+  func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
+    }
+    coordinator.state.nextAction = nil
+  }
+  
+  func dispose(state: State) {
     state.isDisposed = true
     state.nextAction = nil
     state.cancellables.dispose()
@@ -113,15 +105,25 @@ private struct ReducerProtocolHook<R: ReducerProtocol>: Hook {
 }
 
 private extension ReducerProtocolHook {
-  final class Ref {
+  // MARK: State
+  final class _HookRef {
+    
     var state: StoreOf<R>
+    
     var nextAction: R.Action?
+    
     var isDisposed = false
     
     var cancellables = SetCancellables()
     
     init(initialState: R.State, reducer: R) {
       state = StoreOf<R>(initialState: initialState, reducer: reducer)
+    }
+    
+    func dispose() {
+      isDisposed = true
+      nextAction = nil
+      cancellables.dispose()
     }
   }
 }
@@ -175,19 +177,18 @@ public func useStore<R: ReducerProtocol>(
 
 private struct StoreHook<R: ReducerProtocol>: Hook {
   
+  typealias State = _HookRef
+  
+  typealias Value = StoreOf<R>
+  
   let initialState: () -> StoreOf<R>
   let updateStrategy: HookUpdateStrategy? = nil
   
-  func makeState() -> Ref {
-    Ref(initialState: initialState())
-  }
-  
-  func updateState(coordinator: Coordinator) {
-    coordinator.state.nextAction = nil
+  func makeState() -> State {
+    State(initialState: initialState())
   }
   
   func value(coordinator: Coordinator) -> StoreOf<R> {
-    assertMainThread()
     let store = coordinator.state.state
     store.$action.sink { action in
       guard !coordinator.state.isDisposed else {
@@ -201,25 +202,38 @@ private struct StoreHook<R: ReducerProtocol>: Hook {
     return store
   }
   
-  func dispose(state: Ref) {
-    state.isDisposed = true
-    state.nextAction = nil
-    for item in state.cancellables {
-      item.cancel()
+  func updateState(coordinator: Coordinator) {
+    guard !coordinator.state.isDisposed else {
+      return
     }
+    coordinator.state.nextAction = nil
+  }
+  
+  func dispose(state: State) {
+    state.dispose()
   }
 }
 
 private extension StoreHook {
-  final class Ref {
+  // MARK: State
+  final class _HookRef {
+    
     var state: StoreOf<R>
+    
     var nextAction: R.Action?
+    
     var isDisposed = false
     
     var cancellables = SetCancellables()
     
     init(initialState: StoreOf<R>) {
       state = initialState
+    }
+    
+    func dispose() {
+      isDisposed = true
+      nextAction = nil
+      cancellables.dispose()
     }
   }
 }

@@ -95,7 +95,8 @@ struct ContentView: View {
             }
           }
         }
-        Section(header: Text("Todos")) {
+        
+        Section(header: Text("Todo - Architecture")) {
           HStack {
             Text("TCA-Todos")
             Spacer()
@@ -107,6 +108,33 @@ struct ContentView: View {
               $0.path.append(.init(id: "TCA-Todos", state: "TCA-Todos"))
             }
           }
+          
+          HStack {
+            Text("MVVM-Todos")
+            Spacer()
+          }
+          .background(Color.white.opacity(0.0001))
+          .clipShape(Rectangle())
+          .onTapGesture {
+            navigationPath.commit {
+              $0.path.append(.init(id: "MVVM-Todos", state: "MVVM-Todos"))
+            }
+          }
+          
+          HStack {
+            Text("MVC-Todos")
+            Spacer()
+          }
+          .background(Color.white.opacity(0.0001))
+          .clipShape(Rectangle())
+          .onTapGesture {
+            navigationPath.commit {
+              $0.path.append(.init(id: "MVC-Todos", state: "MVC-Todos"))
+            }
+          }
+        }
+        
+        Section(header: Text("Todos - Components")) {
           HStack {
             Text("Hooks-Todos")
             Spacer()
@@ -141,6 +169,17 @@ struct ContentView: View {
             }
           }
           HStack {
+            Text("Jotail-Todos")
+            Spacer()
+          }
+          .background(Color.white.opacity(0.0001))
+          .clipShape(Rectangle())
+          .onTapGesture {
+            navigationPath.commit {
+              $0.path.append(.init(id: "Jotail-Todos", state: "Jotail-Todos"))
+            }
+          }
+          HStack {
             Text("Riverpod-Todos")
             Spacer()
           }
@@ -166,16 +205,25 @@ struct ContentView: View {
             RecoilUseCaseStudiesView()
           case "Riverpod-CaseStudies":
             RiverpodCaseStudiesView()
+            // MARK: - Todo Architectures
           case "TCA-Todos":
             TCATodoView()
+          case "MVVM-Todos":
+            MVVMTodoView()
+          case "MVC-Todos":
+            MVCTodoView()
+            // MARK: - Todo Components
           case "Hooks-Todos":
             HookTodoView()
           case "Atoms-Todos":
             AtomTodoView()
           case "Recoil-Todos":
             RecoilTodoView()
+          case "Jotail-Todos":
+            JotailTodoView()
           case "Riverpod-Todos":
             RiverpodTodoView()
+            // MARK: Other Test
           case "APIRequestPage":
             APIRequestPage()
           default:

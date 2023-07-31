@@ -221,7 +221,7 @@ struct HookTodoView: View {
           }
 
         }
-        .navigationTitle("Hook-Todos")
+        .navigationTitle("Hook-Todos-" + todos.wrappedValue.count.description)
         .navigationBarTitleDisplayMode(.inline)
       }
     }
