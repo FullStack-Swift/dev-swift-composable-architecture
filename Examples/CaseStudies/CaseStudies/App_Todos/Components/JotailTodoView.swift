@@ -199,40 +199,52 @@ private struct TodoItem: View {
 
 
 struct JotailTodoView: View {
-    var body: some View {
-      HookScope {
-        let filteredTodos = useRecoilValue(_filteredTodosAtom)
-        let todos = useRecoilState(_todosAtom)
-        List {
-          Section(header: Text("Information")) {
-            TodoStats()
-            TodoCreator()
-          }
-          Section(header: Text("Filters")) {
-            TodoFilters()
-          }
-          ForEach(filteredTodos, id: \.id) { todo in
-            TodoItem(todoID: todo.id)
-          }
-          .onDelete { atOffsets in
-            todos.wrappedValue.remove(atOffsets: atOffsets)
-          }
-          .onMove { fromOffsets, toOffset in
-            todos.wrappedValue.move(fromOffsets: fromOffsets, toOffset: toOffset)
-          }
+  var body: some View {
+    HookScope {
+      let filteredTodos = useRecoilValue(_filteredTodosAtom)
+      let todos = useRecoilState(_todosAtom)
+      List {
+        Section(header: Text("Information")) {
+          TodoStats()
+          TodoCreator()
         }
-        .listStyle(.sidebar)
-        .toolbar {
-          if useRecoilState(_filterAtom).wrappedValue == .all {
-            EditButton()
-          }
+        Section(header: Text("Filters")) {
+          TodoFilters()
         }
-        .navigationTitle("Jotail-Todos-" + useRecoilValue(totalTodos).description)
-        .navigationBarTitleDisplayMode(.inline)
+        ForEach(filteredTodos, id: \.id) { todo in
+          TodoItem(todoID: todo.id)
+        }
+        .onDelete { atOffsets in
+          todos.wrappedValue.remove(atOffsets: atOffsets)
+        }
+        .onMove { fromOffsets, toOffset in
+          todos.wrappedValue.move(fromOffsets: fromOffsets, toOffset: toOffset)
+        }
       }
+      .listStyle(.sidebar)
+      .toolbar {
+        if useRecoilState(_filterAtom).wrappedValue == .all {
+          EditButton()
+        }
+      }
+      .navigationTitle("Jotail-Todos-" + useRecoilValue(totalTodos).description)
+      .navigationBarItems(leading: leading, trailing: trailing)
+      .navigationBarTitleDisplayMode(.inline)
     }
+  }
+  
+  private var leading: some View {
+    EmptyView()
+  }
+  
+  private var trailing: some View {
+    NavigationLink(destination: OnlineHookTodoView()) {
+      Text("online")
+    }
+  }
+  
 }
 
 #Preview {
-    JotailTodoView()
+  JotailTodoView()
 }

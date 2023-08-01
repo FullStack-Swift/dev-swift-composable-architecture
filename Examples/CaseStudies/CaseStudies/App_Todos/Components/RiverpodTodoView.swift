@@ -257,7 +257,18 @@ struct RiverpodTodoView: RiverpodView {
       }
     }
     .navigationTitle("Riverpod-Todos-" + ref.watch(filterTodoProvider).count.description)
+    .navigationBarItems(leading: leading, trailing: trailing)
     .navigationBarTitleDisplayMode(.inline)
+  }
+  
+  private var leading: some View {
+    EmptyView()
+  }
+  
+  private var trailing: some View {
+    NavigationLink(destination: OnlineRiverpodTodoview()) {
+      Text("online")
+    }
   }
 }
 

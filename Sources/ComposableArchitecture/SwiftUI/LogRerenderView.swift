@@ -32,7 +32,8 @@ public struct LogRerenderView: View {
   public var body: some View {
     print("⚠️ Re-Render in: \(SourceLocation(fileID: fileID, line: line))")
     print(data ?? "Null")
-    return EmptyView()
+    return Color.white.opacity(0.001)
+      .frame(height: 0.001)
       .hidden()
   }
   

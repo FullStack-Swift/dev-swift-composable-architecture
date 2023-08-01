@@ -26,13 +26,19 @@
 		90ACBBB82A4B4EE10041D7E2 /* RiverpodTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACBBB32A4B4EE10041D7E2 /* RiverpodTodoView.swift */; };
 		90FDE91D2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FDE91C2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift */; };
 		EB92CD102A5C1705007640AF /* RecoilUseCaseStudies2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */; };
+		EBB036E82A7A2F1D0091B953 /* OnlineHookTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036E72A7A2F1D0091B953 /* OnlineHookTodoView.swift */; };
+		EBB036EA2A7A2F330091B953 /* OnlineJotailTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036E92A7A2F330091B953 /* OnlineJotailTodoView.swift */; };
+		EBB036EC2A7A2F410091B953 /* OnlineAtomTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036EB2A7A2F410091B953 /* OnlineAtomTodoView.swift */; };
+		EBB036EE2A7A2F4F0091B953 /* OnlineRiverpodTodoview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036ED2A7A2F4F0091B953 /* OnlineRiverpodTodoview.swift */; };
 		EBBC4A412A6A930B0052FD1F /* APIRequestPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */; };
+		EBF230642A78E231002FA22C /* Json in Frameworks */ = {isa = PBXBuildFile; productRef = EBF230632A78E231002FA22C /* Json */; };
 		EBF60EC12A776CF0001E34D3 /* SwiftUIAdditions in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60EC02A776CF0001E34D3 /* SwiftUIAdditions */; };
 		EBF60EC32A777EB8001E34D3 /* JotailTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF60EC22A777EB8001E34D3 /* JotailTodoView.swift */; };
 		EBF60EC72A778D9C001E34D3 /* CombineRequest in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60EC62A778D9C001E34D3 /* CombineRequest */; };
 		EBF60EC92A778D9C001E34D3 /* CombineSocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60EC82A778D9C001E34D3 /* CombineSocketIO */; };
 		EBF60ECB2A778D9C001E34D3 /* CombineWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60ECA2A778D9C001E34D3 /* CombineWebSocket */; };
 		EBF60ED22A778EE7001E34D3 /* Transform in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60ED12A778EE7001E34D3 /* Transform */; };
+		EBF60ED42A77A15F001E34D3 /* OnlineRecoilTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF60ED32A77A15F001E34D3 /* OnlineRecoilTodoView.swift */; };
 		EBF8F0572A6FAC2400A5961D /* SwiftLogger in Frameworks */ = {isa = PBXBuildFile; productRef = EBF8F0562A6FAC2400A5961D /* SwiftLogger */; };
 /* End PBXBuildFile section */
 
@@ -56,8 +62,14 @@
 		90ACBBB32A4B4EE10041D7E2 /* RiverpodTodoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiverpodTodoView.swift; sourceTree = "<group>"; };
 		90FDE91C2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiverpodCaseStudiesView.swift; sourceTree = "<group>"; };
 		EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoilUseCaseStudies2View.swift; sourceTree = "<group>"; };
+		EBB036E72A7A2F1D0091B953 /* OnlineHookTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineHookTodoView.swift; sourceTree = "<group>"; };
+		EBB036E92A7A2F330091B953 /* OnlineJotailTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineJotailTodoView.swift; sourceTree = "<group>"; };
+		EBB036EB2A7A2F410091B953 /* OnlineAtomTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineAtomTodoView.swift; sourceTree = "<group>"; };
+		EBB036ED2A7A2F4F0091B953 /* OnlineRiverpodTodoview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineRiverpodTodoview.swift; sourceTree = "<group>"; };
 		EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestPage.swift; sourceTree = "<group>"; };
 		EBF60EC22A777EB8001E34D3 /* JotailTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotailTodoView.swift; sourceTree = "<group>"; };
+		EBF60ED32A77A15F001E34D3 /* OnlineRecoilTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineRecoilTodoView.swift; sourceTree = "<group>"; };
+		EBF60ED52A77A407001E34D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +85,7 @@
 				EBF60ED22A778EE7001E34D3 /* Transform in Frameworks */,
 				87DF96F22A3991C10006B774 /* ComposableArchitecture in Frameworks */,
 				EBF60EC92A778D9C001E34D3 /* CombineSocketIO in Frameworks */,
+				EBF230642A78E231002FA22C /* Json in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +122,7 @@
 		87DF96DE2A39904F0006B774 /* CaseStudies */ = {
 			isa = PBXGroup;
 			children = (
+				EBF60ED52A77A407001E34D3 /* Info.plist */,
 				90ACBBAE2A4B4EE10041D7E2 /* App_Todos */,
 				90FDE91F2A4B4DBD00342E0B /* App_CaseStudies */,
 				87DF96DF2A39904F0006B774 /* CaseStudiesApp.swift */,
@@ -158,6 +172,18 @@
 			path = App_CaseStudies;
 			sourceTree = "<group>";
 		};
+		EBB036E62A7A2E420091B953 /* Onlines */ = {
+			isa = PBXGroup;
+			children = (
+				EBB036E72A7A2F1D0091B953 /* OnlineHookTodoView.swift */,
+				EBB036E92A7A2F330091B953 /* OnlineJotailTodoView.swift */,
+				EBF60ED32A77A15F001E34D3 /* OnlineRecoilTodoView.swift */,
+				EBB036EB2A7A2F410091B953 /* OnlineAtomTodoView.swift */,
+				EBB036ED2A7A2F4F0091B953 /* OnlineRiverpodTodoview.swift */,
+			);
+			path = Onlines;
+			sourceTree = "<group>";
+		};
 		EBBC4A3F2A6A92FD0052FD1F /* Examples */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,6 +195,7 @@
 		EBF60EC42A778A14001E34D3 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				EBB036E62A7A2E420091B953 /* Onlines */,
 				90ACBBB02A4B4EE10041D7E2 /* HookTodoView.swift */,
 				EBF60EC22A777EB8001E34D3 /* JotailTodoView.swift */,
 				90ACBBB12A4B4EE10041D7E2 /* RecoilTodoView.swift */,
@@ -203,6 +230,7 @@
 				EBF60EC82A778D9C001E34D3 /* CombineSocketIO */,
 				EBF60ECA2A778D9C001E34D3 /* CombineWebSocket */,
 				EBF60ED12A778EE7001E34D3 /* Transform */,
+				EBF230632A78E231002FA22C /* Json */,
 			);
 			productName = CaseStudies;
 			productReference = 87DF96DC2A39904F0006B774 /* CaseStudies.app */;
@@ -238,6 +266,7 @@
 				EBF60EBF2A776CF0001E34D3 /* XCRemoteSwiftPackageReference "swiftui-additions" */,
 				EBF60EC52A778D9C001E34D3 /* XCRemoteSwiftPackageReference "swift-networking" */,
 				EBF60ED02A778EE7001E34D3 /* XCRemoteSwiftPackageReference "swift-extension" */,
+				EBF230622A78E231002FA22C /* XCRemoteSwiftPackageReference "swift-json" */,
 			);
 			productRefGroup = 87DF96DD2A39904F0006B774 /* Products */;
 			projectDirPath = "";
@@ -267,16 +296,21 @@
 			files = (
 				90ACBBB52A4B4EE10041D7E2 /* HookTodoView.swift in Sources */,
 				87DF96E22A39904F0006B774 /* ContentView.swift in Sources */,
+				EBB036EC2A7A2F410091B953 /* OnlineAtomTodoView.swift in Sources */,
 				87ABACAC2A4D1BAE00545682 /* MVCTodoView.swift in Sources */,
+				EBB036E82A7A2F1D0091B953 /* OnlineHookTodoView.swift in Sources */,
 				EBF60EC32A777EB8001E34D3 /* JotailTodoView.swift in Sources */,
+				EBB036EE2A7A2F4F0091B953 /* OnlineRiverpodTodoview.swift in Sources */,
 				90FDE91D2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift in Sources */,
 				87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */,
 				87647C862A42C932009BD13F /* RecoilUseCaseStudiesView.swift in Sources */,
 				90ACBBB82A4B4EE10041D7E2 /* RiverpodTodoView.swift in Sources */,
 				87DF96EF2A3991060006B774 /* HookCaseStudiesView.swift in Sources */,
+				EBF60ED42A77A15F001E34D3 /* OnlineRecoilTodoView.swift in Sources */,
 				90ACBBB62A4B4EE10041D7E2 /* RecoilTodoView.swift in Sources */,
 				90ACBBB72A4B4EE10041D7E2 /* AtomTodoView.swift in Sources */,
 				87ABACAE2A4D1C2A00545682 /* MVVMTodoView.swift in Sources */,
+				EBB036EA2A7A2F330091B953 /* OnlineJotailTodoView.swift in Sources */,
 				EB92CD102A5C1705007640AF /* RecoilUseCaseStudies2View.swift in Sources */,
 				90ACBBB42A4B4EE10041D7E2 /* TCATodoView.swift in Sources */,
 				87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */,
@@ -413,8 +447,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CaseStudies/Preview Content\"";
+				DEVELOPMENT_TEAM = 2H5PN3F9B6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CaseStudies/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -450,8 +486,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CaseStudies/Preview Content\"";
+				DEVELOPMENT_TEAM = 2H5PN3F9B6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CaseStudies/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -509,6 +547,14 @@
 				kind = branch;
 			};
 		};
+		EBF230622A78E231002FA22C /* XCRemoteSwiftPackageReference "swift-json" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swift-json";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		EBF60EBF2A776CF0001E34D3 /* XCRemoteSwiftPackageReference "swiftui-additions" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/FullStack-Swift/swiftui-additions";
@@ -552,6 +598,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9054DD8E2A53396F00CCBA21 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */;
 			productName = SwiftUIViewModifier;
+		};
+		EBF230632A78E231002FA22C /* Json */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBF230622A78E231002FA22C /* XCRemoteSwiftPackageReference "swift-json" */;
+			productName = Json;
 		};
 		EBF60EC02A776CF0001E34D3 /* SwiftUIAdditions */ = {
 			isa = XCSwiftPackageProductDependency;

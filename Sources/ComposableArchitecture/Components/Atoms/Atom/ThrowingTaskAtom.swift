@@ -65,10 +65,12 @@ public extension ThrowingTaskAtom {
 // MARK: Make ThrowingTaskAtom
 public struct MThrowingTaskAtom<M>: ThrowingTaskAtom {
 
+  public var id: String
+  
   public typealias Value = M
 
   var initialState: (Self.Context) async throws -> M
-  public var id: String
+  
 
   public init(id: String,_ initialState: @escaping (Self.Context) async throws -> M) {
     self.id = id

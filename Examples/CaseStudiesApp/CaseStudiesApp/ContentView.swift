@@ -1,60 +1,66 @@
 import SwiftUI
 import ComposableArchitecture
 
-
-public func recoilTaskFamilyTest<S,T>(
-  _ param: S,
-  _ initialState: @escaping (S) -> T
-) -> RecoilParamNode<S, MTaskAtom<T>> {
-  RecoilParamNode(
-    param: param,
-    node: MTaskAtom<T>(
-      id: sourceId(),
-      { context in
-        initialState(param)
-      }
-    )
-  )
+@MainActor
+let _recoilValueFamily = recoilThrowingTaskFamily { (param: Int, context) async throws -> String in
+  try? await Task.sleep(nanoseconds: 1_000_000_000)
+  return (param * 10).description
 }
 
 struct ContentView: View {
   
   let id = sourceId()
+  let taskID = sourceId()
   
-//  let test = recoilTaskFamilyTest<String, Int>("AAA") { params in
-//    return params.count
-//  }
+  @State private var testUnit: Int = 0
   
   var body: some View {
+    content
+    content
+  }
+  
+  @MainActor
+  var content: some View {
     HookScope {
-      let node = useRecoilCallback { context in
-        return MTaskAtom(id: sourceId()) { con_text async -> String in
-          let count = context.watch(MStateAtom(id: id, initialState: 0))
-          return count.description
-        }
-      }
+      
       let count = useRecoilState(MStateAtom(id: id, initialState: 0))
-      let phase = useRecoilTask(updateStrategy: .preserved(by: count.wrappedValue), node())
-//      let phase = taskFamily<Int, String> { param in
-//        return param.description
-//      }(count.wrappedValue)
+      
       let callback = useCallback {
         count.wrappedValue += 1
       }
+      
+      let phase = useRecoilThrowingTask(_recoilValueFamily(count.wrappedValue))
+      
+      //      let phase = useRecoilThrowingTask(updateStrategy: .preserved(by: count.wrappedValue)) {
+      //        MThrowingTaskAtom(id: sourceId()) { context -> String in
+      //          try await Task.sleep(nanoseconds: 1_000_000_000)
+      //          return count.wrappedValue.description
+      //        }
+      //      }
+      
       VStack {
+        LogRerenderView()
+        Text(testUnit.description)
         Image(systemName: "globe")
           .imageScale(.large)
           .foregroundStyle(.tint)
+          .onTapGesture {
+            testUnit += 1
+          }
+        
         AsyncPhaseView(phase: phase) { value in
           Text(value)
         } suspending: {
           ProgressView()
+        } failureContent: { error in
+          Text(error.localizedDescription)
+        }
+        .frame(height: 100)
+        Button(count.wrappedValue.description) {
+          callback()
         }
       }
       .padding()
-      .onTapGesture {
-        callback()
-      }
     }
   }
 }
@@ -63,15 +69,3 @@ struct ContentView: View {
   ContentView()
 }
 
-@MainActor
-public func taskFamily<Param: Equatable, R>(
-  _ fn: @escaping (Param) async -> R
-) -> (Param) -> AsyncPhase<R,Never> {
-  return { param in
-    useRecoilTask(updateStrategy: .preserved(by: param)) {
-      MTaskAtom(id: sourceId()) { context in
-        await fn(param)
-      }
-    }
-  }
-}

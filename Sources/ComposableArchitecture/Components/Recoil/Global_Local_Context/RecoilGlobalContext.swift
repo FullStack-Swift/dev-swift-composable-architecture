@@ -208,7 +208,7 @@ public struct RecoilGlobalViewContext {
   
   private let location: SourceLocation
   
-  init(location: SourceLocation) {
+  public init(location: SourceLocation) {
     self.location = location
   }
   

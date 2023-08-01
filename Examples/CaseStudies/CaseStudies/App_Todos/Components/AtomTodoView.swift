@@ -259,9 +259,19 @@ struct AtomTodoView: View {
         }
       }
       .navigationTitle("Atom-Todos-" + context.watch(TodosCount()).description)
+      .navigationBarItems(leading: leading, trailing: trailing)
       .navigationBarTitleDisplayMode(.inline)
     }
   }
+  
+  private var leading: some View {
+    EmptyView()
+  }
+  
+  private var trailing: some View {
+    EmptyView()
+  }
+  
 }
 
 struct AtomTodoView_Previews: PreviewProvider {

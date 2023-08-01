@@ -224,9 +224,11 @@ struct MVVMTodoView: View {
     }
     .listStyle(.sidebar)
     .toolbar {
-      EditButton()
+      if viewModel.filter == .all {
+        EditButton()
+      }
     }
-    .navigationTitle("MVVM-Todos")
+    .navigationTitle("MVVM-Todos -" + viewModel.todos.count.description)
     .navigationBarTitleDisplayMode(.inline)
   }
 }

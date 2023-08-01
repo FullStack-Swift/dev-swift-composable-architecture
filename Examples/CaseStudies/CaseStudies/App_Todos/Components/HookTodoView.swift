@@ -222,8 +222,19 @@ struct HookTodoView: View {
 
         }
         .navigationTitle("Hook-Todos-" + todos.wrappedValue.count.description)
+        .navigationBarItems(leading: leading, trailing: trailing)
         .navigationBarTitleDisplayMode(.inline)
       }
+    }
+  }
+  
+  private var leading: some View {
+    EmptyView()
+  }
+  
+  private var trailing: some View {
+    NavigationLink(destination: OnlineHookTodoView()) {
+      Text("online")
     }
   }
 }

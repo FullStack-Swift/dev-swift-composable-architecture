@@ -1,5 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
+import Json
 
 // MARK: Model
 
@@ -229,7 +230,18 @@ struct RecoilTodoView: View {
         }
       }
       .navigationTitle("Recoil-Todos-" + useRecoilValue(totalTodos).description)
+      .navigationBarItems(leading: leading, trailing: trailing)
       .navigationBarTitleDisplayMode(.inline)
+    }
+  }
+  
+  private var leading: some View {
+    EmptyView()
+  }
+  
+  private var trailing: some View {
+    NavigationLink(destination: OnlineRecoilTodoView()) {
+      Text("online")
     }
   }
 }
@@ -243,16 +255,3 @@ struct RecoilTodoView_Previews: PreviewProvider {
     }
   }
 }
-
-//let phase = useRecoilThrowingTask {
-//  selectorThrowingTask { context async throws -> [Todo] in
-//    let request = MRequest {
-//      RUrl(urlString: "http://127.0.0.1:8080")
-//        .withPath("todos")
-//      RMethod(.get)
-//    }
-//    let value = try await request.data
-//    let models = value.toModel([Todo].self) ?? []
-//    return models
-//  }
-//}
