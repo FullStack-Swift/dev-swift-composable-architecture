@@ -59,25 +59,25 @@ public extension TaskAtom {
 }
 
 // MARK: Make TaskAtom
-public struct MTaskAtom<M>: TaskAtom {
+public struct MTaskAtom<Node>: TaskAtom {
 
-  public typealias Value = M
+  public typealias Value = Node
 
-  var initialState: (Self.Context) async -> M
   public var id: String
+  public var initialState: (Self.Context) async -> Node
 
-  public init(id: String,_ initialState: @escaping (Self.Context) async -> M) {
+  public init(id: String,_ initialState: @escaping (Self.Context) async -> Node) {
     self.id = id
     self.initialState = initialState
   }
 
-  public init(id: String, _ initialState: @escaping() async -> M) {
+  public init(id: String, _ initialState: @escaping() async -> Node) {
     self.init(id: id) { _ in
       await initialState()
     }
   }
 
-  public init(id: String, initialState: M) {
+  public init(id: String, _ initialState: Node) {
     self.init(id: id) { _ in
       initialState
     }

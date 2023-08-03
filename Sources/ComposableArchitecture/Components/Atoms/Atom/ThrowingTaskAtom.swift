@@ -63,27 +63,27 @@ public extension ThrowingTaskAtom {
 }
 
 // MARK: Make ThrowingTaskAtom
-public struct MThrowingTaskAtom<M>: ThrowingTaskAtom {
+public struct MThrowingTaskAtom<Node>: ThrowingTaskAtom {
 
+  public typealias Value = Node
+  
   public var id: String
-  
-  public typealias Value = M
 
-  var initialState: (Self.Context) async throws -> M
+  public var initialState: (Self.Context) async throws -> Node
   
 
-  public init(id: String,_ initialState: @escaping (Self.Context) async throws -> M) {
+  public init(id: String,_ initialState: @escaping (Self.Context) async throws -> Node) {
     self.id = id
     self.initialState = initialState
   }
 
-  public init(id: String, _ initialState: @escaping() async throws -> M) {
+  public init(id: String, _ initialState: @escaping() async throws -> Node) {
     self.init(id: id) { _ in
       try await initialState()
     }
   }
 
-  public init(id: String, initialState: M) {
+  public init(id: String, _ initialState: Node) {
     self.init(id: id) { _ in
       initialState
     }

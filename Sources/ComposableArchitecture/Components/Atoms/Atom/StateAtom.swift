@@ -50,26 +50,26 @@ public extension StateAtom {
   }
 }
 
-public struct MStateAtom<M>: StateAtom {
+public struct MStateAtom<Node>: StateAtom {
 
-  public typealias Value = M
-
-  var initialState: (Self.Context) -> M
+  public typealias Value = Node
 
   public var id: String = ""
+  
+  public var initialState: (Self.Context) -> Node
 
-  public init(id: String,_ initialState: @escaping (Self.Context) -> M) {
+  public init(id: String,_ initialState: @escaping (Self.Context) -> Node) {
     self.id = id
     self.initialState = initialState
   }
 
-  public init(id: String, initialState: M) {
+  public init(id: String, _ initialState: Node) {
     self.init(id: id) { _ in
       initialState
     }
   }
 
-  public func defaultValue(context: Self.Context) -> M {
+  public func defaultValue(context: Self.Context) -> Node {
     initialState(context)
   }
 

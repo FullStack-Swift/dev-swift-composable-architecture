@@ -63,26 +63,29 @@ public extension PublisherAtom {
 }
 
 // MARK: Make PublisherAtom
-public struct MPublisherAtom<Publisher: Combine.Publisher>: PublisherAtom {
-
-  var initialState: (Self.Context) -> Publisher
+public struct MPublisherAtom<Node: Combine.Publisher>: PublisherAtom {
+  
+  public typealias Value = Node
+  
   public var id: String
-
-  public init(id: String, _ initialState: @escaping (Context) -> Publisher) {
-    self.initialState = initialState
+  
+  public var initialState: (Self.Context) -> Node
+  
+  public init(id: String, _ initialState: @escaping (Context) -> Node) {
     self.id = id
+    self.initialState = initialState
   }
-
-  public init(id: String, _ initialState: Publisher) {
+  
+  public init(id: String, _ initialState: Node) {
     self.init(id: id) { _ in
       initialState
     }
   }
-
-  public func publisher(context: Self.Context) -> Publisher {
+  
+  public func publisher(context: Self.Context) -> Node {
     initialState(context)
   }
-
+  
   public var key: some Hashable {
     self.id
   }

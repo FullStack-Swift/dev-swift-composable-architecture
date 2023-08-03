@@ -73,25 +73,26 @@ public extension ObservableObjectAtom {
 }
 
 // MARK: Make ObservableObjectAtom
-public struct MObservableObjectAtom<M: ObservableObject>: ObservableObjectAtom {
+public struct MObservableObjectAtom<Node: ObservableObject>: ObservableObjectAtom {
 
-  public typealias ObjectType = M
+  public typealias ObjectType = Node
 
   public var id: String
-  var initialState: (Self.Context) -> M
+  
+  public var initialState: (Self.Context) -> Node
 
-  public init(id: String, initialState: @escaping (Context) -> M) {
+  public init(id: String, _ initialState: @escaping (Context) -> Node) {
     self.id = id
     self.initialState = initialState
   }
 
-  public init(id: String, initialState: M) {
+  public init(id: String, _ initialState: Node) {
     self.init(id: id) { _ in
       initialState
     }
   }
 
-  public func object(context: Self.Context) -> M {
+  public func object(context: Self.Context) -> Node {
     initialState(context)
   }
 

@@ -53,26 +53,28 @@ public extension ValueAtom {
   }
 }
 
+/// let valueAtom = MValueAtom(id: sourceId(), initialState: 0)
+
 // MARK: Make ValueAtom
-public struct MValueAtom<M>: ValueAtom {
+public struct MValueAtom<Node>: ValueAtom {
 
-  public typealias Value = M
+  public typealias Value = Node
 
-  var initialState: (Self.Context) -> M
   public var id: String
+  public var initialState: (Self.Context) -> Node
 
-  public init(id: String,_ initialState: @escaping (Self.Context) -> M) {
+  public init(id: String, _ initialState: @escaping (Self.Context) -> Node) {
     self.id = id
     self.initialState = initialState
   }
 
-  public init(id: String, initialState: M) {
+  public init(id: String, _ initialState: Node) {
     self.init(id: id) { _ in
       initialState
     }
   }
 
-  public func value(context: Self.Context) -> M {
+  public func value(context: Self.Context) -> Node {
     initialState(context)
   }
 
