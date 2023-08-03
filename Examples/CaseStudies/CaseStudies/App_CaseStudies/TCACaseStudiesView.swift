@@ -6,12 +6,12 @@ struct TCACaseStudiesView: View {
     Form {
       Text("TCA")
     }
+#if os(iOS)
     .navigationBarTitle(Text("TCA"), displayMode: .inline)
+#endif
   }
 }
 
-struct TCACaseStudiesView_Previews: PreviewProvider {
-  static var previews: some View {
-    TCACaseStudiesView()
-  }
+#Preview {
+  TCACaseStudiesView()
 }

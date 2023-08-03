@@ -224,12 +224,16 @@ struct JotailTodoView: View {
       .listStyle(.sidebar)
       .toolbar {
         if useRecoilState(_filterAtom).wrappedValue == .all {
+#if os(iOS)
           EditButton()
+#endif
         }
       }
       .navigationTitle("Jotail-Todos-" + useRecoilValue(totalTodos).description)
+#if os(iOS)
       .navigationBarItems(leading: leading, trailing: trailing)
       .navigationBarTitleDisplayMode(.inline)
+#endif
     }
   }
   

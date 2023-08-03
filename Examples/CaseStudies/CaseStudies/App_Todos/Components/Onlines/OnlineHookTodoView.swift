@@ -25,59 +25,25 @@ private struct Stats: Equatable {
   let percentCompleted: Double
 }
 
-// MARK: Recoil Atom
-
-@MainActor
-private let _todosStateAtom = selectorState { context -> IdentifiedArrayOf<Todo> in
-  return []
-}
-
-@MainActor
-private let _filterStateAtom = selectorState { context -> Filter in
-  return .all
-}
-
-@MainActor
-private let _todoFilterValueAtom = selectorValue { context -> IdentifiedArrayOf<Todo> in
-  let filter = context.watch(_filterStateAtom)
-  let todos = context.watch(_todosStateAtom)
-  switch filter {
-    case .all:
-      return todos
-    case .completed:
-      return todos.filter(\.isCompleted)
-    case .uncompleted:
-      return todos.filter { !$0.isCompleted }
-  }
-}
-
-@MainActor
-private let _statsAtom = selectorValue { context -> Stats in
-  var todos = context.watch(_todosStateAtom)
-  let total = todos.count
-  let totalCompleted = todos.filter(\.isCompleted).count
-  let totalUncompleted = todos.filter { !$0.isCompleted }.count
-  let percentCompleted = total <= 0 ? 0 : (Double(totalCompleted) / Double(total))
-  return Stats(
-    total: total,
-    totalCompleted: totalCompleted,
-    totalUncompleted: totalUncompleted,
-    percentCompleted: percentCompleted
-  )
-}
-
-@MainActor
-private let totalTodos = selectorValue { context -> Int in
-  context.watch(_todosStateAtom).count
-}
-
 // MARK: View
+
+private typealias TodoContext = HookContext<Binding<IdentifiedArrayOf<Todo>>>
 
 private struct TodoStats: View {
   
   var body: some View {
     HookScope {
-      let stats = useRecoilValue(_statsAtom)
+      let todos = useContext(TodoContext.self).wrappedValue
+      let total = todos.count
+      let totalCompleted = todos.filter(\.isCompleted).count
+      let totalUncompleted = todos.filter { !$0.isCompleted }.count
+      let percentCompleted = total <= 0 ? 0 : (Double(totalCompleted) / Double(total))
+      let stats = Stats(
+        total: total,
+        totalCompleted: totalCompleted,
+        totalUncompleted: totalUncompleted,
+        percentCompleted: percentCompleted
+      )
       VStack(alignment: .leading, spacing: 4) {
         stat("Total", "\(stats.total)")
         stat("Completed", "\(stats.totalCompleted)")
@@ -99,9 +65,10 @@ private struct TodoStats: View {
 
 private struct TodoFilters: View {
   
+  let filter: Binding<Filter>
+  
   var body: some View {
     HookScope {
-      let filter = useRecoilState(_filterStateAtom)
       Picker("Filter", selection: filter) {
         ForEach(Filter.allCases, id: \.self) { filter in
           switch filter {
@@ -126,6 +93,7 @@ private struct TodoCreator: View {
   
   var body: some View {
     HookScope {
+      let todos = useContext(TodoContext.self)
       let text = useState("")
       let _onlCreateTodo = useParamCallBack { (param: String) async throws -> Data in
         let data = try await MRequest {
@@ -139,7 +107,6 @@ private struct TodoCreator: View {
           .data
         return data
       }
-      let todos = useRecoilState(_todosStateAtom)
       HStack {
         TextField("Enter your todo", text: text)
 #if os(iOS) || os(macOS)
@@ -188,7 +155,7 @@ private struct TodoItem: View {
           .data
         return data
       }
-      let todos = useRecoilState(_todosStateAtom)
+      let todos = useContext(TodoContext.self)
       if let todo = todos.first(where: {$0.wrappedValue.id == self.todoID}) {
         Toggle(isOn: todo.map(\.isCompleted)) {
           TextField("", text: todo.map(\.text)) {
@@ -215,25 +182,53 @@ private struct TodoItem: View {
 
 struct OnlineHookTodoView: View {
   
+  @ViewBuilder
   var body: some View {
     HookScope {
-      let _todoFilter = useRecoilValue(_todoFilterValueAtom)
-      let todos = useRecoilState(_todosStateAtom)
-      let flagRefreshTodos = useState(true)
-      let phase = useRecoilThrowingTask(updateStrategy: .preserved(by: flagRefreshTodos.wrappedValue)) {
-        selectorThrowingTask { context async throws -> IdentifiedArrayOf<Todo> in
-          let request = MRequest {
-            RUrl(urlString: "http://127.0.0.1:8080")
-              .withPath("todos")
-            RMethod(.get)
-          }
-          let data = try await request.data
-          log.info(data.toJson())
-          let models = data.toModel(IdentifiedArrayOf<Todo>.self) ?? []
-          context.set(models, for: _todosStateAtom)
-          return models
+      
+      let todos = useState(IdentifiedArrayOf<Todo>())
+      
+      let filter = useState<Filter> {
+        return Filter.all
+      }
+      
+      let flag = useState(false)
+      
+      let filteredTodos = useMemo(.preserved(by: flag.wrappedValue)) { () -> IdentifiedArrayOf<Todo> in
+        let filter = filter.wrappedValue
+        let todos = todos.wrappedValue
+        switch filter {
+          case .all:
+            return todos
+          case .completed:
+            return todos.filter(\.isCompleted)
+          case .uncompleted:
+            return todos.filter { !$0.isCompleted }
         }
       }
+      
+      let (phase, refresher) = useAsyncRefresh { () -> IdentifiedArrayOf<Todo> in
+        let request = MRequest {
+          RUrl(urlString: "http://127.0.0.1:8080")
+            .withPath("todos")
+          RMethod(.get)
+        }
+        let data = try await request.data
+        let models = data.toModel(IdentifiedArrayOf<Todo>.self) ?? []
+        return models
+      }
+      
+      let _ = useLayoutEffect(.preserved(by: phase.status)) {
+        switch phase {
+          case .success(let items):
+            todos.wrappedValue = items
+            flag.wrappedValue.toggle()
+          default:
+            break
+        }
+        return nil
+      }
+      
       let _onlDeleteTodo = useParamCallBack { (param: UUID) async throws -> Data in
         let data: Data = try await MRequest {
           RUrl(urlString: "http://127.0.0.1:8080")
@@ -246,53 +241,65 @@ struct OnlineHookTodoView: View {
         log.info(data.toJson())
         return data
       }
-      List {
-        Section(header: Text("Information")) {
-          TodoStats()
-          TodoCreator()
-        }
-        Section(header: Text("Filters")) {
-          TodoFilters()
-        }
-        switch phase {
-          case .success:
-            ForEach(_todoFilter, id: \.id) { todo in
-              TodoItem(todoID: todo.id)
-            }
-            .onDelete { atOffsets in
-              for index in atOffsets {
-                let todo = todos.wrappedValue[index]
-                Task {
-                  _ = try await _onlDeleteTodo(todo.id)
-                }
+      
+      TodoContext.Provider(value: todos) {
+        List {
+          Section(header: Text("Information")) {
+            TodoStats()
+            TodoCreator()
+              .onChange(of: todos.wrappedValue) { newValue in
+                flag.wrappedValue.toggle()
               }
-              todos.wrappedValue.remove(atOffsets: atOffsets)
-            }
-            .onMove { fromOffsets, toOffset in
-              // Move only in local
-              todos.wrappedValue.move(fromOffsets: fromOffsets, toOffset: toOffset)
-            }
-          case .failure(let error):
-            Text(error.localizedDescription)
-          default:
-            ProgressView()
+          }
+          Section(header: Text("Filters")) {
+            TodoFilters(filter: filter)
+              .onChange(of: filter.wrappedValue) { newValue in
+                flag.wrappedValue.toggle()
+              }
+          }
+          switch phase {
+            case .success:
+              ForEach(filteredTodos, id: \.id) { todo in
+                TodoItem(todoID: todo.id)
+              }
+              .onDelete { atOffsets in
+                for index in atOffsets {
+                  let todo = todos.wrappedValue[index]
+                  Task {
+                    _ = try await _onlDeleteTodo(todo.id)
+                  }
+                }
+                todos.wrappedValue.remove(atOffsets: atOffsets)
+              }
+              .onMove { fromOffsets, toOffset in
+                // Move only in local
+                todos.wrappedValue.move(fromOffsets: fromOffsets, toOffset: toOffset)
+              }
+            case .failure(let error):
+              Text(error.localizedDescription)
+            default:
+              ProgressView()
+          }
         }
-      }
-      .refreshable(action: {
-        flagRefreshTodos.wrappedValue.toggle()
-      })
-      .listStyle(.sidebar)
-      .toolbar {
-        if useRecoilValue(_filterStateAtom) == .all {
-#if os(iOS)
-          EditButton()
-#endif
+        .onAppear {
+          refresher()
         }
-      }
-      .navigationTitle("Recoil-Todos-" + useRecoilValue(totalTodos).description)
+        .refreshable(action: {
+          refresher()
+        })
+        .listStyle(.sidebar)
+        .toolbar {
+          if filter.wrappedValue == .all {
 #if os(iOS)
-      .navigationBarTitleDisplayMode(.inline)
+            EditButton()
 #endif
+          }
+        }
+        .navigationTitle("Hook-Todos-" + filteredTodos.count.description)
+#if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+#endif
+      }
     }
   }
 }

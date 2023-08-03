@@ -49,7 +49,7 @@ extension IdentifiedArray where ID == Todo.ID, Element == Todo {
 }
 
 private struct TCATodoReducer: ReducerProtocol {
-
+  
   struct State: Equatable {
     var todos: IdentifiedArrayOf<Todo> = .mock
     @BindingState var filter: Filter = .all
@@ -63,7 +63,7 @@ private struct TCATodoReducer: ReducerProtocol {
           return todos.filter { !$0.isCompleted }
       }
     }
-
+    
     var stats: Stats {
       let total = todos.count
       let totalCompleted = todos.filter(\.isCompleted).count
@@ -77,7 +77,7 @@ private struct TCATodoReducer: ReducerProtocol {
       )
     }
   }
-
+  
   enum Action: Equatable, BindableAction {
     case binding(BindingAction<State>)
     case remove(atOffsets: IndexSet)
@@ -86,7 +86,7 @@ private struct TCATodoReducer: ReducerProtocol {
     case setText(todoID: UUID, text: String)
     case setIsCompleted(todoID: UUID, isCompleted: Bool)
   }
-
+  
   var body: some ReducerProtocolOf<Self> {
     BindingReducer()
     Reduce { state, action in
@@ -111,9 +111,9 @@ private struct TCATodoReducer: ReducerProtocol {
 
 private struct TCATodoMiddleware: MiddlewareProtocol {
   typealias State = TCATodoReducer.State
-
+  
   typealias Action = TCATodoReducer.Action
-
+  
   var body: some MiddlewareProtocolOf<Self> {
     AsyncIOMiddleware { state, action, source in
       AsyncIO { handler in
@@ -134,7 +134,7 @@ private struct TodoStats: View {
   init(viewStore: ViewStoreOf<TCATodoReducer>) {
     self.viewStore = viewStore
   }
-
+  
   var body: some View {
     VStack(alignment: .leading, spacing: 4) {
       stat("Total", "\(viewStore.stats.total)")
@@ -144,7 +144,7 @@ private struct TodoStats: View {
     }
     .padding(.vertical)
   }
-
+  
   private func stat(_ title: String, _ value: String) -> some View {
     HStack {
       Text(title) + Text(":")
@@ -155,31 +155,31 @@ private struct TodoStats: View {
 }
 
 private struct TodoFilters: View {
-
+  
   @ObservedObject
   private var viewStore: ViewStoreOf<TCATodoReducer>
   
   init(viewStore: ViewStoreOf<TCATodoReducer>) {
     self.viewStore = viewStore
   }
-
+  
   var body: some View {
     Picker("Filter", selection: viewStore.binding(\.$filter)) {
       ForEach(Filter.allCases, id: \.self) { filter in
         switch filter {
           case .all:
             Text("All")
-
+            
           case .completed:
             Text("Completed")
-
+            
           case .uncompleted:
             Text("Uncompleted")
         }
       }
     }
     .padding(.vertical)
-
+    
 #if !os(watchOS)
     .pickerStyle(.segmented)
 #endif
@@ -187,14 +187,14 @@ private struct TodoFilters: View {
 }
 
 private struct TodoCreator: View {
-
+  
   @ObservedObject
   private var viewStore: ViewStoreOf<TCATodoReducer>
-
+  
   init(viewStore: ViewStoreOf<TCATodoReducer>) {
     self.viewStore = viewStore
   }
-
+  
   var body: some View {
     HookScope {
       let text = useState("")
@@ -219,26 +219,26 @@ private struct TodoCreator: View {
 }
 
 private struct TodoItem: View {
-
+  
   @ObservedObject
   private var viewStore: ViewStoreOf<TCATodoReducer>
-
+  
   fileprivate let todo: Todo
   
   @State private var isCompleted: Bool
   @State private var text: String
-
+  
   fileprivate init(viewStore: ViewStoreOf<TCATodoReducer>, todo: Todo) {
     self.viewStore = viewStore
     self.todo = todo
     self._isCompleted = State(initialValue: todo.isCompleted)
     self._text = State(initialValue: todo.text)
   }
-
+  
   var body: some View {
     Toggle(isOn: $isCompleted) {
       TextField("", text: $text) {
-
+        
       }
       .textFieldStyle(.plain)
 #if os(iOS) || os(macOS)
@@ -256,17 +256,17 @@ private struct TodoItem: View {
 }
 
 // MARK: View
-struct TCATodoView: View {
-
+struct ReduxTodoView: View {
+  
   private let store: StoreOf<TCATodoReducer>
-
+  
   @ObservedObject
   private var viewStore: ViewStoreOf<TCATodoReducer>
-
+  
   init() {
     self.init(store: nil)
   }
-
+  
   private init(store: StoreOf<TCATodoReducer>?) {
     let unwrapStore = store ?? Store(
       initialState: TCATodoReducer.State(),
@@ -275,7 +275,7 @@ struct TCATodoView: View {
     self.store = unwrapStore
     self.viewStore = ViewStore(unwrapStore)
   }
-
+  
   var body: some View {
     List {
       Section(header: Text("Information")) {
@@ -311,5 +311,5 @@ struct TCATodoView: View {
 }
 
 #Preview {
-  TCATodoView()
+  ReduxTodoView()
 }

@@ -84,6 +84,17 @@ struct ContentView: View {
             }
           }
           HStack {
+            Text("Jotail-CaseStudies")
+            Spacer()
+          }
+          .background(Color.white.opacity(0.0001))
+          .clipShape(Rectangle())
+          .onTapGesture {
+            navigationPath.commit {
+              $0.path.append(.init(id: "Jotail-CaseStudies", state: "Jotail_NavigationView"))
+            }
+          }
+          HStack {
             Text("Riverpod-CaseStudies")
             Spacer()
           }
@@ -97,6 +108,17 @@ struct ContentView: View {
         }
         
         Section(header: Text("Todo - Architecture")) {
+          HStack {
+            Text("Redux-Todos")
+            Spacer()
+          }
+          .background(Color.white.opacity(0.0001))
+          .clipShape(Rectangle())
+          .onTapGesture {
+            navigationPath.commit {
+              $0.path.append(.init(id: "Redux-Todos", state: "Redux-Todos"))
+            }
+          }
           HStack {
             Text("TCA-Todos")
             Spacer()
@@ -203,11 +225,15 @@ struct ContentView: View {
             AtomCaseStudiesView()
           case "Recoil-CaseStudies":
             RecoilUseCaseStudiesView()
+          case "Jotail-CaseStudies":
+            JotaiCaseStudiesView()
           case "Riverpod-CaseStudies":
             RiverpodCaseStudiesView()
             // MARK: - Todo Architectures
           case "TCA-Todos":
             TCATodoView()
+          case "Redux-Todos":
+            ReduxTodoView()
           case "MVVM-Todos":
             MVVMTodoView()
           case "MVC-Todos":
@@ -234,8 +260,6 @@ struct ContentView: View {
   }
 }
 
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
-  }
+#Preview {
+  ContentView()
 }

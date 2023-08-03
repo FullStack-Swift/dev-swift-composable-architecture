@@ -28,7 +28,9 @@ public enum AsyncPhase<Success, Failure: Error> {
   /// a `failure`.
   ///
   /// - Parameter result: A result value to be mapped.
-  public init(_ result: TaskResult<Success>) where Failure == Error {
+  public init(
+    _ result: TaskResult<Success>
+  ) where Failure == Error {
     switch result {
       case .success(let value):
         self = .success(value)
@@ -43,7 +45,9 @@ public enum AsyncPhase<Success, Failure: Error> {
   /// returned value as a success, or any thrown error as a failure.
   ///
   /// - Parameter body: A async throwing closure to evaluate.
-  public init(catching body: () async throws -> Success) async where Failure == Error {
+  public init(
+    catching body: () async throws -> Success
+  ) async where Failure == Error {
     do {
       let value = try await body()
       self = .success(value)
@@ -163,6 +167,30 @@ public enum AsyncPhase<Success, Failure: Error> {
         
       case .failure(let error):
         return transform(error)
+    }
+  }
+}
+
+extension AsyncPhase {
+  /// The status using in HookUpdateStrategy to order handle response phase.
+  public enum StatusPhase: Hashable, Equatable {
+    /// Represents a suspending phase.
+    case suspending
+    /// Represents a success phase.
+    case success
+    /// Represents a failure phase.
+    case failure
+  }
+  
+  /// the status of phase which we can compare to update HookUpdateStrategy.
+  public var status: StatusPhase {
+    switch self {
+      case .suspending:
+        return .suspending
+      case .success(_):
+        return .success
+      case .failure(_):
+        return .failure
     }
   }
 }

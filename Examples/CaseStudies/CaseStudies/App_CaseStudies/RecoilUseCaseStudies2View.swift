@@ -261,8 +261,10 @@ struct RecoilUseCaseStudies2View: View {
       
     }
     .padding()
+#if os(iOS)
     .navigationBarTitle(Text("Riverpod"), displayMode: .inline)
     .navigationBarItems(leading: leading, trailing: trailing)
+#endif
   }
   
   var leading: some View {
@@ -274,8 +276,6 @@ struct RecoilUseCaseStudies2View: View {
   }
 }
 
-struct RecoilUseCaseStudies2View_Previews: PreviewProvider {
-  static var previews: some View {
-    RecoilUseCaseStudies2View()
-  }
+#Preview {
+  RecoilUseCaseStudies2View()
 }

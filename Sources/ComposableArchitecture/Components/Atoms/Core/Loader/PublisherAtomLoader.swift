@@ -63,33 +63,3 @@ public struct PublisherAtomLoader<Node: PublisherAtom>: RefreshableAtomLoader {
     value
   }
 }
-
-private extension Publisher {
-  var results: AsyncStream<Result<Output, Failure>> {
-    AsyncStream { continuation in
-      let cancellable = map(Result.success)
-        .catch { Just(.failure($0)) }
-        .sink(
-          receiveCompletion: { _ in
-            continuation.finish()
-          },
-          receiveValue: { result in
-            continuation.yield(result)
-          }
-        )
-      
-      continuation.onTermination = { termination in
-        switch termination {
-          case .cancelled:
-            cancellable.cancel()
-            
-          case .finished:
-            break
-            
-          @unknown default:
-            break
-        }
-      }
-    }
-  }
-}

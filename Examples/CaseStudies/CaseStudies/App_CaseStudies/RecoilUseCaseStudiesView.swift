@@ -367,7 +367,9 @@ struct RecoilUseCaseStudiesView: View {
       }
     }
     .listStyle(.sidebar)
+#if os(iOS)
     .navigationBarTitle(Text("Recoil"), displayMode: .inline)
+#endif
   }
 }
 

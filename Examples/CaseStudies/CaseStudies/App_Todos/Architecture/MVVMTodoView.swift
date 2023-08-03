@@ -225,18 +225,18 @@ struct MVVMTodoView: View {
     .listStyle(.sidebar)
     .toolbar {
       if viewModel.filter == .all {
+#if os(iOS)
         EditButton()
+#endif
       }
     }
     .navigationTitle("MVVM-Todos -" + viewModel.todos.count.description)
+#if os(iOS)
     .navigationBarTitleDisplayMode(.inline)
+#endif
   }
 }
 
-struct MVVMTodoView_Previews: PreviewProvider {
-  static var previews: some View {
-    _NavigationView {
-      MVCTodoView()
-    }
-  }
+#Preview {
+  MVCTodoView()
 }

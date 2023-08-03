@@ -281,12 +281,12 @@ import Combine
 ///   - effect: A closure that typically represents a side-effect.
 ///             It is able to return a closure that to do something when this hook is unmount from the view or when the side-effect function is called again.
 @discardableResult
-public func useParamCallBack<Param, Node: Publisher>(
+public func useCallBack<Node: Publisher>(
   _ updateStrategy: HookUpdateStrategy? = .once,
-  _ fn: @escaping (Param) -> Node
-) -> (Param) -> AsyncStream<Result<Node.Output, Node.Failure>> {
+  _ fn: @escaping () -> Node
+) -> () -> AsyncStream<Result<Node.Output, Node.Failure>> {
   useHook(
-    UseParamPublisherCallBackHook<Param, Node>(
+    UsePublisherCallBackHook<Node>(
       updateStrategy: updateStrategy,
       shouldDeferredUpdate: true,
       fn: fn
@@ -315,12 +315,12 @@ public func useParamCallBack<Param, Node: Publisher>(
 ///   - effect: A closure that typically represents a side-effect.
 ///             It is able to return a closure that to do something when this hook is unmount from the view or when the side-effect function is called again.
 @discardableResult
-public func useLayoutParamCallBack<Param, Node: Publisher>(
+public func useLayoutCallBack<Node: Publisher>(
   _ updateStrategy: HookUpdateStrategy? = .once,
-  _ fn: @escaping (Param) -> Node
-) -> (Param) -> AsyncStream<Result<Node.Output, Node.Failure>> {
+  _ fn: @escaping () -> Node
+) -> () -> AsyncStream<Result<Node.Output, Node.Failure>> {
   useHook(
-    UseParamPublisherCallBackHook<Param, Node>(
+    UsePublisherCallBackHook<Node>(
       updateStrategy: updateStrategy,
       shouldDeferredUpdate: false,
       fn: fn
@@ -328,7 +328,7 @@ public func useLayoutParamCallBack<Param, Node: Publisher>(
   )
 }
 
-private struct UseParamPublisherCallBackHook<Param, Node: Publisher>: Hook {
+private struct UsePublisherCallBackHook<Node: Publisher>: Hook {
   
   typealias State = _HookRef
   
@@ -336,15 +336,15 @@ private struct UseParamPublisherCallBackHook<Param, Node: Publisher>: Hook {
   
   let shouldDeferredUpdate: Bool
   
-  let fn: (Param) -> Node
+  let fn: () -> Node
   
   func makeState() -> State {
     State()
   }
   
-  func value(coordinator: Coordinator) -> (Param) -> AsyncStream<Result<Node.Output, Node.Failure>> {
-    return  { (param: Param) in
-      (coordinator.state.fn ?? fn)(param).results
+  func value(coordinator: Coordinator) -> () -> AsyncStream<Result<Node.Output, Node.Failure>> {
+    return  {
+      (coordinator.state.fn ?? fn)().results
     }
   }
   
@@ -360,47 +360,17 @@ private struct UseParamPublisherCallBackHook<Param, Node: Publisher>: Hook {
   }
 }
 
-private extension UseParamPublisherCallBackHook {
+private extension UsePublisherCallBackHook {
   // MARK: State
   final class _HookRef {
     
-    var fn: ((Param) -> Node)?
+    var fn: (() -> Node)?
     
     var isDisposed = false
     
     func dispose() {
       fn = nil
       isDisposed = true
-    }
-  }
-}
-
-private extension Publisher {
-  var results: AsyncStream<Result<Output, Failure>> {
-    AsyncStream { continuation in
-      let cancellable = map(Result.success)
-        .catch { Just(.failure($0)) }
-        .sink(
-          receiveCompletion: { _ in
-            continuation.finish()
-          },
-          receiveValue: { result in
-            continuation.yield(result)
-          }
-        )
-      
-      continuation.onTermination = { termination in
-        switch termination {
-          case .cancelled:
-            cancellable.cancel()
-            
-          case .finished:
-            break
-            
-          @unknown default:
-            break
-        }
-      }
     }
   }
 }

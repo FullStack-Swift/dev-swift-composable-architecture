@@ -58,8 +58,10 @@ struct HookCaseStudiesView: View {
             }
           }
         }
+#if os(iOS)
         .background(Color(.systemBackground).ignoresSafeArea())
         .navigationBarTitle(Text("Hook"), displayMode: .inline)
+#endif
       }
       .colorScheme(colorScheme.wrappedValue)
     }
@@ -701,5 +703,10 @@ struct HookCaseStudiesView_Previews: PreviewProvider {
     HookScope {
       HookCaseStudiesView()
     }
+  }
+}
+#Preview {
+  HookScope {
+    HookCaseStudiesView()
   }
 }

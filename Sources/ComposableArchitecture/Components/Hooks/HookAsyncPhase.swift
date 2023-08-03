@@ -31,7 +31,9 @@ public enum HookAsyncPhase<Success, Failure: Error> {
   /// a `failure`.
   ///
   /// - Parameter result: A result value to be mapped.
-  public init(_ result: TaskResult<Success>) where Failure == Error {
+  public init(
+    _ result: TaskResult<Success>
+  ) where Failure == Error {
     switch result {
       case .success(let value):
         self = .success(value)
@@ -40,13 +42,14 @@ public enum HookAsyncPhase<Success, Failure: Error> {
         self = .failure(error)
     }
   }
-
   
   /// Creates a new phase by evaluating a async throwing closure, capturing the
   /// returned value as a success, or any thrown error as a failure.
   ///
   /// - Parameter body: A async throwing closure to evaluate.
-  public init(catching body: () async throws -> Success) async where Failure == Error {
+  public init(
+    catching body: () async throws -> Success
+  ) async where Failure == Error {
     do {
       let value = try await body()
       self = .success(value)
@@ -118,7 +121,7 @@ public enum HookAsyncPhase<Success, Failure: Error> {
         return .failure(error)
     }
   }
-
+  
   /// Returns a taskResult converted from the phase.
   /// if this instance represents a `pending` or a `runiing`, this returns nil.
   public var taskResult: TaskResult<Success>? {
@@ -132,21 +135,27 @@ public enum HookAsyncPhase<Success, Failure: Error> {
   /// Returns a new phase, mapping any success value using the given transformation.
   /// - Parameter transform: A closure that takes the success value of this instance.
   /// - Returns: An `AsyncPhase` instance with the result of evaluating `transform` as the new success value if this instance represents a success.
-  public func map<NewSuccess>(_ transform: (Success) -> NewSuccess) -> HookAsyncPhase<NewSuccess, Failure> {
+  public func map<NewSuccess>(
+    _ transform: (Success) -> NewSuccess
+  ) -> HookAsyncPhase<NewSuccess, Failure> {
     flatMap { .success(transform($0)) }
   }
   
   /// Returns a new result, mapping any failure value using the given transformation.
   /// - Parameter transform: A closure that takes the failure value of the instance.
   /// - Returns: An `AsyncPhase` instance with the result of evaluating `transform` as the new failure value if this instance represents a failure.
-  public func mapError<NewFailure: Error>(_ transform: (Failure) -> NewFailure) -> HookAsyncPhase<Success, NewFailure> {
+  public func mapError<NewFailure: Error>(
+    _ transform: (Failure) -> NewFailure
+  ) -> HookAsyncPhase<Success, NewFailure> {
     flatMapError { .failure(transform($0)) }
   }
   
   /// Returns a new result, mapping any success value using the given transformation and unwrapping the produced phase.
   /// - Parameter transform: A closure that takes the success value of the instance.
   /// - Returns: An `AsyncPhase` instance, either from the closure or the previous `.success`.
-  public func flatMap<NewSuccess>(_ transform: (Success) -> HookAsyncPhase<NewSuccess, Failure>) -> HookAsyncPhase<NewSuccess, Failure> {
+  public func flatMap<NewSuccess>(
+    _ transform: (Success) -> HookAsyncPhase<NewSuccess, Failure>
+  ) -> HookAsyncPhase<NewSuccess, Failure> {
     switch self {
       case .pending:
         return .pending
@@ -165,7 +174,9 @@ public enum HookAsyncPhase<Success, Failure: Error> {
   /// Returns a new result, mapping any failure value using the given transformation and unwrapping the produced phase.
   /// - Parameter transform: A closure that takes the failure value of the instance.
   /// - Returns: An `AsyncPhase` instance, either from the closure or the previous `.failure`.
-  public func flatMapError<NewFailure: Error>(_ transform: (Failure) -> HookAsyncPhase<Success, NewFailure>) -> HookAsyncPhase<Success, NewFailure> {
+  public func flatMapError<NewFailure: Error>(
+    _ transform: (Failure) -> HookAsyncPhase<Success, NewFailure>)
+  -> HookAsyncPhase<Success, NewFailure> {
     switch self {
       case .pending:
         return .pending
@@ -178,6 +189,34 @@ public enum HookAsyncPhase<Success, Failure: Error> {
         
       case .failure(let error):
         return transform(error)
+    }
+  }
+}
+
+extension HookAsyncPhase {
+  /// The status using in HookUpdateStrategy to order handle response phase.
+  public enum StatusPhase: Hashable, Equatable {
+    /// Represents a pending phase.
+    case pending
+    /// Represents a running phase.
+    case running
+    /// Represents a success phase.
+    case success
+    /// Represents a failure phase.
+    case failure
+  }
+  
+  /// the status of phase which we can compare to update HookUpdateStrategy.
+  public var status: StatusPhase {
+    switch self {
+      case .pending:
+        return .pending
+      case .running:
+        return .running
+      case .success(_):
+        return .success
+      case .failure(_):
+        return .failure
     }
   }
 }

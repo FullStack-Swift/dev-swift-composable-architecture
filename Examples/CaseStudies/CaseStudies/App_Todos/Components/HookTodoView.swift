@@ -110,10 +110,9 @@ private struct TodoFilters: View {
 
 private struct TodoCreator: View {
   
-  let todos: Binding<IdentifiedArrayOf<Todo>>
-  
   var body: some View {
     HookScope {
+      let todos = useContext(TodoContext.self)
       let text = useState("")
       HStack {
         TextField("Enter your todo", text: text)
@@ -193,7 +192,7 @@ struct HookTodoView: View {
         List {
           Section(header: Text("Information")) {
             TodoStats()
-            TodoCreator(todos: todos)
+            TodoCreator()
               .onChange(of: todos.wrappedValue) { newValue in
                 flag.wrappedValue.toggle()
               }
@@ -217,13 +216,16 @@ struct HookTodoView: View {
         .listStyle(.sidebar)
         .toolbar {
           if filter.wrappedValue == .all {
+#if os(iOS)
             EditButton()
+#endif
           }
-
         }
-        .navigationTitle("Hook-Todos-" + todos.wrappedValue.count.description)
+        .navigationTitle("Hook-Todos-" + filteredTodos.count.description)
+#if os(iOS)
         .navigationBarItems(leading: leading, trailing: trailing)
         .navigationBarTitleDisplayMode(.inline)
+#endif
       }
     }
   }
@@ -239,10 +241,6 @@ struct HookTodoView: View {
   }
 }
 
-struct HookTodoView_Previews: PreviewProvider {
-  static var previews: some View {
-    _NavigationView {
-      HookTodoView()
-    }
-  }
+#Preview {
+  HookTodoView()
 }

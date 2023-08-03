@@ -75,8 +75,6 @@ private struct ReducerProtocolHook<R: ReducerProtocol>: Hook {
     State(initialState: initialState, reducer: reducer)
   }
   
-
-  
   func value(coordinator: Coordinator) -> StoreOf<R> {
     let store = coordinator.state.state
     store.$action.sink { action in

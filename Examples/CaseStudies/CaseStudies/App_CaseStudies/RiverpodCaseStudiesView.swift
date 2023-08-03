@@ -15,8 +15,10 @@ struct RiverpodCaseStudiesView: View {
       }
     }
     .padding()
+#if os(iOS)
     .navigationBarTitle(Text("Riverpod"), displayMode: .inline)
     .navigationBarItems(leading: leading, trailing: trailing)
+#endif
   }
   
   var leading: some View {

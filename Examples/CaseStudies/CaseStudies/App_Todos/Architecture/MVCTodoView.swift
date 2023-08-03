@@ -216,18 +216,17 @@ struct MVCTodoView: View {
     }
     .listStyle(.sidebar)
     .toolbar {
+#if os(iOS)
       EditButton()
+#endif
     }
     .navigationTitle("MVC-Todos")
+#if os(iOS)
     .navigationBarTitleDisplayMode(.inline)
+#endif
   }
 }
 
-struct MVCTodoView_Previews: PreviewProvider {
-  static var previews: some View {
-    _NavigationView {
-      MVCTodoView()
-    }
-  }
+#Preview {
+  MVCTodoView()
 }
-

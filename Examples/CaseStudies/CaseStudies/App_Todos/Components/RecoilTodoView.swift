@@ -226,12 +226,16 @@ struct RecoilTodoView: View {
       .listStyle(.sidebar)
       .toolbar {
         if useRecoilState(_filterAtom).wrappedValue == .all {
+#if os(iOS)
           EditButton()
+#endif
         }
       }
       .navigationTitle("Recoil-Todos-" + useRecoilValue(totalTodos).description)
+#if os(iOS)
       .navigationBarItems(leading: leading, trailing: trailing)
       .navigationBarTitleDisplayMode(.inline)
+#endif
     }
   }
   
@@ -246,12 +250,6 @@ struct RecoilTodoView: View {
   }
 }
 
-struct RecoilTodoView_Previews: PreviewProvider {
-  static var previews: some View {
-    AtomRoot {
-      _NavigationView {
-        RecoilTodoView()
-      }
-    }
-  }
+#Preview {
+  RecoilTodoView()
 }

@@ -165,7 +165,7 @@
     {
       "identity" : "swift-extension",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FullStack-Swift/swift-extension.git",
+      "location" : "https://github.com/FullStack-Swift/swift-extension",
       "state" : {
         "branch" : "main",
         "revision" : "6f97ddaa7c7e84be9ee86f1be8e8c1271118413c"
@@ -210,7 +210,7 @@
     {
       "identity" : "swiftui-additions",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FullStack-Swift/swiftui-additions.git",
+      "location" : "https://github.com/FullStack-Swift/swiftui-additions",
       "state" : {
         "branch" : "main",
         "revision" : "9ea9f9e1614a834a9108483485b41e0f37e2b277"
@@ -258,7 +258,7 @@
       "location" : "https://github.com/FullStack-Swift/swiftui-viewModifier",
       "state" : {
         "branch" : "main",
-        "revision" : "4fe1459bc155a1872e6e3e0e7185c1ac2d6dbcdf"
+        "revision" : "731540f6e4b7b4256a3b0b3f198072900ad5f11f"
       }
     },
     {

@@ -340,8 +340,10 @@ struct AtomCaseStudiesView: View {
         }
         .padding()
       }
+#if os(iOS)
       .background(Color(.systemBackground).ignoresSafeArea())
       .navigationBarTitle(Text("Atom"), displayMode: .inline)
+#endif
     }
   }
 }
@@ -413,11 +415,8 @@ private struct ImageMinus: View {
   }
 }
 
-struct AtomView_Previews: PreviewProvider {
-  static var previews: some View {
-    AtomRoot {
-      AtomCaseStudiesView()
-    }
+#Preview {
+  AtomRoot {
+    AtomCaseStudiesView()
   }
 }
-

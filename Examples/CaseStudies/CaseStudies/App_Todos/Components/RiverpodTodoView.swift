@@ -253,12 +253,16 @@ struct RiverpodTodoView: RiverpodView {
     .listStyle(.sidebar)
     .toolbar {
       if filterProvier.value == .all {
+#if os(iOS)
         EditButton()
+#endif
       }
     }
     .navigationTitle("Riverpod-Todos-" + ref.watch(filterTodoProvider).count.description)
+#if os(iOS)
     .navigationBarItems(leading: leading, trailing: trailing)
     .navigationBarTitleDisplayMode(.inline)
+#endif
   }
   
   private var leading: some View {
@@ -272,10 +276,6 @@ struct RiverpodTodoView: RiverpodView {
   }
 }
 
-struct RiverpodTodoView_Previews: PreviewProvider {
-  static var previews: some View {
-    _NavigationView {
-      RiverpodTodoView()
-    }
-  }
+#Preview {
+  RiverpodTodoView()
 }

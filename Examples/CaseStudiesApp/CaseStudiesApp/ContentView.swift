@@ -23,20 +23,13 @@ struct ContentView: View {
   var content: some View {
     HookScope {
       
-      let count = useRecoilState(MStateAtom(id: id, initialState: 0))
+      let count = useRecoilState(MStateAtom(id: id, 0))
       
       let callback = useCallback {
         count.wrappedValue += 1
       }
       
       let phase = useRecoilThrowingTask(_recoilValueFamily(count.wrappedValue))
-      
-      //      let phase = useRecoilThrowingTask(updateStrategy: .preserved(by: count.wrappedValue)) {
-      //        MThrowingTaskAtom(id: sourceId()) { context -> String in
-      //          try await Task.sleep(nanoseconds: 1_000_000_000)
-      //          return count.wrappedValue.description
-      //        }
-      //      }
       
       VStack {
         LogRerenderView()

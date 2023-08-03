@@ -255,12 +255,16 @@ struct AtomTodoView: View {
       .listStyle(.sidebar)
       .toolbar {
         if context.useRecoilState(FilterAtom()).wrappedValue == .all {
+#if os(iOS)
           EditButton()
+#endif
         }
       }
       .navigationTitle("Atom-Todos-" + context.watch(TodosCount()).description)
+#if os(iOS)
       .navigationBarItems(leading: leading, trailing: trailing)
       .navigationBarTitleDisplayMode(.inline)
+#endif
     }
   }
   
@@ -271,15 +275,8 @@ struct AtomTodoView: View {
   private var trailing: some View {
     EmptyView()
   }
-  
 }
 
-struct AtomTodoView_Previews: PreviewProvider {
-  static var previews: some View {
-    AtomRoot {
-      _NavigationView {
-        AtomTodoView()
-      }
-    }
-  }
+#Preview {
+  AtomTodoView()
 }
