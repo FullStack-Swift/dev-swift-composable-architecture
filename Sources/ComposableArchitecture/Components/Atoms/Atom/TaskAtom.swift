@@ -62,9 +62,14 @@ public extension TaskAtom {
 public struct MTaskAtom<Node>: TaskAtom {
 
   public typealias Value = Node
+  
+  public typealias UpdatedContext = AtomUpdatedContext<Void>
 
   public var id: String
+  
   public var initialState: (Self.Context) async -> Node
+  
+  public var _onUpdated: ((Value, Value, MValueAtom.UpdatedContext) -> Void)?
 
   public init(id: String,_ initialState: @escaping (Self.Context) async -> Node) {
     self.id = id
@@ -86,6 +91,16 @@ public struct MTaskAtom<Node>: TaskAtom {
   @MainActor
   public func value(context: Self.Context) async -> Value {
     await initialState(context)
+  }
+  
+  public func updated(newValue: Value, oldValue: Value, context: UpdatedContext) {
+    _onUpdated?(newValue, oldValue, context)
+  }
+  
+  @discardableResult
+  public mutating func onUpdated(_ onUpdate: @escaping (Value, Value, Self.UpdatedContext) -> Void) -> Self {
+    _onUpdated = onUpdate
+    return self
   }
 
   public var key: String {

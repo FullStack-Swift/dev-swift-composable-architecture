@@ -70,26 +70,43 @@ public extension AsyncSequenceAtom {
 }
 
 // MARK: Make AsyncSequenceAtom
-public struct MAsyncSequenceAtom<M: AsyncSequence>: AsyncSequenceAtom {
+public struct MAsyncSequenceAtom<Node: AsyncSequence>: AsyncSequenceAtom {
 
-  public typealias Sequence = M
+  public typealias Value = Node
+  
+  public typealias Sequence = Node
+  
+  public typealias UpdatedContext = AtomUpdatedContext<Void>
 
   public var id: String
-  var initialState: (Self.Context) -> M
+  
+  public var initialState: (Self.Context) -> Node
+  
+  public var _onUpdated: ((Value, Value, MValueAtom.UpdatedContext) -> Void)?
 
-  public init(id: String, initialState: @escaping (Context) -> M) {
+  public init(id: String, initialState: @escaping (Context) -> Node) {
     self.id = id
     self.initialState = initialState
   }
 
-  public init(id: String,initialState: M) {
+  public init(id: String,initialState: Node) {
     self.init(id: id) { _ in
       initialState
     }
   }
 
-  public func sequence(context: Self.Context) -> M {
+  public func sequence(context: Self.Context) -> Node {
     initialState(context)
+  }
+  
+  public func updated(newValue: Value, oldValue: Value, context: UpdatedContext) {
+    _onUpdated?(newValue, oldValue, context)
+  }
+  
+  @discardableResult
+  public mutating func onUpdated(_ onUpdate: @escaping (Value, Value, Self.UpdatedContext) -> Void) -> Self {
+    _onUpdated = onUpdate
+    return self
   }
 
   public var key: String {

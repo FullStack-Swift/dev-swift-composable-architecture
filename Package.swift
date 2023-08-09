@@ -9,6 +9,7 @@ let package = Package(
     .macOS(.v11),
     .tvOS(.v13),
     .watchOS(.v6),
+    .custom("xros", versionString: "1.0")
   ],
   products: [
     .library(
@@ -29,7 +30,7 @@ let package = Package(
     .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "0.8.0"),
     .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "0.8.4"),
     // MARK: custom
-    .package(url: "https://github.com/lm/navigation-stack-backport.git", .upToNextMajor(from: "1.0.0")),
+//    .package(url: "https://github.com/lm/navigation-stack-backport.git", .upToNextMajor(from: "1.0.0")),
   ],
   targets: [
     .target(
@@ -46,11 +47,11 @@ let package = Package(
         .product(name: "SwiftUINavigationCore", package: "swiftui-navigation"),
         .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay"),
         // MARK: custom
-          .product(
-            name: "NavigationStackBackport",
-            package: "navigation-stack-backport",
-            condition: .when(platforms: [.iOS])
-          ),
+//          .product(
+//            name: "NavigationStackBackport",
+//            package: "navigation-stack-backport",
+//            condition: .when(platforms: [.iOS])
+//          ),
       ]
     ),
     .testTarget(

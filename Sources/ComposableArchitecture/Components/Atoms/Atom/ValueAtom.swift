@@ -59,10 +59,15 @@ public extension ValueAtom {
 public struct MValueAtom<Node>: ValueAtom {
 
   public typealias Value = Node
+  
+  public typealias UpdatedContext = AtomUpdatedContext<Void>
 
   public var id: String
+  
   public var initialState: (Self.Context) -> Node
-
+  
+  public var _onUpdated: ((Value, Value, MValueAtom.UpdatedContext) -> Void)?
+  
   public init(id: String, _ initialState: @escaping (Self.Context) -> Node) {
     self.id = id
     self.initialState = initialState
@@ -76,6 +81,16 @@ public struct MValueAtom<Node>: ValueAtom {
 
   public func value(context: Self.Context) -> Node {
     initialState(context)
+  }
+  
+  public func updated(newValue: Value, oldValue: Value, context: UpdatedContext) {
+    _onUpdated?(newValue, oldValue, context)
+  }
+  
+  @discardableResult
+  public mutating func onUpdated(_ onUpdate: @escaping (Value, Value, Self.UpdatedContext) -> Void) -> Self {
+    _onUpdated = onUpdate
+    return self
   }
 
   public var key: String {

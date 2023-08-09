@@ -19,15 +19,6 @@
       }
     },
     {
-      "identity" : "navigation-stack-backport",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/lm/navigation-stack-backport.git",
-      "state" : {
-        "revision" : "7641abbba79be2cc2616413e7915d5f778784ecd",
-        "version" : "1.0.0"
-      }
-    },
-    {
       "identity" : "reactiveswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ReactiveCocoa/ReactiveSwift.git",
@@ -168,7 +159,7 @@
       "location" : "https://github.com/FullStack-Swift/swift-extension",
       "state" : {
         "branch" : "main",
-        "revision" : "6f97ddaa7c7e84be9ee86f1be8e8c1271118413c"
+        "revision" : "ccbf2fddb982267be28705b3dd8b29ee3c4d149e"
       }
     },
     {
@@ -214,33 +205,6 @@
       "state" : {
         "branch" : "main",
         "revision" : "9ea9f9e1614a834a9108483485b41e0f37e2b277"
-      }
-    },
-    {
-      "identity" : "swiftui-bottom-sheet",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FullStack-Swift/swiftui-bottom-sheet.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "82901d518aaa85745d5f8ab267edd00751a43a20"
-      }
-    },
-    {
-      "identity" : "swiftui-button-styles",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FullStack-Swift/swiftui-button-styles",
-      "state" : {
-        "branch" : "main",
-        "revision" : "6c1bcab0cc7d3a756aafdf51e4f92d8d9b1eea10"
-      }
-    },
-    {
-      "identity" : "swiftui-color",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FullStack-Swift/swiftui-color",
-      "state" : {
-        "branch" : "main",
-        "revision" : "21e0df326ee8aa804d1f4c06bb3e96be04772cbb"
       }
     },
     {

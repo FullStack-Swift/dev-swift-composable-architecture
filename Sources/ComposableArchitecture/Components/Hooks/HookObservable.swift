@@ -6,7 +6,7 @@ public final class HookObservable: ObservableObject {
   internal private(set) static weak var current: HookObservable?
   
   /// A publisher that emits before the object has changed.
-  public let objectWillChange = PassthroughSubject<(), Never>()
+  public private(set) lazy var objectWillChange = ObservableObjectPublisher()
   
   private var records = LinkedList<HookRecordProtocol>()
   private var scopedState: ScopedHookState?
