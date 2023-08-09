@@ -3,7 +3,7 @@
 ///
 ///Confirm types to this protocol to respresent the domain, logic
 ///
-public protocol MiddlewareProtocol<State, Action> {
+public protocol Middleware<State, Action> {
   /// A type that holds the current state of the reducer.
   associatedtype State
 
@@ -53,7 +53,7 @@ public protocol MiddlewareProtocol<State, Action> {
   var body: Body { get }
 }
 
-extension MiddlewareProtocol where Body == Never {
+extension Middleware where Body == Never {
 
   @_transparent
   public var body: Body {
@@ -65,7 +65,7 @@ extension MiddlewareProtocol where Body == Never {
   }
 }
 
-extension MiddlewareProtocol where Body: MiddlewareProtocol, Body.State == State, Body.Action == Action {
+extension Middleware where Body: Middleware, Body.State == State, Body.Action == Action {
 
   public func handle(state: State, action: Action, from dispatcher: ActionSource) -> IO<Action> {
     self.body.handle(state: state, action: action, from: dispatcher)
@@ -95,5 +95,5 @@ extension MiddlewareProtocol where Body: MiddlewareProtocol, Body.State == State
 /// }
 /// ```
 
-public typealias MiddlewareProtocolOf<M: MiddlewareProtocol> = MiddlewareProtocol<M.State, M.Action>
+public typealias MiddlewareOf<M: Middleware> = Middleware<M.State, M.Action>
 #endif

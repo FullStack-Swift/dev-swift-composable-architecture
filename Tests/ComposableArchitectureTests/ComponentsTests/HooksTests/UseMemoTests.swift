@@ -4,7 +4,8 @@ import ComposableArchitecture
 
 @MainActor
 final class UseMemoTests: XCTestCase {
-  func test_Memo_Once() {
+  
+  func test_memo_once() {
     var value = 0
     let tester = HookTester {
       useMemo {

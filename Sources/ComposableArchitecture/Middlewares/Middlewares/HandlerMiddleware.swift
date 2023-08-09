@@ -1,7 +1,7 @@
 import Foundation
 
 // MARK: ActionHandlerMiddleware
-public struct ActionHandlerMiddleware<State, Action>: MiddlewareProtocol {
+public struct ActionHandlerMiddleware<State, Action>: Middleware {
   @usableFromInline
   let handle: (State, Action, ActionSource, AnyActionHandler<Action>) -> Void
 
@@ -27,7 +27,7 @@ public struct ActionHandlerMiddleware<State, Action>: MiddlewareProtocol {
 }
 
 // MARK: AsyncActionHandlerMiddleware
-public struct AsyncActionHandlerMiddleware<State, Action>: MiddlewareProtocol {
+public struct AsyncActionHandlerMiddleware<State, Action>: Middleware {
   @usableFromInline
   let handle: (State, Action, ActionSource, AsyncAnyActionHandler<Action>) async throws -> ()
 

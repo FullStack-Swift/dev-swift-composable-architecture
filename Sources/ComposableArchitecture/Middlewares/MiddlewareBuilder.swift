@@ -8,7 +8,7 @@
 @resultBuilder
 public enum MiddlewareBuilder<State, Action> {
   @inlinable
-  public static func buildArray<M: MiddlewareProtocol>(_ middlewares: [M]) -> _SequenceMany<M>
+  public static func buildArray<M: Middleware>(_ middlewares: [M]) -> _SequenceMany<M>
   where M.State == State, M.Action == Action {
     _SequenceMany(middlewares: middlewares)
   }
@@ -19,13 +19,13 @@ public enum MiddlewareBuilder<State, Action> {
   }
 
   @inlinable
-  public static func buildBlock<M: MiddlewareProtocol>(_ middleware: M) -> M
+  public static func buildBlock<M: Middleware>(_ middleware: M) -> M
   where M.State == State, M.Action == Action {
     middleware
   }
 
   @inlinable
-  public static func buildEither<M0: MiddlewareProtocol, M1: MiddlewareProtocol>(
+  public static func buildEither<M0: Middleware, M1: Middleware>(
     first reducer: M0
   ) -> _Conditional<M0, M1>
   where M0.State == State, M0.Action == Action, M1.State == State, M1.Action == Action {
@@ -33,7 +33,7 @@ public enum MiddlewareBuilder<State, Action> {
   }
 
   @inlinable
-  public static func buildEither<M0: MiddlewareProtocol, M1: MiddlewareProtocol>(
+  public static func buildEither<M0: Middleware, M1: Middleware>(
     second reducer: M1
   ) -> _Conditional<M0, M1>
   where M0.State == State, M0.Action == Action, M1.State == State, M1.Action == Action {
@@ -41,19 +41,19 @@ public enum MiddlewareBuilder<State, Action> {
   }
 
   @inlinable
-  public static func buildExpression<M: MiddlewareProtocol>(_ expression: M) -> M
+  public static func buildExpression<M: Middleware>(_ expression: M) -> M
   where M.State == State, M.Action == Action {
     expression
   }
 
   @inlinable
-  public static func buildFinalResult<M: MiddlewareProtocol>(_ reducer: M) -> M
+  public static func buildFinalResult<M: Middleware>(_ reducer: M) -> M
   where M.State == State, M.Action == Action {
     reducer
   }
 
   @inlinable
-  public static func buildLimitedAvailability<M: MiddlewareProtocol>(
+  public static func buildLimitedAvailability<M: Middleware>(
     _ wrapped: M
   ) -> IOMiddleware<State, Action>
   where M.State == State, M.Action == Action {
@@ -61,13 +61,13 @@ public enum MiddlewareBuilder<State, Action> {
   }
 
   @inlinable
-  public static func buildOptional<M: MiddlewareProtocol>(_ wrapped: M?) -> M?
+  public static func buildOptional<M: Middleware>(_ wrapped: M?) -> M?
   where M.State == State, M.Action == Action {
     wrapped
   }
 
   @inlinable
-  public static func buildPartialBlock<M: MiddlewareProtocol>(
+  public static func buildPartialBlock<M: Middleware>(
     first: M
   ) -> M
   where M.State == State, M.Action == Action {
@@ -75,14 +75,14 @@ public enum MiddlewareBuilder<State, Action> {
   }
 
   @inlinable
-  public static func buildPartialBlock<M0: MiddlewareProtocol, M1: MiddlewareProtocol>(
+  public static func buildPartialBlock<M0: Middleware, M1: Middleware>(
     accumulated: M0, next: M1
   ) -> _Sequence<M0, M1>
   where M0.State == State, M0.Action == Action, M1.State == State, M1.Action == Action {
     _Sequence(accumulated, next)
   }
 
-  public enum _Conditional<First: MiddlewareProtocol, Second: MiddlewareProtocol>: MiddlewareProtocol
+  public enum _Conditional<First: Middleware, Second: Middleware>: Middleware
   where
   First.State == Second.State,
   First.Action == Second.Action
@@ -101,7 +101,7 @@ public enum MiddlewareBuilder<State, Action> {
     }
   }
 
-  public struct _Sequence<M0: MiddlewareProtocol, M1: MiddlewareProtocol>: MiddlewareProtocol
+  public struct _Sequence<M0: Middleware, M1: Middleware>: Middleware
   where M0.State == M1.State, M0.Action == M1.Action {
     @usableFromInline
     let m0: M0
@@ -122,7 +122,7 @@ public enum MiddlewareBuilder<State, Action> {
     }
   }
 
-  public struct _SequenceMany<Element: MiddlewareProtocol>: MiddlewareProtocol {
+  public struct _SequenceMany<Element: Middleware>: Middleware {
     @usableFromInline
     let middlewares: [Element]
 

@@ -1,6 +1,6 @@
 import Foundation
 import XCTest
-import ComposableArchitecture
+@testable import ComposableArchitecture
 
 @MainActor
 final class UseRecoilRefreshTests: XCTestCase {

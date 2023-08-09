@@ -1,5 +1,5 @@
 
-public struct IgnoreStateReducer<State, Action>: ReducerProtocol {
+public struct IgnoreStateReducer<State, Action>: Reducer {
   @usableFromInline
   let ignoreStateReducer: (Action) -> Void
 
@@ -19,7 +19,7 @@ public struct IgnoreStateReducer<State, Action>: ReducerProtocol {
   }
 
   @inlinable
-  public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+  public func reduce(into state: inout State, action: Action) -> Effect<Action> {
     self.ignoreStateReducer(action)
     return .none
   }

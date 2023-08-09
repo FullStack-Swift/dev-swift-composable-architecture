@@ -189,6 +189,12 @@ public struct RecoilGlobalContext: AtomWatchableContext {
   public func restore(_ snapshot: Snapshot) {
     _store.restore(snapshot)
   }
+  
+  @discardableResult
+  @inlinable
+  public func reUpdate<Node: Atom>( _ atom: Node) -> Node.Loader.Value {
+    _store.reUpdate(atom)
+  }
 }
 
 // MARK: PropertyWrapper

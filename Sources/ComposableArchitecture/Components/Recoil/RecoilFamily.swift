@@ -88,15 +88,18 @@ public func recoilValueFamily<P: Hashable, T>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (P, MValueAtom<T>.Context) -> T
+  _ initialNode: @escaping (P, AtomTransactionContext<Void>) -> T
 ) -> AtomFamily<P, MValueAtom<T>> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  let body = curryFnRecoilFamily(initialState)
+  let body = curryFnRecoilFamily(initialNode)
+  @RecoilGlobalViewContext
+  var _context
   return { (param: P) -> RecoilParamNode<P, MValueAtom<T>> in
     let _body = body(param)
     let node = MValueAtom<T>(id: id) { context -> T in
       return _body(context)
     }
+    _context.reset(node)
     return RecoilParamNode(param: param, node: node)
   }
 }
@@ -113,15 +116,18 @@ public func recoilStateFamily<P: Hashable, T>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (P, MStateAtom<T>.Context) -> T
+  _ initialNode: @escaping (P, AtomTransactionContext<Void>) -> T
 ) -> AtomFamily<P, MStateAtom<T>> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  let body = curryFnRecoilFamily(initialState)
+  let body = curryFnRecoilFamily(initialNode)
+  @RecoilGlobalViewContext
+  var _context
   return { (param: P) -> RecoilParamNode<P, MStateAtom<T>> in
     let _body = body(param)
     let node = MStateAtom<T>(id: id) { context -> T in
       return _body(context)
     }
+    _context.reset(node)
     return RecoilParamNode(param: param, node: node)
   }
 }
@@ -138,15 +144,18 @@ public func recoilTaskFamily<P: Hashable, T>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (P, MTaskAtom<T>.Context) async -> T
+  _ initialNode: @escaping (P, RecoilGlobalContext) async -> T
 ) -> AtomFamily<P, MTaskAtom<T>> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  let body = curryFnTaskRecoilFamily(initialState)
+  let body = curryFnTaskRecoilFamily(initialNode)
+  @RecoilGlobalViewContext
+  var _context
   return { (param: P) -> RecoilParamNode<P, MTaskAtom<T>> in
     let _body = body(param)
     let node = MTaskAtom<T>(id: id) { context -> T in
-      await _body(context)
+      await _body(_context)
     }
+    _context.reset(node)
     return RecoilParamNode(param: param, node: node)
   }
 }
@@ -163,15 +172,18 @@ public func recoilThrowingTaskFamily<P: Hashable, T>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (P, MThrowingTaskAtom<T>.Context) async throws -> T
+  _ initialNode: @escaping (P, RecoilGlobalContext) async throws -> T
 ) -> AtomFamily<P, MThrowingTaskAtom<T>> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  let body = curryFnThrowingTaskRecoilFamily(initialState)
+  let body = curryFnThrowingTaskRecoilFamily(initialNode)
+  @RecoilGlobalViewContext
+  var _context
   let atomFamily: AtomFamily<P, MThrowingTaskAtom<T>> = { (param: P) -> RecoilParamNode<P, MThrowingTaskAtom<T>> in
     let _body = body(param)
     let node = MThrowingTaskAtom<T>(id: id) { context in
-      try await _body(context)
+      try await _body(_context)
     }
+    _context.reset(node)
     return RecoilParamNode(param: param, node: node)
   }
   return atomFamily
@@ -189,15 +201,18 @@ public func recoilPublisherFamily<P: Hashable, T>(
   fileID: String = #fileID,
   line: UInt = #line,
   id: String = "",
-  _ initialState: @escaping (P, MPublisherAtom<T>.Context) -> T
+  _ initialNode: @escaping (P, AtomTransactionContext<Void>) -> T
 ) -> AtomFamily<P, MPublisherAtom<T>> {
   let id = sourceId(id: id, fileID: fileID, line: line)
-  let body = curryFnRecoilFamily(initialState)
+  let body = curryFnRecoilFamily(initialNode)
+  @RecoilGlobalViewContext
+  var _context
   return { (param: P) -> RecoilParamNode<P, MPublisherAtom<T>> in
     let _body = body(param)
     let node = MPublisherAtom<T>(id: id) { context in
       return _body(context)
     }
+//    _context.reset(node)
     return RecoilParamNode(param: param, node: node)
   }
 }

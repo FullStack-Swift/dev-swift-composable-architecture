@@ -7,7 +7,7 @@ final class AtomsTest: XCTestCase {
   
   
   func testValue() {
-    let atom = MValueAtom(id: sourceId(), initialState: 0)
+    let atom = MValueAtom(id: sourceId(), 0)
     let context = AtomTestContext()
     
     do {
@@ -30,13 +30,13 @@ final class AtomsTest: XCTestCase {
     
     let stateId = sourceId()
     let testerState = RecoilTester {
-      useRecoilState(MStateAtom(id: stateId, initialState: 0))
+      useRecoilState(MStateAtom(id: stateId, 0))
     }
     
     let valueId = sourceId()
     let testerValue = RecoilTester {
       useRecoilValue(MValueAtom(id: valueId) { context in
-        context.watch(MStateAtom(id: stateId, initialState: 0))
+        context.watch(MStateAtom(id: stateId, 0))
       })
     }
     

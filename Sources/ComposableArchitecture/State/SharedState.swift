@@ -91,7 +91,7 @@ extension SharedState: CustomDumpRepresentable {
   }
 }
 
-public struct SharedStateReducer: ReducerProtocol {
+public struct SharedStateReducer: Reducer {
 
   public struct State {
 
@@ -172,7 +172,7 @@ public struct SharedStateReducer: ReducerProtocol {
 
   public enum Action { }
 
-  public var body: some ReducerProtocolOf<Self> {
+  public var body: some ReducerOf<Self> {
     NoneEffectReducer({ state, action in
 
     })
@@ -216,7 +216,9 @@ extension DependencyValues {
 struct SharedStateDependencyKey: DependencyKey {
   static var liveValue = Store<SharedStateReducer.State, SharedStateReducer.Action>(
     initialState: SharedStateReducer.State.shared,
-    reducer: EmptyReducer()
+    reducer: {
+      EmptyReducer()
+    }
   )
 }
 

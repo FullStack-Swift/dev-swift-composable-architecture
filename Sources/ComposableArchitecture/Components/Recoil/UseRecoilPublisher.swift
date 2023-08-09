@@ -37,7 +37,7 @@ public func useRecoilPublisher<Node: PublisherAtom>(
 where Node.Loader == PublisherAtomLoader<Node> {
   useHook(
     RecoilPublisherHook<Node>(
-      updateStrategy: .once,
+      updateStrategy: updateStrategy,
       initialNode: initialNode,
       location: SourceLocation(fileID: fileID, line: line)
     )

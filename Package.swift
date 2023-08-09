@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.9
 
 import PackageDescription
 
@@ -9,7 +9,7 @@ let package = Package(
     .macOS(.v11),
     .tvOS(.v13),
     .watchOS(.v6),
-    .custom("xros", versionString: "1.0")
+    .visionOS(.v1)
   ],
   products: [
     .library(
@@ -18,17 +18,17 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
-    .package(url: "https://github.com/google/swift-benchmark", from: "0.1.0"),
-    .package(url: "https://github.com/pointfreeco/combine-schedulers", from: "0.8.0"),
-    .package(url: "https://github.com/pointfreeco/swift-case-paths", from: "0.14.0"),
     .package(url: "https://github.com/apple/swift-collections", from: "1.0.2"),
     .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0"),
-    .package(url: "https://github.com/pointfreeco/swift-custom-dump", from: "0.10.0"),
-    .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "0.4.1"),
-    .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "0.7.0"),
-    .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "0.8.0"),
-    .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "0.8.4"),
+    .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
+    .package(url: "https://github.com/google/swift-benchmark", from: "0.1.0"),
+    .package(url: "https://github.com/pointfreeco/combine-schedulers", from: "1.0.0"),
+    .package(url: "https://github.com/pointfreeco/swift-case-paths", from: "1.0.0"),
+    .package(url: "https://github.com/pointfreeco/swift-custom-dump", from: "1.0.0"),
+    .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.0.0"),
+    .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0"),
+    .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "1.0.0"),
+    .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.0.0"),
     // MARK: custom
 //    .package(url: "https://github.com/lm/navigation-stack-backport.git", .upToNextMajor(from: "1.0.0")),
   ],
@@ -36,13 +36,13 @@ let package = Package(
     .target(
       name: "ComposableArchitecture",
       dependencies: [
+        .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
         .product(name: "CasePaths", package: "swift-case-paths"),
         .product(name: "CombineSchedulers", package: "combine-schedulers"),
         .product(name: "CustomDump", package: "swift-custom-dump"),
         .product(name: "Dependencies", package: "swift-dependencies"),
         .product(name: "IdentifiedCollections", package: "swift-identified-collections"),
         .product(name: "OrderedCollections", package: "swift-collections"),
-        .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
         .product(name: "SwiftUINavigation", package: "swiftui-navigation"),
         .product(name: "SwiftUINavigationCore", package: "swiftui-navigation"),
         .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay"),
@@ -57,8 +57,7 @@ let package = Package(
     .testTarget(
       name: "ComposableArchitectureTests",
       dependencies: [
-        "_CAsyncSupport",
-        "ComposableArchitecture",
+        "ComposableArchitecture"
       ]
     ),
     .executableTarget(
@@ -68,7 +67,6 @@ let package = Package(
         .product(name: "Benchmark", package: "swift-benchmark"),
       ]
     ),
-    .systemLibrary(name: "_CAsyncSupport"),
   ]
 )
 

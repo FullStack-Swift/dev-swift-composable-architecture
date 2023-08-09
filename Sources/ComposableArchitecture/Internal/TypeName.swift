@@ -5,7 +5,7 @@ func typeName(_ type: Any.Type) -> String {
     name.removeSubrange(...index)
   }
   let sanitizedName =
-    name
+  name
     .replacingOccurrences(
       of: #"<.+>|\(unknown context at \$[[:xdigit:]]+\)\."#,
       with: "",

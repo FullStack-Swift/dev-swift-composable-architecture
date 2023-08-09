@@ -29,7 +29,7 @@ public struct ViewModel<ViewState, ViewAction>: DynamicProperty {
     observe toViewState: @escaping (State) -> ViewState,
     removeDuplicates isDuplicate: @escaping (ViewState, ViewState) -> Bool
   ) {
-    self.store = store.scope(state: toViewState)
+    self.store = store.scope(state: toViewState, action: {$0})
     let viewStore = ViewStore(store, observe: toViewState, removeDuplicates: isDuplicate)
     self._viewStore = StateObject(wrappedValue: viewStore)
   }
@@ -91,17 +91,17 @@ public struct ViewModel<ViewState, ViewAction>: DynamicProperty {
   }
 
   @discardableResult
-  public func send(_ action: ViewAction) -> ViewStoreTask {
+  public func send(_ action: ViewAction) -> StoreTask {
     viewStore.send(action)
   }
 
   @discardableResult
-  public func send(_ action: ViewAction, animation: Animation?) -> ViewStoreTask {
+  public func send(_ action: ViewAction, animation: Animation?) -> StoreTask {
     send(action, transaction: Transaction(animation: animation))
   }
 
   @discardableResult
-  public func send(_ action: ViewAction, transaction: Transaction) -> ViewStoreTask {
+  public func send(_ action: ViewAction, transaction: Transaction) -> StoreTask {
     withTransaction(transaction) {
       self.send(action)
     }
@@ -113,7 +113,7 @@ public struct ViewModel<ViewState, ViewAction>: DynamicProperty {
     await withTaskCancellationHandler {
       await self.yield(while: predicate)
     } onCancel: {
-      task.getValue?.cancel()
+      task.cancel()
     }
   }
 
@@ -127,7 +127,7 @@ public struct ViewModel<ViewState, ViewAction>: DynamicProperty {
     await withTaskCancellationHandler {
       await self.yield(while: predicate)
     } onCancel: {
-      task.getValue?.cancel()
+      task.cancel()
     }
   }
 
@@ -168,7 +168,7 @@ extension ViewModel: ActionHandler {
   }
 }
 
-public typealias ViewModelOf<R: ReducerProtocol> = ViewModel<R.State, R.Action>
+public typealias ViewModelOf<R: Reducer> = ViewModel<R.State, R.Action>
 
 extension ViewModel where ViewState: Equatable {
 
