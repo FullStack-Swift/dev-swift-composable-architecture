@@ -1,7 +1,7 @@
 /// A type-erased reducer that invokes the given `reduce` function.
 ///
 /// ``NoneEffectReducer`` is useful for injecting logic into a reducer tree without the effecttask
-public struct NoneEffectReducer<State, Action>: ReducerProtocol {
+public struct NoneEffectReducer<State, Action>: Reducer {
 
   @usableFromInline
   let noneEffectReducer: (inout State, Action) -> Void
@@ -25,13 +25,13 @@ public struct NoneEffectReducer<State, Action>: ReducerProtocol {
   ///
   /// - Parameter reducer: A reducer that is called when ``reduce(into:action:)`` is invoked.
   @inlinable
-  public init<R: ReducerProtocol>(_ reducer: R)
+  public init<R: Reducer>(_ reducer: R)
   where R.State == State, R.Action == Action {
     self.init(internal: {_ = reducer.reduce(into: &$0, action: $1)})
   }
 
   @inlinable
-  public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+  public func reduce(into state: inout State, action: Action) -> Effect<Action> {
     self.noneEffectReducer(&state, action)
     return .none
   }

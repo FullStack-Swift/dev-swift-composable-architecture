@@ -1,6 +1,6 @@
 import Foundation
 
-public struct AsyncActionMiddleware<State, Action>: MiddlewareProtocol {
+public struct AsyncActionMiddleware<State, Action>: Middleware {
   @usableFromInline
   let handle: (State, Action, ActionSource) async throws -> Action?
 

@@ -1,7 +1,7 @@
 import Foundation
 
 // MARK: IOMiddleware
-public struct IOMiddleware<State, Action>: MiddlewareProtocol {
+public struct IOMiddleware<State, Action>: Middleware {
   @usableFromInline
   let handle: (State, Action, ActionSource) -> IO<Action>
 
@@ -24,7 +24,7 @@ public struct IOMiddleware<State, Action>: MiddlewareProtocol {
   ///
   /// - Parameter middleware: A middleware that is called when ``handle(action:from:state)`` is invoked.
   @inlinable
-  public init<M: MiddlewareProtocol>(_ middleware: M)
+  public init<M: Middleware>(_ middleware: M)
   where M.State == State, M.Action == Action {
     self.init(internal: middleware.handle(state:action:from:))
   }
@@ -36,7 +36,7 @@ public struct IOMiddleware<State, Action>: MiddlewareProtocol {
 }
 
 // MARK: AsyncIOMiddleware
-public struct AsyncIOMiddleware<State, Action>: MiddlewareProtocol {
+public struct AsyncIOMiddleware<State, Action>: Middleware {
   @usableFromInline
   let handle: (State, Action, ActionSource) async throws -> AsyncIO<Action>
 

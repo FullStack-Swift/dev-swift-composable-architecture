@@ -2,7 +2,7 @@
 ///
 /// `CombineMiddlewares` takes a block that can combine a number of reducers using a
 /// ``MiddlewareBuilder``.
-public struct CombineMiddlewares<State, Action, Middlewares: MiddlewareProtocol>: MiddlewareProtocol
+public struct CombineMiddlewares<State, Action, Middlewares: Middleware>: Middleware
 where State == Middlewares.State, Action == Middlewares.Action {
   @usableFromInline
   let middlewares: Middlewares

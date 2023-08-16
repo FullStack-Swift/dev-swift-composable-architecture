@@ -4,7 +4,7 @@
 /// middlewares.
 import Foundation
 
-public struct EmptyMiddleware<State, Action>: MiddlewareProtocol {
+public struct EmptyMiddleware<State, Action>: Middleware {
   /// Initializes a middleware that does nothing.
   @inlinable
   public init() {

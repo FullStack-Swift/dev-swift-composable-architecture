@@ -1,6 +1,6 @@
 import Foundation
 
-public struct AnyMiddleware<State, Action>: MiddlewareProtocol {
+public struct AnyMiddleware<State, Action>: Middleware {
   
   private let _handle: (State, Action, ActionSource) -> IO<Action>
   
@@ -30,7 +30,7 @@ public struct AnyMiddleware<State, Action>: MiddlewareProtocol {
     self.isComposed = composed
   }
   
-  public init<M: MiddlewareProtocol>(_ realMiddleware: M)
+  public init<M: Middleware>(_ realMiddleware: M)
   where M.State == State, M.Action == Action {
     if let alreadyErased = realMiddleware as? AnyMiddleware<State, Action> {
       self = alreadyErased
@@ -49,7 +49,7 @@ public struct AnyMiddleware<State, Action>: MiddlewareProtocol {
   }
 }
 
-extension MiddlewareProtocol {
+extension Middleware {
   public func eraseToAnyMiddleware() -> AnyMiddleware<State, Action> {
     AnyMiddleware(self)
   }

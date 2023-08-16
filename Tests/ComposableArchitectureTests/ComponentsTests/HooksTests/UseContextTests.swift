@@ -5,4 +5,7 @@ import ComposableArchitecture
 @MainActor
 final class UseContextTests: XCTestCase {
   
+  func test_use_context() {
+    
+  }
 }

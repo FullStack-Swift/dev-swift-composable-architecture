@@ -10,8 +10,12 @@ public struct AnyAtom<Node: Atom>: Atom {
 
   public var atom: Node
   
-  public init(atom: Node) {
+  public init(_ atom: Node) {
     self.atom = atom
+  }
+  
+  public init(_ atom: () -> Node) {
+    self.atom = atom()
   }
 
   /// A unique value used to identify the atom internally.
@@ -49,6 +53,6 @@ extension AnyAtom {
 
 extension Atom {
   public func eraseToAnyAtom() -> AnyAtom<Self> {
-    AnyAtom(atom: self)
+    AnyAtom(self)
   }
 }

@@ -1,22 +1,22 @@
 import Foundation
 import XCTest
-import ComposableArchitecture
+@testable import ComposableArchitecture
 
 @MainActor
 final class UseRecoilStateTests: XCTestCase {
   
-  func test_UseState() async {
+  func test_use_recoil_state() async {
     /// Expect update recoilValue when state changes.
     
     let stateId = sourceId()
     let testerState = RecoilTester {
-      useRecoilState(MStateAtom(id: stateId, initialState: 0))
+      useRecoilState(MStateAtom(id: stateId, 0))
     }
     
     let valueId = sourceId()
     let testerValue = RecoilTester {
       useRecoilValue(MValueAtom(id: valueId) { context in
-        context.watch(MStateAtom(id: stateId, initialState: 0))
+        context.watch(MStateAtom(id: stateId, 0))
       })
     }
     
@@ -46,11 +46,11 @@ final class UseRecoilStateTests: XCTestCase {
     
     let stateId = sourceId()
     let testerState = RecoilTester { // HookScope
-      useRecoilState(MStateAtom(id: stateId, initialState: 0))
+      useRecoilState(MStateAtom(id: stateId, 0))
     }
     
     let testerStateOther = RecoilTester { // Other HookScope
-      useRecoilState(MStateAtom(id: stateId, initialState: 0))
+      useRecoilState(MStateAtom(id: stateId, 0))
     }
     
     // Check default value
@@ -78,13 +78,13 @@ final class UseRecoilStateTests: XCTestCase {
     let stateId = sourceId()
     // Given
     let testerState = RecoilTester {
-      let state = useRecoilState(MStateAtom(id: stateId, initialState: 0))
+      let state = useRecoilState(MStateAtom(id: stateId, 0))
       return state
     }
     
     let testerStateOther = RecoilTester {
       let value = useRecoilState(MStateAtom(id: stateId) {
-        $0.watch(MStateAtom(id: stateId, initialState: 0))
+        $0.watch(MStateAtom(id: stateId, 0))
       })
       return value
     }

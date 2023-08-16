@@ -1,6 +1,6 @@
 import Foundation
 import XCTest
-import ComposableArchitecture
+@testable import ComposableArchitecture
 
 @MainActor
 final class RecoilSelectorTests: XCTestCase {
@@ -8,12 +8,12 @@ final class RecoilSelectorTests: XCTestCase {
   func test_recoil_value() async {
     let id = sourceId()
     let tester = RecoilTester {
-      useRecoilState(MStateAtom(id: id, initialState: 0))
+      useRecoilState(MStateAtom(id: id, 0))
     }
     let selectorTest = RecoilTester {
       useRecoilValue(
         selectorValue { context in
-          context.watch(MStateAtom(id: id, initialState: 0)).description
+          context.watch(MStateAtom(id: id, 0)).description
         }
       )
     }
@@ -32,12 +32,12 @@ final class RecoilSelectorTests: XCTestCase {
   func test_recoil_state_selector() async {
     let id = sourceId()
     let tester = RecoilTester {
-      useRecoilState(MStateAtom(id: id, initialState: 0))
+      useRecoilState(MStateAtom(id: id, 0))
     }
     let selectorTest = RecoilTester {
       useRecoilState(
         selectorState { context in
-          context.watch(MStateAtom(id: id, initialState: 0)).description
+          context.watch(MStateAtom(id: id, 0)).description
         }
       )
     }
@@ -50,7 +50,7 @@ final class RecoilSelectorTests: XCTestCase {
     
     let id = sourceId()
     let tester_state = RecoilTester {
-      useRecoilState(MStateAtom(id: id, initialState: 0))
+      useRecoilState(MStateAtom(id: id, 0))
     }
     
     let tester_task = RecoilTester {
@@ -58,7 +58,7 @@ final class RecoilSelectorTests: XCTestCase {
         selectorTask { context in
           let seconds = 0.1 * 1_000_000_000
           try! await Task.sleep(nanoseconds: UInt64(seconds))
-          let value = context.watch(MStateAtom(id: id, initialState: 0))
+          let value = context.watch(MStateAtom(id: id, 0))
           return 99 + value
         }
       }

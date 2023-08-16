@@ -35,7 +35,7 @@ import Foundation
 ///   - initialState: An initial state.
 ///   - reducer: A function that to return a new state with an action.
 /// - Returns: A store tca.
-public func useReducerProtocol<R: ReducerProtocol>(
+public func useReducerProtocol<R: Reducer>(
   fileID: String = #fileID,
   line: UInt = #line,
   initialState: R.State,
@@ -49,7 +49,7 @@ public func useReducerProtocol<R: ReducerProtocol>(
   )
 }
 
-public func useReducerProtocol<R: ReducerProtocol>(
+public func useReducerProtocol<R: Reducer>(
   fileID: String = #fileID,
   line: UInt = #line,
   initialState: () -> R.State,
@@ -63,7 +63,7 @@ public func useReducerProtocol<R: ReducerProtocol>(
   )
 }
 
-private struct ReducerProtocolHook<R: ReducerProtocol>: Hook {
+private struct ReducerProtocolHook<R: Reducer>: Hook {
   
   typealias State = _HookRef
   
@@ -115,7 +115,7 @@ private extension ReducerProtocolHook {
     var cancellables = SetCancellables()
     
     init(initialState: R.State, reducer: R) {
-      state = StoreOf<R>(initialState: initialState, reducer: reducer)
+      state = StoreOf<R>(initialState: initialState, reducer: { reducer })
     }
     
     func dispose() {
@@ -161,19 +161,19 @@ private extension ReducerProtocolHook {
 /// - Parameters:
 ///   - store: A store tca.
 /// - Returns: A store tca.
-public func useStore<R: ReducerProtocol>(
+public func useStore<R: Reducer>(
   _ store: StoreOf<R>
 ) -> StoreOf<R> {
   useHook(StoreHook<R>(initialState: {store}))
 }
 
-public func useStore<R: ReducerProtocol>(
+public func useStore<R: Reducer>(
   _ store: @escaping () -> StoreOf<R>
 ) -> StoreOf<R> {
   useHook(StoreHook<R>(initialState: store))
 }
 
-private struct StoreHook<R: ReducerProtocol>: Hook {
+private struct StoreHook<R: Reducer>: Hook {
   
   typealias State = _HookRef
   

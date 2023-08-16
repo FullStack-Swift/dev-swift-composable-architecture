@@ -1,13 +1,13 @@
 import Foundation
 
-extension MiddlewareProtocol {
+extension Middleware {
   
-  func debug(_ prefix: String = "") -> any MiddlewareProtocol {
+  func debug(_ prefix: String = "") -> any Middleware {
     return self <> AnyMiddlewareDebug(prefix)
   }
 }
 
-struct AnyMiddlewareDebug<State, Action>: MiddlewareProtocol {
+struct AnyMiddlewareDebug<State, Action>: Middleware {
 
   let prefix: String
 

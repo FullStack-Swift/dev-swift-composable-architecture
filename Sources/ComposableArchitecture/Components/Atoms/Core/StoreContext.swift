@@ -70,22 +70,19 @@ internal struct StoreContext {
     )
   }
   
+  @discardableResult
   @usableFromInline
   func read<Node: Atom>(_ atom: Node) -> Node.Loader.Value {
     let override = lookupOverride(of: atom)
     let key = AtomKey(atom, overrideScopeKey: override?.scopeKey)
-    
     if let cache = lookupCache(of: atom, for: key) {
       return cache.value
-    }
-    else {
+    } else {
       let cache = makeNewCache(of: atom, for: key, override: override)
       notifyUpdateToObservers()
-      
       if checkRelease(for: key) {
         notifyUpdateToObservers()
       }
-      
       return cache.value
     }
   }
@@ -205,6 +202,19 @@ internal struct StoreContext {
       let newCache = makeNewCache(of: atom, for: key, override: override)
       update(atom: atom, for: key, value: newCache.value, cache: cache, order: .newValue)
     }
+  }
+  
+  @usableFromInline
+  func reUpdate<Node: Atom>(_ atom: Node) -> Node.Loader.Value {
+    let value = read(atom)
+    let override = lookupOverride(of: atom)
+    let key = AtomKey(atom, overrideScopeKey: override?.scopeKey)
+    
+    if let cache = lookupCache(of: atom, for: key) {
+      _ = makeNewCache(of: atom, for: key, override: override)
+      update(atom: atom, for: key, value: value, cache: cache, order: .newValue)
+    }
+    return value
   }
   
   @usableFromInline

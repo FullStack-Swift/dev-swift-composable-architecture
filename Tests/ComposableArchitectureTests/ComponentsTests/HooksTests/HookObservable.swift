@@ -11,7 +11,7 @@ final class HookObservableTests: XCTest {
     return environment
   }
   
-  func test_Scoped() {
+  func test_hook_observable_scoped() {
     let observable = HookObservable()
     XCTAssertNil(HookObservable.current)
     observable.scoped(environment: environment) {

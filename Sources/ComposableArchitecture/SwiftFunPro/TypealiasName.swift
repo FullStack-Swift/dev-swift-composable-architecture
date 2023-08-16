@@ -22,7 +22,7 @@ struct Pair<T: Equatable>: Equatable {
   let second: T
 }
 
-final public class AsyncThrowingStreamPipe<Element> {
+actor AsyncThrowingStreamPipe<Element> {
   private(set) var stream: AsyncThrowingStream<Element, Error>
   private(set) var continuation: AsyncThrowingStream<Element, Error>.Continuation!
   
