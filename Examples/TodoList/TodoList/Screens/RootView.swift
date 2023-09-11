@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct RootReducer: ReducerProtocol {
+struct RootReducer: Reducer {
 
   // MARK: State
   struct State: BaseState {
@@ -22,13 +22,13 @@ struct RootReducer: ReducerProtocol {
   @Dependency(\.uuid) var uuid
 
   // MARK: Start Body
-  var body: some ReducerProtocolOf<Self> {
+  var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
         case .authAction(.changeRootScreen(let screen)):
-          return EffectTask(value: .changeRootScreen(screen))
+          return .send(.changeRootScreen(screen))
         case .mainAction(.changeRootScreen(let screen)):
-          return EffectTask(value: .changeRootScreen(screen))
+          return .send(.changeRootScreen(screen))
         case .viewOnAppear:
           break
         case .viewOnDisappear:
@@ -51,13 +51,13 @@ struct RootReducer: ReducerProtocol {
     mainReducer
   }
 
-  var authReducer: some ReducerProtocolOf<Self> {
+  var authReducer: some ReducerOf<Self> {
     Scope(state: \.authState, action: /Action.authAction) {
       AuthReducer()
     }
   }
 
-  var mainReducer: some ReducerProtocolOf<Self> {
+  var mainReducer: some ReducerOf<Self> {
     Scope(state: \.mainState, action: /Action.mainAction) {
       MainReducer()
     }
@@ -71,7 +71,7 @@ struct RootReducer: ReducerProtocol {
   }
 }
 
-struct RootMiddleware: MiddlewareProtocol {
+struct RootMiddleware: Middleware {
 
   // MARK: State
   typealias State = RootReducer.State
@@ -83,14 +83,14 @@ struct RootMiddleware: MiddlewareProtocol {
   @Dependency(\.uuid) var uuid
 
   // MARK: Start Body
-  var body: some MiddlewareProtocolOf<Self> {
+  var body: some MiddlewareOf<Self> {
     ioMiddleware
     asyncIOMiddleware
     actionHandlerMiddleware
     asyncActionHandlerMiddleware
   }
 
-  var ioMiddleware: some MiddlewareProtocolOf<Self> {
+  var ioMiddleware: some MiddlewareOf<Self> {
     // MARK: IOMiddleware
     IOMiddleware { state, action, source in
       IO<Action> { handler in
@@ -106,7 +106,7 @@ struct RootMiddleware: MiddlewareProtocol {
     }
   }
 
-  var asyncIOMiddleware: some MiddlewareProtocolOf<Self> {
+  var asyncIOMiddleware: some MiddlewareOf<Self> {
     // MARK: AsyncIOMiddleware
     AsyncIOMiddleware { state, action, source in
       AsyncIO { handler in
@@ -122,7 +122,7 @@ struct RootMiddleware: MiddlewareProtocol {
     }
   }
 
-  var actionHandlerMiddleware: some MiddlewareProtocolOf<Self> {
+  var actionHandlerMiddleware: some MiddlewareOf<Self> {
     // MARK: ActionHandlerMiddleware
     ActionHandlerMiddleware { state, action, source, handler in
       switch action {
@@ -136,7 +136,7 @@ struct RootMiddleware: MiddlewareProtocol {
     }
   }
 
-  var asyncActionHandlerMiddleware: some MiddlewareProtocolOf<Self> {
+  var asyncActionHandlerMiddleware: some MiddlewareOf<Self> {
     // MARK: AsyncActionHandlerMiddleware
     AsyncActionHandlerMiddleware { state, action, source, handler in
       switch action {
@@ -163,9 +163,10 @@ struct RootView: View {
 
   init(store: StoreOf<RootReducer>? = nil) {
     let unwrapStore = store ?? Store(
-      initialState: RootReducer.State(),
-      reducer: RootReducer()
-    )
+      initialState: RootReducer.State()
+    ) {
+    RootReducer()
+    }
     self.store = unwrapStore
       .withMiddleware(RootMiddleware())
     self._viewStore = StateObject(wrappedValue: ViewStore(unwrapStore))
@@ -209,7 +210,9 @@ struct RootView: View {
 struct RootView_Previews: PreviewProvider {
   static var previews: some View {
     RootView(
-      store: Store(initialState: .init(), reducer: RootReducer())
+      store: Store(initialState: .init()) {
+        RootReducer()
+      }
         .withMiddleware(RootMiddleware())
     )
   }

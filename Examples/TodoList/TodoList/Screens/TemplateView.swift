@@ -1,7 +1,7 @@
 import SwiftUI
 
 // MARK: Reducer
-struct TemplateReducer: ReducerProtocol {
+struct TemplateReducer: Reducer {
 
   // MARK: State
   struct State: BaseState {
@@ -19,7 +19,7 @@ struct TemplateReducer: ReducerProtocol {
   @Dependency(\.uuid) var uuid
 
   // MARK: Start Body
-  var body: some ReducerProtocolOf<Self> {
+  var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
         case .viewOnAppear:
@@ -37,7 +37,7 @@ struct TemplateReducer: ReducerProtocol {
 }
 
 // MARK: Middleware
-struct TemplateMiddleware: MiddlewareProtocol {
+struct TemplateMiddleware: Middleware {
 
   // MARK: State
   typealias State = TemplateReducer.State
@@ -49,7 +49,7 @@ struct TemplateMiddleware: MiddlewareProtocol {
   @Dependency(\.uuid) var uuid
 
   // MARK: Start Body
-  var body: some MiddlewareProtocolOf<Self> {
+  var body: some MiddlewareOf<Self> {
     IOMiddleware { state, action, source in
       IO<Action> { output in
         switch action {
@@ -76,9 +76,10 @@ struct TemplateView: View {
 
   init(store: StoreOf<TemplateReducer>? = nil) {
     let unwrapStore = Store(
-      initialState: TemplateReducer.State(),
-      reducer: TemplateReducer()
-    )
+      initialState: TemplateReducer.State()
+    ) {
+      TemplateReducer()
+    }
     self.store = unwrapStore
     self.viewStore = ViewStore(unwrapStore)
   }

@@ -34,6 +34,8 @@
 		EBB036F22A7B9ECB0091B953 /* JotaiCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036F12A7B9ECB0091B953 /* JotaiCaseStudiesView.swift */; };
 		EBB036F42A7BA06B0091B953 /* VIPTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036F32A7BA06B0091B953 /* VIPTodoView.swift */; };
 		EBBC4A412A6A930B0052FD1F /* APIRequestPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */; };
+		EBDA41742AAEAD2B00B6CC68 /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDA41732AAEAD2B00B6CC68 /* SwiftUI++.swift */; };
+		EBDA41772AAEAE3700B6CC68 /* NavigationStackBackport in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41762AAEAE3700B6CC68 /* NavigationStackBackport */; };
 		EBF230642A78E231002FA22C /* Json in Frameworks */ = {isa = PBXBuildFile; productRef = EBF230632A78E231002FA22C /* Json */; };
 		EBF60EC12A776CF0001E34D3 /* SwiftUIAdditions in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60EC02A776CF0001E34D3 /* SwiftUIAdditions */; };
 		EBF60EC32A777EB8001E34D3 /* JotailTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF60EC22A777EB8001E34D3 /* JotailTodoView.swift */; };
@@ -73,6 +75,7 @@
 		EBB036F12A7B9ECB0091B953 /* JotaiCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotaiCaseStudiesView.swift; sourceTree = "<group>"; };
 		EBB036F32A7BA06B0091B953 /* VIPTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIPTodoView.swift; sourceTree = "<group>"; };
 		EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestPage.swift; sourceTree = "<group>"; };
+		EBDA41732AAEAD2B00B6CC68 /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		EBF60EC22A777EB8001E34D3 /* JotailTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotailTodoView.swift; sourceTree = "<group>"; };
 		EBF60ED32A77A15F001E34D3 /* OnlineRecoilTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineRecoilTodoView.swift; sourceTree = "<group>"; };
 		EBF60ED52A77A407001E34D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -90,6 +93,7 @@
 				EBF60EC12A776CF0001E34D3 /* SwiftUIAdditions in Frameworks */,
 				EBF60ED22A778EE7001E34D3 /* Transform in Frameworks */,
 				87DF96F22A3991C10006B774 /* ComposableArchitecture in Frameworks */,
+				EBDA41772AAEAE3700B6CC68 /* NavigationStackBackport in Frameworks */,
 				EBF60EC92A778D9C001E34D3 /* CombineSocketIO in Frameworks */,
 				EBF230642A78E231002FA22C /* Json in Frameworks */,
 			);
@@ -177,6 +181,7 @@
 				90FDE91C2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift */,
 				EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */,
 				EBB036F12A7B9ECB0091B953 /* JotaiCaseStudiesView.swift */,
+				EBDA41732AAEAD2B00B6CC68 /* SwiftUI++.swift */,
 			);
 			path = App_CaseStudies;
 			sourceTree = "<group>";
@@ -240,6 +245,7 @@
 				EBF60ECA2A778D9C001E34D3 /* CombineWebSocket */,
 				EBF60ED12A778EE7001E34D3 /* Transform */,
 				EBF230632A78E231002FA22C /* Json */,
+				EBDA41762AAEAE3700B6CC68 /* NavigationStackBackport */,
 			);
 			productName = CaseStudies;
 			productReference = 87DF96DC2A39904F0006B774 /* CaseStudies.app */;
@@ -276,6 +282,7 @@
 				EBF60EC52A778D9C001E34D3 /* XCRemoteSwiftPackageReference "swift-networking" */,
 				EBF60ED02A778EE7001E34D3 /* XCRemoteSwiftPackageReference "swift-extension" */,
 				EBF230622A78E231002FA22C /* XCRemoteSwiftPackageReference "swift-json" */,
+				EBDA41752AAEAE3700B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */,
 			);
 			productRefGroup = 87DF96DD2A39904F0006B774 /* Products */;
 			projectDirPath = "";
@@ -316,6 +323,7 @@
 				87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */,
 				87647C862A42C932009BD13F /* RecoilUseCaseStudiesView.swift in Sources */,
 				90ACBBB82A4B4EE10041D7E2 /* RiverpodTodoView.swift in Sources */,
+				EBDA41742AAEAD2B00B6CC68 /* SwiftUI++.swift in Sources */,
 				87DF96EF2A3991060006B774 /* HookCaseStudiesView.swift in Sources */,
 				EBF60ED42A77A15F001E34D3 /* OnlineRecoilTodoView.swift in Sources */,
 				90ACBBB62A4B4EE10041D7E2 /* RecoilTodoView.swift in Sources */,
@@ -559,6 +567,14 @@
 				kind = branch;
 			};
 		};
+		EBDA41752AAEAE3700B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lm/navigation-stack-backport";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		EBF230622A78E231002FA22C /* XCRemoteSwiftPackageReference "swift-json" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/FullStack-Swift/swift-json";
@@ -610,6 +626,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9054DD8E2A53396F00CCBA21 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */;
 			productName = SwiftUIViewModifier;
+		};
+		EBDA41762AAEAE3700B6CC68 /* NavigationStackBackport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBDA41752AAEAE3700B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */;
+			productName = NavigationStackBackport;
 		};
 		EBF230632A78E231002FA22C /* Json */ = {
 			isa = XCSwiftPackageProductDependency;

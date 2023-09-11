@@ -31,6 +31,14 @@
 		90AF8A2B2A1A50BD002A6FBD /* BaseIDModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8A2A2A1A50BD002A6FBD /* BaseIDModel.swift */; };
 		90AF8A2D2A1A5107002A6FBD /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AF8A2C2A1A5107002A6FBD /* Token.swift */; };
 		90FA03A42A2121C000344615 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA03A32A2121C000344615 /* UserService.swift */; };
+		EBDA41562AAEABE100B6CC68 /* CombineRequest in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41552AAEABE100B6CC68 /* CombineRequest */; };
+		EBDA41582AAEABE100B6CC68 /* CombineSocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41572AAEABE100B6CC68 /* CombineSocketIO */; };
+		EBDA415A2AAEABE100B6CC68 /* CombineWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41592AAEABE100B6CC68 /* CombineWebSocket */; };
+		EBDA41692AAEAC1800B6CC68 /* Json in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41682AAEAC1800B6CC68 /* Json */; };
+		EBDA416C2AAEAC2F00B6CC68 /* Transform in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA416B2AAEAC2F00B6CC68 /* Transform */; };
+		EBDA416F2AAEAC5300B6CC68 /* SwiftLogger in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA416E2AAEAC5300B6CC68 /* SwiftLogger */; };
+		EBDA41722AAEAC6700B6CC68 /* SwiftUIViewModifier in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41712AAEAC6700B6CC68 /* SwiftUIViewModifier */; };
+		EBDA417A2AAEBA6B00B6CC68 /* NavigationStackBackport in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41792AAEBA6B00B6CC68 /* NavigationStackBackport */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,7 +74,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBDA41722AAEAC6700B6CC68 /* SwiftUIViewModifier in Frameworks */,
+				EBDA416F2AAEAC5300B6CC68 /* SwiftLogger in Frameworks */,
+				EBDA415A2AAEABE100B6CC68 /* CombineWebSocket in Frameworks */,
+				EBDA41562AAEABE100B6CC68 /* CombineRequest in Frameworks */,
+				EBDA417A2AAEBA6B00B6CC68 /* NavigationStackBackport in Frameworks */,
 				87B392832A0B593E0095F6A4 /* ComposableArchitecture in Frameworks */,
+				EBDA416C2AAEAC2F00B6CC68 /* Transform in Frameworks */,
+				EBDA41692AAEAC1800B6CC68 /* Json in Frameworks */,
+				EBDA41582AAEABE100B6CC68 /* CombineSocketIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +218,14 @@
 			name = TodoList;
 			packageProductDependencies = (
 				87B392822A0B593E0095F6A4 /* ComposableArchitecture */,
+				EBDA41552AAEABE100B6CC68 /* CombineRequest */,
+				EBDA41572AAEABE100B6CC68 /* CombineSocketIO */,
+				EBDA41592AAEABE100B6CC68 /* CombineWebSocket */,
+				EBDA41682AAEAC1800B6CC68 /* Json */,
+				EBDA416B2AAEAC2F00B6CC68 /* Transform */,
+				EBDA416E2AAEAC5300B6CC68 /* SwiftLogger */,
+				EBDA41712AAEAC6700B6CC68 /* SwiftUIViewModifier */,
+				EBDA41792AAEBA6B00B6CC68 /* NavigationStackBackport */,
 			);
 			productName = TodoList;
 			productReference = 87B3926F2A0B59010095F6A4 /* TodoList.app */;
@@ -215,7 +239,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					87B3926E2A0B59010095F6A4 = {
 						CreatedOnToolsVersion = 14.3;
@@ -232,6 +256,12 @@
 			);
 			mainGroup = 87B392662A0B59010095F6A4;
 			packageReferences = (
+				EBDA41542AAEABE100B6CC68 /* XCRemoteSwiftPackageReference "swift-networking" */,
+				EBDA41672AAEAC1800B6CC68 /* XCRemoteSwiftPackageReference "swift-json" */,
+				EBDA416A2AAEAC2F00B6CC68 /* XCRemoteSwiftPackageReference "swift-extension" */,
+				EBDA416D2AAEAC5300B6CC68 /* XCRemoteSwiftPackageReference "swift-logger" */,
+				EBDA41702AAEAC6700B6CC68 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */,
+				EBDA41782AAEBA6B00B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */,
 			);
 			productRefGroup = 87B392702A0B59010095F6A4 /* Products */;
 			projectDirPath = "";
@@ -290,6 +320,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -319,9 +350,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -348,6 +381,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -377,9 +411,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -403,6 +439,7 @@
 				CODE_SIGN_ENTITLEMENTS = TodoList/TodoList.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"TodoList/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -439,6 +476,7 @@
 				CODE_SIGN_ENTITLEMENTS = TodoList/TodoList.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"TodoList/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -490,10 +528,101 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		EBDA41542AAEABE100B6CC68 /* XCRemoteSwiftPackageReference "swift-networking" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swift-networking";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		EBDA41672AAEAC1800B6CC68 /* XCRemoteSwiftPackageReference "swift-json" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swift-json";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		EBDA416A2AAEAC2F00B6CC68 /* XCRemoteSwiftPackageReference "swift-extension" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swift-extension";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		EBDA416D2AAEAC5300B6CC68 /* XCRemoteSwiftPackageReference "swift-logger" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swift-logger";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		EBDA41702AAEAC6700B6CC68 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swiftui-viewModifier";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		EBDA41782AAEBA6B00B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lm/navigation-stack-backport";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		87B392822A0B593E0095F6A4 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;
+		};
+		EBDA41552AAEABE100B6CC68 /* CombineRequest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBDA41542AAEABE100B6CC68 /* XCRemoteSwiftPackageReference "swift-networking" */;
+			productName = CombineRequest;
+		};
+		EBDA41572AAEABE100B6CC68 /* CombineSocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBDA41542AAEABE100B6CC68 /* XCRemoteSwiftPackageReference "swift-networking" */;
+			productName = CombineSocketIO;
+		};
+		EBDA41592AAEABE100B6CC68 /* CombineWebSocket */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBDA41542AAEABE100B6CC68 /* XCRemoteSwiftPackageReference "swift-networking" */;
+			productName = CombineWebSocket;
+		};
+		EBDA41682AAEAC1800B6CC68 /* Json */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBDA41672AAEAC1800B6CC68 /* XCRemoteSwiftPackageReference "swift-json" */;
+			productName = Json;
+		};
+		EBDA416B2AAEAC2F00B6CC68 /* Transform */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBDA416A2AAEAC2F00B6CC68 /* XCRemoteSwiftPackageReference "swift-extension" */;
+			productName = Transform;
+		};
+		EBDA416E2AAEAC5300B6CC68 /* SwiftLogger */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBDA416D2AAEAC5300B6CC68 /* XCRemoteSwiftPackageReference "swift-logger" */;
+			productName = SwiftLogger;
+		};
+		EBDA41712AAEAC6700B6CC68 /* SwiftUIViewModifier */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBDA41702AAEAC6700B6CC68 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */;
+			productName = SwiftUIViewModifier;
+		};
+		EBDA41792AAEBA6B00B6CC68 /* NavigationStackBackport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBDA41782AAEBA6B00B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */;
+			productName = NavigationStackBackport;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

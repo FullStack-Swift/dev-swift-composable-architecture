@@ -170,7 +170,7 @@ struct HookCaseStudiesView: View {
   
   private var useReducerProtocolView: some View {
     
-    struct CountReducer: ReducerProtocol {
+    struct CountReducer: Reducer {
       
       enum Action {
         case increment
@@ -179,18 +179,25 @@ struct HookCaseStudiesView: View {
       
       typealias State = Int
       
-      var body: some ReducerProtocolOf<Self> {
+      @Dependency(\.fireAndForget)
+      var fireAndForget
+      
+      var body: some ReducerOf<Self> {
         Reduce { state, action in
           switch action {
             case .decrement:
               state -= 1
-              return .fireAndForget {
-                print("decrement")
+              return .run { send in
+                await fireAndForget {
+                  print("decrement")
+                }
               }
             case .increment:
               state += 1
-              return .fireAndForget {
-                print("increment")
+              return .run { send in
+                await fireAndForget {
+                  print("increment")
+                }
               }
           }
         }
@@ -327,15 +334,15 @@ struct HookCaseStudiesView: View {
     let state = useState(999999999)
     let isAutoIncrement = useState(false)
     
-//    useLayoutEffect(.preserved(by: isAutoIncrement.wrappedValue)) {
-//      guard isAutoIncrement.wrappedValue else { return nil }
-//      print("Timer.scheduledTimer")
-//      let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-//        state.wrappedValue += 1
-//      }
-//
-//      return timer.invalidate
-//    }
+    //    useLayoutEffect(.preserved(by: isAutoIncrement.wrappedValue)) {
+    //      guard isAutoIncrement.wrappedValue else { return nil }
+    //      print("Timer.scheduledTimer")
+    //      let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+    //        state.wrappedValue += 1
+    //      }
+    //
+    //      return timer.invalidate
+    //    }
     
     useLayoutEffect(.preserved(by: isAutoIncrement.wrappedValue)) {
       guard isAutoIncrement.wrappedValue else { return nil }
@@ -566,7 +573,7 @@ struct HookCaseStudiesView: View {
           Text(Int(value).description)
         case .completion:
           Text("Completion")
-
+          
       }
       Spacer()
       Button("Start") {

@@ -4,9 +4,10 @@ import Dependencies
 extension DependencyValues {
   fileprivate struct RootStoreKey: DependencyKey {
     static let liveValue = Store(
-      initialState: RootReducer.State(),
-      reducer: RootReducer()
-    )
+      initialState: RootReducer.State()
+    ) {
+      RootReducer()
+    }
       .withMiddleware(RootMiddleware())
   }
 }

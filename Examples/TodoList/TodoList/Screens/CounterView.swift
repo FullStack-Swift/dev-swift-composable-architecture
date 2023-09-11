@@ -1,7 +1,7 @@
 import SwiftUI
 
 // MARK: Reducer
-struct CounterReducer: ReducerProtocol {
+struct CounterReducer: Reducer {
 
   // MARK: State
   struct State: BaseIDState {
@@ -31,7 +31,7 @@ struct CounterReducer: ReducerProtocol {
 //  @SharedState(\.count) var count
 
   // MARK: Start Body
-  var body: some ReducerProtocolOf<Self> {
+  var body: some ReducerOf<Self> {
     BindingReducer()
     Reduce { state, action in
       switch action {
@@ -70,7 +70,7 @@ struct CounterReducer: ReducerProtocol {
 }
 
 // MARK: Middleware
-struct CounterMiddleware: MiddlewareProtocol {
+struct CounterMiddleware: Middleware {
 
   // MARK: State
   typealias State = CounterReducer.State
@@ -82,14 +82,14 @@ struct CounterMiddleware: MiddlewareProtocol {
   @Dependency(\.uuid) var uuid
 
   // MARK: Start Body
-  var body: some MiddlewareProtocolOf<Self> {
+  var body: some MiddlewareOf<Self> {
     ioMiddleware
 //    asyncIOMiddleware
 //    actionHandlerMiddleware
 //    asyncActionHandlerMiddleware
   }
 
-  var ioMiddleware: some MiddlewareProtocolOf<Self> {
+  var ioMiddleware: some MiddlewareOf<Self> {
     // MARK: IOMiddleware
     IOMiddleware { state, action, source in
       IO<Action> { handler in
@@ -109,7 +109,7 @@ struct CounterMiddleware: MiddlewareProtocol {
     }
   }
 
-  var asyncIOMiddleware: some MiddlewareProtocolOf<Self> {
+  var asyncIOMiddleware: some MiddlewareOf<Self> {
     // MARK: AsyncIOMiddleware
     AsyncIOMiddleware { state, action, source in
       AsyncIO { handler in
@@ -127,7 +127,7 @@ struct CounterMiddleware: MiddlewareProtocol {
     }
   }
 
-  var actionHandlerMiddleware: some MiddlewareProtocolOf<Self> {
+  var actionHandlerMiddleware: some MiddlewareOf<Self> {
     // MARK: ActionHandlerMiddleware
     ActionHandlerMiddleware { state, action, source, handler in
       switch action {
@@ -145,7 +145,7 @@ struct CounterMiddleware: MiddlewareProtocol {
     }
   }
 
-  var asyncActionHandlerMiddleware: some MiddlewareProtocolOf<Self> {
+  var asyncActionHandlerMiddleware: some MiddlewareOf<Self> {
     // MARK: AsyncActionHandlerMiddleware
     AsyncActionHandlerMiddleware { state, action, source, handler in
       switch action {
@@ -179,9 +179,10 @@ struct CounterView: View {
 
   init(store: StoreOf<CounterReducer>? = nil) {
     let unwrapStore = Store(
-      initialState: CounterReducer.State(),
-      reducer: CounterReducer()
-    )
+      initialState: CounterReducer.State()
+    ) {
+      CounterReducer()
+    }
     self.store = unwrapStore
       .withMiddleware(CounterMiddleware())
     self._viewStore = StateObject(wrappedValue: ViewStore(unwrapStore))

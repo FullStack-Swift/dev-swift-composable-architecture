@@ -1,7 +1,7 @@
 import SwiftUI
 
 // MARK: Reducer
-struct TimerReducer: ReducerProtocol {
+struct TimerReducer: Reducer {
 
   // MARK: State
   struct State: BaseIDState {
@@ -25,9 +25,11 @@ struct TimerReducer: ReducerProtocol {
   // MARK: Dependency
   @Dependency(\.uuid) var uuid
   @Dependency(\.mainQueue) var mainQueue
+  
+  @Dependency(\.continuousClock) var clock
 
   // MARK: Start Body
-  var body: some ReducerProtocolOf<Self> {
+  var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
         case .viewOnAppear:
@@ -35,8 +37,10 @@ struct TimerReducer: ReducerProtocol {
         case .viewOnDisappear:
           break
         case .start:
-          return EffectTask.timer(id: state.id, every: .seconds(1), on: mainQueue)
-            .map { _ in .tick }
+          return .run { send in
+            try await self.clock.sleep(for: .seconds(1))
+            await send(.tick)
+          }
         case .tick:
           state.count += 1
         default:
@@ -50,7 +54,7 @@ struct TimerReducer: ReducerProtocol {
 }
 
 // MARK: Middleware
-struct TimerMiddleware: MiddlewareProtocol {
+struct TimerMiddleware: Middleware {
 
   // MARK: State
   typealias State = TimerReducer.State
@@ -62,7 +66,7 @@ struct TimerMiddleware: MiddlewareProtocol {
   @Dependency(\.uuid) var uuid
 
   // MARK: Start Body
-  var body: some MiddlewareProtocolOf<Self> {
+  var body: some MiddlewareOf<Self> {
     IOMiddleware { state, action, source in
       IO<Action> { output in
         switch action {
@@ -89,9 +93,10 @@ struct TimerView: View {
 
   init(store: StoreOf<TimerReducer>? = nil) {
     let unwrapStore = Store(
-      initialState: TimerReducer.State(),
-      reducer: TimerReducer()
-    )
+      initialState: TimerReducer.State()
+    ) {
+      TimerReducer()
+    }
     self.store = unwrapStore
     self.viewStore = ViewStore(unwrapStore)
   }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 // MARK: Reducer
-struct AuthReducer: ReducerProtocol {
+struct AuthReducer: Reducer {
 
   // MARK: State
   struct State: BaseState {
@@ -21,7 +21,7 @@ struct AuthReducer: ReducerProtocol {
   @Dependency(\.uuid) var uuid
 
   // MARK: Start Body
-  var body: some ReducerProtocolOf<Self> {
+  var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
         case .viewOnAppear:
@@ -29,7 +29,7 @@ struct AuthReducer: ReducerProtocol {
         case .viewOnDisappear:
           break
         case .login:
-          return EffectTask(value: .changeRootScreen(.main))
+          return .send(.changeRootScreen(.main))
         default:
           break
       }
@@ -41,7 +41,7 @@ struct AuthReducer: ReducerProtocol {
 }
 
 // MARK: Middleware
-struct AuthMiddleware: MiddlewareProtocol {
+struct AuthMiddleware: Middleware {
 
   // MARK: State
   typealias State = AuthReducer.State
@@ -50,7 +50,7 @@ struct AuthMiddleware: MiddlewareProtocol {
   typealias Action = AuthReducer.Action
 
   // MARK: Start Body
-  var body: some MiddlewareProtocolOf<Self> {
+  var body: some MiddlewareOf<Self> {
     IOMiddleware { state, action, source in
       IO<Action> { output in
         switch action {
@@ -77,9 +77,10 @@ struct AuthView: View {
 
   init(store: StoreOf<AuthReducer>? = nil) {
     let unwrapStore = store ?? Store(
-      initialState: AuthReducer.State(),
-      reducer: AuthReducer()
-    )
+      initialState: AuthReducer.State()
+    ) {
+      AuthReducer()
+    }
     self.store = unwrapStore
     self.viewStore = ViewStore(unwrapStore)
   }

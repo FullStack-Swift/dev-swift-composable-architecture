@@ -1,7 +1,7 @@
 import SwiftUI
 
 // MARK: Reducer
-struct MainReducer: ReducerProtocol {
+struct MainReducer: Reducer {
 
   // MARK: State
   struct State: BaseState {
@@ -41,7 +41,7 @@ struct MainReducer: ReducerProtocol {
   @Dependency(\.storage) var storage
 
   // MARK: Start Body
-  var body: some ReducerProtocolOf<Self> {
+  var body: some ReducerOf<Self> {
     BindingReducer()
     Reduce { state, action in
       switch action {
@@ -51,7 +51,7 @@ struct MainReducer: ReducerProtocol {
           // MARK: - View Action
         case .viewOnAppear:
           state.todos = storage.todoModels
-          return EffectTask(value: .getTodo)
+          return .send(.getTodo)
         case .viewOnDisappear:
           break
         case .binding(let bindingAction):
@@ -60,10 +60,10 @@ struct MainReducer: ReducerProtocol {
           //        state.todos[id: todo.id]?.isCompleted.toggle()
           if var todo = state.todos.filter({$0.id == todo.id}).first {
             todo.isCompleted.toggle()
-            return EffectTask(value: .updateTodo(todo))
+              return .send(.updateTodo(todo))
           }
         case .logout:
-          return EffectTask(value: .changeRootScreen(.auth))
+          return .send(.changeRootScreen(.auth))
         case .viewCreateTodo:
           if state.title.isEmpty {
             return .none
@@ -72,7 +72,7 @@ struct MainReducer: ReducerProtocol {
           state.title = ""
           let id = uuid()
           let todo = TodoModel(id: id, title: title, isCompleted: false)
-          return EffectTask(value: .createOrUpdateTodo(todo))
+          return .send(.createOrUpdateTodo(todo))
         case .getTodo:
           state.todos.removeAll()
         case .responseTodo(let data):
@@ -105,7 +105,7 @@ struct MainReducer: ReducerProtocol {
   // MARK: End Body
 }
 
-struct MainMiddleware: MiddlewareProtocol {
+struct MainMiddleware: Middleware {
 
   // MARK: State
   typealias State = MainReducer.State
@@ -119,7 +119,7 @@ struct MainMiddleware: MiddlewareProtocol {
   @Dependency(\.todoService) var todoService
 
   // MARK: Start Body
-  var body: some MiddlewareProtocolOf<Self> {
+  var body: some MiddlewareOf<Self> {
     AsyncActionHandlerMiddleware { state, action, source, handler in
       switch action {
         case .getTodo:
@@ -177,9 +177,10 @@ struct MainView: View {
 
   init(store: StoreOf<MainReducer>? = nil) {
     let unwrapStore = store ?? Store(
-      initialState: MainReducer.State(),
-      reducer: MainReducer()
-    )
+      initialState: MainReducer.State()
+    ) {
+      MainReducer()
+    }
     self.store = unwrapStore
       .withMiddleware(MainMiddleware())
     self.viewStore = ViewStore(unwrapStore)
@@ -269,7 +270,7 @@ extension MainView {
         }
       }
       HStack {
-        TextField("title", text: viewStore.binding(\.$title))
+        TextField("title", text: viewStore.$title)
         Button(action: {
           viewStore.send(.viewCreateTodo)
         }, label: {
@@ -332,8 +333,6 @@ extension MainView {
 }
 
 // MARK: Previews
-struct MainView_Previews: PreviewProvider {
-  static var previews: some View {
-    MainView()
-  }
+#Preview {
+  MainView()
 }

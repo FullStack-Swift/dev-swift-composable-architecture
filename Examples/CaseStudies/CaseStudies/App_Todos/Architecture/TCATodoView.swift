@@ -48,7 +48,7 @@ extension IdentifiedArray where ID == Todo.ID, Element == Todo {
   ]
 }
 
-private struct TCATodoReducer: ReducerProtocol {
+private struct TCATodoReducer: Reducer {
 
   struct State: Equatable {
     var todos: IdentifiedArrayOf<Todo> = .mock
@@ -87,7 +87,7 @@ private struct TCATodoReducer: ReducerProtocol {
     case setIsCompleted(todoID: UUID, isCompleted: Bool)
   }
 
-  var body: some ReducerProtocolOf<Self> {
+  var body: some ReducerOf<Self> {
     BindingReducer()
     Reduce { state, action in
       switch action {
@@ -109,12 +109,12 @@ private struct TCATodoReducer: ReducerProtocol {
   }
 }
 
-private struct TCATodoMiddleware: MiddlewareProtocol {
+private struct TCATodoMiddleware: Middleware {
   typealias State = TCATodoReducer.State
 
   typealias Action = TCATodoReducer.Action
 
-  var body: some MiddlewareProtocolOf<Self> {
+  var body: some MiddlewareOf<Self> {
     AsyncIOMiddleware { state, action, source in
       AsyncIO { handler in
         switch action {
@@ -164,7 +164,7 @@ private struct TodoFilters: View {
   }
 
   var body: some View {
-    Picker("Filter", selection: viewStore.binding(\.$filter)) {
+    Picker("Filter", selection: viewStore.$filter) {
       ForEach(Filter.allCases, id: \.self) { filter in
         switch filter {
           case .all:
@@ -269,9 +269,10 @@ struct TCATodoView: View {
 
   private init(store: StoreOf<TCATodoReducer>?) {
     let unwrapStore = store ?? Store(
-      initialState: TCATodoReducer.State(),
-      reducer: TCATodoReducer()
-    )
+      initialState: TCATodoReducer.State()
+    ) {
+      TCATodoReducer()
+    }
     self.store = unwrapStore
     self.viewStore = ViewStore(unwrapStore)
   }
