@@ -108,6 +108,12 @@ public final class ViewStore<ViewState, ViewAction>: ObservableObject {
         objectWillChange.send()
         _state.value = $0
       }
+    self.action
+      .sink { [weak self] viewAction in
+        guard let self else { return }
+        self.send(viewAction)
+      }
+      .store(in: &cancellables)
   }
 
   /// Initializes a view store from a store which observes changes to state.
