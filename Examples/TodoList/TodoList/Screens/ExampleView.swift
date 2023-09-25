@@ -69,3 +69,7 @@ struct ExampleHookView: HookView {
     }
   }
 }
+
+#Preview {
+  ExampleHookView()
+}

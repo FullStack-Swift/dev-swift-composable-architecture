@@ -208,6 +208,15 @@
       }
     },
     {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-syntax.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "7591cf864957507f92b5fe998a1c3081a93e1fdc"
+      }
+    },
+    {
       "identity" : "swiftui-additions",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/FullStack-Swift/swiftui-additions",

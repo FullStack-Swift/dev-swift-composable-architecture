@@ -206,14 +206,6 @@ struct RootView: View {
   }
 }
 
-// MARK: Previews
-struct RootView_Previews: PreviewProvider {
-  static var previews: some View {
-    RootView(
-      store: Store(initialState: .init()) {
-        RootReducer()
-      }
-        .withMiddleware(RootMiddleware())
-    )
-  }
+#Preview {
+  RootView()
 }

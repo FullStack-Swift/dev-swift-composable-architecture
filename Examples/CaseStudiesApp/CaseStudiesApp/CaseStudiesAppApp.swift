@@ -1,5 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
+import ComposeMacros
 
 @main
 struct CaseStudiesAppApp: App {

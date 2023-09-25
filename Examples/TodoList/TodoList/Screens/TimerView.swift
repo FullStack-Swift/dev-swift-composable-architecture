@@ -114,9 +114,6 @@ struct TimerView: View {
   }
 }
 
-// MARK: Previews
-struct TimerView_Previews: PreviewProvider {
-  static var previews: some View {
-    TimerView()
-  }
+#Preview {
+  TimerView()
 }

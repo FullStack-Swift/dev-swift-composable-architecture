@@ -12,6 +12,7 @@
 		90D9D3662A75897A00019B42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D9D3652A75897A00019B42 /* ContentView.swift */; };
 		90D9D3682A75898100019B42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90D9D3672A75898100019B42 /* Assets.xcassets */; };
 		90D9D36B2A75898100019B42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90D9D36A2A75898100019B42 /* Preview Assets.xcassets */; };
+		EBBF42972ABC2C8000CF2ED6 /* ComposeMacros in Frameworks */ = {isa = PBXBuildFile; productRef = EBBF42962ABC2C8000CF2ED6 /* ComposeMacros */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBBF42972ABC2C8000CF2ED6 /* ComposeMacros in Frameworks */,
 				901D804F2A758B070075761E /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,6 +99,7 @@
 			name = CaseStudiesApp;
 			packageProductDependencies = (
 				901D804E2A758B070075761E /* ComposableArchitecture */,
+				EBBF42962ABC2C8000CF2ED6 /* ComposeMacros */,
 			);
 			productName = CaseStudiesApp;
 			productReference = 90D9D3602A75897A00019B42 /* CaseStudiesApp.app */;
@@ -359,6 +362,10 @@
 		901D804E2A758B070075761E /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;
+		};
+		EBBF42962ABC2C8000CF2ED6 /* ComposeMacros */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ComposeMacros;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

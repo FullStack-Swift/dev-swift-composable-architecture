@@ -100,9 +100,6 @@ struct AuthView: View {
   }
 }
 
-// MARK: Previews
-struct AuthView_Previews: PreviewProvider {
-  static var previews: some View {
-    AuthView()
-  }
+#Preview {
+  AuthView()
 }

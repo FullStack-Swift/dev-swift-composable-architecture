@@ -11,6 +11,12 @@ public func apply<T>(_ transform: (inout T) -> Void, to input: T) -> T {
   return transformed
 }
 
+/// return description sourceId
+/// - Parameters:
+///   - id: id description
+///   - fileID: fileID description
+///   - line: line description
+/// - Returns: description
 public func sourceId(
   id: String = "",
   fileID: String = #fileID,

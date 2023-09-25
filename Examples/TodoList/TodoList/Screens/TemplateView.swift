@@ -97,9 +97,6 @@ struct TemplateView: View {
   }
 }
 
-// MARK: Previews
-struct TemplateView_Previews: PreviewProvider {
-  static var previews: some View {
-    TemplateView()
-  }
+#Preview {
+  TemplateView()
 }

@@ -334,9 +334,6 @@ extension CounterView {
   }
 }
 
-// MARK: Previews
-struct CounterView_Previews: PreviewProvider {
-  static var previews: some View {
-    CounterView()
-  }
+#Preview {
+  CounterView()
 }

@@ -1,6 +1,8 @@
-// swift-tools-version:5.9
+// swift-tools-version: 5.9
+// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import CompilerPluginSupport
 
 let package = Package(
   name: "swift-composable-architecture",
@@ -15,9 +17,10 @@ let package = Package(
     .library(
       name: "ComposableArchitecture",
       targets: ["ComposableArchitecture"]
-    )
+    ),
   ],
   dependencies: [
+    .package(url: "https://github.com/apple/swift-syntax.git", branch: "main"),
     .package(url: "https://github.com/apple/swift-collections", from: "1.0.2"),
     .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0"),
     .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
@@ -30,7 +33,6 @@ let package = Package(
     .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "1.0.0"),
     .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.0.0"),
     // MARK: custom
-//    .package(url: "https://github.com/lm/navigation-stack-backport.git", .upToNextMajor(from: "1.0.0")),
   ],
   targets: [
     .target(
@@ -47,17 +49,30 @@ let package = Package(
         .product(name: "SwiftUINavigationCore", package: "swiftui-navigation"),
         .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay"),
         // MARK: custom
-//          .product(
-//            name: "NavigationStackBackport",
-//            package: "navigation-stack-backport",
-//            condition: .when(platforms: [.iOS])
-//          ),
-      ]
+        "ComposeMacros",
+      ],
+      path: "Sources/ComposableArchitecture"
     ),
+    // Targets are the basic building blocks of a package, defining a module or a test suite.
+    // Targets can depend on other targets in this package and products from dependencies.
+    // Macro implementation that performs the source transformation of a macro.
+      .macro(
+        name: "ComposeMacros",
+        dependencies: [
+          .product(name: "SwiftSyntax", package: "swift-syntax"),
+          .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+          .product(name: "SwiftOperators", package: "swift-syntax"),
+          .product(name: "SwiftParser", package: "swift-syntax"),
+          .product(name: "SwiftParserDiagnostics", package: "swift-syntax"),
+          .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+        ],
+        path: "Sources/ComposeMacros"
+      ),
     .testTarget(
       name: "ComposableArchitectureTests",
       dependencies: [
-        "ComposableArchitecture"
+        "ComposableArchitecture",
+        .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
       ]
     ),
     .executableTarget(
