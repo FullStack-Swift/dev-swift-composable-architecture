@@ -18,7 +18,6 @@ public enum AsyncPhase<Success, Failure: Error> {
     switch result {
       case .success(let value):
         self = .success(value)
-        
       case .failure(let error):
         self = .failure(error)
     }
@@ -34,19 +33,17 @@ public enum AsyncPhase<Success, Failure: Error> {
     switch result {
       case .success(let value):
         self = .success(value)
-        
       case .failure(let error):
         self = .failure(error)
     }
   }
-
   
   /// Creates a new phase by evaluating a async throwing closure, capturing the
   /// returned value as a success, or any thrown error as a failure.
   ///
   /// - Parameter body: A async throwing closure to evaluate.
   public init(
-    catching body: () async throws -> Success
+    catching body: @Sendable () async throws -> Success
   ) async where Failure == Error {
     do {
       let value = try await body()
@@ -89,7 +86,6 @@ public enum AsyncPhase<Success, Failure: Error> {
     guard case .success(let value) = self else {
       return nil
     }
-    
     return value
   }
   
@@ -138,13 +134,11 @@ public enum AsyncPhase<Success, Failure: Error> {
   ) -> AsyncPhase<NewSuccess, Failure> {
     switch self {
       case .suspending:
-        return .suspending
-        
+          .suspending
       case .success(let value):
-        return transform(value)
-        
+        transform(value)
       case .failure(let error):
-        return .failure(error)
+          .failure(error)
     }
   }
   
@@ -160,13 +154,11 @@ public enum AsyncPhase<Success, Failure: Error> {
   ) -> AsyncPhase<Success, NewFailure> {
     switch self {
       case .suspending:
-        return .suspending
-        
+          .suspending
       case .success(let value):
-        return .success(value)
-        
+          .success(value)
       case .failure(let error):
-        return transform(error)
+        transform(error)
     }
   }
 }
@@ -186,11 +178,11 @@ extension AsyncPhase {
   public var status: StatusPhase {
     switch self {
       case .suspending:
-        return .suspending
+          .suspending
       case .success(_):
-        return .success
+          .success
       case .failure(_):
-        return .failure
+          .failure
     }
   }
 }
@@ -204,3 +196,40 @@ extension AsyncPhase: Equatable where Success: Equatable, Failure: Equatable {}
 extension AsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}
 
 extension AsyncPhase: Sendable where Success: Sendable {}
+
+extension AsyncPhase {
+  /// Merge AysncPhase
+  /// We receive Success and show to the view only If 2 phase is Success.
+  /// - Parameter other: other AsyncPhase
+  /// - Returns: AsyncPhase
+  public func merge(_ other: Self) -> AsyncPhase<(Success, Success), Failure> {
+    switch (self, other) {
+      case (.failure(let error), _):
+        return .failure(error)
+      case (_, .failure(let error)):
+        return .failure(error)
+      case (.suspending, _):
+        return .suspending
+      case (_, .suspending):
+        return .suspending
+      case (.success(let thisData), .success(let otherData)):
+      return .success((thisData, otherData))
+    }
+  }
+}
+
+extension TaskResult {
+  /// Convert A TaskResult to AsyncPhase
+  /// - Returns: AsyncPhase
+  public func toAsyncPhase() -> AsyncPhase<Success, Error> {
+    AsyncPhase(self)
+  }
+}
+
+extension Result {
+  /// Transform A Result to AyncPhase
+  /// - Returns: AsyncPhase
+  public func toAsyncPhase() -> AsyncPhase<Success, Failure> {
+    AsyncPhase(self)
+  }
+}

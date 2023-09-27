@@ -642,7 +642,7 @@ enum BindingLocal {
 }
 
 // MARK: Store to ViewStore
-extension Store {
+public extension Store {
   
   /// Description
   /// - Returns: description

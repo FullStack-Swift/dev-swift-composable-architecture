@@ -1,21 +1,21 @@
 import Dependencies
 
-// MARK: Store
 extension DependencyValues {
-  fileprivate struct RootStoreKey: DependencyKey {
-    static let liveValue = Store(
-      initialState: RootReducer.State()
-    ) {
-      RootReducer()
-    }
-      .withMiddleware(RootMiddleware())
-  }
+  @DependencyValue
+  public var urlString: String = "http://0.0.0.0:8080"
+  
+  @DependencyValue
+  public var todoService: TodoService = TodoService()
 }
 
 extension DependencyValues {
-  var rootStore: StoreOf<RootReducer> {
-    self[RootStoreKey.self]
+  @DependencyValue
+  var rootStore: StoreOf<RootReducer> = Store(
+    initialState: RootReducer.State()
+  ) {
+    RootReducer()
   }
+    .withMiddleware(RootMiddleware())
   
   var authStore: StoreOf<AuthReducer> {
     rootStore.scope(state: \.authState, action: RootReducer.Action.authAction)

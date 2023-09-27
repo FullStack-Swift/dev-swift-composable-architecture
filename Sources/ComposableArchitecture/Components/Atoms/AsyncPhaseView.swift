@@ -157,7 +157,6 @@ public struct AsyncPhaseView<
     )
   }
 
-  
   public var body: some View {
     switch phase {
       case .suspending:
@@ -169,5 +168,3 @@ public struct AsyncPhaseView<
     }
   }
 }
-
-

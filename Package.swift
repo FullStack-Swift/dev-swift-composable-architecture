@@ -18,11 +18,13 @@ let package = Package(
       name: "ComposableArchitecture",
       targets: ["ComposableArchitecture"]
     ),
+    .library(
+      name: "UIComponents",
+      targets: ["UIComponents"]
+    )
   ],
   dependencies: [
-    .package(url: "https://github.com/apple/swift-syntax.git", branch: "main"),
     .package(url: "https://github.com/apple/swift-collections", from: "1.0.2"),
-    .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0"),
     .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
     .package(url: "https://github.com/google/swift-benchmark", from: "0.1.0"),
     .package(url: "https://github.com/pointfreeco/combine-schedulers", from: "1.0.0"),
@@ -33,12 +35,13 @@ let package = Package(
     .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "1.0.0"),
     .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.0.0"),
     // MARK: custom
+    .package(url: "https://github.com/apple/swift-syntax.git", branch: "main"),
+    .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0"),
   ],
   targets: [
     .target(
       name: "ComposableArchitecture",
       dependencies: [
-        .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
         .product(name: "CasePaths", package: "swift-case-paths"),
         .product(name: "CombineSchedulers", package: "combine-schedulers"),
         .product(name: "CustomDump", package: "swift-custom-dump"),
@@ -49,9 +52,17 @@ let package = Package(
         .product(name: "SwiftUINavigationCore", package: "swiftui-navigation"),
         .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay"),
         // MARK: custom
+        .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
         "ComposeMacros",
       ],
       path: "Sources/ComposableArchitecture"
+    ),
+    .target(
+      name: "UIComponents",
+      dependencies: [
+        
+      ],
+      path: "Sources/UIComponents"
     ),
     // Targets are the basic building blocks of a package, defining a module or a test suite.
     // Targets can depend on other targets in this package and products from dependencies.

@@ -14,7 +14,6 @@ public macro stringify<T>(_ value: T) -> (T, String) = #externalMacro(module: "C
 @attached(peer, names: overloaded)
 public macro AddAsync() = #externalMacro(module: "ComposeMacros", type: "AddAsyncMacro")
 
-
 /// A macro that produces an unwrapped URL in case of a valid input URL.
 /// For example,
 ///
@@ -44,3 +43,9 @@ public macro EnvironmentValue() = #externalMacro(module: "ComposeMacros", type: 
 /// This should only be applied on an EnvironmentValues extension.
 @attached(memberAttribute)
 public macro EnvironmentStorage() = #externalMacro(module: "ComposeMacros", type: "EnvironmentStorage")
+
+/// Creates an unique DependencyKey for the variable and adds getters and setters.
+/// The initial value of the variable becomes the default value of the EnvironmentKey.
+@attached(peer, names: prefixed(DependencyKey_))
+@attached(accessor, names: named(get), named(set))
+public macro DependencyValue() = #externalMacro(module: "ComposeMacros", type: "AttachedMacroDependencyKey")

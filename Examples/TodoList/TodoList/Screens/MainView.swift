@@ -50,7 +50,6 @@ struct MainReducer: Reducer {
           print(counterAction)
           // MARK: - View Action
         case .viewOnAppear:
-          state.todos = storage.todoModels
           return .send(.getTodo)
         case .viewOnDisappear:
           break
@@ -82,7 +81,6 @@ struct MainReducer: Reducer {
               state.todos.updateOrAppend(item)
             }
           }
-          storage.todoModels = state.todos
         case .responseCreateOrUpdateTodo(let data):
           if let item = data.toModel(TodoModel.self) {
             state.todos.updateOrAppend(item)

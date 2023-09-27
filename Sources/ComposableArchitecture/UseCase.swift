@@ -1,17 +1,19 @@
 import Combine
 import Foundation
 
-public protocol UseCaseProtocol {
+public protocol PublisherUseCaseProtocol {
 
   associatedtype Input
 
   associatedtype Output
+  
+  associatedtype Failure: Error
 
-  func run(_ input: Input) -> AnyPublisher<Output, any Error>
+  func run(_ input: Input) -> AnyPublisher<Output, Failure>
 
 }
-public extension UseCaseProtocol where Self.Input == Void {
-  func run() -> AnyPublisher<Output, any Error> {
+public extension PublisherUseCaseProtocol where Self.Input == Void {
+  func run() -> AnyPublisher<Output, Failure> {
     return run(())
   }
 }
@@ -22,16 +24,31 @@ public protocol AsyncUseCaseProtocol {
 
   associatedtype Output
 
-  func run(_ input: Input) async throws -> Output
+  func run(_ input: Input) async -> Output
 
 }
 public extension AsyncUseCaseProtocol where Self.Input == Void {
+  func run() async -> Output {
+    await run(())
+  }
+}
+
+public protocol ThrowingAsyncUseCaseProtocol {
+  
+  associatedtype Input
+  
+  associatedtype Output
+  
+  func run(_ input: Input) async throws -> Output
+  
+}
+public extension ThrowingAsyncUseCaseProtocol where Self.Input == Void {
   func run() async throws -> Output {
     try await run(())
   }
 }
 
-public protocol IOCaseProtocol {
+public protocol IOUseCaseProtocol {
   
   associatedtype Input
   
@@ -40,7 +57,7 @@ public protocol IOCaseProtocol {
   func run(_ input: Input) -> IO<Output>
 }
 
-extension IOCaseProtocol where Self.Input == Void {
+extension IOUseCaseProtocol where Self.Input == Void {
   func run(_ input: ()) ->IO<Output> {
     run(input)
   }

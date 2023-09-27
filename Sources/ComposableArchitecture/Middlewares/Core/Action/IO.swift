@@ -50,3 +50,13 @@ extension IO {
     }
   }
 }
+
+extension IO {
+  
+  /// Listening Action
+  /// - Parameter output: callback Action
+  public func on(_ output: @escaping (DispatchedAction<Action>) -> Void) {
+    runIO(.init(output))
+  }
+  
+}

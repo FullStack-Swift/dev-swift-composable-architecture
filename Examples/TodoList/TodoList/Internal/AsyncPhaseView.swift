@@ -22,46 +22,7 @@ public struct AsyncPhaseView: HookView {
         log.info(Json(data))
         return data
       }
-      ScrollView {
-        Color.white.opacity(0.0001)
-        VStack(alignment: .center) {
-          switch phase {
-            case .running:
-              ProgressView()
-            case .success(let data):
-              HStack(alignment: .center) {
-                Text(data?.toJson().description ?? "Nil")
-                  .lineLimit(nil)
-                  .multilineTextAlignment(.leading)
-                  .frame(maxWidth: .infinity, maxHeight: .infinity)
-                Spacer()
-              }
-              .onTapGesture {
-                Task {
-                  await perform()
-                }
-              }
-            case .failure(let error):
-              Text(error.localizedDescription)
-                .padding()
-                .bold()
-                .foregroundColor(.red)
-                .onTapGesture {
-                  Task {
-                    await perform()
-                  }
-                }
-            case .pending:
-              ProgressView()
-          }
-        }
-        .padding(.vertical, 16)
-        .padding(.horizontal, 24)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .task {
-        await perform()
-      }
+      EmptyView()
     }
   }
 }

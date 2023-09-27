@@ -11,6 +11,7 @@ struct MyPlugin: CompilerPlugin {
     WarningMacro.self,
     TodoMacro.self,
     AttachedMacroEnvironmentKey.self,
+    AttachedMacroDependencyKey.self,
     EnvironmentStorage.self,
   ]
 }

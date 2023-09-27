@@ -230,3 +230,42 @@ extension HookAsyncPhase: Equatable where Success: Equatable, Failure: Equatable
 extension HookAsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}
 
 extension HookAsyncPhase: Sendable where Success: Sendable {}
+
+extension HookAsyncPhase {
+  /// Merge AysncPhase
+  /// We receive Success and show to the view only If 2 phase is Success.
+  /// - Parameter other: other AsyncPhase
+  /// - Returns: AsyncPhase
+  public func merge(_ other: Self) -> HookAsyncPhase<(Success, Success), Failure> {
+    switch (self, other) {
+      case (.failure(let error), _):
+        return .failure(error)
+      case (_, .failure(let error)):
+        return .failure(error)
+      case (.pending, _):
+        return .pending
+      case (_, .pending):
+        return .pending
+      case (.running, _), (_, .running):
+        return .running
+      case (.success(let thisData), .success(let otherData)):
+        return .success((thisData, otherData))
+    }
+  }
+}
+
+extension TaskResult {
+  /// Convert A TaskResult to AsyncPhase
+  /// - Returns: AsyncPhase
+  public func toAsyncPhase() -> HookAsyncPhase<Success, Error> {
+    HookAsyncPhase(self)
+  }
+}
+
+extension Result {
+  /// Transform A Result to AyncPhase
+  /// - Returns: AsyncPhase
+  public func toAsyncPhase() -> HookAsyncPhase<Success, Failure> {
+    HookAsyncPhase(self)
+  }
+}
