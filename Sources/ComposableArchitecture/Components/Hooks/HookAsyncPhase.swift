@@ -269,3 +269,16 @@ extension Result {
     HookAsyncPhase(self)
   }
 }
+
+extension AsyncPhase {
+  public func toHookAsyncPhase() -> HookAsyncPhase<Success, Failure> {
+    switch self {
+      case .suspending:
+          .running
+      case .success(let success):
+          .success(success)
+      case .failure(let failure):
+          .failure(failure)
+    }
+  }
+}

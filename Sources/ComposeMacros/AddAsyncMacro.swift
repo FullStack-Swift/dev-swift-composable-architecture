@@ -38,8 +38,6 @@ public struct AddAsyncMacro: PeerMacro {
           """
       ]
     }
-    
-    
     return []
   }
 }

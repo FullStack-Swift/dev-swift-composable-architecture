@@ -66,6 +66,7 @@ internal struct LinkedList<Element>: Sequence {
   }
 }
 
+// LinkedList + Reversed, Iterator
 internal extension LinkedList {
   struct Reversed: Sequence {
     let last: Node?

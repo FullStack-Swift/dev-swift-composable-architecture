@@ -4,7 +4,7 @@ import Foundation
 /// Triggers a view update when the state has been changed.
 ///
 ///     ```swift
-///     struct CounterReducler: ReducerProtcol {
+///     struct CounterReducer: Reducer {
 ///
 ///       enum Action {
 ///         case increment
@@ -15,7 +15,7 @@ import Foundation
 ///         var count: Int = 0
 ///       }
 ///
-///       var body: some ReducerProtocolOf<Self> {
+///       var body: some ReducerOf<Self> {
 ///         Reduce {state, action in
 ///         switch action {
 ///             case .increment:
@@ -27,7 +27,7 @@ import Foundation
 ///       }
 ///     }
 ///
-///      let store = useReducerProtocol(initialState: CounterReducler.State(), CounterReducler())
+///      let store = useReducer(initialState: CounterReducer.State(), CounterReducer())
 ///
 ///     ```
 ///
@@ -35,35 +35,35 @@ import Foundation
 ///   - initialState: An initial state.
 ///   - reducer: A function that to return a new state with an action.
 /// - Returns: A store tca.
-public func useReducerProtocol<R: Reducer>(
+public func useReducer<R: Reducer>(
   fileID: String = #fileID,
   line: UInt = #line,
   initialState: R.State,
   _ reducer: R
 ) -> StoreOf<R> {
   useHook(
-    ReducerProtocolHook(
+    ReducerHook(
       initialState: initialState,
       reducer: reducer
     )
   )
 }
 
-public func useReducerProtocol<R: Reducer>(
+public func useReducer<R: Reducer>(
   fileID: String = #fileID,
   line: UInt = #line,
   initialState: () -> R.State,
   _ reducer: R
 ) -> StoreOf<R> {
   useHook(
-    ReducerProtocolHook(
+    ReducerHook(
       initialState: initialState(),
       reducer: reducer
     )
   )
 }
 
-private struct ReducerProtocolHook<R: Reducer>: Hook {
+private struct ReducerHook<R: Reducer>: Hook {
   
   typealias State = _HookRef
   
@@ -102,7 +102,7 @@ private struct ReducerProtocolHook<R: Reducer>: Hook {
   }
 }
 
-private extension ReducerProtocolHook {
+private extension ReducerHook {
   // MARK: State
   final class _HookRef {
     
@@ -131,7 +131,7 @@ private extension ReducerProtocolHook {
 /// Triggers a view update when the state has been changed.
 ///
 ///     ```swift
-///     struct CounterReducler: ReducerProtcol {
+///     struct CounterReducer: Reducer {
 ///
 ///       enum Action {
 ///         case increment
@@ -142,7 +142,7 @@ private extension ReducerProtocolHook {
 ///         var count: Int = 0
 ///       }
 ///
-///       var body: some ReducerProtocolOf<Self> {
+///       var body: some ReducerOf<Self> {
 ///         Reduce {state, action in
 ///         switch action {
 ///             case .increment:
@@ -153,7 +153,7 @@ private extension ReducerProtocolHook {
 ///         }
 ///       }
 ///     }
-///     let store = useStore(Store(initialState: CounterReducler.State(), CounterReducler()))
+///     let store = useStore(Store(initialState: CounterReducer.State(), CounterReducer()))
 ///     let useStore = useStore(store)
 ///
 ///     ```

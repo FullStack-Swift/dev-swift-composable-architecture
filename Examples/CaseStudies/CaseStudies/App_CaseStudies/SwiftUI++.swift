@@ -1,10 +1,3 @@
-//
-//  SwiftUI++.swift
-//  CaseStudies
-//
-//  Created by PhongND on 9/11/23.
-//
-
 import ComposableArchitecture
 import SwiftUI
 

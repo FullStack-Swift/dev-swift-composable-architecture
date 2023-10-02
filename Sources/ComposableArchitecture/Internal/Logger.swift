@@ -7,15 +7,86 @@ private enum LogLevel: String {
   case error      = "🔴"
 }
 
+#if canImport(os)
+import os
+let log = Logger()
+
+internal extension Logger {
+  private var isLogEnable: Bool {
+#if DEBUG
+    return true
+#else
+    return false
+#endif
+  }
+  
+  private func sourceFileName(filePath: String) -> String {
+    let components = filePath.components(separatedBy: "/")
+    if let componentLast = components.last {
+      return componentLast
+    } else {
+      return ""
+    }
+  }
+  
+  func error(
+    filename: String = #file,
+    line: Int = #line,
+    funcName: String = #function,
+    _ object: Any
+  ) {
+    if isLogEnable {
+      print("\(LogLevel.error.rawValue) ERROR [[\(sourceFileName(filePath: filename))]:\(line) \(funcName)]")
+      print(object)
+    }
+  }
+  
+  func warning(
+    filename: String = #file,
+    line: Int = #line,
+    funcName: String = #function,
+    _ object: Any
+  ) {
+    if isLogEnable {
+      print("\(LogLevel.warning.rawValue) WARNING [[\(sourceFileName(filePath: filename))]:\(line) \(funcName)]")
+      print(object)
+    }
+  }
+  
+  func debug(
+    filename: String = #file,
+    line: Int = #line,
+    funcName: String = #function,
+    _ object: Any
+  ) {
+    if isLogEnable {
+      print("\(LogLevel.debug.rawValue) DEBUG [[\(sourceFileName(filePath: filename))]:\(line) \(funcName)]")
+      print(object)
+    }
+  }
+  
+  func info(
+    filename: String = #file,
+    line: Int = #line,
+    funcName: String = #function,
+    _ object: Any
+  ) {
+    if isLogEnable {
+      print("\(LogLevel.info.rawValue) INFO [[\(sourceFileName(filePath: filename))]:\(line) \(funcName)]")
+      print(object)
+    }
+  }
+}
+#else
+
 private func print(_ object: Any) {
 #if DEBUG
   Swift.print(object)
 #endif
 }
+internal typealias log = FLogger
 
-internal typealias log = Logger
-
-internal final class Logger {
+internal final class FLogger {
   private static var isLogEnable: Bool {
 #if DEBUG
     return true
@@ -34,7 +105,7 @@ internal final class Logger {
   }
 }
 
-internal extension Logger {
+internal extension FLogger {
   
   class func error(
     filename: String = #file,
@@ -84,3 +155,4 @@ internal extension Logger {
     }
   }
 }
+#endif

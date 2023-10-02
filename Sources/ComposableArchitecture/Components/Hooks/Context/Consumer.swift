@@ -39,6 +39,6 @@ private extension HookContext.Consumer {
             """
     )
 #endif
-    return EmptyView()
+    return EmptyView().hidden()
   }
 }

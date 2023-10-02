@@ -21,7 +21,11 @@ let package = Package(
     .library(
       name: "UIComponents",
       targets: ["UIComponents"]
-    )
+    ),
+    .library(
+      name: "SwiftExt",
+      targets: ["SwiftExt"]
+    ),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-collections", from: "1.0.2"),
@@ -56,6 +60,13 @@ let package = Package(
         "ComposeMacros",
       ],
       path: "Sources/ComposableArchitecture"
+    ),
+    .target(
+      name: "SwiftExt",
+      dependencies: [
+        .product(name: "IdentifiedCollections", package: "swift-identified-collections"),
+      ],
+      path: "Sources/SwiftExt"
     ),
     .target(
       name: "UIComponents",
