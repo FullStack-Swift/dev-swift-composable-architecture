@@ -9,6 +9,8 @@ open class BaseObservable: ObservableObject {
   
   private var numberRefresh: Int = 0
   
+  public let id: UUID = UUID()
+  
   @ObservableListener
   private var observable
   
@@ -16,7 +18,7 @@ open class BaseObservable: ObservableObject {
     observable.sink { [ weak self] in
       guard let self else { return }
       self.numberRefresh += 1
-      log.warning("numberRefresh: \(numberRefresh)")
+      log.warning("numberRefresh: \(numberRefresh) id: \(id)")
     }
   }
   

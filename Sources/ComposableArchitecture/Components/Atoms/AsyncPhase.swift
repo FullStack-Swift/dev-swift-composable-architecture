@@ -197,6 +197,8 @@ extension AsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}
 
 extension AsyncPhase: Sendable where Success: Sendable {}
 
+public typealias AtomPhase<Success> = AsyncPhase<Success, Never>
+
 extension AsyncPhase {
   /// Merge AysncPhase
   /// We receive Success and show to the view only If 2 phase is Success.

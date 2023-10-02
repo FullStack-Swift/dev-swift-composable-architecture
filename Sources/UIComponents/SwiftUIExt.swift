@@ -1,21 +1,22 @@
 import SwiftUI
 import Combine
 
-public typealias FTapGesture = () -> Void
+public typealias MTapGesture = () -> Void
 
-public typealias FCompletion<T> = (T) -> Void
+public typealias MCompletion<T> = (T) -> Void
 
-public protocol FView: View {
+public protocol MView: View {
   
   @ViewBuilder var anyBody: any View { get }
 }
 
-extension FView where Body: View {
+extension MView where Body: View {
   var body: some View {
     AnyView(anyBody)
   }
 }
 
+// MARK: Changed view
 extension View {
   
   /// Description
@@ -28,23 +29,7 @@ extension View {
   }
 }
 
-extension View {
-  public func readSize(onChange: @escaping (CGSize) -> Void) -> some View {
-    background(
-      GeometryReader { geometryProxy in
-        Color.clear
-          .preference(key: SizePreferenceKey.self, value: geometryProxy.size)
-      }
-    )
-    .onPreferenceChange(SizePreferenceKey.self, perform: onChange)
-  }
-}
-
-fileprivate struct SizePreferenceKey: PreferenceKey {
-  static var defaultValue: CGSize = .zero
-  static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
-}
-
+// MARK: Condition View function.
 extension View {
   /// Applies the given transform if the given condition evaluates to `true`.
   /// - Parameters:
@@ -116,7 +101,10 @@ extension View {
       `else`(self)
     }
   }
-  
+}
+
+// MARK: extractView
+extension View {
   /// Applies given transform to the view.
   /// - Parameters:
   ///   - transform: The transform to apply to the source `View`.
@@ -127,7 +115,96 @@ extension View {
   }
 }
 
+// MARK: Changed Property
 extension View {
+  
+  @ViewBuilder
+  public func valueChanged<T: Equatable>(value: T, onChange: @escaping (T) -> Void) -> some View {
+    if #available(iOS 14.0, tvOS 14.0, macOS 11.0, watchOS 7.0, *) {
+      self.onChange(of: value, perform: onChange)
+    } else {
+      self.onReceive(Just(value)) { value in
+        onChange(value)
+      }
+    }
+  }
+  
+}
+
+// MARK: onTap
+extension View {
+  
+  /// Adds an action to perform when this view recognizes a tap gesture.
+  ///
+  /// Use this method to perform the specified `action` when the user clicks
+  /// or taps on the view or container `count` times.
+  ///
+  /// > Note: If you create a control that's functionally equivalent
+  /// to a ``Button``, use ``ButtonStyle`` to create a customized button
+  /// instead.
+  ///
+  /// In the example below, the color of the heart images changes to a random
+  /// color from the `colors` array whenever the user clicks or taps on the
+  /// view twice:
+  ///
+  ///     struct TapGestureExample: View {
+  ///         let colors: [Color] = [.gray, .red, .orange, .yellow,
+  ///                                .green, .blue, .purple, .pink]
+  ///         @State private var fgColor: Color = .gray
+  ///
+  ///         var body: some View {
+  ///             Image(systemName: "heart.fill")
+  ///                 .resizable()
+  ///                 .frame(width: 200, height: 200)
+  ///                 .foregroundColor(fgColor)
+  ///                 .onTap(count: 2) {
+  ///                     fgColor = colors.randomElement()!
+  ///                 }
+  ///         }
+  ///     }
+  ///
+  /// ![A screenshot of a view of a heart.](SwiftUI-View-TapGesture.png)
+  ///
+  /// - Parameters:
+  ///    - count: The number of taps or clicks required to trigger the action
+  ///      closure provided in `action`. Defaults to `1`.
+  ///    - action: The action to perform.
+  public func onTap(count: Int = 1, perform: @escaping MTapGesture) -> some View {
+    contentShape(Rectangle())
+      .onTapGesture(count: count, perform: perform)
+  }
+}
+
+// MARK: - Hidden
+extension View {
+  /// Hide or show the view based on a boolean value.
+  ///
+  /// - Parameters:
+  ///   - hidden: Set to `false` to show the view. Set to `true` to hide the view.
+  @ViewBuilder
+  public func isHidden(_ isHidden: Bool) -> some View {
+    if isHidden {
+      hidden()
+    } else {
+      self
+    }
+  }
+  /// Hide or show the view based on a boolean value.
+  ///
+  /// - Parameters:
+  ///   - hidden: Set to `false` to show the view. Set to `true` to hide the view.
+  ///   - remove: Boolean value indicating whether or not to remove the view.
+  @ViewBuilder
+  public func hidden(_ hidden: Bool, remove: Bool = false) -> some View {
+    if hidden {
+      if !remove {
+        self.hidden()
+      }
+    } else {
+      self
+    }
+  }
+
   @ViewBuilder
   public func hideListRowSeperator() -> some View {
 #if os(iOS)
@@ -154,20 +231,32 @@ extension View {
   }
 }
 
+// MARK: - Frame
 extension View {
+  /// Positions this view within an invisible frame with the specified size.
+  public func frame(size: CGSize, alignment: Alignment = .center) -> some View {
+    frame(width: size.width, height: size.height, alignment: alignment)
+  }
   
-  @ViewBuilder
-  public func valueChanged<T: Equatable>(value: T, onChange: @escaping (T) -> Void) -> some View {
-    if #available(iOS 14.0, tvOS 14.0, macOS 11.0, watchOS 7.0, *) {
-      self.onChange(of: value, perform: onChange)
-    } else {
-      self.onReceive(Just(value)) { value in
-        onChange(value)
-      }
-    }
+  /// Positions this view within an invisible frame with the specified size.
+  public func frame(length: CGFloat, alignment: Alignment = .center) -> some View {
+    frame(width: length, height: length, alignment: alignment)
+  }
+  
+  /// Positions this view within an invisible frame having the specified size
+  /// constraints.
+  public func frame(min: CGFloat, alignment: Alignment = .center) -> some View {
+    frame(minWidth: min, minHeight: min, alignment: alignment)
+  }
+  
+  /// Positions this view within an invisible frame having the specified size
+  /// constraints.
+  public func frame(max: CGFloat, alignment: Alignment = .center) -> some View {
+    frame(maxWidth: max, maxHeight: max, alignment: alignment)
   }
 }
 
+// MARK: Task sleep
 extension Task where Success == Never, Failure == Never {
   public static func sleep(seconds: Double) async throws {
     let duration = UInt64(seconds * 1_000_000_000)
@@ -175,6 +264,7 @@ extension Task where Success == Never, Failure == Never {
   }
 }
 
+// MARK: View Container
 public struct If<TrueContent: View, FalseContent: View>: View {
   
   var value: Bool

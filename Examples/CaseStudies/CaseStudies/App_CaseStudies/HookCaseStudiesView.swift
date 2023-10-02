@@ -204,7 +204,7 @@ struct HookCaseStudiesView: View {
       }
     }
     
-    let store = useReducerProtocol(initialState: 0, CountReducer())
+    let store = useReducer(initialState: 0, CountReducer())
     
     let viewStore = ViewStore(store)
     
@@ -705,13 +705,6 @@ private struct ImageMinus: View {
   }
 }
 
-struct HookCaseStudiesView_Previews: PreviewProvider {
-  static var previews: some View {
-    HookScope {
-      HookCaseStudiesView()
-    }
-  }
-}
 #Preview {
   HookScope {
     HookCaseStudiesView()

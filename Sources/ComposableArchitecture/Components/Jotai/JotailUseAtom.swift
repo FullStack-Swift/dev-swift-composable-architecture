@@ -14,7 +14,7 @@ import SwiftUI
 public func useAtomValue<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping (AtomTransactionContext<Void>) -> Node
 ) -> Node {
@@ -34,7 +34,7 @@ public func useAtomValue<Node>(
 public func useAtomValue<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: Node
 ) -> Node {
@@ -54,7 +54,7 @@ public func useAtomValue<Node>(
 public func useAtomState<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping (AtomTransactionContext<Void>) -> Node
 ) -> Binding<Node> {
@@ -74,7 +74,7 @@ public func useAtomState<Node>(
 public func useAtomState<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: Node
 ) -> Binding<Node> {
@@ -94,7 +94,7 @@ public func useAtomState<Node>(
 public func useAtomTask<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping () async -> Node
 ) -> AsyncPhase<Node, Never> {
@@ -114,7 +114,7 @@ public func useAtomTask<Node>(
 public func useAtomTask<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping (AtomTransactionContext<Void>) async -> Node
 ) -> AsyncPhase<Node, Never> {
@@ -134,7 +134,7 @@ public func useAtomTask<Node>(
 public func useAtomThrowingTask<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping () async throws -> Node
 ) -> AsyncPhase<Node, Error> {
@@ -154,7 +154,7 @@ public func useAtomThrowingTask<Node>(
 public func useAtomThrowingTask<Node>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping (AtomTransactionContext<Void>) async throws -> Node
 ) -> AsyncPhase<Node, Error> {
@@ -174,7 +174,7 @@ public func useAtomThrowingTask<Node>(
 public func useAtomPublisher<Node: Combine.Publisher>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: Node
 ) -> AsyncPhase<Node.Output, Node.Failure> {
@@ -194,7 +194,7 @@ public func useAtomPublisher<Node: Combine.Publisher>(
 public func useAtomPublisher<Node: Combine.Publisher>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping (AtomTransactionContext<Void>) -> Node
 ) -> AsyncPhase<Node.Output, Node.Failure> {
@@ -214,7 +214,7 @@ public func useAtomPublisher<Node: Combine.Publisher>(
 public func useAtomRefresher<Node: Combine.Publisher>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping (AtomTransactionContext<Void>) -> Node
 ) -> (phase: AsyncPhase<MPublisherAtom<Node>.Publisher.Output, MPublisherAtom<Node>.Publisher.Failure>, refresher: () -> ()) {
@@ -234,7 +234,7 @@ public func useAtomRefresher<Node: Combine.Publisher>(
 public func useAtomRefresher<Node: ThrowingTaskAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping (AtomTransactionContext<Void>) -> Node
 ) -> (phase: AsyncPhase<MThrowingTaskAtom<Node>.Loader.Success, MThrowingTaskAtom<Node>.Loader.Failure>, refresher: () -> ()) {
@@ -254,7 +254,7 @@ public func useAtomRefresher<Node: ThrowingTaskAtom>(
 public func useAtomRefresher<Node: TaskAtom>(
   fileID: String = #fileID,
   line: UInt = #line,
-  id: String,
+  id: String = "",
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping (AtomTransactionContext<Void>) -> Node
 ) -> (phase: AsyncPhase<MTaskAtom<Node>.Loader.Success, MTaskAtom<Node>.Loader.Failure>, refresher: () -> ()) {

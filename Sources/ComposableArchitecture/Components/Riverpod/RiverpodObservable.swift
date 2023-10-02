@@ -13,7 +13,7 @@ public class RiverpodObservable: BaseObservable {
   }
   
   deinit {
-      print("RiverpodObservable has deinit")
+    log.info("RiverpodObservable has deinit: \(id)")
   }
   
   @discardableResult

@@ -30,10 +30,8 @@ struct RiverpodCaseStudiesView: View {
   }
 }
 
-struct RiverpodCaseStudiesView_Previews: PreviewProvider {
-  static var previews: some View {
-    RiverpodCaseStudiesView()
-  }
+#Preview {
+  RiverpodCaseStudiesView()
 }
 
 class Counter: StateProvider<Int> {

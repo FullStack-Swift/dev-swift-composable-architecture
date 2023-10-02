@@ -3,7 +3,8 @@ import IdentifiedCollections
 public extension IdentifiedArray where Element: Identifiable {
   init(@ArrayBuilder<Element> builder: () -> [Element]) where ID == Element.ID {
     var identifiedArray: IdentifiedArrayOf<Element> = []
-    for value in builder() {
+    let items = builder() // reduce performance
+    for value in items {
       identifiedArray.updateOrAppend(value)
     }
     self = identifiedArray

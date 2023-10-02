@@ -26,6 +26,21 @@ extension Publisher where Self.Failure == Never {
 }
 
 extension Publisher {
+  public func onReceiveValue(_ receiveValue: @escaping () -> ()) -> AnyCancellable {
+    sink { completion in }
+  receiveValue: { _ in
+      receiveValue()
+    }
+  }
+  
+  public func onCompletion(_ receiveCompletion: @escaping () -> ()) -> AnyCancellable {
+    sink { _ in
+      receiveCompletion()
+    } receiveValue: { _ in }
+  }
+}
+
+extension Publisher {
   public func replaceError(
     replace: @escaping (Failure) -> Self.Output
   ) -> AnyPublisher<Self.Output, Never> {

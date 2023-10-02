@@ -231,6 +231,8 @@ extension HookAsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}
 
 extension HookAsyncPhase: Sendable where Success: Sendable {}
 
+public typealias HookPhase<Sucess> = HookAsyncPhase<Sucess, Never>
+
 extension HookAsyncPhase {
   /// Merge AysncPhase
   /// We receive Success and show to the view only If 2 phase is Success.

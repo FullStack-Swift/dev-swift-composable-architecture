@@ -55,7 +55,7 @@ public func useCountDownTimer(
 
 public struct TimerHook {
   
-  public enum TimerPhase {
+  public enum TimerPhase: Equatable {
     case pending
     case start(Double)
     case stop

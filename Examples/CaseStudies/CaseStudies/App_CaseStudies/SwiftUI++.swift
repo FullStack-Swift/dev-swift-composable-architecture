@@ -18,15 +18,11 @@ extension Equatable {
   }
 }
 
-struct _NavigationDependencyKey: DependencyKey {
-  static var liveValue = Store<_NavigationReducer.State, _NavigationReducer.Action>(initialState: .init()) {
-    _NavigationReducer()
-  }
-}
-
 extension DependencyValues {
-  public var navigationPath: StoreOf<_NavigationReducer> {
-    self[_NavigationDependencyKey.self]
+  
+  @DependencyValue
+  public var navigationPath: StoreOf<_NavigationReducer> = Store<_NavigationReducer.State, _NavigationReducer.Action>(initialState: .init()) {
+    _NavigationReducer()
   }
   
   public var pathViewStore: ViewStoreOf<_NavigationReducer> {

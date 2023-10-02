@@ -26,6 +26,10 @@ let package = Package(
       name: "SwiftExt",
       targets: ["SwiftExt"]
     ),
+    .library(
+      name: "ArchitectureExt",
+      targets: ["ArchitectureExt"]
+    ),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-collections", from: "1.0.2"),
@@ -67,6 +71,14 @@ let package = Package(
         .product(name: "IdentifiedCollections", package: "swift-identified-collections"),
       ],
       path: "Sources/SwiftExt"
+    ),
+    .target(
+      name: "ArchitectureExt",
+      dependencies: [
+        "ComposableArchitecture",
+        "SwiftExt"
+      ],
+      path: "Sources/ArchitectureExt"
     ),
     .target(
       name: "UIComponents",
