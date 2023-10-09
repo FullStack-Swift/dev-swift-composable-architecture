@@ -1,3 +1,4 @@
+#if canImport(ComposableArchitecture)
 import ComposableArchitecture
 import SwiftExt
 
@@ -43,3 +44,4 @@ extension Effect {
     Self.concatenate(builder())
   }
 }
+#endif

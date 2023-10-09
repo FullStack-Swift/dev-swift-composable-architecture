@@ -382,4 +382,3 @@ extension Effect {
     }
   }
 }
-

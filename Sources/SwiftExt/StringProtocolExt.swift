@@ -6,7 +6,7 @@ extension StringProtocol {
     uppercased(1)
   }
   
-  public func uppercased(_ maxLength: Int) -> String {
+  public func uppercased(_ maxLength: Int = 1) -> String {
     prefix(maxLength).uppercased() + dropFirst()
   }
   

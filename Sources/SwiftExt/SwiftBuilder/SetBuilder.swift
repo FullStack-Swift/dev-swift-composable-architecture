@@ -2,6 +2,7 @@ import Foundation
 
 @resultBuilder
 public enum SetBuilder<Element> {
+  
   public typealias Component = [Element]
   
   public static func buildBlock() -> Component {

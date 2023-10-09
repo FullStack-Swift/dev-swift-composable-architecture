@@ -8,3 +8,4 @@
 @_exported import SwiftUINavigationCore
 
 @_exported import AsyncAlgorithms
+@_exported import SwiftExt

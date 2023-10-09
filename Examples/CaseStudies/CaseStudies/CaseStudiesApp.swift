@@ -1,7 +1,8 @@
 import SwiftUI
 import Combine
-import ComposableArchitecture
 import SwiftLogger
+
+@_exported import ComposableArchitecture
 
 @main
 struct CaseStudiesApp: App {

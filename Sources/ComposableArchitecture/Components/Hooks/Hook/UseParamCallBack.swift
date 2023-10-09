@@ -1,9 +1,3 @@
-public typealias ParamCallback<Param, R> = (Param) -> R
-
-public typealias ParamAsyncCallback<Param, R> = (Param) async -> R
-
-public typealias ParamThrowingAsyncCallback<Param, R> = (Param) async throws -> R
-
 /// A hook to use a side effect function that is called the number of times according to the strategy specified with `updateStrategy`.
 /// Optionally the function can be cancelled when this hook is disposed or when the side-effect function is called again.
 /// Note that the execution is deferred until after ohter hooks have been updated.

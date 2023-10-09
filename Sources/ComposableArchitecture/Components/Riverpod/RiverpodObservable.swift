@@ -5,6 +5,8 @@ public class RiverpodObservable: BaseObservable {
 
   @Dependency(\.riverpodContext) var context
 
+  var watchProviders: IdentifiedArrayOf<AnyProvider> = .init()
+  
   override init() {
     super.init()
     context.observable.sink { [ weak self] in
@@ -13,7 +15,9 @@ public class RiverpodObservable: BaseObservable {
   }
   
   deinit {
-    log.info("RiverpodObservable has deinit: \(id)")
+    for item in watchProviders {
+      context.unsubscribe(id: id, for: item)
+    }
   }
   
   @discardableResult

@@ -73,7 +73,7 @@ public struct MThrowingTaskAtom<Node>: ThrowingTaskAtom {
 
   public var initialState: (Self.Context) async throws -> Node
   
-  public var _onUpdated: ((Value, Value, MValueAtom.UpdatedContext) -> Void)?
+  internal var _location: AnyLocation<((Value, Value, UpdatedContext) -> Void)?>? = .init(value: nil)
 
   public init(id: String,_ initialState: @escaping (Self.Context) async throws -> Node) {
     self.id = id
@@ -98,12 +98,14 @@ public struct MThrowingTaskAtom<Node>: ThrowingTaskAtom {
   }
 
   public func updated(newValue: Value, oldValue: Value, context: UpdatedContext) {
-    _onUpdated?(newValue, oldValue, context)
+    if let value = _location?.value {
+      value(newValue, oldValue, context)
+    }
   }
   
   @discardableResult
   public mutating func onUpdated(_ onUpdate: @escaping (Value, Value, Self.UpdatedContext) -> Void) -> Self {
-    _onUpdated = onUpdate
+    _location?.value = onUpdate
     return self
   }
   

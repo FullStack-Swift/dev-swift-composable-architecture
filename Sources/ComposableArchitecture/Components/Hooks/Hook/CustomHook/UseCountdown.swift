@@ -3,12 +3,16 @@ import SwiftUI
 import Combine
 
 /// Description
-/// using useState, useEffect.
+/// Create countdown timers using useCountdown.
+/// The useCountdown hook is useful for creating a countdown timer.
+/// By specifying an endTime and various options such as the interval between ticks and callback functions for each tick and completion,
+/// the hook sets up an interval that updates the count and triggers the appropriate callbacks until the countdown reaches zero.
+/// The countdown value is returned, allowing you to easily incorporate and display the countdown in your components.
 /// - Parameters:
-///   - countdown: countdown description
-///   - withTimeInterval: withTimeInterval description
+///   - countdown: The current count of the countdown.
+///   - withTimeInterval: The number of seconds between firings of the timer. If seconds is less than or equal to 0.0, this method chooses the nonnegative value of 0.1 milliseconds instead
 /// - Returns: TimerHook
-public func useCountDownTimer(
+public func useCountdown(
   countdown: Double,
   withTimeInterval: TimeInterval = 0.1
 ) -> TimerHook {
@@ -44,7 +48,7 @@ public func useCountDownTimer(
     play: {
       isAutoCountdown.wrappedValue = true
     },
-    canncel: {
+    cancel: {
       phase.wrappedValue = .cancel
       count.wrappedValue = countdown
       isAutoCountdown.wrappedValue = false
@@ -54,7 +58,16 @@ public func useCountDownTimer(
 }
 
 public struct TimerHook {
-  
+  public let value: Binding<Double>
+  public let isAutoCountdown: Binding<Bool>
+  public var start: () -> ()
+  public var stop: () -> ()
+  public var play: () -> ()
+  public var cancel: () -> ()
+  public var phase: Binding<TimerPhase>
+}
+
+extension TimerHook {
   public enum TimerPhase: Equatable {
     case pending
     case start(Double)
@@ -63,12 +76,4 @@ public struct TimerHook {
     case process(Double)
     case completion
   }
-  
-  public let value: Binding<Double>
-  public let isAutoCountdown: Binding<Bool>
-  public var start: () -> ()
-  public var stop: () -> ()
-  public var play: () -> ()
-  public var canncel: () -> ()
-  public var phase: Binding<TimerPhase>
 }

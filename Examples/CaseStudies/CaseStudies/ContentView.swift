@@ -120,6 +120,17 @@ struct ContentView: View {
             }
           }
           HStack {
+            Text("VIP-Todos")
+            Spacer()
+          }
+          .background(Color.white.opacity(0.0001))
+          .clipShape(Rectangle())
+          .onTapGesture {
+            navigationPath.commit {
+              $0.path.append(.init(id: "VIP-Todos", state: "VIP-Todos"))
+            }
+          }
+          HStack {
             Text("TCA-Todos")
             Spacer()
           }
@@ -234,6 +245,8 @@ struct ContentView: View {
             TCATodoView()
           case "Redux-Todos":
             ReduxTodoView()
+          case "VIP-Todos":
+            VIPTodoView()
           case "MVVM-Todos":
             MVVMTodoView()
           case "MVC-Todos":

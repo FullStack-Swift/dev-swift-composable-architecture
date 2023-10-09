@@ -23,7 +23,7 @@ public struct TodoMacro: ExpressionMacro {
         message: SimpleDiagnosticMessage(
           message: messageString.content.description,
           diagnosticID: MessageID(domain: "TODO", id: messageString.content.description),
-          severity: .note
+          severity: .remark
         )
       )
     )

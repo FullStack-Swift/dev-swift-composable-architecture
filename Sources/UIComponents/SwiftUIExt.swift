@@ -19,6 +19,12 @@ extension MView where Body: View {
 // MARK: Changed view
 extension View {
   
+  /// AnyView allows changing the type of view used in a given view hierarchy. Whenever the type of view used with AnyView changes, SwiftUI destroys old hierarchy and creates a new hierarchy the new type.
+  /// - Returns: AnyView
+  public func eraseToAnyView() -> AnyView {
+    AnyView(self)
+  }
+  
   /// Description
   /// - Parameter mutation: mutation your view
   /// - Returns: Self
@@ -42,8 +48,10 @@ extension View {
   ) -> some View {
     if condition {
       transform(self)
+        .eraseToAnyView()
     } else {
       self
+        .eraseToAnyView()
     }
   }
   
@@ -61,8 +69,10 @@ extension View {
   ) -> some View {
     if condition {
       transform(self)
+        .eraseToAnyView()
     } else {
       `else`(self)
+        .eraseToAnyView()
     }
   }
   
@@ -78,8 +88,10 @@ extension View {
   ) -> some View {
     if let value = value {
       transform(value, self)
+        .eraseToAnyView()
     } else {
       self
+        .eraseToAnyView()
     }
   }
   
@@ -97,8 +109,10 @@ extension View {
   ) -> some View {
     if let value = value {
       transform(value, self)
+        .eraseToAnyView()
     } else {
       `else`(self)
+        .eraseToAnyView()
     }
   }
 }
@@ -253,14 +267,6 @@ extension View {
   /// constraints.
   public func frame(max: CGFloat, alignment: Alignment = .center) -> some View {
     frame(maxWidth: max, maxHeight: max, alignment: alignment)
-  }
-}
-
-// MARK: Task sleep
-extension Task where Success == Never, Failure == Never {
-  public static func sleep(seconds: Double) async throws {
-    let duration = UInt64(seconds * 1_000_000_000)
-    try await Task.sleep(nanoseconds: duration)
   }
 }
 

@@ -77,21 +77,12 @@ public protocol AnyStorageValue {}
 public protocol StorageKey {
   /// The type of the stored value associated with this key type.
   associatedtype Value
+  
+  var defaultValue: Value {get set}
 }
 
-// MARK: DependencyValues + Storage
 extension DependencyValues {
-  public var storage: Storage {
-    get {
-      self[StorageDependencyKey.self]
-    }
-    set {
-      self[StorageDependencyKey.self] = newValue
-    }
-  }
-}
-
-// MARK: StorageDependencyKey
-struct StorageDependencyKey: DependencyKey {
-  static var liveValue = Storage()
+  
+  @DependencyValue
+  public var storage: Storage = Storage()
 }

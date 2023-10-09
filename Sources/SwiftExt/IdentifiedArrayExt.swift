@@ -3,10 +3,7 @@ import IdentifiedCollections
 public extension IdentifiedArray where Element: Identifiable {
   init(@ArrayBuilder<Element> builder: () -> [Element]) where ID == Element.ID {
     var identifiedArray: IdentifiedArrayOf<Element> = []
-    let items = builder() // reduce performance
-    for value in items {
-      identifiedArray.updateOrAppend(value)
-    }
+    identifiedArray.updateOrAppend(builder())
     self = identifiedArray
   }
 }
@@ -35,6 +32,14 @@ public extension IdentifiedArray where Element: Identifiable {
   
   @discardableResult
   mutating func updateOrAppend(_ other: Self) -> Self {
+    for item in other {
+      self.updateOrAppend(item)
+    }
+    return self
+  }
+  
+  @discardableResult
+  mutating func updateOrAppend(_ other: [Element]) -> Self {
     for item in other {
       self.updateOrAppend(item)
     }

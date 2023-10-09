@@ -1,7 +1,7 @@
 import Combine
 import SwiftUI
 
-/// A class that manages list of states of hooks used inside `HookDispatcher.scoped(environment:_)`.
+/// A class that manages list of states of hooks used inside `HookObservable.scoped(environment:_)`.
 public final class HookObservable: ObservableObject {
   internal private(set) static weak var current: HookObservable?
   
@@ -11,7 +11,7 @@ public final class HookObservable: ObservableObject {
   private var records = LinkedList<HookRecordProtocol>()
   private var scopedState: ScopedHookState?
   
-  /// Creates a new `HookDispatcher`.
+  /// Creates a new `HookObservable`.
   public init() {}
   
   deinit {
@@ -97,10 +97,10 @@ public final class HookObservable: ObservableObject {
     }
   }
   
-  /// Executes the given `body` function that needs `HookDispatcher` instance with managing hooks state.
+  /// Executes the given `body` function that needs `HookObservable` instance with managing hooks state.
   /// - Parameters:
   ///   - environment: A environment values that can be used for hooks used inside the `body`.
-  ///   - body: A function that needs `HookDispatcher` and is executed inside.
+  ///   - body: A function that needs `HookObservable` and is executed inside.
   /// - Throws: Rethrows an error if the given function throws.
   /// - Returns: A result value that the given `body` function returns.
   public func scoped<Result>(
@@ -190,8 +190,7 @@ private final class ScopedHookState {
     guard !environment.hooksRulesAssertionDisabled else {
       return
     }
-#if DEBUG
-    assertionFailure(
+    debugAssertionFailure(
             """
             The type of Hooks did not match with the type evaluated in the previous evaluation.
             Previous hook: \(record.hookName)
@@ -201,7 +200,6 @@ private final class ScopedHookState {
             - SeeAlso: https://reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level
             """
     )
-#endif
   }
 }
 
@@ -244,4 +242,11 @@ private protocol HookRecordProtocol {
   func updateState()
   
   func dispose()
+}
+
+/// HookObservable Ext
+extension HookObservable {
+  
+  
+  
 }

@@ -1,7 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
 import MCombineRequest
-import Transform
 import SwiftLogger
 
 // MARK: Model
@@ -281,12 +280,16 @@ struct OnlineHookTodoView: View {
               ProgressView()
           }
         }
-        .onAppear {
-          refresher()
+        .task {
+          Task { @MainActor in
+            try await refresher()
+          }
         }
-        .refreshable(action: {
-          refresher()
-        })
+        .refreshable {
+          Task { @MainActor in
+            try await refresher()
+          }
+        }
         .listStyle(.sidebar)
         .toolbar {
           if filter.wrappedValue == .all {

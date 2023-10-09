@@ -14,7 +14,7 @@
 @discardableResult
 public func useAsync<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
-  _ operation: @escaping () async -> Output
+  _ operation: @escaping AsyncReturn<Output>
 ) -> HookAsyncPhase<Output, Never> {
   useHook(
     AsyncHook(
@@ -38,7 +38,7 @@ public func useAsync<Output>(
 @discardableResult
 public func useAsync<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
-  _ operation: @escaping () async throws -> Output
+  _ operation: @escaping ThrowingAsyncReturn<Output>
 ) -> HookAsyncPhase<Output, Error> {
   useHook(
     AsyncThrowingHook(
@@ -56,11 +56,11 @@ private struct AsyncHook<Output>: Hook {
   
   let updateStrategy: HookUpdateStrategy?
   
-  let operation: () async -> Output
+  let operation: AsyncReturn<Output>
   
   init(
     updateStrategy: HookUpdateStrategy?,
-    operation: @escaping () async -> Output
+    operation: @escaping AsyncReturn<Output>
   ) {
     self.updateStrategy = updateStrategy
     self.operation = operation
@@ -123,11 +123,11 @@ private struct AsyncThrowingHook<Output>: Hook {
   
   let updateStrategy: HookUpdateStrategy?
   
-  let operation: () async throws -> Output
+  let operation: ThrowingAsyncReturn<Output>
   
   init(
     updateStrategy: HookUpdateStrategy?,
-    operation: @escaping () async throws -> Output
+    operation: @escaping ThrowingAsyncReturn<Output>
   ) {
     self.updateStrategy = updateStrategy
     self.operation = operation

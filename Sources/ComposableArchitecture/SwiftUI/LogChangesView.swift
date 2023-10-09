@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension View {
-  public func logRenderUI(
+  public func logChanges(
     fileID: String = #fileID,
     line: UInt = #line,
     _ data: Any? = nil
@@ -15,7 +15,7 @@ extension View {
   }
 }
 
-public struct LogRerenderView: View {
+public struct LogChangesView: View {
   
   let fileID: String
   let line: UInt
@@ -32,7 +32,11 @@ public struct LogRerenderView: View {
   }
   
   public var body: some View {
-    print("⚠️ Re-Render in: \(SourceLocation(fileID: fileID, line: line))")
+    if #available(iOS 15, macOS 12, tvOS 15, watchOS 8, *) {
+      Self._printChanges()
+    } else {
+      print("⚠️ Re-Render in: \(SourceLocation(fileID: fileID, line: line))")
+    }
     if let data {
       print(data)
     }

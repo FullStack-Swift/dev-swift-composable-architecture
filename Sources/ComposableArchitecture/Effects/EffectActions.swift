@@ -24,4 +24,30 @@ extension Effect {
         }
     }
   }
+  
+  @_spi(Internals)
+  public var _actions: AsyncThrowingStream<Action, Error> {
+    switch self.operation {
+      case .none:
+        return .finished(throwing: nil)
+      case let .publisher(publisher):
+        return AsyncThrowingStream { continuation in
+          let cancellable = publisher.sink(
+            receiveCompletion: { _ in continuation.finish() },
+            receiveValue: { continuation.yield($0) }
+          )
+          continuation.onTermination = { _ in
+            cancellable.cancel()
+          }
+        }
+      case let .run(priority, operation):
+        return AsyncThrowingStream { continuation in
+          let task = Task(priority: priority) {
+            await operation(Send { action in continuation.yield(action) })
+            continuation.finish()
+          }
+          continuation.onTermination = { _ in task.cancel() }
+        }
+    }
+  }
 }

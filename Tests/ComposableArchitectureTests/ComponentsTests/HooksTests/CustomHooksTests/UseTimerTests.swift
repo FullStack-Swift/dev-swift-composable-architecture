@@ -7,11 +7,9 @@ final class UseTimerTests: XCTestCase {
   
   func test_use_timer() async {
     let tester = HookTester {
-      useCountDownTimer(countdown: 10)
+      useCountdown(countdown: 10)
     }
-    
     let value = tester.value
-    
     XCTAssertEqual(value.phase.wrappedValue, .pending)
   }
 }

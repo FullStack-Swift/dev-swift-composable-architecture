@@ -42,6 +42,15 @@ public struct ObservableListener {
       .store(in: &viewModel.cancellables)
   }
   
+  public func sink(_ receiveValue: @escaping () async -> Void) {
+    viewModel.observableEvent.sink { action in
+      withTask {
+        await receiveValue()
+      }
+    }
+    .store(in: &viewModel.cancellables)
+  }
+
   public func sink(_ receiveValue: @escaping () async throws -> Void) {
     viewModel.observableEvent.sink { action in
       withTask {
@@ -55,7 +64,11 @@ public struct ObservableListener {
     sink(onAction)
   }
   
-  public func onAction(_ onAction: @escaping ()  async throws -> Void) {
+  public func onAction(_ onAction: @escaping () async -> Void) {
+    sink(onAction)
+  }
+  
+  public func onAction(_ onAction: @escaping () async throws -> Void) {
     sink(onAction)
   }
 }

@@ -10,13 +10,17 @@ let package = Package(
     .iOS(.v14),
     .macOS(.v11),
     .tvOS(.v13),
-    .watchOS(.v6),
+    .watchOS(.v7),
     .visionOS(.v1)
   ],
   products: [
     .library(
       name: "ComposableArchitecture",
       targets: ["ComposableArchitecture"]
+    ),
+    .library(
+      name: "SwiftObservation",
+      targets: ["SwiftObservation"]
     ),
     .library(
       name: "UIComponents",
@@ -62,6 +66,7 @@ let package = Package(
         // MARK: custom
         .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
         "ComposeMacros",
+        "SwiftExt",
       ],
       path: "Sources/ComposableArchitecture"
     ),
@@ -79,6 +84,11 @@ let package = Package(
         "SwiftExt"
       ],
       path: "Sources/ArchitectureExt"
+    ),
+    .target(
+      name: "SwiftObservation",
+      dependencies: [],
+      path: "Sources/SwiftObservation"
     ),
     .target(
       name: "UIComponents",

@@ -1,5 +1,15 @@
 import Foundation
+import SwiftUI
 
-struct JotailProvider {
-  // Nothing todo
+extension EnvironmentValues {
+  
+  @EnvironmentValue
+  var jotailProvider: AtomProvider = .init()
+}
+
+struct AtomProvider {
+  
+  init() {
+    
+  }
 }

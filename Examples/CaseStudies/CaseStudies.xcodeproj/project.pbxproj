@@ -36,13 +36,13 @@
 		EBBC4A412A6A930B0052FD1F /* APIRequestPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */; };
 		EBDA41742AAEAD2B00B6CC68 /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDA41732AAEAD2B00B6CC68 /* SwiftUI++.swift */; };
 		EBDA41772AAEAE3700B6CC68 /* NavigationStackBackport in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41762AAEAE3700B6CC68 /* NavigationStackBackport */; };
+		EBE6FBB52AD78CE700889483 /* ArchitectureExt in Frameworks */ = {isa = PBXBuildFile; productRef = EBE6FBB42AD78CE700889483 /* ArchitectureExt */; };
 		EBF230642A78E231002FA22C /* Json in Frameworks */ = {isa = PBXBuildFile; productRef = EBF230632A78E231002FA22C /* Json */; };
 		EBF60EC12A776CF0001E34D3 /* SwiftUIAdditions in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60EC02A776CF0001E34D3 /* SwiftUIAdditions */; };
 		EBF60EC32A777EB8001E34D3 /* JotailTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF60EC22A777EB8001E34D3 /* JotailTodoView.swift */; };
 		EBF60EC72A778D9C001E34D3 /* CombineRequest in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60EC62A778D9C001E34D3 /* CombineRequest */; };
 		EBF60EC92A778D9C001E34D3 /* CombineSocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60EC82A778D9C001E34D3 /* CombineSocketIO */; };
 		EBF60ECB2A778D9C001E34D3 /* CombineWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60ECA2A778D9C001E34D3 /* CombineWebSocket */; };
-		EBF60ED22A778EE7001E34D3 /* Transform in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60ED12A778EE7001E34D3 /* Transform */; };
 		EBF60ED42A77A15F001E34D3 /* OnlineRecoilTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF60ED32A77A15F001E34D3 /* OnlineRecoilTodoView.swift */; };
 		EBF8F0572A6FAC2400A5961D /* SwiftLogger in Frameworks */ = {isa = PBXBuildFile; productRef = EBF8F0562A6FAC2400A5961D /* SwiftLogger */; };
 /* End PBXBuildFile section */
@@ -91,7 +91,7 @@
 				EBF60EC72A778D9C001E34D3 /* CombineRequest in Frameworks */,
 				EBF60ECB2A778D9C001E34D3 /* CombineWebSocket in Frameworks */,
 				EBF60EC12A776CF0001E34D3 /* SwiftUIAdditions in Frameworks */,
-				EBF60ED22A778EE7001E34D3 /* Transform in Frameworks */,
+				EBE6FBB52AD78CE700889483 /* ArchitectureExt in Frameworks */,
 				87DF96F22A3991C10006B774 /* ComposableArchitecture in Frameworks */,
 				EBDA41772AAEAE3700B6CC68 /* NavigationStackBackport in Frameworks */,
 				EBF60EC92A778D9C001E34D3 /* CombineSocketIO in Frameworks */,
@@ -243,9 +243,9 @@
 				EBF60EC62A778D9C001E34D3 /* CombineRequest */,
 				EBF60EC82A778D9C001E34D3 /* CombineSocketIO */,
 				EBF60ECA2A778D9C001E34D3 /* CombineWebSocket */,
-				EBF60ED12A778EE7001E34D3 /* Transform */,
 				EBF230632A78E231002FA22C /* Json */,
 				EBDA41762AAEAE3700B6CC68 /* NavigationStackBackport */,
+				EBE6FBB42AD78CE700889483 /* ArchitectureExt */,
 			);
 			productName = CaseStudies;
 			productReference = 87DF96DC2A39904F0006B774 /* CaseStudies.app */;
@@ -280,7 +280,6 @@
 				EBF8F0552A6FAC2400A5961D /* XCRemoteSwiftPackageReference "swift-logger" */,
 				EBF60EBF2A776CF0001E34D3 /* XCRemoteSwiftPackageReference "swiftui-additions" */,
 				EBF60EC52A778D9C001E34D3 /* XCRemoteSwiftPackageReference "swift-networking" */,
-				EBF60ED02A778EE7001E34D3 /* XCRemoteSwiftPackageReference "swift-extension" */,
 				EBF230622A78E231002FA22C /* XCRemoteSwiftPackageReference "swift-json" */,
 				EBDA41752AAEAE3700B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */,
 			);
@@ -599,14 +598,6 @@
 				kind = branch;
 			};
 		};
-		EBF60ED02A778EE7001E34D3 /* XCRemoteSwiftPackageReference "swift-extension" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/FullStack-Swift/swift-extension";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		EBF8F0552A6FAC2400A5961D /* XCRemoteSwiftPackageReference "swift-logger" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/FullStack-Swift/swift-logger";
@@ -632,6 +623,10 @@
 			package = EBDA41752AAEAE3700B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */;
 			productName = NavigationStackBackport;
 		};
+		EBE6FBB42AD78CE700889483 /* ArchitectureExt */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ArchitectureExt;
+		};
 		EBF230632A78E231002FA22C /* Json */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EBF230622A78E231002FA22C /* XCRemoteSwiftPackageReference "swift-json" */;
@@ -656,11 +651,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EBF60EC52A778D9C001E34D3 /* XCRemoteSwiftPackageReference "swift-networking" */;
 			productName = CombineWebSocket;
-		};
-		EBF60ED12A778EE7001E34D3 /* Transform */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EBF60ED02A778EE7001E34D3 /* XCRemoteSwiftPackageReference "swift-extension" */;
-			productName = Transform;
 		};
 		EBF8F0562A6FAC2400A5961D /* SwiftLogger */ = {
 			isa = XCSwiftPackageProductDependency;

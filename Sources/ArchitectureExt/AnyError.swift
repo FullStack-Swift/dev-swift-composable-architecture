@@ -24,5 +24,3 @@ extension AnyError: Equatable where Failure: Equatable {}
 extension AnyError: Hashable where Failure: Hashable {}
 
 extension AnyError: Sendable where Failure: Sendable {}
-
-public struct TimeoutError: Error, Equatable {}

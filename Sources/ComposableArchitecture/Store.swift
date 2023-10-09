@@ -911,7 +911,7 @@ extension Store {
 extension Store {
   /// Make key ComposedMiddleware StorageKey
   struct ComposedMiddlewareStorageKey: StorageKey {
-    public typealias Value = ComposedMiddleware<State, Action>
+    var defaultValue = ComposedMiddleware<State, Action>()
   }
 }
 

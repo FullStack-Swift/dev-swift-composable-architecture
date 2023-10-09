@@ -2,7 +2,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-public struct RiverpodContext {
+public class RiverpodContext {
   
   private(set) weak var weakStore: RiverpodStore?
   
@@ -11,8 +11,21 @@ public struct RiverpodContext {
   @ObservableListener
   var observable
   
+  let id = UUID()
+  
+  public var subscribesId: IdentifiedArrayOf<SubscribeId> = .init()
+  
   init() {
     
+  }
+  
+  deinit {
+    guard let weakStore else {
+      return
+    }
+    for item in weakStore.state.value {
+      unsubscribe(id: id, for: item)
+    }
   }
   
   init(weakStore: RiverpodStore? = nil) {
@@ -22,8 +35,28 @@ public struct RiverpodContext {
     .store(in: &cancellables)
   }
   
-  static func scoped(store: RiverpodStore) -> Self {
-    Self.init(weakStore: store)
+  static func scoped(store: RiverpodStore) -> RiverpodContext {
+    RiverpodContext.init(weakStore: store)
+  }
+  
+  func subscribes(ids: [UUID], for item: AnyProvider) {
+    for id in ids {
+      subscribesId.updateOrAppend(SubscribeId(id: id))
+    }
+  }
+  
+  func unsubscribes(ids: [UUID], for item: AnyProvider) {
+    for id in ids {
+      subscribesId.remove(id: id)
+    }
+  }
+  
+  func subscribe(id: UUID, for item: AnyProvider) {
+    subscribes(ids: [id], for: item)
+  }
+  
+  func unsubscribe(id: UUID, for item: AnyProvider) {
+    unsubscribes(ids: [id], for: item)
   }
   
   @discardableResult
@@ -72,9 +105,9 @@ public struct RiverpodContext {
   @discardableResult
   public func binding<Node: ProviderProtocol>(_ node: Node) -> Binding<Node.Value> {
     Binding {
-      read(node)
+      self.read(node)
     } set: { newValue in
-      update(node: node, newValue: newValue)
+      self.update(node: node, newValue: newValue)
     }
   }
   

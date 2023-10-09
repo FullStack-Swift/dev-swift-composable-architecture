@@ -495,7 +495,7 @@ private extension StoreContext {
     }
     
     guard let override = baseOverride as? AtomScopedOverride<Node> else {
-      assertionFailure(
+      debugAssertionFailure(
                 """
                 [Atoms]
                 Detected an illegal override.
@@ -526,7 +526,7 @@ private extension StoreContext {
     }
     
     guard let state = baseState as? AtomState<Node.Coordinator> else {
-      assertionFailure(
+      debugAssertionFailure(
                 """
                 [Atoms]
                 The type of the given atom's value and the state did not match.
@@ -556,7 +556,7 @@ private extension StoreContext {
     }
     
     guard let cache = baseCache as? AtomCache<Node> else {
-      assertionFailure(
+      debugAssertionFailure(
                 """
                 [Atoms]
                 The type of the given atom's value and the cache did not match.

@@ -49,3 +49,9 @@ public macro EnvironmentStorage() = #externalMacro(module: "ComposeMacros", type
 @attached(peer, names: prefixed(DependencyKey_))
 @attached(accessor, names: named(get), named(set))
 public macro DependencyValue() = #externalMacro(module: "ComposeMacros", type: "AttachedMacroDependencyKey")
+
+/// Creates an unique DependencyKey for the variable and adds getters and setters.
+/// The initial value of the variable becomes the default value of the EnvironmentKey.
+@attached(peer, names: prefixed(DependencyKey_))
+@attached(accessor, names: named(get), named(set))
+public macro StorageValue() = #externalMacro(module: "ComposeMacros", type: "AttachedMacroStorageKey")

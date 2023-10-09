@@ -35,6 +35,7 @@ public enum DictionaryBuilder<Key: Hashable, Value> {
     component
   }
 }
+
 public extension Dictionary {
   
   init(@DictionaryBuilder<Key, Value> builder: () -> Dictionary) {

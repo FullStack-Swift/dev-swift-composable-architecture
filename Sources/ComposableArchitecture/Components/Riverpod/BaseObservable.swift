@@ -7,7 +7,7 @@ open class BaseObservable: ObservableObject {
   
   public var cancellables = SetCancellables()
   
-  private var numberRefresh: Int = 0
+  private var count: Int = 0
   
   public let id: UUID = UUID()
   
@@ -17,8 +17,9 @@ open class BaseObservable: ObservableObject {
   public init() {
     observable.sink { [ weak self] in
       guard let self else { return }
-      self.numberRefresh += 1
-      log.warning("numberRefresh: \(numberRefresh) id: \(id)")
+      self.count += 1
+      print(Date())
+      log.warning("printChanges: \(count) id: \(id)")
     }
   }
   
@@ -35,4 +36,9 @@ open class BaseObservable: ObservableObject {
       self.observable.send()
     }
   }
+  
+  public var objectId: String {
+    ObjectIdentifier(self).debugDescription
+  }
+  
 }

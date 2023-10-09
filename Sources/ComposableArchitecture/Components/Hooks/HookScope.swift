@@ -1,5 +1,30 @@
 import SwiftUI
 
+/// Description
+private class _ViewModel: ObservableObject {
+  
+  var disposeAll: (() -> ())?
+  
+  var objectId: String {
+    ObjectIdentifier(self).debugDescription
+  }
+  
+  init() {
+    
+  }
+  
+  deinit {
+    let clone = disposeAll
+    disposeAll = nil
+    Task.init { @MainActor in
+      let duration = UInt64(0.03 * 1_000_000_000)
+      try await Task.sleep(nanoseconds: duration)
+      clone?()
+    }
+  }
+
+}
+
 /// A view that hosts the state of hooks.
 /// All hooks should be called within the evaluation of this view's body.
 /// The state of hooks are hosted by this view, and changes in state will cause re-evaluation the body of this view.
@@ -38,8 +63,12 @@ public struct HookScope<Content: View>: View {
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 private struct HookScopeBody<Content: View>: View {
+  
+  @StateObject 
+  private var viewModel: _ViewModel
+  
   @StateObject
-  private var hookObservable = HookObservable()
+  private var hookObservable: HookObservable
   
   @Environment(\.self)
   private var environment
@@ -48,6 +77,11 @@ private struct HookScopeBody<Content: View>: View {
   
   init(@ViewBuilder _ content: @escaping () -> Content) {
     self.content = content
+    let _vm = _ViewModel()
+    let vm = HookObservable()
+    _vm.disposeAll = vm.disposeAll
+    _viewModel = StateObject(wrappedValue: _vm)
+    _hookObservable = StateObject(wrappedValue: vm)
   }
   
   var body: some View {

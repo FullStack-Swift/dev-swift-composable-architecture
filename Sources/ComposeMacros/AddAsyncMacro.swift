@@ -13,21 +13,16 @@ public struct AddAsyncMacro: PeerMacro {
     
     let signature = functionDecl.signature
     let parameters = signature.parameterClause.parameters
-    if let completion = parameters.last,
-       let completionType = completion.type.as(FunctionTypeSyntax.self)?.parameters.first,
-       let remainPara = FunctionParameterListSyntax(parameters.removingLast()) {
-      
+    if let completion = parameters.last, let completionType = completion.type.as(FunctionTypeSyntax.self)?.parameters.first {
+      let remainPara = FunctionParameterListSyntax(parameters.dropLast())
       let functionArgs = remainPara.map { parameter -> String in
         guard let paraType = parameter.type.as(IdentifierTypeSyntax.self)?.name else { return "" }
         return "\(parameter.firstName): \(paraType)"
       }.joined(separator: ", ")
       
       let calledArgs = remainPara.map { "\($0.firstName): \($0.firstName)" }.joined(separator: ", ")
-      
       return [
           """
-          
-          
           func \(functionDecl.name)(\(raw: functionArgs)) async -> \(completionType) {
             await withCheckedContinuation { continuation in
               self.\(functionDecl.name)(\(raw: calledArgs)) { object in

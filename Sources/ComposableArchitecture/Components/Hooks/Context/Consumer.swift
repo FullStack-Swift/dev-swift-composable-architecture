@@ -30,7 +30,7 @@ public extension HookContext {
 private extension HookContext.Consumer {
   func assertMissingContext() -> some View {
 #if DEBUG
-    assertionFailure(
+    debugAssertionFailure(
             """
             No context value of type \(HookContext.self) found.
             A \(HookContext.self).Provider.init(value:content:) is missing as an ancestor of the consumer.

@@ -1,4 +1,5 @@
 import SwiftUI
+import Observation
 import ComposableArchitecture
 
 struct AsyncFunctions {
@@ -9,14 +10,26 @@ struct AsyncFunctions {
   }
 }
 
-struct ContentView: View {
+@Observable 
+final class Person {
+  var name: String
+  var age: Int
   
+  init(name: String, age: Int) {
+    self.name = name
+    self.age = age
+  }
+}
+
+struct ContentView: View {
+  private var person = Person(name: "Tom", age: 12)
   var body: some View {
     VStack {
       Image(systemName: "globe")
         .imageScale(.large)
         .foregroundColor(.accentColor)
       Text("Hello, world!")
+      observationView
     }
     .padding()
     .onAppear {
@@ -32,9 +45,24 @@ struct ContentView: View {
     .task {
       #mWarning("Add Completion in AsycFunction")
 //      let result = await AsyncFunctions().test(arg1: "Async")
-      #mTodo("Todo")
+//      #mTodo("Todo")
     }
   }
+  
+  var observationView: some View {
+    ObservationView {
+      VStack {
+        Text(person.name)
+        Text("\(person.age)")
+        HStack {
+          Button("+") { person.age += 1 }
+          Button("-") { person.age -= 1 }
+        }
+      }
+      .padding()
+    }
+  }
+  
 }
 
 #Preview {

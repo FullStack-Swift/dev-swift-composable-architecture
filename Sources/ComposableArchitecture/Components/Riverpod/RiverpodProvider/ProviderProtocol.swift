@@ -44,11 +44,15 @@ open class Provider<T>: ProviderProtocol {
   }
 }
 
-public struct AnyProvider: Identifiable, Hashable {
+public class AnyProvider: Identifiable, Hashable {
 
   public var wrapped: any ProviderProtocol
   
   public var id: UUID {wrapped.id}
+  
+  init(wrapped: any ProviderProtocol) {
+    self.wrapped = wrapped
+  }
   
   public static func == (lhs: AnyProvider, rhs: AnyProvider) -> Bool {
     rhs.wrapped.id == lhs.wrapped.id
@@ -57,4 +61,8 @@ public struct AnyProvider: Identifiable, Hashable {
   public func hash(into hasher: inout Hasher) {
     hasher.combine(wrapped)
   }
+}
+
+public struct SubscribeId: Identifiable {
+  public var id: UUID
 }

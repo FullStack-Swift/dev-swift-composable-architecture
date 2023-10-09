@@ -22,7 +22,9 @@ struct ContentView: View {
   @MainActor
   var content: some View {
     HookScope {
-      
+      let _ = useOnLastAppear {
+        print("useOnLastAppear")
+      }
       let count = useRecoilState(MStateAtom(id: id, 0))
       
       let callback = useCallback {
@@ -32,7 +34,7 @@ struct ContentView: View {
       let phase = useRecoilThrowingTask(_recoilValueFamily(count.wrappedValue))
       
       VStack {
-        LogRerenderView()
+        LogChangesView()
         Text(testUnit.description)
         Image(systemName: "globe")
           .imageScale(.large)

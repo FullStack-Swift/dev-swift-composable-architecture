@@ -6,9 +6,9 @@ struct CaseStudiesAppApp: App {
   var body: some Scene {
     WindowGroup {
       AtomRoot {
-        HookScope {
+//        HookScope {
           ContentView()
-        }
+//        }
       }
     }
   }

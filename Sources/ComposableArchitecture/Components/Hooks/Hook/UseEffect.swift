@@ -72,7 +72,9 @@ private struct EffectHook: Hook {
   }
   
   func updateState(coordinator: Coordinator) {
-    coordinator.state.cleanup?()
+    guard !coordinator.state.isDisposed else {
+      return
+    }
     coordinator.state.cleanup = effect()
   }
   
@@ -89,6 +91,7 @@ private extension EffectHook {
     var cleanup: (() -> Void)?
     
     func dispose() {
+      isDisposed = true
       cleanup?()
       cleanup = nil
     }

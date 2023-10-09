@@ -1,7 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
 import MCombineRequest
-import Transform
 import SwiftLogger
 
 // MARK: Model
@@ -31,6 +30,9 @@ private struct Stats: Equatable {
 private let _todosStateAtom = selectorState { context -> IdentifiedArrayOf<Todo> in
   return []
 }
+  .onUpdated { oldValue, newValue, context in
+//    #mTodo("Todo something")
+  }
 
 @MainActor
 private let _filterStateAtom = selectorState { context -> Filter in

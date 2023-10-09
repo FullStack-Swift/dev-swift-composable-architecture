@@ -6,7 +6,7 @@ import ComposableArchitecture
 final class UseLoadMoreHookModelTests: XCTestCase {
   
   // MARK: Test UseLoadMoreHookModel
-  func test_useLoadMoreHookModel() async {
+  func test_useLoadMoreHookModel() async throws {
     let results = ["A", "B", "C"]
     let tester = HookTester {
       let loadmore = useLoadMoreHookModel<String> { page in
@@ -19,21 +19,21 @@ final class UseLoadMoreHookModelTests: XCTestCase {
     
     do {
       // loadFirst
-      tester.value.load()
+      try await tester.value.load()
       await sleep(timeout: 2)
       XCTAssertEqual(tester.value.loadPhase.value, results)
       // loadMore
-      tester.value.loadNext()
+      try await tester.value.loadNext()
       await sleep(timeout: 2)
       let values2: [String] = Array(repeating: results, count: 2).flatMap { $0 }
       XCTAssertEqual(tester.value.loadPhase.value, values2)
       // loadMore
-      tester.value.loadNext()
+      try await tester.value.loadNext()
       await sleep(timeout: 2)
       let values3: [String] = Array(repeating: results, count: 3).flatMap { $0 }
       XCTAssertEqual(tester.value.loadPhase.value, values3)
       // loadFirst
-      tester.value.load()
+      try await tester.value.load()
       await sleep(timeout: 2)
       XCTAssertEqual(tester.value.loadPhase.value, results)
     }

@@ -13,6 +13,9 @@ struct MyPlugin: CompilerPlugin {
     AttachedMacroEnvironmentKey.self,
     AttachedMacroDependencyKey.self,
     EnvironmentStorage.self,
+//    ObservableMacro.self,
+//    ObservationTrackedMacro.self,
+//    ObservationIgnoredMacro.self,
   ]
 }
 #endif

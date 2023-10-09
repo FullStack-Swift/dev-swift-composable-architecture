@@ -6,7 +6,7 @@ import ComposableArchitecture
 final class JotailAtomTests: XCTestCase {
   func test_atom_value() {
     let id = sourceId()
-    let state = atomState { context in
+    let state = atomState(id: id) { context in
       0
     }
     

@@ -11,7 +11,6 @@ import SwiftUI
 ///   - updateStrategy: the Strategy update state.
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
-
 @MainActor
 public func atomValue<Node>(
   fileID: String = #fileID,

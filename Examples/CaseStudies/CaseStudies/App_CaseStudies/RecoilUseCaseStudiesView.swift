@@ -145,7 +145,7 @@ private struct _StateAtomView: HookView {
           VStack {
             let phase = useRecoilTask(updateStrategy: .once, _TaskAatom(id: "1"))
             AsyncPhaseView(phase: phase) { value in
-              logRenderUI(value)
+              logChanges(value)
               Text(value)
                 .lineLimit(nil)
             } suspending: {

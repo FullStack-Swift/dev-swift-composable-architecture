@@ -7,6 +7,13 @@ typealias ColorSchemeContext = HookContext<Binding<ColorScheme>>
 struct HookCaseStudiesView: View {
   var body: some View {
     HookScope {
+      let _ = useOnFistAppear {
+        print("useOnFistAppear")
+      }
+      
+      let _ = useOnLastAppear {
+        print("useOnLastAppear")
+      }
       let colorScheme = useState(useEnvironment(\.colorScheme))
       ColorSchemeContext.Provider(value: colorScheme) {
         ScrollView {
@@ -538,7 +545,7 @@ struct HookCaseStudiesView: View {
               TextValue((error as? ErrorCode)?.title ?? "Error")
               Spacer()
               Button("Random") {
-                phase.perform()
+                withMainTask { try await phase.perform() }
               }
             }
           case .success(let data):
@@ -546,19 +553,19 @@ struct HookCaseStudiesView: View {
               TextValue(data)
               Spacer()
               Button("Random") {
-                phase.perform()
+                withMainTask { try await phase.perform() }
               }
             }
         }
       }
       .frame(height: 68)
       .task {
-        phase.perform()
+        withMainTask { try await phase.perform() }
       }
     }
   }
   private var userTimerView: some View {
-    let timer = useCountDownTimer(countdown: 10, withTimeInterval: 1)
+    let timer = useCountdown(countdown: 10, withTimeInterval: 1)
     return HStack {
       switch timer.phase.wrappedValue {
         case .pending:
@@ -586,7 +593,7 @@ struct HookCaseStudiesView: View {
         timer.play()
       }
       Button("Canncel") {
-        timer.canncel()
+        timer.cancel()
       }
     }
     .padding()
