@@ -75,6 +75,7 @@ private struct EffectHook: Hook {
     guard !coordinator.state.isDisposed else {
       return
     }
+    coordinator.state.cleanup?()
     coordinator.state.cleanup = effect()
   }
   

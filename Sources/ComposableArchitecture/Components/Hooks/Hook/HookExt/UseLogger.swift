@@ -14,7 +14,7 @@ import Foundation
 public func useLogger(
   fileID: String = #fileID,
   line: UInt = #line,
-  _ updateStrategy: HookUpdateStrategy = .once,
+  _ updateStrategy: HookUpdateStrategy? = .once,
   name: String = "",
   _ items: Any...,
   separator: String = " ",
@@ -46,7 +46,7 @@ public func useLogger(
 public func useLogger(
   fileID: String = #fileID,
   line: UInt = #line,
-  _ updateStrategy: HookUpdateStrategy = .once,
+  _ updateStrategy: HookUpdateStrategy? = .once,
   name: () -> String,
   _ items: Any...,
   separator: String = " ",
@@ -72,7 +72,7 @@ private struct LoggerHook: Hook {
   let updateStrategy: HookUpdateStrategy?
   let location: SourceLocation
   var name: String = ""
-  var items: Any
+  var items: [Any]
   var separator: String = " "
   var terminator: String = "\n"
   
@@ -89,7 +89,9 @@ private struct LoggerHook: Hook {
       return
     }
     print(location.sourceId, name)
-    print(items, separator: separator, terminator: terminator)
+    for item in items {
+      print(item, separator: separator, terminator: terminator)
+    }
   }
   
 }

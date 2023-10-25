@@ -50,7 +50,7 @@ public func useDisposeDeffered(
 
 /// A hook to use a side effect function that is called the number of times according to the strategy specified with `updateStrategy`.
 /// Optionally the function can be cancelled when this hook is unmount from the view tree or when the side-effect function is called again.
-/// The signature is identical to `useEffect`, but this fires synchronously when the hook is called.
+/// The signature is identical to `useDispose`, but this fires synchronously when the hook is called.
 ///
 ///     useDispose {
 ///         print("Do side effects")
@@ -71,7 +71,7 @@ public func useDispose(
 
 /// A hook to use a side effect function that is called the number of times according to the strategy specified with `updateStrategy`.
 /// Optionally the function can be cancelled when this hook is unmount from the view tree or when the side-effect function is called again.
-/// The signature is identical to `useEffect`, but this fires synchronously when the hook is called.
+/// The signature is identical to `useDispose`, but this fires synchronously when the hook is called.
 ///
 ///     useDispose {
 ///         print("Do side effects")

@@ -43,3 +43,7 @@ public extension Dictionary {
   }
   
 }
+
+public func dictionaryBuilder<Key: Hashable, Value>(@DictionaryBuilder<Key, Value> builder: () -> Dictionary<Key, Value>) -> Dictionary<Key, Value> {
+  builder()
+}

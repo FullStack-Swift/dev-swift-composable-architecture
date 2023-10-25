@@ -1,88 +1,127 @@
 import SwiftUI
 import Combine
-import ComposableArchitecture
 
 typealias ColorSchemeContext = HookContext<Binding<ColorScheme>>
 
 struct HookCaseStudiesView: View {
   var body: some View {
-    HookScope {
-      let _ = useOnFistAppear {
-        print("useOnFistAppear")
-      }
-      
-      let _ = useOnLastAppear {
-        print("useOnLastAppear")
-      }
-      let colorScheme = useState(useEnvironment(\.colorScheme))
-      ColorSchemeContext.Provider(value: colorScheme) {
-        ScrollView {
-          VStack {
-            Group {
-              HookTitleView(title: "useState UseCase")
-              useStateView
-              useSetStateView
-              useBindingStateView
-            }
-            Group {
-              HookTitleView(title: "useReducer UseCase")
-              useReducerReduxView
-              useReducerTCAView
-              useReducerProtocolView
-            }
-            
-            Group {
-              HookTitleView(title: "usePublisher UseCase")
-              usePublisherView
-              usePublisherSubscribeView
-            }
-            
-            Group {
-              HookTitleView(title: "useAsync UseCase")
-              useAsyncView
-              useAsyncPerformView
-            }
-            
-            Group {
-              Group {
-                HookTitleView(title: "useRef UseCase")
-                useRefView
-                HookTitleView(title: "useMemo UseCase")
-                useMemoView
-              }
-              Group {
-                HookTitleView(title: "useEffect UseCase")
-                useEffectView
-                HookTitleView(title: "useLayoutEffect UseCase")
-                useLayoutEffectView
-              }
-              HookTitleView(title: "useEnvironment UseCase")
-              useEnvironmentView
-              HookTitleView(title: "useContext UseCase")
-              useContextView
-              HookTitleView(title: "userTimerView UseCase")
-              userTimerView
-            }
-          }
+    Form {
+      Section(header: Text("Use Case")) {
+        NavigationLink("Hook-Lifecycle") {
+          HookLifecycleView()
         }
-#if os(iOS)
-        .background(Color(.systemBackground).ignoresSafeArea())
-        .navigationBarTitle(Text("Hook"), displayMode: .inline)
-#endif
+        
+        NavigationLink("Hook-UseCountDown") {
+          HookUseCountDownView()
+        }
+        
+        NavigationLink("Hook-UseInitalAndDispose") {
+          HookUseInitalAndDisposeView()
+        }
+        
+        NavigationLink("Hook-UseLoadMore") {
+          HookLoadMoreView()
+        }
+        
+        NavigationLink("Hook-UseDate") {
+          HookUseDateView()
+        }
+        
+        NavigationLink("Hook-UseMemo") {
+          HookUseMemoView()
+        }
+        
+        NavigationLink("Hook-UseAsync") {
+          HookUseAsyncView()
+        }
+               
+        NavigationLink("Hook-UseEnvironment") {
+          HookUseEnvironmentView()
+        }
+        
+        NavigationLink("Hook-UseState") {
+          HookUseStateView()
+        }
       }
-      .colorScheme(colorScheme.wrappedValue)
     }
+    .navigationTitle("Hook")
+//    HookScope {
+//      let _ = useOnFistAppear {
+//        print("useOnFistAppear")
+//      }
+//      
+//      let _ = useOnLastAppear {
+//        print("useOnLastAppear")
+//      }
+//      let colorScheme = useState(useEnvironment(\.colorScheme))
+//      ColorSchemeContext.Provider(value: colorScheme) {
+//        ScrollView {
+//          VStack {
+//            Group {
+//              HookTitleView(title: "useState UseCase")
+//              useStateView
+//              useSetStateView
+//              useBindingStateView
+//            }
+//            Group {
+//              HookTitleView(title: "useReducer UseCase")
+//              useReducerReduxView
+//              useReducerTCAView
+//              useReducerProtocolView
+//            }
+//            
+//            Group {
+//              HookTitleView(title: "usePublisher UseCase")
+//              usePublisherView
+//              usePublisherSubscribeView
+//            }
+//            
+//            Group {
+//              HookTitleView(title: "useAsync UseCase")
+//              useAsyncView
+//              useAsyncPerformView
+//            }
+//            
+//            Group {
+//              Group {
+//                HookTitleView(title: "useRef UseCase")
+//                useRefView
+//                HookTitleView(title: "useMemo UseCase")
+//                useMemoView
+//              }
+//              Group {
+//                HookTitleView(title: "useEffect UseCase")
+//                useEffectView
+//                HookTitleView(title: "useLayoutEffect UseCase")
+//                useLayoutEffectView
+//              }
+//              HookTitleView(title: "useEnvironment UseCase")
+//              useEnvironmentView
+//              HookTitleView(title: "useContext UseCase")
+//              useContextView
+//              HookTitleView(title: "userTimerView UseCase")
+//              userTimerView
+//            }
+//          }
+//        }
+//#if os(iOS)
+//        .background(Color(.systemBackground).ignoresSafeArea())
+//        .navigationBarTitle(Text("Hook"), displayMode: .inline)
+//#endif
+//      }
+//      .colorScheme(colorScheme.wrappedValue)
+//    }
     //    .disableHooksRulesAssertion(true)
   }
   
-  private var useStateView: some View {
-    let state = useState(0)
-    return HookRowView("useState") {
-      Stepper(value: state) {
-        HookRowTextValue(state.wrappedValue)
-      }
-    }
-  }
+//  private var useStateView: some View {
+//    let state = useState(0)
+//    return HookRowView("useState") {
+//      Stepper(value: state) {
+//        HookRowTextValue(state.wrappedValue)
+//      }
+//    }
+//  }
   
   private var useBindingStateView: some View {
     let state = useBindingState(0)
@@ -397,22 +436,22 @@ struct HookCaseStudiesView: View {
     }
   }
   
-  private var useEnvironmentView: some View {
-    HookScope {
-      let locale = useEnvironment(\.locale)
-      let presentation = useEnvironment(\.presentationMode)
-      return HookRowView("useEnvironment") {
-        TextValue("Current Locale = \(locale.identifier)")
-          .frame(height: 60)
-        Spacer()
-        Button {
-          presentation.wrappedValue.dismiss()
-        } label: {
-          Text("Dismiss")
-        }
-      }
-    }
-  }
+//  private var useEnvironmentView: some View {
+//    HookScope {
+//      let locale = useEnvironment(\.locale)
+//      let presentation = useEnvironment(\.presentationMode)
+//      return HookRowView("useEnvironment") {
+//        TextValue("Current Locale = \(locale.identifier)")
+//          .frame(height: 60)
+//        Spacer()
+//        Button {
+//          presentation.wrappedValue.dismiss()
+//        } label: {
+//          Text("Dismiss")
+//        }
+//      }
+//    }
+//  }
   
   //  var usePublisherView: some View {
   //    let phase = usePublisher(.once) {
@@ -564,40 +603,40 @@ struct HookCaseStudiesView: View {
       }
     }
   }
-  private var userTimerView: some View {
-    let timer = useCountdown(countdown: 10, withTimeInterval: 1)
-    return HStack {
-      switch timer.phase.wrappedValue {
-        case .pending:
-          Text("Pending")
-        case .start(let value):
-          Text(Int(value).description)
-        case .stop:
-          Text("Stop")
-        case .cancel:
-          Text("Cancel")
-        case .process(let value):
-          Text(Int(value).description)
-        case .completion:
-          Text("Completion")
-          
-      }
-      Spacer()
-      Button("Start") {
-        timer.start()
-      }
-      Button("Stop") {
-        timer.stop()
-      }
-      Button("Play") {
-        timer.play()
-      }
-      Button("Canncel") {
-        timer.cancel()
-      }
-    }
-    .padding()
-  }
+//  private var userTimerView: some View {
+//    let timer = useCountdown(countdown: 10, withTimeInterval: 1)
+//    return HStack {
+//      switch timer.phase.wrappedValue {
+//        case .pending:
+//          Text("Pending")
+//        case .start(let value):
+//          Text(Int(value).description)
+//        case .stop:
+//          Text("Stop")
+//        case .cancel:
+//          Text("Cancel")
+//        case .process(let value):
+//          Text(Int(value).description)
+//        case .completion:
+//          Text("Completion")
+//          
+//      }
+//      Spacer()
+//      Button("Start") {
+//        timer.start()
+//      }
+//      Button("Stop") {
+//        timer.stop()
+//      }
+//      Button("Play") {
+//        timer.play()
+//      }
+//      Button("Canncel") {
+//        timer.cancel()
+//      }
+//    }
+//    .padding()
+//  }
 }
 
 

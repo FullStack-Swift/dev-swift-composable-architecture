@@ -32,3 +32,13 @@ public func usePhaseDate() -> HookAsyncPhase<Date, Never> {
       .prepend(Date())
   }
 }
+
+/// Description
+/// - Returns: AsyncPhase
+public func usePhaseDate(date: Date) -> HookAsyncPhase<Date, Never> {
+  usePublisher(.once) {
+    Timer.publish(every: 1, on: .main, in: .common)
+      .autoconnect()
+      .prepend(date)
+  }
+}

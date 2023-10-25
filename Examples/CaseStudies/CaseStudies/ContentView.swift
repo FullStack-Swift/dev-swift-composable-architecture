@@ -1,7 +1,6 @@
 import SwiftUI
-import ComposableArchitecture
 
-private extension DateFormatter {
+extension DateFormatter {
   static let time: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .none
@@ -22,85 +21,56 @@ struct ContentView: View {
       Form {
         Section(header: Text("Test")) {
           HookScope {
-            if let date = useDate() {
-              HStack {
-                Text(DateFormatter.time.string(from: date))
-                Spacer()
-              }
-              .background(Color.white.opacity(0.0001))
-              .clipShape(Rectangle())
-              .onTapGesture {
+            Text("Test New Feature")
+              .alignment(horizontal: .leading)
+              .onTap {
                 navigationPath.commit {
                   $0.path.append(.init(id: "APIRequestPage", state: "APIRequestPage"))
                 }
               }
-            }
+            
           }
         }
         
         Section(header: Text("Getting started")) {
-          HStack {
-            Text("TCA-CaseStudies")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
-            navigationPath.commit {
-              $0.path.append(.init(id: "TCA-CaseStudies", state: "TCA_NavigationView"))
+          
+          CaseStudyCell("TCA-CaseStudies")
+            .onTap {
+              navigationPath.commit {
+                $0.path.append(.init(id: "TCA-CaseStudies", state: "TCA_NavigationView"))
+              }
             }
-          }
-          HStack {
-            Text("Hooks-CaseStudies")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+          
+          CaseStudyCell("Hooks-CaseStudies")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "Hooks-CaseStudies", state: "Hooks_NavigationView"))
             }
           }
-          HStack {
-            Text("Atoms-CaseStudies")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+
+          CaseStudyCell("Atoms-CaseStudies")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "Atoms-CaseStudies", state: "Atoms_NavigationView"))
             }
           }
-          HStack {
-            Text("Recoil-CaseStudies")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+
+          CaseStudyCell("Recoil-CaseStudies")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "Recoil-CaseStudies", state: "Recoil_NavigationView"))
             }
           }
-          HStack {
-            Text("Jotail-CaseStudies")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+
+          CaseStudyCell("Jotail-CaseStudies")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "Jotail-CaseStudies", state: "Jotail_NavigationView"))
             }
           }
-          HStack {
-            Text("Riverpod-CaseStudies")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+
+          CaseStudyCell("Riverpod-CaseStudies")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "Riverpod-CaseStudies", state: "Riverpod_NavigationView"))
             }
@@ -108,59 +78,37 @@ struct ContentView: View {
         }
         
         Section(header: Text("Todo - Architecture")) {
-          HStack {
-            Text("Redux-Todos")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+          
+          CaseStudyCell("Redux-Todos")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "Redux-Todos", state: "Redux-Todos"))
             }
           }
-          HStack {
-            Text("VIP-Todos")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+
+          CaseStudyCell("VIP-Todos")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "VIP-Todos", state: "VIP-Todos"))
             }
           }
-          HStack {
-            Text("TCA-Todos")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+
+          CaseStudyCell("TCA-Todos")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "TCA-Todos", state: "TCA-Todos"))
             }
           }
-          
-          HStack {
-            Text("MVVM-Todos")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+
+          CaseStudyCell("MVVM-Todos")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "MVVM-Todos", state: "MVVM-Todos"))
             }
           }
           
-          HStack {
-            Text("MVC-Todos")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+          CaseStudyCell("MVC-Todos")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "MVC-Todos", state: "MVC-Todos"))
             }
@@ -168,57 +116,37 @@ struct ContentView: View {
         }
         
         Section(header: Text("Todos - Components")) {
-          HStack {
-            Text("Hooks-Todos")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+
+          CaseStudyCell("Hooks-Todos")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "Hooks-Todos", state: "Hooks-Todos"))
             }
           }
-          HStack {
-            Text("Atoms-Todos")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+
+          CaseStudyCell("Atoms-Todos")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "Atoms-Todos", state: "Atoms-Todos"))
             }
           }
-          HStack {
-            Text("Recoil-Todos")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+
+          CaseStudyCell("Recoil-Todos")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "Recoil-Todos", state: "Recoil-Todos"))
             }
           }
-          HStack {
-            Text("Jotail-Todos")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+          
+          CaseStudyCell("Jotail-Todos")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "Jotail-Todos", state: "Jotail-Todos"))
             }
           }
-          HStack {
-            Text("Riverpod-Todos")
-            Spacer()
-          }
-          .background(Color.white.opacity(0.0001))
-          .clipShape(Rectangle())
-          .onTapGesture {
+
+          CaseStudyCell("Riverpod-Todos")
+          .onTap {
             navigationPath.commit {
               $0.path.append(.init(id: "Riverpod-Todos", state: "Riverpod-Todos"))
             }
@@ -228,6 +156,7 @@ struct ContentView: View {
       .navigationTitle(Text("CaseStudies"))
       ._navigationDestination(for: _Destination.self) { destination in
         switch destination.id {
+            // MARK: - CaseStudies
           case "TCA-CaseStudies":
             TCACaseStudiesView()
           case "Hooks-CaseStudies":
@@ -275,4 +204,38 @@ struct ContentView: View {
 
 #Preview {
   ContentView()
+}
+
+struct CaseStudyCell: View {
+  
+  let title: String
+  
+  var onTap: MTapGesture?
+  
+  
+  init(title: String, onTap: MTapGesture? = nil) {
+    self.title = title
+    self.onTap = onTap
+  }
+  
+  init(_ title: String, onTap: MTapGesture? = nil) {
+    self.title = title
+    self.onTap = onTap
+  }
+  
+  var body: some View {
+    Text(title)
+      .alignment(.leading)
+      .if(onTap != nil) {
+        $0.onTap {
+          onTap?()
+        }
+      }
+  }
+  
+  func onTap( _ onTap: MTapGesture?) -> some View {
+    with {
+      $0.onTap = onTap
+    }
+  }
 }

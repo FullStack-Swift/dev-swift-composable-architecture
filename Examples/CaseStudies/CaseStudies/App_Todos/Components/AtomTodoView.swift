@@ -1,6 +1,5 @@
 import SwiftUI
 import ComposableArchitecture
-import SwiftUIViewModifier
 
 // MARK: Model
 private struct Todo: Hashable, Identifiable {

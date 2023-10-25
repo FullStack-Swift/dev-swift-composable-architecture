@@ -93,7 +93,6 @@ public struct _NavigationReducer: Reducer {
       return lhs.id == rhs.id && ((lhs.state?.equals(rhs.state)) != nil)
     }
     
-    
     public var id: String = UUID().uuidString
     
     public var state: (any Equatable)?
@@ -117,7 +116,7 @@ public struct _NavigationReducer: Reducer {
   }
   
   public var body: some ReducerOf<Self> {
-    Reduce<State, Action>({ state, action in
+    Reduce { state, action in
       switch action {
         case .set(let stack):
           state.path = stack
@@ -135,6 +134,6 @@ public struct _NavigationReducer: Reducer {
           break
       }
       return .none
-    })
+    }
   }
 }

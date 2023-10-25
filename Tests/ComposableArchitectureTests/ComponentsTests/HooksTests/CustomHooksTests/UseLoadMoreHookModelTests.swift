@@ -10,7 +10,7 @@ final class UseLoadMoreHookModelTests: XCTestCase {
     let results = ["A", "B", "C"]
     let tester = HookTester {
       let loadmore = useLoadMoreHookModel<String> { page in
-        try await Task.sleep(nanoseconds: 1_000_000_000)
+        try await Task.sleep(seconds: 1)
         let pagedResponse = PagedResponse(page: page, totalPages: 100, results: ["A", "B", "C"])
         return pagedResponse
       }

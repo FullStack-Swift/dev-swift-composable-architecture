@@ -67,6 +67,7 @@ let package = Package(
         .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
         "ComposeMacros",
         "SwiftExt",
+        "UIComponents",
       ],
       path: "Sources/ComposableArchitecture"
     ),
@@ -93,7 +94,7 @@ let package = Package(
     .target(
       name: "UIComponents",
       dependencies: [
-        
+        "SwiftExt",
       ],
       path: "Sources/UIComponents"
     ),

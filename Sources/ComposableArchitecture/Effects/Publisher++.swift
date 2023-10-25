@@ -85,6 +85,37 @@ extension CurrentValueSubject {
   }
 }
 
+public extension Publisher {
+  /// Convert this publisher into an `AsyncThrowingStream` that
+  /// can be iterated over asynchronously using `for try await`.
+  /// The stream will yield each output value produced by the
+  /// publisher and will finish once the publisher completes.
+  var valuesAsync: AsyncThrowingStream<Output, Error> {
+    AsyncThrowingStream { continuation in
+      var cancellable: AnyCancellable?
+      let onTermination = { cancellable?.cancel() }
+      
+      continuation.onTermination = { @Sendable _ in
+        onTermination()
+      }
+      
+      cancellable = sink(
+        receiveCompletion: { completion in
+          switch completion {
+            case .finished:
+              continuation.finish()
+            case .failure(let error):
+              continuation.finish(throwing: error)
+          }
+        }, receiveValue: { value in
+          continuation.yield(value)
+        }
+      )
+    }
+  }
+}
+
+
 extension Publisher where Failure == Never {
   /// Converts publisher to AsyncSequence
   public var valuesAsync: any AsyncSequence {

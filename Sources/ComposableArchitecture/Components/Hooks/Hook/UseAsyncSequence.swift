@@ -62,7 +62,7 @@ public func useAsyncSequence<Output>(
 ///   - operation: A closure that produces a resulting value asynchronously.
 /// - Returns: A most recent async phase.
 @discardableResult
-public func useAsyncSequence<Output>(
+public func useAsyncThrowingSequence<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: AsyncThrowingStream<Output, any Error>
 ) -> HookAsyncPhase<Output, any Error> {
@@ -86,7 +86,7 @@ public func useAsyncSequence<Output>(
 ///   - operation: A closure that produces a resulting value asynchronously.
 /// - Returns: A most recent async phase.
 @discardableResult
-public func useAsyncSequence<Output>(
+public func useAsyncThrowingSequence<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: () -> AsyncThrowingStream<Output, any Error>
 ) -> HookAsyncPhase<Output, any Error> {

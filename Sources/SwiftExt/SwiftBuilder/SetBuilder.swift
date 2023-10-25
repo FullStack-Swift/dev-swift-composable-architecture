@@ -46,4 +46,8 @@ public extension Set {
   
 }
 
+public func setBuilder<Element>(@SetBuilder<Element> builder: () -> Set<Element>) -> Set<Element> {
+  builder()
+}
+
 

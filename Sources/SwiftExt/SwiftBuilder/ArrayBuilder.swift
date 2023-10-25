@@ -46,4 +46,6 @@ public extension Array {
   
 }
 
-
+public func arrayBuilder<Element>(@ArrayBuilder<Element> builder: () -> [Element]) -> [Element] {
+  builder()
+}

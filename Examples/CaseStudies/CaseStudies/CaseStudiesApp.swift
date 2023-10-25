@@ -3,6 +3,8 @@ import Combine
 import SwiftLogger
 
 @_exported import ComposableArchitecture
+@_exported import SwiftLogger
+@_exported import Json
 
 @main
 struct CaseStudiesApp: App {

@@ -21,25 +21,3 @@ struct Pair<T: Equatable>: Equatable {
   let first: T
   let second: T
 }
-
-public actor AsyncThrowingStreamPipe<Element> {
-  private(set) var stream: AsyncThrowingStream<Element, Error>
-  private(set) var continuation: AsyncThrowingStream<Element, Error>.Continuation!
-  
-  public init() {
-    (stream, continuation) = Self.pipe()
-  }
-  
-  public func reset() {
-    (stream, continuation) = Self.pipe()
-  }
-  
-  public static func pipe() -> (
-    AsyncThrowingStream<Element, Error>,
-    AsyncThrowingStream<Element, Error>.Continuation
-  ) {
-    var continuation: AsyncThrowingStream<Element, Error>.Continuation!
-    let stream = AsyncThrowingStream { continuation = $0 }
-    return (stream, continuation)
-  }
-}

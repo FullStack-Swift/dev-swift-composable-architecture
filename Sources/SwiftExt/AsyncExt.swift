@@ -39,4 +39,3 @@ public func withMainTask<Success>(
     return await fn()
   }
 }
-

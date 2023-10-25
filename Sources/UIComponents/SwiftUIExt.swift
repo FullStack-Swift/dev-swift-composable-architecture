@@ -5,13 +5,22 @@ public typealias MTapGesture = () -> Void
 
 public typealias MCompletion<T> = (T) -> Void
 
+/// Description: A custom parameter attribute that constructs views from closures.
+/// - Parameter _: _ view content
+/// - Returns: You typically use ViewBuilder as a parameter attribute for child view-producing closure parameters, allowing those closures to provide multiple child views. For example, the following contextMenu function accepts a closure that produces one or more views via the view builder.
+
+public func viewBuilder<Content: View>( @ViewBuilder _ builder: () -> Content) -> some View {
+  builder()
+    .eraseToAnyView()
+}
+
 public protocol MView: View {
   
   @ViewBuilder var anyBody: any View { get }
 }
 
 extension MView where Body: View {
-  var body: some View {
+  public var body: some View {
     AnyView(anyBody)
   }
 }
@@ -142,7 +151,6 @@ extension View {
       }
     }
   }
-  
 }
 
 // MARK: onTap

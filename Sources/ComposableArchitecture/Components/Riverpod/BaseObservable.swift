@@ -31,7 +31,7 @@ open class BaseObservable: ObservableObject {
   }
   
   public func refresh() {
-    withMainAsync {
+    mainAsync {
       self.objectWillChange.send()
       self.observable.send()
     }

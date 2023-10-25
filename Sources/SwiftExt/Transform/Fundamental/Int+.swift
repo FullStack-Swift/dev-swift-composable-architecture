@@ -25,4 +25,7 @@ public extension Int {
     return UInt(self)
   }
   
+  func toNano() -> Double {
+    self.toDouble()/1_000_000_000
+  }
 }
