@@ -57,14 +57,29 @@ public extension MBackport where Content: View {
   }
   
   @ViewBuilder
-  func valueChanged<T: Equatable>(value: T, onChange: @escaping (T) -> Void) -> some View {
+  func focused() -> some View {
+    if #available(iOS 15.0, *) {
+      self.content.modifier(TextFieldFocused())
+    } else {
+      self.content
+    }
+  }
+  
+  @ViewBuilder
+  func onChange<V>(of value: V, perform: @escaping (V) -> Void) -> some View where V: Equatable {
     if #available(iOS 14.0, tvOS 14.0, macOS 11.0, watchOS 7.0, *) {
-      content.onChange(of: value, perform: onChange)
+      content.onChange(of: value, perform: perform)
     } else {
       content.onReceive(Just(value)) { value in
-        onChange(value)
+        perform(value)
       }
     }
+  }
+
+  
+  @ViewBuilder
+  func onChange<V>(of value: V, _ action: @escaping (_ oldValue: V, _ newValue: V) -> Void) -> some View where V: Equatable {
+    content.modifier(ChangeModifier(value: value, action: action))
   }
 }
 
@@ -85,6 +100,46 @@ private struct TaskModifier: ViewModifier {
       .onDisappear {
         task?.cancel()
         task = nil
+      }
+  }
+}
+
+@available(iOS 15.0, *)
+private struct TextFieldFocused: ViewModifier {
+  
+  @FocusState private var focused: Bool
+  
+  init() {
+    self.focused = false
+  }
+  
+  func body(content: Content) -> some View {
+    content
+      .focused($focused)
+      .onAppear {
+        focused = true
+      }
+  }
+}
+
+private struct ChangeModifier<Value: Equatable>: ViewModifier {
+  let value: Value
+  let action: (Value, Value) -> Void
+  
+  @State var oldValue: Value?
+  
+  init(value: Value, action: @escaping (Value, Value) -> Void) {
+    self.value = value
+    self.action = action
+    _oldValue = .init(initialValue: value)
+  }
+  
+  func body(content: Content) -> some View {
+    content
+      .onReceive(Just(value)) { newValue in
+        guard newValue != oldValue else { return }
+        action(oldValue ?? newValue, newValue)
+        oldValue = newValue
       }
   }
 }

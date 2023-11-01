@@ -286,13 +286,13 @@ public struct If<TrueContent: View, FalseContent: View>: View {
   let falseContent: () -> FalseContent
   
   public init(
-    value: Bool,
-    @ViewBuilder trueContent: @escaping () -> TrueContent,
-    @ViewBuilder falseContent: @escaping () -> FalseContent
+    _ value: Bool,
+    @ViewBuilder `true`: @escaping () -> TrueContent,
+    @ViewBuilder `false`: @escaping () -> FalseContent
   ) {
     self.value = value
-    self.trueContent = trueContent
-    self.falseContent = falseContent
+    self.trueContent = `true`
+    self.falseContent = `false`
   }
   
   @ViewBuilder
@@ -361,7 +361,7 @@ public struct IfTrue<Content: View>: View {
   var value: Bool
   let content: () -> Content
   
-  public init(value: Bool = true, @ViewBuilder content: @escaping () -> Content) {
+  public init(_ value: Bool = true, @ViewBuilder content: @escaping () -> Content) {
     self.value = value
     self.content = content
   }
@@ -377,7 +377,7 @@ public struct IfFalse<Content: View>: View {
   var value: Bool
   let content: () -> Content
   
-  public init(value: Bool = false, @ViewBuilder content: @escaping () -> Content) {
+  public init(_ value: Bool = false, @ViewBuilder content: @escaping () -> Content) {
     self.value = value
     self.content = content
   }

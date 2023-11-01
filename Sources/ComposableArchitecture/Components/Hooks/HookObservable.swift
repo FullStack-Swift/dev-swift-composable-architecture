@@ -247,6 +247,4 @@ private protocol HookRecordProtocol {
 /// HookObservable Ext
 extension HookObservable {
   
-  
-  
 }

@@ -22,11 +22,11 @@ struct HookLifecycleView: View {
           }
         }
         
-        hOnAppear {
+        let _ = hOnAppear {
           print("hOnAppear")
         }
         
-        hOnDisAppear {
+        let _ = hOnDisAppear {
           print("hOnDisAppear")
         }
         

@@ -46,6 +46,7 @@
 		EBDCE14F2AF0E599008AF97D /* HookUseAsyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE14E2AF0E599008AF97D /* HookUseAsyncView.swift */; };
 		EBDCE1512AF0E5E2008AF97D /* HookUseEnvironmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE1502AF0E5E2008AF97D /* HookUseEnvironmentView.swift */; };
 		EBDCE1532AF0E608008AF97D /* HookUseStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE1522AF0E608008AF97D /* HookUseStateView.swift */; };
+		EBDCE1562AF229A0008AF97D /* UIComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE1552AF229A0008AF97D /* UIComponentView.swift */; };
 		EBE6FBB52AD78CE700889483 /* ArchitectureExt in Frameworks */ = {isa = PBXBuildFile; productRef = EBE6FBB42AD78CE700889483 /* ArchitectureExt */; };
 		EBF230642A78E231002FA22C /* Json in Frameworks */ = {isa = PBXBuildFile; productRef = EBF230632A78E231002FA22C /* Json */; };
 		EBF60EC12A776CF0001E34D3 /* SwiftUIAdditions in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60EC02A776CF0001E34D3 /* SwiftUIAdditions */; };
@@ -97,6 +98,7 @@
 		EBDCE14E2AF0E599008AF97D /* HookUseAsyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseAsyncView.swift; sourceTree = "<group>"; };
 		EBDCE1502AF0E5E2008AF97D /* HookUseEnvironmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseEnvironmentView.swift; sourceTree = "<group>"; };
 		EBDCE1522AF0E608008AF97D /* HookUseStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseStateView.swift; sourceTree = "<group>"; };
+		EBDCE1552AF229A0008AF97D /* UIComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIComponentView.swift; sourceTree = "<group>"; };
 		EBF60EC22A777EB8001E34D3 /* JotailTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotailTodoView.swift; sourceTree = "<group>"; };
 		EBF60ED32A77A15F001E34D3 /* OnlineRecoilTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineRecoilTodoView.swift; sourceTree = "<group>"; };
 		EBF60ED52A77A407001E34D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */,
+				EBDCE1552AF229A0008AF97D /* UIComponentView.swift */,
 			);
 			path = Examples;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 				EBDCE1532AF0E608008AF97D /* HookUseStateView.swift in Sources */,
 				EBB036EE2A7A2F4F0091B953 /* OnlineRiverpodTodoview.swift in Sources */,
 				90FDE91D2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift in Sources */,
+				EBDCE1562AF229A0008AF97D /* UIComponentView.swift in Sources */,
 				87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */,
 				87647C862A42C932009BD13F /* RecoilUseCaseStudiesView.swift in Sources */,
 				90ACBBB82A4B4EE10041D7E2 /* RiverpodTodoView.swift in Sources */,

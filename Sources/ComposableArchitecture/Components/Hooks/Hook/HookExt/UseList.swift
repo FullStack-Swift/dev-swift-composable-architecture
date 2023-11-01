@@ -25,7 +25,7 @@ public func useInput(onChange: @escaping (String) -> Void) -> some View {
   HookScope {
     let text = useState("")
     TextField("", text: text)
-      .mbackport.valueChanged(value: text.wrappedValue) { newValue in
+      .mbackport.onChange(of: text.wrappedValue) { newValue in
         onChange(newValue)
       }
   }

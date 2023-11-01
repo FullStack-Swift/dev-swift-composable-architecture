@@ -81,7 +81,7 @@ struct HookLoadMoreView: View {
 
             }
           }
-          .navigationTitle(users.count.description + " status loading: \(loadmore.isLoading.description)")
+          .navigationTitle("Total: " + users.count.description + " isloading: \(loadmore.isLoading.description)")
           .navigationBarTitleDisplayMode(.inline)
         case .failure:
           Text("failure")
@@ -131,7 +131,7 @@ struct HookLoadMoreView: View {
 
             }
           }
-          .navigationTitle(users.count.description + " status loading: \(loadmore.isLoading.description)")
+          .navigationTitle("Total: " + users.count.description + " isloading: \(loadmore.isLoading.description)")
           .navigationBarTitleDisplayMode(.inline)
         case .failure:
           Text("failure")

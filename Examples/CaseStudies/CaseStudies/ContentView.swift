@@ -28,7 +28,18 @@ struct ContentView: View {
                   $0.path.append(.init(id: "APIRequestPage", state: "APIRequestPage"))
                 }
               }
-            
+          }
+        }
+        
+        Section(header: Text("UIComponents")) {
+          HookScope {
+            Text("UIComponents")
+              .alignment(horizontal: .leading)
+              .onTap {
+                navigationPath.commit {
+                  $0.path.append(.init(id: "UIComponents", state: "UIComponents"))
+                }
+              }
           }
         }
         
@@ -156,6 +167,8 @@ struct ContentView: View {
       .navigationTitle(Text("CaseStudies"))
       ._navigationDestination(for: _Destination.self) { destination in
         switch destination.id {
+          case "UIComponents":
+            UIComponentView()
             // MARK: - CaseStudies
           case "TCA-CaseStudies":
             TCACaseStudiesView()

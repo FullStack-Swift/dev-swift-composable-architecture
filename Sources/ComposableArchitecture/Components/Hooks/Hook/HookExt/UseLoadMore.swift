@@ -295,16 +295,16 @@ public struct LoadMoreView<
   public var anyBody: any View {
     IfLet(loadmore) { loadmore in
       HStack {
-        If(value: loadmore.isLoading) {
+        If(loadmore.isLoading) {
           loadingContent()
             .alignment(horizontal: .center)
-        } falseContent: {
+        } false: {
           Button {
             
           } label: {
-            If(value: loadmore.hasNextPage) {
+            If(loadmore.hasNextPage) {
               moreContent()
-            } falseContent: {
+            } false: {
               endContent()
             }
           }
