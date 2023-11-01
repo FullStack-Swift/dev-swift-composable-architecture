@@ -97,7 +97,7 @@ public struct MPublisherAtom<Node: Combine.Publisher>: PublisherAtom {
   }
   
   @discardableResult
-  public mutating func onUpdated(_ onUpdate: @escaping (Value, Value, Self.UpdatedContext) -> Void) -> Self {
+  public func onUpdated(_ onUpdate: @escaping (Value, Value, Self.UpdatedContext) -> Void) -> Self {
     _location?.value = onUpdate
     return self
   }
