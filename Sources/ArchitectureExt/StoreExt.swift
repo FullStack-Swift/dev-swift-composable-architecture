@@ -2,21 +2,32 @@
 import ComposableArchitecture
 
 // MARK: Store to ViewStore
+
 public extension Store {
   
-  /// Description
-  /// - Returns: description
+  /// Transform a Store to ViewStore
+  ///
+  ///      let store: StoreOf<AppReducer> = ...
+  ///
+  ///      let viewStore = store.toViewStore()
+  ///
+  /// - Returns: ViewStore
   func toViewStore() -> ViewStore<State, Action> where State: Equatable {
     ViewStore(self)
   }
   
-  /// Description
-  /// - Returns: description
+  /// Transform a Store to ViewStore
+  ///
+  ///     let store: StoreOf<AppReducer> = ...
+  ///
+  ///     let viewStore = store.toViewStore()
+  ///     
+  /// - Returns: ViewStore
   func toViewStore() -> ViewStore<State, Action> where State == Void {
     ViewStore(self)
   }
   
-  /// Description
+  /// Transform a Store to ViewStore
   /// - Parameter isDuplicate: isDuplicate description
   /// - Returns: description
   func toViewStore(
@@ -28,11 +39,16 @@ public extension Store {
     )
   }
   
-  /// Description
+  /// Transform a Store to ViewStore
+  ///
+  ///     let store: StoreOf<AppReducer> = ...
+  ///
+  ///     let viewStore = store.toViewStore(...)
+  ///
   /// - Parameters:
   ///   - toViewState: toViewState description
   ///   - isDuplicate: isDuplicate description
-  /// - Returns: description
+  /// - Returns: ViewStore
   func toViewStore<ViewState>(
     observe toViewState: @escaping (State) -> ViewState,
     removeDuplicates isDuplicate: @escaping (ViewState, ViewState) -> Bool
@@ -44,12 +60,16 @@ public extension Store {
     )
   }
   
-  /// Description
+  /// Transform a Store to ViewStore
+  ///
+  ///     let store: StoreOf<AppReducer> = ...
+  ///
+  ///     let viewStore = store.toViewStore(...)
+  ///
   /// - Parameters:
   ///   - toViewState: toViewState description
-  ///   - fromViewAction: fromViewAction description
   ///   - isDuplicate: isDuplicate description
-  /// - Returns: description
+  /// - Returns: ViewStore
   func toViewStore<ViewState, ViewAction>(
     observe toViewState: @escaping (State) -> ViewState,
     send fromViewAction: @escaping (ViewAction) -> Action,
