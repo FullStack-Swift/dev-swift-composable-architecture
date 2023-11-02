@@ -3,6 +3,7 @@ import SwiftUI
 
 /// Primitve and flexible useAtom
 
+/// Like ``useRecoilValue``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -23,6 +24,7 @@ public func useAtomValue<Node>(
   return useRecoilValue(atom)
 }
 
+/// Like ``useRecoilValue``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -43,6 +45,7 @@ public func useAtomValue<Node>(
   return useRecoilValue(atom)
 }
 
+/// Like ``useRecoilState``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -63,6 +66,7 @@ public func useAtomState<Node>(
   return useRecoilState(updateStrategy: updateStrategy, atom)
 }
 
+/// Like ``useRecoilState``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -83,6 +87,7 @@ public func useAtomState<Node>(
   return useRecoilState(atom)
 }
 
+/// Like ``useRecoilTask``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -103,6 +108,7 @@ public func useAtomTask<Node>(
   return useRecoilTask(updateStrategy: .once, atom)
 }
 
+/// Like ``useRecoilTask``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -123,6 +129,7 @@ public func useAtomTask<Node>(
   return useRecoilTask(updateStrategy: .once, atom)
 }
 
+/// Like ``useRecoilThrowingTask``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -143,6 +150,7 @@ public func useAtomThrowingTask<Node>(
   return useRecoilThrowingTask(updateStrategy: .once, atom)
 }
 
+/// Like ``useRecoilThrowingTask``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -163,6 +171,7 @@ public func useAtomThrowingTask<Node>(
   return useRecoilThrowingTask(updateStrategy: .once, atom)
 }
 
+/// Like ``useRecoilPublisher``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -183,6 +192,7 @@ public func useAtomPublisher<Node: Combine.Publisher>(
   return useRecoilPublisher(atom)
 }
 
+/// Like ``useRecoilRefresher``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -203,6 +213,7 @@ public func useAtomPublisher<Node: Combine.Publisher>(
   return useRecoilPublisher(atom)
 }
 
+/// Like ``useRecoilRefresher``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -223,6 +234,7 @@ public func useAtomRefresher<Node: Combine.Publisher>(
   return useRecoilRefresher(atom)
 }
 
+/// Like ``useRecoilRefresher``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.
@@ -243,6 +255,8 @@ public func useAtomRefresher<Node: ThrowingTaskAtom>(
   return useRecoilRefresher(atom)
 }
 
+
+/// Like ``useRecoilRefresher``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:
 ///   - fileID: the path to the file it appears in.

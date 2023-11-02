@@ -2,6 +2,7 @@ import SwiftUI
 import Dependencies
 
 extension EnvironmentValues {
+  
   @EnvironmentValue
   var store: StoreContext = StoreContext(AtomStore(), enablesAssertion: false)
   
@@ -13,6 +14,7 @@ extension EnvironmentValues {
 }
 
 extension DependencyValues {
+  
   @DependencyValue
   var storeContext: StoreContext = StoreContext(AtomStore(), enablesAssertion: false)
   
