@@ -9,9 +9,9 @@ private enum LogLevel: String {
 
 #if canImport(os)
 import os
-let log = Logger()
+public let log = Logger()
 
-internal extension Logger {
+public extension Logger {
   private var isLogEnable: Bool {
 #if DEBUG
     return true

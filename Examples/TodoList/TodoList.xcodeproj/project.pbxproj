@@ -32,9 +32,6 @@
 		EBDA41562AAEABE100B6CC68 /* CombineRequest in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41552AAEABE100B6CC68 /* CombineRequest */; };
 		EBDA41582AAEABE100B6CC68 /* CombineSocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41572AAEABE100B6CC68 /* CombineSocketIO */; };
 		EBDA415A2AAEABE100B6CC68 /* CombineWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41592AAEABE100B6CC68 /* CombineWebSocket */; };
-		EBDA41692AAEAC1800B6CC68 /* Json in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41682AAEAC1800B6CC68 /* Json */; };
-		EBDA416C2AAEAC2F00B6CC68 /* Transform in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA416B2AAEAC2F00B6CC68 /* Transform */; };
-		EBDA416F2AAEAC5300B6CC68 /* SwiftLogger in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA416E2AAEAC5300B6CC68 /* SwiftLogger */; };
 		EBDA417A2AAEBA6B00B6CC68 /* NavigationStackBackport in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41792AAEBA6B00B6CC68 /* NavigationStackBackport */; };
 /* End PBXBuildFile section */
 
@@ -69,13 +66,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBDA416F2AAEAC5300B6CC68 /* SwiftLogger in Frameworks */,
 				EBDA415A2AAEABE100B6CC68 /* CombineWebSocket in Frameworks */,
 				EBDA41562AAEABE100B6CC68 /* CombineRequest in Frameworks */,
 				EBDA417A2AAEBA6B00B6CC68 /* NavigationStackBackport in Frameworks */,
 				87B392832A0B593E0095F6A4 /* ComposableArchitecture in Frameworks */,
-				EBDA416C2AAEAC2F00B6CC68 /* Transform in Frameworks */,
-				EBDA41692AAEAC1800B6CC68 /* Json in Frameworks */,
 				EBDA41582AAEABE100B6CC68 /* CombineSocketIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,9 +191,6 @@
 				EBDA41552AAEABE100B6CC68 /* CombineRequest */,
 				EBDA41572AAEABE100B6CC68 /* CombineSocketIO */,
 				EBDA41592AAEABE100B6CC68 /* CombineWebSocket */,
-				EBDA41682AAEAC1800B6CC68 /* Json */,
-				EBDA416B2AAEAC2F00B6CC68 /* Transform */,
-				EBDA416E2AAEAC5300B6CC68 /* SwiftLogger */,
 				EBDA41792AAEBA6B00B6CC68 /* NavigationStackBackport */,
 			);
 			productName = TodoList;
@@ -232,9 +223,6 @@
 			mainGroup = 87B392662A0B59010095F6A4;
 			packageReferences = (
 				EBDA41542AAEABE100B6CC68 /* XCRemoteSwiftPackageReference "swift-networking" */,
-				EBDA41672AAEAC1800B6CC68 /* XCRemoteSwiftPackageReference "swift-json" */,
-				EBDA416A2AAEAC2F00B6CC68 /* XCRemoteSwiftPackageReference "swift-extension" */,
-				EBDA416D2AAEAC5300B6CC68 /* XCRemoteSwiftPackageReference "swift-logger" */,
 				EBDA41782AAEBA6B00B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */,
 			);
 			productRefGroup = 87B392702A0B59010095F6A4 /* Products */;
@@ -509,30 +497,6 @@
 				kind = branch;
 			};
 		};
-		EBDA41672AAEAC1800B6CC68 /* XCRemoteSwiftPackageReference "swift-json" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/FullStack-Swift/swift-json";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		EBDA416A2AAEAC2F00B6CC68 /* XCRemoteSwiftPackageReference "swift-extension" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/FullStack-Swift/swift-extension";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		EBDA416D2AAEAC5300B6CC68 /* XCRemoteSwiftPackageReference "swift-logger" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/FullStack-Swift/swift-logger";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		EBDA41782AAEBA6B00B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/lm/navigation-stack-backport";
@@ -562,21 +526,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EBDA41542AAEABE100B6CC68 /* XCRemoteSwiftPackageReference "swift-networking" */;
 			productName = CombineWebSocket;
-		};
-		EBDA41682AAEAC1800B6CC68 /* Json */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EBDA41672AAEAC1800B6CC68 /* XCRemoteSwiftPackageReference "swift-json" */;
-			productName = Json;
-		};
-		EBDA416B2AAEAC2F00B6CC68 /* Transform */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EBDA416A2AAEAC2F00B6CC68 /* XCRemoteSwiftPackageReference "swift-extension" */;
-			productName = Transform;
-		};
-		EBDA416E2AAEAC5300B6CC68 /* SwiftLogger */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EBDA416D2AAEAC5300B6CC68 /* XCRemoteSwiftPackageReference "swift-logger" */;
-			productName = SwiftLogger;
 		};
 		EBDA41792AAEBA6B00B6CC68 /* NavigationStackBackport */ = {
 			isa = XCSwiftPackageProductDependency;

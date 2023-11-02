@@ -30,6 +30,7 @@
 		EB132B482AE8EB56002CC1DF /* HookUseInitalAndDisposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB132B472AE8EB56002CC1DF /* HookUseInitalAndDisposeView.swift */; };
 		EB132B4A2AE8F775002CC1DF /* HookLoadMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB132B492AE8F775002CC1DF /* HookLoadMoreView.swift */; };
 		EB467EC42AEB991300177A77 /* HookUseDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB467EC32AEB991300177A77 /* HookUseDateView.swift */; };
+		EB5B50F12AF376FE0018BF84 /* NavigationStackBackport in Frameworks */ = {isa = PBXBuildFile; productRef = EB5B50F02AF376FE0018BF84 /* NavigationStackBackport */; };
 		EB92CD102A5C1705007640AF /* RecoilUseCaseStudies2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */; };
 		EBB036E82A7A2F1D0091B953 /* OnlineHookTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036E72A7A2F1D0091B953 /* OnlineHookTodoView.swift */; };
 		EBB036EA2A7A2F330091B953 /* OnlineJotailTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036E92A7A2F330091B953 /* OnlineJotailTodoView.swift */; };
@@ -40,7 +41,6 @@
 		EBB036F42A7BA06B0091B953 /* VIPTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036F32A7BA06B0091B953 /* VIPTodoView.swift */; };
 		EBBC4A412A6A930B0052FD1F /* APIRequestPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */; };
 		EBDA41742AAEAD2B00B6CC68 /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDA41732AAEAD2B00B6CC68 /* SwiftUI++.swift */; };
-		EBDA41772AAEAE3700B6CC68 /* NavigationStackBackport in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41762AAEAE3700B6CC68 /* NavigationStackBackport */; };
 		EBDCE14B2AF0E531008AF97D /* HookUseNetworkStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE14A2AF0E531008AF97D /* HookUseNetworkStateView.swift */; };
 		EBDCE14D2AF0E571008AF97D /* HookUseMemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE14C2AF0E571008AF97D /* HookUseMemoView.swift */; };
 		EBDCE14F2AF0E599008AF97D /* HookUseAsyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE14E2AF0E599008AF97D /* HookUseAsyncView.swift */; };
@@ -48,13 +48,11 @@
 		EBDCE1532AF0E608008AF97D /* HookUseStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE1522AF0E608008AF97D /* HookUseStateView.swift */; };
 		EBDCE1562AF229A0008AF97D /* UIComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE1552AF229A0008AF97D /* UIComponentView.swift */; };
 		EBE6FBB52AD78CE700889483 /* ArchitectureExt in Frameworks */ = {isa = PBXBuildFile; productRef = EBE6FBB42AD78CE700889483 /* ArchitectureExt */; };
-		EBF230642A78E231002FA22C /* Json in Frameworks */ = {isa = PBXBuildFile; productRef = EBF230632A78E231002FA22C /* Json */; };
 		EBF60EC32A777EB8001E34D3 /* JotailTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF60EC22A777EB8001E34D3 /* JotailTodoView.swift */; };
 		EBF60EC72A778D9C001E34D3 /* CombineRequest in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60EC62A778D9C001E34D3 /* CombineRequest */; };
 		EBF60EC92A778D9C001E34D3 /* CombineSocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60EC82A778D9C001E34D3 /* CombineSocketIO */; };
 		EBF60ECB2A778D9C001E34D3 /* CombineWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = EBF60ECA2A778D9C001E34D3 /* CombineWebSocket */; };
 		EBF60ED42A77A15F001E34D3 /* OnlineRecoilTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF60ED32A77A15F001E34D3 /* OnlineRecoilTodoView.swift */; };
-		EBF8F0572A6FAC2400A5961D /* SwiftLogger in Frameworks */ = {isa = PBXBuildFile; productRef = EBF8F0562A6FAC2400A5961D /* SwiftLogger */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,14 +106,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBF8F0572A6FAC2400A5961D /* SwiftLogger in Frameworks */,
 				EBF60EC72A778D9C001E34D3 /* CombineRequest in Frameworks */,
+				EB5B50F12AF376FE0018BF84 /* NavigationStackBackport in Frameworks */,
 				EBF60ECB2A778D9C001E34D3 /* CombineWebSocket in Frameworks */,
 				EBE6FBB52AD78CE700889483 /* ArchitectureExt in Frameworks */,
 				87DF96F22A3991C10006B774 /* ComposableArchitecture in Frameworks */,
-				EBDA41772AAEAE3700B6CC68 /* NavigationStackBackport in Frameworks */,
 				EBF60EC92A778D9C001E34D3 /* CombineSocketIO in Frameworks */,
-				EBF230642A78E231002FA22C /* Json in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,13 +273,11 @@
 			name = CaseStudies;
 			packageProductDependencies = (
 				87DF96F12A3991C10006B774 /* ComposableArchitecture */,
-				EBF8F0562A6FAC2400A5961D /* SwiftLogger */,
 				EBF60EC62A778D9C001E34D3 /* CombineRequest */,
 				EBF60EC82A778D9C001E34D3 /* CombineSocketIO */,
 				EBF60ECA2A778D9C001E34D3 /* CombineWebSocket */,
-				EBF230632A78E231002FA22C /* Json */,
-				EBDA41762AAEAE3700B6CC68 /* NavigationStackBackport */,
 				EBE6FBB42AD78CE700889483 /* ArchitectureExt */,
+				EB5B50F02AF376FE0018BF84 /* NavigationStackBackport */,
 			);
 			productName = CaseStudies;
 			productReference = 87DF96DC2A39904F0006B774 /* CaseStudies.app */;
@@ -314,10 +308,8 @@
 			);
 			mainGroup = 87DF96D32A39904F0006B774;
 			packageReferences = (
-				EBF8F0552A6FAC2400A5961D /* XCRemoteSwiftPackageReference "swift-logger" */,
 				EBF60EC52A778D9C001E34D3 /* XCRemoteSwiftPackageReference "swift-networking" */,
-				EBF230622A78E231002FA22C /* XCRemoteSwiftPackageReference "swift-json" */,
-				EBDA41752AAEAE3700B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */,
+				EB5B50EF2AF376FE0018BF84 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */,
 			);
 			productRefGroup = 87DF96DD2A39904F0006B774 /* Products */;
 			projectDirPath = "";
@@ -606,33 +598,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		EBDA41752AAEAE3700B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */ = {
+		EB5B50EF2AF376FE0018BF84 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/lm/navigation-stack-backport";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-		EBF230622A78E231002FA22C /* XCRemoteSwiftPackageReference "swift-json" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/FullStack-Swift/swift-json";
-			requirement = {
-				branch = main;
-				kind = branch;
+				kind = exactVersion;
+				version = 1.0.0;
 			};
 		};
 		EBF60EC52A778D9C001E34D3 /* XCRemoteSwiftPackageReference "swift-networking" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/FullStack-Swift/swift-networking";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		EBF8F0552A6FAC2400A5961D /* XCRemoteSwiftPackageReference "swift-logger" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/FullStack-Swift/swift-logger";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -645,19 +621,14 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;
 		};
-		EBDA41762AAEAE3700B6CC68 /* NavigationStackBackport */ = {
+		EB5B50F02AF376FE0018BF84 /* NavigationStackBackport */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = EBDA41752AAEAE3700B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */;
+			package = EB5B50EF2AF376FE0018BF84 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */;
 			productName = NavigationStackBackport;
 		};
 		EBE6FBB42AD78CE700889483 /* ArchitectureExt */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ArchitectureExt;
-		};
-		EBF230632A78E231002FA22C /* Json */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EBF230622A78E231002FA22C /* XCRemoteSwiftPackageReference "swift-json" */;
-			productName = Json;
 		};
 		EBF60EC62A778D9C001E34D3 /* CombineRequest */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -673,11 +644,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EBF60EC52A778D9C001E34D3 /* XCRemoteSwiftPackageReference "swift-networking" */;
 			productName = CombineWebSocket;
-		};
-		EBF8F0562A6FAC2400A5961D /* SwiftLogger */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EBF8F0552A6FAC2400A5961D /* XCRemoteSwiftPackageReference "swift-logger" */;
-			productName = SwiftLogger;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
