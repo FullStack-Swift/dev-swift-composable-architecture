@@ -1,11 +1,17 @@
 import SwiftUI
 
+/// A property wrapper type that can read and write a value managed by SwiftUI.
+///
+///     @RefState private var ref: AnyClass = ...
+///
+/// DynamicProperty
+
 @dynamicMemberLookup
 @propertyWrapper
 public struct RefState<Wrapped>: DynamicProperty {
 
   @StateObject
-  public var storeValue: RefStateObservableObject<Wrapped>
+  private var storeValue: RefStateObservableObject<Wrapped>
 
   public init(wrappedValue value: Wrapped) {
     self.init(wrappedValue: RefStateObservableObject<Wrapped>(wrappedValue: value))
@@ -35,11 +41,11 @@ public struct RefState<Wrapped>: DynamicProperty {
     }
   }
 
-  public var projectedValue: Self {
-    self
+  public var projectedValue: Binding<Wrapped> {
+    $storeValue.wrappedValue
   }
 
-  public var boxedValue: Wrapped {
+  private var boxedValue: Wrapped {
     _read { yield self.storeValue.value }
     _modify { yield &self.storeValue.value }
   }
