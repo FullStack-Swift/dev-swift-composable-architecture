@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 
 public extension View {
-  var mbackport: MBackport<Self> { MBackport(self) }
+  var bp: MBackport<Self> { MBackport(self) }
 }
 
 // MARK: MBackport + View
