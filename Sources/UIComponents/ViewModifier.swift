@@ -1,7 +1,6 @@
 import SwiftUI
 import SwiftExt
 
-// MARK: OnFirstAppearViewModifier
 public struct OnFirstAppearViewModifier: ViewModifier {
   
   private let action: (() -> Void)?
@@ -24,7 +23,6 @@ public struct OnFirstAppearViewModifier: ViewModifier {
   }
 }
 
-// MARK: OnLastDisappearViewModifier
 public struct OnLastDisappearViewModifier: ViewModifier {
   
   fileprivate final class OnLastDisappearViewModel: ObservableObject {
@@ -160,5 +158,40 @@ private struct AlignmentViewModifier: ViewModifier {
       Color.clear
       content
     }
+  }
+}
+
+
+public extension View {
+  
+  func anyModifier(
+    _ mutation: @escaping (inout AnonymousViewModifier.Content) -> Void
+  ) -> some View {
+    modifier(
+      AnonymousViewModifier { content in
+        content.with(mutation)
+      }
+    )
+    .eraseToAnyView()
+  }
+}
+
+public struct AnonymousViewModifier: ViewModifier {
+  
+  private let makeBody: ( inout Content) -> any View
+  
+  public init<T: ViewModifier>(_ modifier: T) {
+    self.makeBody = { $0.modifier(modifier) }
+  }
+  
+  public init(
+    _ makeBody: @escaping (inout Content) -> any View
+  ) {
+    self.makeBody = { makeBody(&$0) }
+  }
+  
+  public func body(content: Content) -> some View {
+    var result = content
+    return AnyView(makeBody(&result))
   }
 }

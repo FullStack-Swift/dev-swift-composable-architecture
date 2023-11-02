@@ -278,7 +278,7 @@ public struct LoadMoreView<
   let moreContent: () -> MoreContent
   let endContent: () -> EndContent
   
-  private var onTap: MTapGesture?
+  private var onTap: MCallBack?
   
   public init(
     loadmore: (any LoadMoreProtocol)? = nil,
@@ -333,7 +333,7 @@ public struct LoadMoreView<
     }
   }
   
-  public func onTap(_ onTap: @escaping MTapGesture) -> Self {
+  public func onTap(_ onTap: @escaping MCallBack) -> Self {
     with {
       $0.onTap = onTap
     }

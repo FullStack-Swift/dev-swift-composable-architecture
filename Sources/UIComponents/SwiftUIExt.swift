@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 
-public typealias MTapGesture = () -> Void
+public typealias MCallBack = () -> Void
 
 public typealias MCompletion<T> = (T) -> Void
 
@@ -191,7 +191,7 @@ extension View {
   ///    - count: The number of taps or clicks required to trigger the action
   ///      closure provided in `action`. Defaults to `1`.
   ///    - action: The action to perform.
-  public func onTap(count: Int = 1, perform: @escaping MTapGesture) -> some View {
+  public func onTap(count: Int = 1, perform: @escaping MCallBack) -> some View {
     contentShape(Rectangle())
       .onTapGesture(count: count, perform: perform)
   }

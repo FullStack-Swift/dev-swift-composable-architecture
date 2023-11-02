@@ -223,15 +223,15 @@ struct CaseStudyCell: View {
   
   let title: String
   
-  var onTap: MTapGesture?
+  var onTap: MCallBack?
   
   
-  init(title: String, onTap: MTapGesture? = nil) {
+  init(title: String, onTap: MCallBack? = nil) {
     self.title = title
     self.onTap = onTap
   }
   
-  init(_ title: String, onTap: MTapGesture? = nil) {
+  init(_ title: String, onTap: MCallBack? = nil) {
     self.title = title
     self.onTap = onTap
   }
@@ -246,7 +246,7 @@ struct CaseStudyCell: View {
       }
   }
   
-  func onTap( _ onTap: MTapGesture?) -> some View {
+  func onTap( _ onTap: MCallBack?) -> some View {
     with {
       $0.onTap = onTap
     }
