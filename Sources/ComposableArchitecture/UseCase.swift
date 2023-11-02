@@ -6,7 +6,7 @@ public protocol PublisherUseCaseProtocol {
   associatedtype Input
 
   associatedtype Output
-  
+   
   associatedtype Failure: Error
 
   func run(_ input: Input) -> AnyPublisher<Output, Failure>

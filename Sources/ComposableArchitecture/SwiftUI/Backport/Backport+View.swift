@@ -143,3 +143,22 @@ private struct ChangeModifier<Value: Equatable>: ViewModifier {
       }
   }
 }
+
+extension MBackport where Content: View {
+  
+  public struct NavigationStack<V: View>: View {
+    private let content: () -> V
+    
+    public init(@ViewBuilder builder: @escaping () -> V) {
+      self.content = builder
+    }
+    
+    public var body: some View {
+      if #available(iOS 16.0, macOS 13, *) {
+        SwiftUI.NavigationStack(root: content)
+      } else {
+        SwiftUI.NavigationView(content: content)
+      }
+    }
+  }
+}
