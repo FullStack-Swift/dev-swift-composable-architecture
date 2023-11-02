@@ -12,6 +12,7 @@ public protocol PublisherUseCaseProtocol {
   func run(_ input: Input) -> AnyPublisher<Output, Failure>
 
 }
+
 public extension PublisherUseCaseProtocol where Self.Input == Void {
   func run() -> AnyPublisher<Output, Failure> {
     return run(())
@@ -27,6 +28,7 @@ public protocol AsyncUseCaseProtocol {
   func run(_ input: Input) async -> Output
 
 }
+
 public extension AsyncUseCaseProtocol where Self.Input == Void {
   func run() async -> Output {
     await run(())
@@ -42,6 +44,7 @@ public protocol ThrowingAsyncUseCaseProtocol {
   func run(_ input: Input) async throws -> Output
   
 }
+
 public extension ThrowingAsyncUseCaseProtocol where Self.Input == Void {
   func run() async throws -> Output {
     try await run(())
