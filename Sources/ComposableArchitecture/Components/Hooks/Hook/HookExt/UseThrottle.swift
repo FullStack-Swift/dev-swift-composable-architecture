@@ -28,7 +28,7 @@ public func useThrottle<Output>(
   seconds timeInterval: TimeInterval = 2
 ) -> HookAsyncPhase<Output, any Error> {
   let stream = operation
-    .mbackport.values
+    .backport.values
     .throttle(for: .seconds(timeInterval))
     .eraseToThrowingStream()
   return useAsyncThrowingSequence(.once, stream)

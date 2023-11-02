@@ -1,15 +1,15 @@
 import Combine
 
 public extension Publisher {
-  var mbackport: MBackport<Self> { MBackport(self) }
+  var backport: Backport<Self> { Backport(self) }
 }
 
-public extension MBackport where Content: Publisher {
+public extension Backport where Base: Publisher {
   /// Convert this publisher into an `AsyncThrowingStream` that
   /// can be iterated over asynchronously using `for try await`.
   /// The stream will yield each output value produced by the
   /// publisher and will finish once the publisher completes.
-  var values: AsyncThrowingStream<Content.Output, Error> {
+  var values: AsyncThrowingStream<Base.Output, Error> {
     AsyncThrowingStream { continuation in
       var cancellable: AnyCancellable?
       let onTermination = { cancellable?.cancel() }
@@ -18,7 +18,7 @@ public extension MBackport where Content: Publisher {
         onTermination()
       }
       
-      cancellable = content.eraseToAnyPublisher()
+      cancellable = base.eraseToAnyPublisher()
         .sink(
           receiveCompletion: { completion in
             switch completion {

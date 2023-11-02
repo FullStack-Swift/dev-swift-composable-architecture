@@ -1,11 +1,9 @@
 import Foundation
 
-public extension URLSession {
-  var mbackport: MBackport<URLSession> { MBackport(self) }
-}
+extension URLSession: BackportExtensionsProvider {}
 
 // MARK: MBackport + URLSession
-public extension MBackport where Content == URLSession {
+public extension Backport where Base == URLSession {
   /// Start a data task with a URL using async/await.
   /// - parameter url: The URL to send a request to.
   /// - returns: A tuple containing the binary `Data` that was downloaded,
@@ -27,7 +25,7 @@ public extension MBackport where Content == URLSession {
     return try await withTaskCancellationHandler(
       operation: {
         try await withCheckedThrowingContinuation { continuation in
-          dataTask = content.dataTask(with: request) { data, response, error in
+          dataTask = base.dataTask(with: request) { data, response, error in
             guard let data = data, let response = response else {
               let error = error ?? URLError(.badServerResponse)
               return continuation.resume(throwing: error)

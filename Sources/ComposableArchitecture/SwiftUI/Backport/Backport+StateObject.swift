@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 
-extension MBackport {
+extension Backport {
  
   @propertyWrapper
   public struct StateObject<Wrapped: ObservableObject>: DynamicProperty {
@@ -91,7 +91,7 @@ extension MBackport {
   
 }
 
-extension MBackport.StateObject {
+extension Backport.StateObject {
   private final class Wrapper: ObservableObject {
     
     private var subject = PassthroughSubject<Void, Never>()

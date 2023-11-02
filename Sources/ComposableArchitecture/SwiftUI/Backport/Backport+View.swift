@@ -2,11 +2,11 @@ import SwiftUI
 import Combine
 
 public extension View {
-  var bp: MBackport<Self> { MBackport(self) }
+  var backport: Backport<Self> { Backport(self) }
 }
 
-// MARK: MBackport + View
-public extension MBackport where Content: View {
+// MARK: Backport + View
+public extension Backport where Base: View {
   
   /// Generates a badge for the view from an integer value.
   ///
@@ -32,9 +32,9 @@ public extension MBackport where Content: View {
   @ViewBuilder
   func badge(_ count: Int) -> some View {
     if #available(iOS 15,  macOS 12.0, *) {
-      content.badge(count)
+      base.badge(count)
     } else {
-      content
+      base
     }
   }
   
@@ -48,7 +48,7 @@ public extension MBackport where Content: View {
     priority: TaskPriority = .userInitiated,
     _ action: @escaping () async -> Void
   ) -> some View {
-    content.modifier(
+    base.modifier(
       TaskModifier(
         priority: priority,
         action: action
@@ -59,18 +59,18 @@ public extension MBackport where Content: View {
   @ViewBuilder
   func focused() -> some View {
     if #available(iOS 15.0, *) {
-      self.content.modifier(TextFieldFocused())
+      base.modifier(TextFieldFocused())
     } else {
-      self.content
+      base
     }
   }
   
   @ViewBuilder
   func onChange<V>(of value: V, perform: @escaping (V) -> Void) -> some View where V: Equatable {
     if #available(iOS 14.0, tvOS 14.0, macOS 11.0, watchOS 7.0, *) {
-      content.onChange(of: value, perform: perform)
+      base.onChange(of: value, perform: perform)
     } else {
-      content.onReceive(Just(value)) { value in
+      base.onReceive(Just(value)) { value in
         perform(value)
       }
     }
@@ -79,72 +79,78 @@ public extension MBackport where Content: View {
   
   @ViewBuilder
   func onChange<V>(of value: V, _ action: @escaping (_ oldValue: V, _ newValue: V) -> Void) -> some View where V: Equatable {
-    content.modifier(ChangeModifier(value: value, action: action))
+    base.modifier(ChangeModifier(value: value, action: action))
   }
 }
 
-// MARK: - Private Code
-private struct TaskModifier: ViewModifier {
-  var priority: TaskPriority
-  var action: () async -> Void
-  
-  @State private var task: Task<Void, Never>?
-  
-  func body(content: Content) -> some View {
-    content
-      .onAppear {
-        task = Task(priority: priority) {
-          await action()
+// MARK: Private Components
+
+extension Backport where Base: View {
+  private struct TaskModifier: ViewModifier {
+    var priority: TaskPriority
+    var action: () async -> Void
+    
+    @State private var task: Task<Void, Never>?
+    
+    func body(content: Content) -> some View {
+      content
+        .onAppear {
+          task = Task(priority: priority) {
+            await action()
+          }
         }
-      }
-      .onDisappear {
-        task?.cancel()
-        task = nil
-      }
+        .onDisappear {
+          task?.cancel()
+          task = nil
+        }
+    }
   }
+  
+  @available(iOS 15.0, *)
+  private struct TextFieldFocused: ViewModifier {
+    
+    @FocusState private var focused: Bool
+    
+    init() {
+      self.focused = false
+    }
+    
+    func body(content: Content) -> some View {
+      content
+        .focused($focused)
+        .onAppear {
+          focused = true
+        }
+    }
+  }
+  
+  private struct ChangeModifier<Value: Equatable>: ViewModifier {
+    let value: Value
+    let action: (Value, Value) -> Void
+    
+    @State var oldValue: Value?
+    
+    init(value: Value, action: @escaping (Value, Value) -> Void) {
+      self.value = value
+      self.action = action
+      _oldValue = .init(initialValue: value)
+    }
+    
+    func body(content: Content) -> some View {
+      content
+        .onReceive(Just(value)) { newValue in
+          guard newValue != oldValue else { return }
+          action(oldValue ?? newValue, newValue)
+          oldValue = newValue
+        }
+    }
+  }
+
 }
 
-@available(iOS 15.0, *)
-private struct TextFieldFocused: ViewModifier {
-  
-  @FocusState private var focused: Bool
-  
-  init() {
-    self.focused = false
-  }
-  
-  func body(content: Content) -> some View {
-    content
-      .focused($focused)
-      .onAppear {
-        focused = true
-      }
-  }
-}
+// MARK: Public Components
 
-private struct ChangeModifier<Value: Equatable>: ViewModifier {
-  let value: Value
-  let action: (Value, Value) -> Void
-  
-  @State var oldValue: Value?
-  
-  init(value: Value, action: @escaping (Value, Value) -> Void) {
-    self.value = value
-    self.action = action
-    _oldValue = .init(initialValue: value)
-  }
-  
-  func body(content: Content) -> some View {
-    content
-      .onReceive(Just(value)) { newValue in
-        guard newValue != oldValue else { return }
-        action(oldValue ?? newValue, newValue)
-        oldValue = newValue
-      }
-  }
-}
-
-extension MBackport where Content: View {
+extension Backport where Base: View {
   
   public struct NavigationStack<V: View>: View {
     private let content: () -> V
