@@ -235,15 +235,6 @@
       }
     },
     {
-      "identity" : "swiftui-viewmodifier",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FullStack-Swift/swiftui-viewModifier",
-      "state" : {
-        "branch" : "main",
-        "revision" : "731540f6e4b7b4256a3b0b3f198072900ad5f11f"
-      }
-    },
-    {
       "identity" : "xctest-dynamic-overlay",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",

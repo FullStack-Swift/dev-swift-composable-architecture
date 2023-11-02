@@ -35,7 +35,6 @@
 		EBDA41692AAEAC1800B6CC68 /* Json in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41682AAEAC1800B6CC68 /* Json */; };
 		EBDA416C2AAEAC2F00B6CC68 /* Transform in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA416B2AAEAC2F00B6CC68 /* Transform */; };
 		EBDA416F2AAEAC5300B6CC68 /* SwiftLogger in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA416E2AAEAC5300B6CC68 /* SwiftLogger */; };
-		EBDA41722AAEAC6700B6CC68 /* SwiftUIViewModifier in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41712AAEAC6700B6CC68 /* SwiftUIViewModifier */; };
 		EBDA417A2AAEBA6B00B6CC68 /* NavigationStackBackport in Frameworks */ = {isa = PBXBuildFile; productRef = EBDA41792AAEBA6B00B6CC68 /* NavigationStackBackport */; };
 /* End PBXBuildFile section */
 
@@ -70,7 +69,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBDA41722AAEAC6700B6CC68 /* SwiftUIViewModifier in Frameworks */,
 				EBDA416F2AAEAC5300B6CC68 /* SwiftLogger in Frameworks */,
 				EBDA415A2AAEABE100B6CC68 /* CombineWebSocket in Frameworks */,
 				EBDA41562AAEABE100B6CC68 /* CombineRequest in Frameworks */,
@@ -202,7 +200,6 @@
 				EBDA41682AAEAC1800B6CC68 /* Json */,
 				EBDA416B2AAEAC2F00B6CC68 /* Transform */,
 				EBDA416E2AAEAC5300B6CC68 /* SwiftLogger */,
-				EBDA41712AAEAC6700B6CC68 /* SwiftUIViewModifier */,
 				EBDA41792AAEBA6B00B6CC68 /* NavigationStackBackport */,
 			);
 			productName = TodoList;
@@ -238,7 +235,6 @@
 				EBDA41672AAEAC1800B6CC68 /* XCRemoteSwiftPackageReference "swift-json" */,
 				EBDA416A2AAEAC2F00B6CC68 /* XCRemoteSwiftPackageReference "swift-extension" */,
 				EBDA416D2AAEAC5300B6CC68 /* XCRemoteSwiftPackageReference "swift-logger" */,
-				EBDA41702AAEAC6700B6CC68 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */,
 				EBDA41782AAEBA6B00B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */,
 			);
 			productRefGroup = 87B392702A0B59010095F6A4 /* Products */;
@@ -537,14 +533,6 @@
 				kind = branch;
 			};
 		};
-		EBDA41702AAEAC6700B6CC68 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/FullStack-Swift/swiftui-viewModifier";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		EBDA41782AAEBA6B00B6CC68 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/lm/navigation-stack-backport";
@@ -589,11 +577,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EBDA416D2AAEAC5300B6CC68 /* XCRemoteSwiftPackageReference "swift-logger" */;
 			productName = SwiftLogger;
-		};
-		EBDA41712AAEAC6700B6CC68 /* SwiftUIViewModifier */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EBDA41702AAEAC6700B6CC68 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */;
-			productName = SwiftUIViewModifier;
 		};
 		EBDA41792AAEBA6B00B6CC68 /* NavigationStackBackport */ = {
 			isa = XCSwiftPackageProductDependency;
