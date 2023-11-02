@@ -31,6 +31,7 @@
 		EB132B4A2AE8F775002CC1DF /* HookLoadMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB132B492AE8F775002CC1DF /* HookLoadMoreView.swift */; };
 		EB467EC42AEB991300177A77 /* HookUseDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB467EC32AEB991300177A77 /* HookUseDateView.swift */; };
 		EB5B50F12AF376FE0018BF84 /* NavigationStackBackport in Frameworks */ = {isa = PBXBuildFile; productRef = EB5B50F02AF376FE0018BF84 /* NavigationStackBackport */; };
+		EB5B50F32AF37CC00018BF84 /* SwiftExt in Frameworks */ = {isa = PBXBuildFile; productRef = EB5B50F22AF37CC00018BF84 /* SwiftExt */; };
 		EB92CD102A5C1705007640AF /* RecoilUseCaseStudies2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */; };
 		EBB036E82A7A2F1D0091B953 /* OnlineHookTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036E72A7A2F1D0091B953 /* OnlineHookTodoView.swift */; };
 		EBB036EA2A7A2F330091B953 /* OnlineJotailTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036E92A7A2F330091B953 /* OnlineJotailTodoView.swift */; };
@@ -107,6 +108,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBF60EC72A778D9C001E34D3 /* CombineRequest in Frameworks */,
+				EB5B50F32AF37CC00018BF84 /* SwiftExt in Frameworks */,
 				EB5B50F12AF376FE0018BF84 /* NavigationStackBackport in Frameworks */,
 				EBF60ECB2A778D9C001E34D3 /* CombineWebSocket in Frameworks */,
 				EBE6FBB52AD78CE700889483 /* ArchitectureExt in Frameworks */,
@@ -278,6 +280,7 @@
 				EBF60ECA2A778D9C001E34D3 /* CombineWebSocket */,
 				EBE6FBB42AD78CE700889483 /* ArchitectureExt */,
 				EB5B50F02AF376FE0018BF84 /* NavigationStackBackport */,
+				EB5B50F22AF37CC00018BF84 /* SwiftExt */,
 			);
 			productName = CaseStudies;
 			productReference = 87DF96DC2A39904F0006B774 /* CaseStudies.app */;
@@ -625,6 +628,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EB5B50EF2AF376FE0018BF84 /* XCRemoteSwiftPackageReference "navigation-stack-backport" */;
 			productName = NavigationStackBackport;
+		};
+		EB5B50F22AF37CC00018BF84 /* SwiftExt */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftExt;
 		};
 		EBE6FBB42AD78CE700889483 /* ArchitectureExt */ = {
 			isa = XCSwiftPackageProductDependency;

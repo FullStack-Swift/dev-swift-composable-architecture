@@ -1,6 +1,5 @@
 import SwiftUI
 import MCombineRequest
-import SwiftLogger
 
 // MARK: Model
 

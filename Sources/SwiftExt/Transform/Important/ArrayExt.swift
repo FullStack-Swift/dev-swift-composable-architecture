@@ -1,4 +1,14 @@
 import Foundation
+import IdentifiedCollections
+
+public extension Array {
+  @discardableResult
+  func appending(value element: Element) -> Self {
+    var copy = self
+    copy.append(element)
+    return copy
+  }
+}
 
 public extension Array where Element: Equatable {
   var removedDuplicates: [Element] {
@@ -9,7 +19,7 @@ public extension Array where Element: Equatable {
     }
     return uniqueValues
   }
-}
+ }
 
 public extension Array where Element == [String: Any] {
   
@@ -23,5 +33,12 @@ public extension Array where Element: Codable {
   
   func toData() -> Data? {
     compactMap({$0.toDictionary()}).toData()
+  }
+}
+
+public extension IdentifiedArray where Element: Codable {
+  
+  func toData() -> Data? {
+    toArray().toData()
   }
 }

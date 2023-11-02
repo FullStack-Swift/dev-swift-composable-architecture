@@ -2,6 +2,7 @@ import SwiftUI
 import Combine
 
 @_exported import ComposableArchitecture
+@_exported import SwiftExt
 
 
 @main
