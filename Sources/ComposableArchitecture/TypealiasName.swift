@@ -17,13 +17,17 @@ public typealias CallBackFunction = () -> Void
 public typealias CompletionFunction<C> = (C) -> Void
 
 // Return
-public typealias AsyncReturn<Output> = @MainActor () async -> Output
+public typealias AsyncReturn<Output> = () async -> Output
+
+public typealias MainAsyncReturn<Output> = @MainActor () async -> Output
 
 public func blockBuilder<V>(_ block: @escaping AsyncReturn<V>) -> AsyncReturn<V> {
   block
 }
 
-public typealias ThrowingAsyncReturn<Output> = @MainActor () async throws -> Output
+public typealias ThrowingAsyncReturn<Output> = () async throws -> Output
+
+public typealias MainThrowingAsyncReturn<Output> = @MainActor () async throws -> Output
 
 public func blockBuilder<V>(_ block: @escaping ThrowingAsyncReturn<V>) -> ThrowingAsyncReturn<V> {
   block
