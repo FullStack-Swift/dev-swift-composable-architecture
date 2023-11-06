@@ -65,6 +65,11 @@ public extension Data {
     return nil
   }
 
+  
+  subscript(_ keyPath: String? = nil) -> Self? {
+    toData(keyPath: keyPath)
+  }
+  
 #endif
   
   func toDataPrettyPrinted() -> Self {
@@ -76,9 +81,4 @@ public extension Data {
       return self // fallback to original data if it can't be serialized.
     }
   }
-  
-  subscript(_ keyPath: String? = nil) -> Self? {
-    toData(keyPath: keyPath)
-  }
-
 }

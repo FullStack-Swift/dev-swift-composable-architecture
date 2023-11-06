@@ -58,7 +58,7 @@ public extension Backport where Base: View {
   
   @ViewBuilder
   func focused() -> some View {
-    if #available(iOS 15.0, *) {
+    if #available(iOS 15.0, macOS 12.0, *) {
       base.modifier(TextFieldFocused())
     } else {
       base
@@ -106,6 +106,7 @@ extension Backport where Base: View {
     }
   }
   
+  @available(macOS 12.0, *)
   @available(iOS 15.0, *)
   private struct TextFieldFocused: ViewModifier {
     
