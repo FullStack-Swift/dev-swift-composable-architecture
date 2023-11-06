@@ -16,7 +16,7 @@ open class FutureProvider<P: Publisher>: ProviderProtocol {
   public let id = UUID()
   
   public init(_ initialState: @escaping () -> P) {
-    self.value = .suspending
+    self.value = .pending
     self.makePublisher = initialState
 //    refresh()
   }

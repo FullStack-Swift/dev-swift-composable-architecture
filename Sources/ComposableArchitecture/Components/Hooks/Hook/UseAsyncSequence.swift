@@ -15,7 +15,7 @@
 public func useAsyncSequence<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: AsyncStream<Output>
-) -> HookAsyncPhase<Output, Never> {
+) -> AsyncPhase<Output, Never> {
   useHook(
     AsyncSequenceHook(
       updateStrategy: updateStrategy,
@@ -41,7 +41,7 @@ public func useAsyncSequence<Output>(
 public func useAsyncSequence<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: () -> AsyncStream<Output>
-) -> HookAsyncPhase<Output, Never> {
+) -> AsyncPhase<Output, Never> {
   useHook(
     AsyncSequenceHook(
       updateStrategy: updateStrategy,
@@ -65,7 +65,7 @@ public func useAsyncSequence<Output>(
 public func useAsyncThrowingSequence<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: AsyncThrowingStream<Output, any Error>
-) -> HookAsyncPhase<Output, any Error> {
+) -> AsyncPhase<Output, any Error> {
   useHook(
     AsyncThrowingSequenceHook(
       updateStrategy: updateStrategy,
@@ -89,7 +89,7 @@ public func useAsyncThrowingSequence<Output>(
 public func useAsyncThrowingSequence<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: () -> AsyncThrowingStream<Output, any Error>
-) -> HookAsyncPhase<Output, any Error> {
+) -> AsyncPhase<Output, any Error> {
   useHook(
     AsyncThrowingSequenceHook(
       updateStrategy: updateStrategy,
@@ -102,7 +102,7 @@ private struct AsyncSequenceHook<Output>: Hook {
   
   typealias State = _HookRef
   
-  typealias Value = HookAsyncPhase<Output, Never>
+  typealias Value = AsyncPhase<Output, Never>
   
   let updateStrategy: HookUpdateStrategy?
   
@@ -171,7 +171,7 @@ private struct AsyncThrowingSequenceHook<Output>: Hook {
   
   typealias State = _HookRef
   
-  typealias Value = HookAsyncPhase<Output, any Error>
+  typealias Value = AsyncPhase<Output, any Error>
   
   let updateStrategy: HookUpdateStrategy?
   

@@ -62,7 +62,7 @@ public struct TaskPhaseModifier<Success, Failure: Error>: AtomModifier {
     
     context.addTermination(task.cancel)
     
-    return .suspending
+    return .pending
   }
   
   /// Associates given value and handle updates and cancellations.

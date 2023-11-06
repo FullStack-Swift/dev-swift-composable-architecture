@@ -32,7 +32,7 @@ public struct AsyncSequenceAtomLoader<Node: AsyncSequenceAtom>: RefreshableAtomL
     
     context.addTermination(task.cancel)
     
-    return .suspending
+    return .pending
   }
   
   /// Associates given value and handle updates and cancellations.
@@ -45,7 +45,7 @@ public struct AsyncSequenceAtomLoader<Node: AsyncSequenceAtom>: RefreshableAtomL
   public func refresh(context: Context) async -> Value {
     let sequence = context.transaction(atom.sequence)
     let task = Task {
-      var phase = Value.suspending
+      var phase = Value.pending
       
       do {
         for try await element in sequence {

@@ -111,7 +111,7 @@ private extension RecoilPublisherHook {
   // MARK: State
   final class _RecoilHookRef: RecoilHookRef<Node> {
     
-    var phase: Value = .suspending
+    var phase: Value = .pending
     
     var value: Value {
       context.watch(node)

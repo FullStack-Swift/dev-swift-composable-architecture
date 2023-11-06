@@ -1,7 +1,5 @@
 import SwiftUI
 
-import SwiftLogger
-
 // MARK: ValueAtom
 private struct _ValueAtom: ValueAtom, Hashable {
   func value(context: Context) -> Locale {
@@ -194,7 +192,7 @@ private struct _AsyncSequenceAtomView: View {
   var body: some View {
     let _ = log.info("Refresh")
     switch asyncSequenceAtom {
-      case .suspending:
+      case .pending, .running:
         ProgressView()
       case .success(let value):
         Text(value.description)

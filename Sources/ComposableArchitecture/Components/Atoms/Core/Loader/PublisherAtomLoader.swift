@@ -27,7 +27,7 @@ public struct PublisherAtomLoader<Node: PublisherAtom>: RefreshableAtomLoader {
     
     context.addTermination(task.cancel)
     
-    return .suspending
+    return .pending
   }
   
   /// Associates given value and handle updates and cancellations.
@@ -39,7 +39,7 @@ public struct PublisherAtomLoader<Node: PublisherAtom>: RefreshableAtomLoader {
   public func refresh(context: Context) async -> Value {
     let results = context.transaction(atom.publisher).results
     let task = Task {
-      var phase = Value.suspending
+      var phase = Value.pending
       
       for await result in results {
         phase = AsyncPhase(result)

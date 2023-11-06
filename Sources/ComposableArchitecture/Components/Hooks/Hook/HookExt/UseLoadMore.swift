@@ -80,7 +80,7 @@ private func useLoadIDModels<Model: Identifiable>(
   _ type: Model.Type,
   firstPage: Int,
   _ loader: @escaping( (Int) async throws -> PagedIDResponse<Model>)
-) -> (phase: HookAsyncPhase<PagedIDResponse<Model>, Error>, load: (Int) async throws -> Void) {
+) -> (phase: AsyncPhase<PagedIDResponse<Model>, Error>, load: (Int) async throws -> Void) {
   let page = useRef(firstPage)
   let (phase, fetch) = useAsyncPerform { [loader] in
     return try await loader(page.current)
@@ -96,7 +96,7 @@ private func useLoadIDModels<Model: Identifiable>(
 
 public struct LoadMoreHookIDModel<Model: Identifiable>: LoadMoreProtocol {
   public let isLoading: Bool
-  public let loadPhase: HookAsyncPhase<IdentifiedArrayOf<Model>, Error>
+  public let loadPhase: AsyncPhase<IdentifiedArrayOf<Model>, Error>
   public let hasNextPage: Bool
   public let load: ThrowingAsyncCompletion
   public let loadNext: ThrowingAsyncCompletion
@@ -205,7 +205,7 @@ private func useLoadModels<Model>(
   _ type: Model.Type,
   firstPage: Int,
   _ loader: @escaping( (Int) async throws -> PagedResponse<Model>)
-) -> (phase: HookAsyncPhase<PagedResponse<Model>, Error>, load: (Int) async throws -> Void) {
+) -> (phase: AsyncPhase<PagedResponse<Model>, Error>, load: (Int) async throws -> Void) {
   let page = useRef(firstPage)
   let (phase, fetch) = useAsyncPerform {
     return try await loader(page.current)
@@ -221,7 +221,7 @@ private func useLoadModels<Model>(
 
 public struct LoadMoreHookModel<Model>: LoadMoreProtocol {
   public let isLoading: Bool
-  public let loadPhase: HookAsyncPhase<[Model], Error>
+  public let loadPhase: AsyncPhase<[Model], Error>
   public let hasNextPage: Bool
   public let load: ThrowingAsyncCompletion
   public let loadNext: ThrowingAsyncCompletion
@@ -258,7 +258,7 @@ public protocol LoadMoreProtocol {
   associatedtype Success
   
   var isLoading: Bool {get}
-  var loadPhase: HookAsyncPhase<Success, Error> {get}
+  var loadPhase: AsyncPhase<Success, Error> {get}
   var hasNextPage: Bool {get}
   var load: ThrowingAsyncCompletion {get}
   var loadNext: ThrowingAsyncCompletion {get}

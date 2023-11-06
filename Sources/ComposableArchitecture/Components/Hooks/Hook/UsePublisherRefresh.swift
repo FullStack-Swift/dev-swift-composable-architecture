@@ -13,7 +13,7 @@ import Combine
 @discardableResult
 public func usePublisherRefresh<P: Publisher>(
   _ makePublisher: @escaping () -> P
-) -> (phase: HookAsyncPhase<P.Output, P.Failure>, refresher: () -> Void) {
+) -> (phase: AsyncPhase<P.Output, P.Failure>, refresher: () -> Void) {
   useHook(
     PublisherSubscribeHook(
       makePublisher: makePublisher
@@ -25,7 +25,7 @@ private struct PublisherSubscribeHook<P: Publisher>: Hook {
   
   typealias State = _HookRef
   
-  typealias Phase = HookAsyncPhase<P.Output, P.Failure>
+  typealias Phase = AsyncPhase<P.Output, P.Failure>
   
   typealias Value = (phase: Phase, refresher: () -> Void)
   

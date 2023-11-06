@@ -11,7 +11,7 @@
 @discardableResult
 public func useAsyncRefresh<Output>(
   _ operation: @escaping @MainActor () async -> Output
-) -> (phase: HookAsyncPhase<Output, Never>, refresher: AsyncCompletion) {
+) -> (phase: AsyncPhase<Output, Never>, refresher: AsyncCompletion) {
   useHook(AsyncRefreshHook(operation: operation))
 }
 
@@ -26,7 +26,7 @@ public func useAsyncRefresh<Output>(
 @discardableResult
 public func useAsyncRefresh<Output>(
   _ operation: @escaping @MainActor () async throws -> Output
-) -> (phase: HookAsyncPhase<Output, Error>, refresher: ThrowingAsyncCompletion) {
+) -> (phase: AsyncPhase<Output, Error>, refresher: ThrowingAsyncCompletion) {
   useHook(AsyncThrowingRefreshHook(operation: operation))
 }
 
@@ -34,7 +34,7 @@ private struct AsyncRefreshHook<Output>: Hook {
   
   typealias State = _HookRef
   
-  typealias Phase = HookAsyncPhase<Output, Never>
+  typealias Phase = AsyncPhase<Output, Never>
   
   typealias Value = (phase: Phase, refresher: AsyncCompletion)
   
@@ -99,7 +99,7 @@ private struct AsyncThrowingRefreshHook<Output>: Hook {
   
   typealias State = _HookRef
   
-  typealias Phase = HookAsyncPhase<Output, Error>
+  typealias Phase = AsyncPhase<Output, Error>
   
   typealias Value = (phase: Phase, refresher: ThrowingAsyncCompletion)
   
@@ -121,7 +121,7 @@ private struct AsyncThrowingRefreshHook<Output>: Hook {
         guard !coordinator.state.isDisposed else {
           return
         }
-        let phase: HookAsyncPhase<Output, Error>
+        let phase: AsyncPhase<Output, Error>
         do {
           let output = try await operation()
           phase = .success(output)

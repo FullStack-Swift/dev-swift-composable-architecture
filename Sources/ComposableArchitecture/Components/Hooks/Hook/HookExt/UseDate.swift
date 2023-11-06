@@ -25,7 +25,7 @@ public func useDate(date: Date) -> Date? {
 
 /// Description
 /// - Returns: AsyncPhase
-public func usePhaseDate() -> HookAsyncPhase<Date, Never> {
+public func usePhaseDate() -> AsyncPhase<Date, Never> {
   usePublisher(.once) {
     Timer.publish(every: 1, on: .main, in: .common)
       .autoconnect()
@@ -35,7 +35,7 @@ public func usePhaseDate() -> HookAsyncPhase<Date, Never> {
 
 /// Description
 /// - Returns: AsyncPhase
-public func usePhaseDate(date: Date) -> HookAsyncPhase<Date, Never> {
+public func usePhaseDate(date: Date) -> AsyncPhase<Date, Never> {
   usePublisher(.once) {
     Timer.publish(every: 1, on: .main, in: .common)
       .autoconnect()

@@ -14,7 +14,7 @@ public func useThrottle<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: AsyncThrowingStream<Output, any Error>,
   seconds timeInterval: TimeInterval = 2
-) -> HookAsyncPhase<Output, any Error> {
+) -> AsyncPhase<Output, any Error> {
   let stream = operation.throttle(for: .seconds(timeInterval))
     .eraseToThrowingStream()
   return useAsyncThrowingSequence(.once, stream)
@@ -26,7 +26,7 @@ public func useThrottle<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: some Publisher<Output, any Error>,
   seconds timeInterval: TimeInterval = 2
-) -> HookAsyncPhase<Output, any Error> {
+) -> AsyncPhase<Output, any Error> {
   let stream = operation
     .backport.values
     .throttle(for: .seconds(timeInterval))

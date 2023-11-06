@@ -170,7 +170,7 @@ private extension Suspense {
   @MainActor
   final class State: ObservableObject {
     @Published
-    private(set) var phase = AsyncPhase<Value, Failure>.suspending
+    private(set) var phase = AsyncPhase<Value, Failure>.pending
     
     private var suspensionTask: Task<Void, Never>? {
       didSet { oldValue?.cancel() }
@@ -183,12 +183,12 @@ private extension Suspense {
         }
         
         guard let task else {
-          phase = .suspending
+          phase = .pending
           return suspensionTask = nil
         }
         
         suspensionTask = Task { [weak self] in
-          self?.phase = .suspending
+          self?.phase = .pending
           
           let result = await task.result
           

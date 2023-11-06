@@ -149,6 +149,15 @@ public enum TaskResult<Success: Sendable>: Sendable {
     }
   }
   
+  public var result: Result<Success, Error> {
+    switch self {
+      case .success(let success):
+        return .success(success)
+      case .failure(let error):
+        return .failure(error)
+    }
+  }
+  
   /// Returns a new task result, mapping any success value using the given transformation.
   ///
   /// Like `map` on `Result`, `Optional`, and many other types.
@@ -198,5 +207,17 @@ extension Result where Success: Sendable, Failure == Error {
       case let .failure(error):
         self = .failure(error)
     }
+  }
+}
+
+extension Result {
+  func toTaskResult() -> TaskResult<Success> {
+    TaskResult(self)
+  }
+}
+
+extension TaskResult {
+  func toResult() -> Result<Success, Error> {
+    result
   }
 }

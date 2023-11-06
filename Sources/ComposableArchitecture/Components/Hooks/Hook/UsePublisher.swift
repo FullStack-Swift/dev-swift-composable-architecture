@@ -17,7 +17,7 @@ import Combine
 public func usePublisher<P: Publisher>(
   _ updateStrategy: HookUpdateStrategy = .once,
   _ makePublisher: @escaping () -> P
-) -> HookAsyncPhase<P.Output, P.Failure> {
+) -> AsyncPhase<P.Output, P.Failure> {
   useHook(
     PublisherHook(
       updateStrategy: updateStrategy,
@@ -30,7 +30,7 @@ private struct PublisherHook<P: Publisher>: Hook {
   
   typealias State = _HookRef
   
-  typealias Phase = HookAsyncPhase<P.Output, P.Failure>
+  typealias Phase = AsyncPhase<P.Output, P.Failure>
   
   let updateStrategy: HookUpdateStrategy?
   

@@ -215,7 +215,7 @@ private extension RecoilPublisherRefresherHook {
   // MARK: State
   final class _RecoilHookRef: RecoilHookRef<Node> {
     
-    var phase: Phase = .suspending
+    var phase: Phase = .pending
     
     override init(location: SourceLocation, initialNode: Node) {
       super.init(location: location, initialNode: initialNode)
@@ -316,7 +316,7 @@ private extension RecoilTaskRefresherHook {
   // MARK: State
   final class _RecoilHookRef: RecoilHookRef<Node> {
     
-    var phase: Phase = .suspending
+    var phase: Phase = .pending
     
     var value: Phase {
       context.watch(node.phase)
@@ -401,7 +401,7 @@ private extension RecoilThrowingTaskRefresherHook {
   // MARK: State
   final class _RecoilHookRef: RecoilHookRef<Node> {
     
-    var phase: Phase = .suspending
+    var phase: Phase = .pending
     
     var value: Phase {
       context.watch(node.phase)

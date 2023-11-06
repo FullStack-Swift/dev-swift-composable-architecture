@@ -19,7 +19,7 @@ public struct HAsyncPhase<Output> {
     operation
   }
   
-  public var projectedValue: HookAsyncPhase<Output, Never> {
+  public var projectedValue: AsyncPhase<Output, Never> {
     useAsync(updateStrategy, operation)
   }
 }

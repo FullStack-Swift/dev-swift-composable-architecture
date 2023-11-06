@@ -1156,7 +1156,7 @@ private extension RecoilPublisherHook {
   // MARK: State
   final class _ContextRecoilHookRef: ContextRecoilHookRef<Node, Context> {
     
-    var phase: Value = .suspending
+    var phase: Value = .pending
     
     var value: Value {
       context.watch(node)
@@ -1240,7 +1240,7 @@ private extension RecoilTaskHook {
   // MARK: State
   final class _ContextRecoilHookRef: ContextRecoilHookRef<Node, Context> {
     
-    var phase = Value.suspending
+    var phase = Value.pending
     
     var value: Value {
       context.watch(node.phase)
@@ -1324,7 +1324,7 @@ private extension RecoilThrowingTaskHook {
   // MARK: State
   final class _ContextRecoilHookRef: ContextRecoilHookRef<Node, Context> {
     
-    var phase: Value = .suspending
+    var phase: Value = .pending
     
     var value: Value {
       context.watch(node.phase)
@@ -1427,7 +1427,7 @@ private extension RecoilPublisherRefresherHook {
   @MainActor
   final class _ContextRecoilHookRef: ContextRecoilHookRef<Node, Context> {
 
-    var phase: Phase = .suspending
+    var phase: Phase = .pending
     
     var value: Phase {
       context.watch(node)
@@ -1530,7 +1530,7 @@ private extension RecoilTaskRefresherHook {
   // MARK: State
   final class _ContextRecoilHookRef: ContextRecoilHookRef<Node, Context> {
     
-    var phase: Phase = .suspending
+    var phase: Phase = .pending
     
     var value: Phase {
       context.watch(node.phase)
@@ -1633,7 +1633,7 @@ private extension RecoilThrowingTaskRefresherHook {
   // MARK: State
   final class _ContextRecoilHookRef: ContextRecoilHookRef<Node, Context> {
 
-    var phase: Phase = .suspending
+    var phase: Phase = .pending
     
     var value: Phase {
       context.watch(node.phase)

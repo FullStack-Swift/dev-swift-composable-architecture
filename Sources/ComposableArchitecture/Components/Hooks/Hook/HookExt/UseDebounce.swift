@@ -14,7 +14,7 @@ public func useDebounce<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: AsyncThrowingStream<Output, any Error>,
   seconds timeInterval: TimeInterval = 2
-) -> HookAsyncPhase<Output, any Error> {
+) -> AsyncPhase<Output, any Error> {
   let stream = operation.debounce(for: .seconds(timeInterval))
     .eraseToThrowingStream()
   return useAsyncThrowingSequence(.once, stream)
@@ -25,7 +25,7 @@ public func useDebounce<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: some Publisher<Output, any Error>,
   seconds timeInterval: TimeInterval = 2
-) -> HookAsyncPhase<Output, any Error> {
+) -> AsyncPhase<Output, any Error> {
   let stream = operation
     .backport.values
     .debounce(for: .seconds(timeInterval))

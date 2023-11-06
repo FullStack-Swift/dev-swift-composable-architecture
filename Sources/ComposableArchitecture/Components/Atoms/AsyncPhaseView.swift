@@ -159,7 +159,9 @@ public struct AsyncPhaseView<
 
   public var body: some View {
     switch phase {
-      case .suspending:
+      case .pending:
+        suspending()
+      case .running:
         suspending()
       case .success(let value):
         content(value)

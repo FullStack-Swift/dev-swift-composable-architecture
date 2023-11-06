@@ -23,7 +23,7 @@ open class StreamProvider<T>: ProviderProtocol {
   }
   
   public init(_ initialState: @escaping () async throws -> T) {
-    self.value = .suspending
+    self.value = .pending
     self.operation = initialState
     refresh()
   }

@@ -14,7 +14,7 @@ import Combine
 public func usePublisherSubscribe<P: Publisher>(
   _ makePublisher: @escaping () -> P
 ) -> (
-  phase: HookAsyncPhase<P.Output, P.Failure>,
+  phase: AsyncPhase<P.Output, P.Failure>,
   subscribe: () -> Void
 ) {
   useHook(PublisherSubscribeHook(makePublisher: makePublisher))
@@ -24,7 +24,7 @@ private struct PublisherSubscribeHook<P: Publisher>: Hook {
   
   typealias State = _HookRef
   
-  typealias Phase = HookAsyncPhase<P.Output, P.Failure>
+  typealias Phase = AsyncPhase<P.Output, P.Failure>
   
   typealias Value = (phase: Phase, subscribe: () -> Void)
   

@@ -15,7 +15,7 @@
 public func useAsync<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: @escaping AsyncReturn<Output>
-) -> HookAsyncPhase<Output, Never> {
+) -> AsyncPhase<Output, Never> {
   useHook(
     AsyncHook(
       updateStrategy: updateStrategy,
@@ -39,7 +39,7 @@ public func useAsync<Output>(
 public func useAsync<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: @escaping ThrowingAsyncReturn<Output>
-) -> HookAsyncPhase<Output, Error> {
+) -> AsyncPhase<Output, Error> {
   useHook(
     AsyncThrowingHook(
       updateStrategy: updateStrategy,
@@ -52,7 +52,7 @@ private struct AsyncHook<Output>: Hook {
   
   typealias State = _HookRef
   
-  typealias Value = HookAsyncPhase<Output, Never>
+  typealias Value = AsyncPhase<Output, Never>
   
   let updateStrategy: HookUpdateStrategy?
   
@@ -119,7 +119,7 @@ private struct AsyncThrowingHook<Output>: Hook {
   
   typealias State = _HookRef
   
-  typealias Value = HookAsyncPhase<Output, Error>
+  typealias Value = AsyncPhase<Output, Error>
   
   let updateStrategy: HookUpdateStrategy?
   
@@ -148,7 +148,7 @@ private struct AsyncThrowingHook<Output>: Hook {
     coordinator.state.phase = .running
     coordinator.updateView()
     coordinator.state.task = Task { @MainActor in
-      let phase: HookAsyncPhase<Output, Error>
+      let phase: AsyncPhase<Output, Error>
       do {
         let output = try await operation()
         phase = .success(output)

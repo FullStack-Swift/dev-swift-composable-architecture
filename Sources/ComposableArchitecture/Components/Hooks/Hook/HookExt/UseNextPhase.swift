@@ -1,14 +1,14 @@
 // MARK: useNextPhaseValue
 
-/// Get Only Value from `HookAsyncPhase` where status is Success, with other status, it will return preview Success.
+/// Get Only Value from `AsyncPhase` where status is Success, with other status, it will return preview Success.
 ///
-///       let phase: HookAsyncPhase<Success, Error> = ...
+///       let phase: AsyncPhase<Success, Error> = ...
 ///       let value = useNextPhaseValue(phase)
 ///
 /// - Parameter phase: phase to get value.
-/// - Returns: Success Value from HookAsyncPhase
+/// - Returns: Success Value from AsyncPhase
 public func useNextPhaseValue<Success, Failure>(
-  _ phase: HookAsyncPhase<Success, Failure>
+  _ phase: AsyncPhase<Success, Failure>
 ) -> Success? {
   let ref = useRef(phase.value)
   useLayoutEffect {
@@ -22,15 +22,15 @@ public func useNextPhaseValue<Success, Failure>(
 
 // MARK: useNextPhaseFailure
 
-/// Get Only Failure from `HookAsyncPhase` where status is Failure, with other status, it will return preview Failure.
+/// Get Only Failure from `AsyncPhase` where status is Failure, with other status, it will return preview Failure.
 ///
-///       let phase: HookAsyncPhase<Success, Error> = ...
+///       let phase: AsyncPhase<Success, Error> = ...
 ///       let failure = useNextPhaseFailure(phase)
 ///
 /// - Parameter phase: phase to get value.
-/// - Returns: Failure Value from HookAsyncPhase
+/// - Returns: Failure Value from AsyncPhase
 public func useNextPhaseFailure<Success, Failure>(
-  _ phase: HookAsyncPhase<Success, Failure>
+  _ phase: AsyncPhase<Success, Failure>
 ) -> Failure? {
   let ref = useRef(phase.error)
   useLayoutEffect {
@@ -44,15 +44,15 @@ public func useNextPhaseFailure<Success, Failure>(
 
 // MARK: useNextPhaseResult
 
-/// Get Only Result from `HookAsyncPhase` where status is success or failure, with other status, it will return preview Result.
+/// Get Only Result from `AsyncPhase` where status is success or failure, with other status, it will return preview Result.
 ///
-///       let phase: HookAsyncPhase<Success, Error> = ...
+///       let phase: AsyncPhase<Success, Error> = ...
 ///       let result = useNextPhaseResult(phase)
 ///
 /// - Parameter phase: phase to get value.
-/// - Returns: Success Value from HookAsyncPhase
+/// - Returns: Success Value from AsyncPhase
 public func useNextPhaseResult<Success, Failure>(
-  _ phase: HookAsyncPhase<Success, Failure>
+  _ phase: AsyncPhase<Success, Failure>
 ) -> Result<Success, Failure>? {
   let ref = useRef(phase.result)
   useLayoutEffect {
@@ -66,15 +66,15 @@ public func useNextPhaseResult<Success, Failure>(
 
 // MARK: useNextPhaseTaskResult
 
-/// Get Only Value from `HookAsyncPhase` where status is success or failure, with other status, it will return preview TaskResult.
+/// Get Only Value from `AsyncPhase` where status is success or failure, with other status, it will return preview TaskResult.
 ///
-///       let phase: HookAsyncPhase<Success, Error> = ...
+///       let phase: AsyncPhase<Success, Error> = ...
 ///       let value = useNextPhaseTaskResult(phase)
 ///
 /// - Parameter phase: phase to get value.
-/// - Returns: Success Value from HookAsyncPhase
+/// - Returns: Success Value from AsyncPhase
 public func useNextPhaseTaskResult<Success, Failure>(
-  _ phase: HookAsyncPhase<Success, Failure>
+  _ phase: AsyncPhase<Success, Failure>
 ) -> TaskResult<Success>? {
   let ref = useRef(phase.taskResult)
   useLayoutEffect {
