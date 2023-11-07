@@ -28,12 +28,12 @@ public struct HookUpdateStrategy {
 public extension HookUpdateStrategy {
   /// A type erased dependency value that to determine if a hook should update its state.
   struct Dependency: Equatable {
-    private let value: Any
+    private let value: any Equatable
     private let equals: (Self) -> Bool
     
     /// Create a new dependency from the given equatable value.
     /// - Parameter value: An actual value that will be compared.
-    public init<T: Equatable>(_ value: T) {
+    public init(_ value: any Equatable) {
       if let key = value as? Self {
         self = key
         return
@@ -41,7 +41,8 @@ public extension HookUpdateStrategy {
       
       self.value = value
       self.equals = { other in
-        value == other.value as? T
+//        value == other.value as? T
+        areEquals(value, other.value)
       }
     }
     
