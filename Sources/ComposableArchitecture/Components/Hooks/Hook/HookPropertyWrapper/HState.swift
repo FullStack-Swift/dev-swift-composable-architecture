@@ -18,7 +18,7 @@ import SwiftUI
 @propertyWrapper
 public struct HState<Node> {
   
-  private let value: Binding<Node>
+  public let value: Binding<Node>
   
   internal var _location: AnyLocation<((Node) -> Void)?>? = .init(value: nil)
   
@@ -54,12 +54,13 @@ public struct HState<Node> {
   ///            }
   ///     }
   ///
-  public var projectedValue: Binding<Node> {
-    value.didChange { newValue in
-      if let value = _location?.value {
-        value(newValue)
-      }
-    }
+  public var projectedValue: Self {
+    self
+//    value.didChange { newValue in
+//      if let value = _location?.value {
+//        value(newValue)
+//      }
+//    }
   }
   
   public func send(_ node: Node) {
