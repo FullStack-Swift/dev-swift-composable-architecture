@@ -20,8 +20,10 @@ public struct HState<Node> {
   
   private let value: Binding<Node>
   
+  internal var _location: AnyLocation<((Node) -> Void)?>? = .init(value: nil)
+  
   public init(wrappedValue: @escaping () -> Node) {
-    value = useState(wrappedValue)
+    value = useState(wrappedValue())
   }
   
   public init(wrappedValue: Node) {
@@ -34,6 +36,9 @@ public struct HState<Node> {
     }
     nonmutating set {
       value.wrappedValue = newValue
+      if let value = _location?.value {
+        value(newValue)
+      }
     }
   }
   
@@ -51,5 +56,14 @@ public struct HState<Node> {
   ///
   public var projectedValue: Binding<Node> {
     value
+  }
+  
+  public func send(_ node: Node) {
+    value.wrappedValue = node
+  }
+  
+  public func onChange(_ onChange: @escaping (Node) -> Void) -> Self {
+    _location?.value = onChange
+    return self
   }
 }
