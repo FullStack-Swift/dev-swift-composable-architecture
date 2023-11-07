@@ -1,17 +1,13 @@
 import SwiftUI
 
 public func useOnChangeState<Node>(
-  _ initialNode: @escaping () -> Node,
-  onChange: @escaping (Node) -> Void
-) -> Binding<Node> {
-  useOnChangeState(initialNode(), onChange: onChange)
+  _ initialNode: @escaping () -> Node
+) -> HState<Node> {
+  useOnChangeState(initialNode())
 }
 
 public func useOnChangeState<Node>(
-  _ initialNode: Node,
-  onChange: @escaping (Node) -> Void
-) -> Binding<Node> {
-  let state = HState(wrappedValue: initialNode)
-    .onChange(onChange)
-  return state.projectedValue
+  _ initialNode: Node
+) -> HState<Node> {
+  HState(wrappedValue: initialNode)
 }

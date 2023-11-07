@@ -126,7 +126,7 @@ private struct TodoCreator: View {
       let text = useState("")
       let _onlCreateTodo = useParamCallBack { (param: String) async throws -> Data in
         let data = try await MRequest {
-          RUrl(urlString: "http://127.0.0.1:8080")
+          RUrl("http://127.0.0.1:8080")
             .withPath("todos")
           Rbody(Todo(id: UUID(), text: param, isCompleted: false).toData())
           RMethod(.post)
@@ -174,7 +174,7 @@ private struct TodoItem: View {
     HookScope {
       let _onlUpdateTodo = useParamCallBack { (param: Todo) async throws -> Data in
         let data: Data = try await MRequest {
-          RUrl(urlString: "http://127.0.0.1:8080")
+          RUrl("http://127.0.0.1:8080")
             .withPath("todos")
             .withPath(param.id.uuidString)
           Rbody(param.toData())
@@ -220,7 +220,7 @@ struct OnlineJotailTodoView: View {
       let phase = useRecoilThrowingTask(updateStrategy: .preserved(by: flagRefreshTodos.wrappedValue)) {
         selectorThrowingTask { context async throws -> IdentifiedArrayOf<Todo> in
           let request = MRequest {
-            RUrl(urlString: "http://127.0.0.1:8080")
+            RUrl("http://127.0.0.1:8080")
               .withPath("todos")
             RMethod(.get)
           }
@@ -233,7 +233,7 @@ struct OnlineJotailTodoView: View {
       }
       let _onlDeleteTodo = useParamCallBack { (param: UUID) async throws -> Data in
         let data: Data = try await MRequest {
-          RUrl(urlString: "http://127.0.0.1:8080")
+          RUrl("http://127.0.0.1:8080")
             .withPath("todos")
             .withPath(param.uuidString)
           RMethod(.delete)
