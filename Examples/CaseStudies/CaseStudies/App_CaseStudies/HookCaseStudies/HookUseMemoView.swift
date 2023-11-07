@@ -17,7 +17,7 @@ struct HookUseMemoView: View {
       }
       
       VStack {
-        Stepper(value: $state) {
+        Stepper(value: $state.value) {
           Text(state.description)
         }
         randomColor

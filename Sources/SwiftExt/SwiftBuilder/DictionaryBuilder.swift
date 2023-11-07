@@ -38,12 +38,20 @@ public enum DictionaryBuilder<Key: Hashable, Value> {
 
 public extension Dictionary {
   
+  /// How to use this function:
+  ///
+  ///     let dict = Dictionary  {
+  ///
+  ///     }
+  ///
+  /// Return Dictionary from builder.
   init(@DictionaryBuilder<Key, Value> builder: () -> Dictionary) {
     self = builder()
   }
-  
 }
 
-public func dictionaryBuilder<Key: Hashable, Value>(@DictionaryBuilder<Key, Value> builder: () -> Dictionary<Key, Value>) -> Dictionary<Key, Value> {
+public func dictionaryBuilder<Key: Hashable, Value>(
+  @DictionaryBuilder<Key, Value> builder: () -> Dictionary<Key, Value>
+) -> Dictionary<Key, Value> {
   builder()
 }

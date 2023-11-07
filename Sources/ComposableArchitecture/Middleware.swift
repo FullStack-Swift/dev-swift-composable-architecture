@@ -20,7 +20,7 @@ public protocol Middleware<State, Action> {
   /// When you create a custom reducer by implementing the ``body-swift.property-7foai``, Swift
   /// infers this type from the value returned.
   ///
-  /// If you create a custom reducer by implementing the ``reduce(into:action:)-8yinq``, Swift
+  /// If you create a custom reducer by implementing the ``handle(into:action:)-8yinq``, Swift
   /// infers this type to be `Never`.
   typealias Body = _Body
   /// Evolves the current state of the reducer to the next state.

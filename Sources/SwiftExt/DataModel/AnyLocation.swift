@@ -18,4 +18,8 @@ open class AnyLocation<Value>: AnyLocationBase {
       _value.pointee = newValue
     }
   }
+  
+  open func send(_ value: Value) {
+    self.value = value
+  }
 }

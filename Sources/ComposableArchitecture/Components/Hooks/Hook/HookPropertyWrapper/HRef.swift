@@ -3,32 +3,36 @@ import Foundation
 @propertyWrapper
 public struct HRef<Node> {
   
-  private let value: RefObject<Node>
+  private let _value: RefObject<Node>
   
   internal var _location: AnyLocation<((Node) -> Void)?>? = .init(value: nil)
   
   public init(wrappedValue: @escaping () -> Node) {
-    value = useRef(wrappedValue)
+    _value = useRef(wrappedValue)
   }
   
   public init(wrappedValue: Node) {
-    value = useRef(wrappedValue)
+    _value = useRef(wrappedValue)
   }
   
   public var wrappedValue: Node {
     get {
-      value.current
+      _value.current
     }
     nonmutating set {
-      value.current = newValue
+      _value.current = newValue
       if let value = _location?.value {
         value(newValue)
       }
     }
   }
   
-  public var projectedValue: RefObject<Node> {
-    value
+  public var projectedValue: Self {
+    self
+  }
+  
+  public var value: RefObject<Node> {
+    _value
   }
   
   public func send(_ node: Node) {

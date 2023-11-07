@@ -30,4 +30,8 @@ public struct HMemo<Node> {
   public var projectedValue: Self {
     self
   }
+  
+  public var value: Node {
+    wrappedValue
+  }
 }

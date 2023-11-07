@@ -38,11 +38,9 @@ public extension HookUpdateStrategy {
         self = key
         return
       }
-      
       self.value = value
       self.equals = { other in
-//        value == other.value as? T
-        areEquals(value, other.value)
+        areEqual(value, other.value)
       }
     }
     

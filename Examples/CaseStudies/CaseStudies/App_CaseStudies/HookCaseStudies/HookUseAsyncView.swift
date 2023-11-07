@@ -5,7 +5,7 @@ struct HookUseAsyncView: View {
     HookScope {
       @HState var state = false
       
-      @HAsyncPhase(.preserved(by: state))
+      @HUseAsync(.preserved(by: state))
       var phase = blockBuilder { () -> Int in
         try? await Task.sleep(seconds: 2)
         return Int.random(in: 1...1000)
@@ -16,9 +16,9 @@ struct HookUseAsyncView: View {
       //        return Int.random(in: 1...1000)
       //      }
       VStack {
-        Toggle("Use HAsyncPhase", isOn: $state)
+        Toggle("Use HAsyncPhase", isOn: $state.value)
         viewBuilder {
-          switch $phase {
+          switch $phase.value {
             case .success(let value):
               Text(value.description)
             case .running:

@@ -11,22 +11,22 @@ import SwiftUI
 public struct RefState<Wrapped>: DynamicProperty {
 
   @StateObject
-  private var storeValue: RefStateObservableObject<Wrapped>
+  private var observable: RefStateObservable<Wrapped>
 
   public init(wrappedValue value: Wrapped) {
-    self.init(wrappedValue: RefStateObservableObject<Wrapped>(wrappedValue: value))
+    self.init(wrappedValue: RefStateObservable(wrappedValue: value))
   }
 
-  public init(wrappedValue value: RefStateObservableObject<Wrapped>) {
-    self._storeValue = StateObject(wrappedValue: value)
+  public init(wrappedValue value: RefStateObservable<Wrapped>) {
+    self._observable = StateObject(wrappedValue: value)
   }
 
   public var wrappedValue: Wrapped {
     get {
-      storeValue.value
+      observable.value
     }
     nonmutating set {
-      storeValue.value = newValue
+      observable.value = newValue
     }
   }
 
@@ -34,30 +34,25 @@ public struct RefState<Wrapped>: DynamicProperty {
     dynamicMember keyPath: WritableKeyPath<Wrapped, Value>
   ) -> Value {
     get {
-      storeValue.value[keyPath: keyPath]
+      observable.value[keyPath: keyPath]
     }
     set {
-      storeValue.value[keyPath: keyPath] = newValue
+      observable.value[keyPath: keyPath] = newValue
     }
   }
 
   public var projectedValue: Binding<Wrapped> {
-    $storeValue.wrappedValue
-  }
-
-  private var boxedValue: Wrapped {
-    _read { yield self.storeValue.value }
-    _modify { yield &self.storeValue.value }
+    $observable.wrappedValue
   }
 
   public var value: Wrapped {
-    _read { yield self.storeValue.value }
-    _modify { yield &self.storeValue.value }
+    _read { yield self.observable.value }
+    _modify { yield &self.observable.value }
   }
 }
 
 @dynamicMemberLookup
-public class RefStateObservableObject<Wrapped>: ObservableObject {
+public class RefStateObservable<Wrapped>: ObservableObject {
 
   @Published public var wrappedValue: Wrapped
 
@@ -79,12 +74,7 @@ public class RefStateObservableObject<Wrapped>: ObservableObject {
   public var projectedValue: Self {
     self
   }
-
-  public var boxedValue: Wrapped {
-    _read { yield self.wrappedValue }
-    _modify { yield &self.wrappedValue }
-  }
-
+  
   public var value: Wrapped {
     _read { yield self.wrappedValue }
     _modify { yield &self.wrappedValue }

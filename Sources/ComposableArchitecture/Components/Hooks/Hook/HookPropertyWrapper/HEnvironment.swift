@@ -12,4 +12,8 @@ public struct HEnvironment<Value> {
   public var projectedValue: Self {
     self
   }
+  
+  public var value: Value {
+    wrappedValue
+  }
 }

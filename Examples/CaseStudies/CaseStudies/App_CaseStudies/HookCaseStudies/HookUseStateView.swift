@@ -5,7 +5,7 @@ struct HookUseStateView: View {
   var body: some View {
     HookScope {
       @HState var state = 0
-      Stepper(value: $state) {
+      Stepper(value: $state.value) {
         Text(state.description)
       }
     }

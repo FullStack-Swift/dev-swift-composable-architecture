@@ -26,7 +26,11 @@ public struct HContext<Node> {
   
   public var wrappedValue: Context.Type
   
-  public var projectedValue: Node {
+  public var projectedValue: Self {
+    self
+  }
+  
+  public var value: Node {
     useContext(wrappedValue)
   }
 }

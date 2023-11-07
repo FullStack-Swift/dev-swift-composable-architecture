@@ -18,24 +18,25 @@ import SwiftUI
 @propertyWrapper
 public struct HState<Node> {
   
-  public let value: Binding<Node>
+  internal let _value: Binding<Node>
   
   internal var _location: AnyLocation<((Node) -> Void)?>? = .init(value: nil)
   
   public init(wrappedValue: @escaping () -> Node) {
-    value = useState(wrappedValue())
+    _value = useState(wrappedValue())
   }
   
   public init(wrappedValue: Node) {
-    value = useState(wrappedValue)
+    _value = useState(wrappedValue)
   }
   
   public var wrappedValue: Node {
     get {
-      value.wrappedValue
+      _value.wrappedValue
     }
     nonmutating set {
-      value.wrappedValue = newValue
+      _value.wrappedValue = newValue
+      /// Check and sends value to thẻ subscriber, and onChange perform.
       if let value = _location?.value {
         value(newValue)
       }
@@ -56,15 +57,25 @@ public struct HState<Node> {
   ///
   public var projectedValue: Self {
     self
-//    value.didChange { newValue in
-//      if let value = _location?.value {
-//        value(newValue)
-//      }
-//    }
   }
   
+  
+  public var binding: Binding<Node> {
+    value
+  }
+  
+  public var value: Binding<Node> {
+    _value.didChange { newValue in
+      /// Check and sends value to the subscriber, and onChange perform.
+      if let value = _location?.value {
+        value(newValue)
+      }
+    }
+  }
+  
+  ///  No sends a value to the subscriber, and onChange doesn't perform.
   public func send(_ node: Node) {
-    value.wrappedValue = node
+    _value.wrappedValue = node
   }
   
   public func onChange(_ onChange: @escaping (Node) -> Void) -> Self {

@@ -68,9 +68,7 @@ fileprivate final class ActionListenerViewModel<Action> {
   }
   
   deinit {
-    for cancellable in cancellables {
-      cancellable.cancel()
-    }
+    cancellables.dispose()
   }
   
   fileprivate func send(_ action: Action) {
