@@ -55,7 +55,11 @@ public struct HState<Node> {
   ///     }
   ///
   public var projectedValue: Binding<Node> {
-    value
+    value.didChange { newValue in
+      if let value = _location?.value {
+        value(newValue)
+      }
+    }
   }
   
   public func send(_ node: Node) {
