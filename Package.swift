@@ -48,7 +48,7 @@ let package = Package(
     .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.0.0"),
     // MARK: custom
     .package(url: "https://github.com/apple/swift-syntax.git", branch: "main"),
-    .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0"),
+    .package(url: "https://github.com/apple/swift-async-algorithms", from: "1.0.0-beta.1"),
   ],
   targets: [
     .target(

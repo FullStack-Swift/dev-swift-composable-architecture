@@ -12,10 +12,11 @@ import Combine
 @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
 public func useThrottle<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
-  _ operation: AsyncThrowingStream<Output, any Error>,
-  seconds timeInterval: TimeInterval = 2
+  _ operation: AnyAsyncSequence<Output>,
+  seconds timeInterval: Double = 2
 ) -> AsyncPhase<Output, any Error> {
-  let stream = operation.throttle(for: .seconds(timeInterval))
+  let stream = operation
+    ._throttle(for: .seconds(timeInterval))
     .eraseToThrowingStream()
   return useAsyncThrowingSequence(.once, stream)
 }
@@ -29,7 +30,7 @@ public func useThrottle<Output>(
 ) -> AsyncPhase<Output, any Error> {
   let stream = operation
     .backport.values
-    .throttle(for: .seconds(timeInterval))
+    ._throttle(for: .seconds(timeInterval))
     .eraseToThrowingStream()
   return useAsyncThrowingSequence(.once, stream)
 }
