@@ -12,6 +12,11 @@ public final class RefObject<T> {
 
 extension RefObject {
   public var value: T {
-    current
+    get {
+      current
+    }
+    set {
+      current = newValue
+    }
   }
 }

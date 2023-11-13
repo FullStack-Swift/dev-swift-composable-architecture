@@ -1,5 +1,5 @@
 /// An immutable representation of the most recent asynchronous operation phase. This type differs form  ``AsyncPhase``
-///  type in that it uses only one generic for the sucees case, leaving the failure case as an untyped `Error`.
+///  type in that it uses only one generic for the success case, leaving the failure case as an untyped `Error`.
 public enum TaskAsyncPhase<Success> {
   /// Represents a pending phase meaning that the operation has not been started.
   case pending
@@ -57,7 +57,7 @@ public enum TaskAsyncPhase<Success> {
     }
   }
   
-  /// A boolean value indicating whether `self` is ``TaskPhase/isPending``.
+  /// A boolean value indicating whether `self` is ``TaskAsyncPhase/isPending``.
   public var isPending: Bool {
     guard case .pending = self else {
       return false
@@ -66,7 +66,7 @@ public enum TaskAsyncPhase<Success> {
     return true
   }
   
-  /// A boolean value indicating whether `self` is ``TaskPhase/success(_:)``.
+  /// A boolean value indicating whether `self` is ``TaskAsyncPhase/success(_:)``.
   public var isSuccess: Bool {
     guard case .success = self else {
       return false
@@ -75,7 +75,7 @@ public enum TaskAsyncPhase<Success> {
     return true
   }
   
-  /// A boolean value indicating whether `self` is ``TaskPhase/failure(_:)``.
+  /// A boolean value indicating whether `self` is ``TaskAsyncPhase/failure(_:)``.
   public var isFailure: Bool {
     guard case .failure = self else {
       return false
@@ -84,7 +84,7 @@ public enum TaskAsyncPhase<Success> {
     return true
   }
   
-  /// Returns the success value if `self` is ``TaskPhase/success(_:)``, otherwise returns `nil`.
+  /// Returns the success value if `self` is ``TaskAsyncPhase/success(_:)``, otherwise returns `nil`.
   public var value: Success? {
     guard case .success(let value) = self else {
       return nil
@@ -92,7 +92,7 @@ public enum TaskAsyncPhase<Success> {
     return value
   }
   
-  /// Returns the error value if `self` is ``TaskPhase/failure(_:)``, otherwise returns `nil`.
+  /// Returns the error value if `self` is ``TaskAsyncPhase/failure(_:)``, otherwise returns `nil`.
   public var error: (any Error)? {
     guard case .failure(let error) = self else {
       return nil
@@ -128,7 +128,7 @@ public enum TaskAsyncPhase<Success> {
   ///
   /// - Parameter transform: A closure that takes the success value of this instance.
   ///
-  /// - Returns: An ``AsyncPhase`` instance with the result of evaluating `transform`
+  /// - Returns: An ``TaskAsyncPhase`` instance with the result of evaluating `transform`
   ///   as the new success value if this instance represents a success.
   public func map<NewSuccess>(
     _ transform: (Success) -> NewSuccess
@@ -140,7 +140,7 @@ public enum TaskAsyncPhase<Success> {
   ///
   /// - Parameter transform: A closure that takes the failure value of the instance.
   ///
-  /// - Returns: An ``AsyncPhase`` instance with the result of evaluating `transform` as
+  /// - Returns: An ``TaskAsyncPhase`` instance with the result of evaluating `transform` as
   ///            the new failure value if this instance represents a failure.
   public func mapError<Failure: Error>(
     _ transform: (any Error) -> Failure
@@ -153,8 +153,8 @@ public enum TaskAsyncPhase<Success> {
   ///
   /// - Parameter transform: A closure that takes the success value of the instance.
   ///
-  /// - Returns: An ``TaskPhase`` instance, either from the closure or the previous
-  ///            ``TaskPhase/failure(_:)``.
+  /// - Returns: An ``TaskAsyncPhase`` instance, either from the closure or the previous
+  ///            ``TaskAsyncPhase/success(_:)``.
   public func flatMap<NewSuccess>(
     _ transform: (Success) -> TaskAsyncPhase<NewSuccess>
   ) -> TaskAsyncPhase<NewSuccess> {
@@ -175,8 +175,8 @@ public enum TaskAsyncPhase<Success> {
   ///
   /// - Parameter transform: A closure that takes the failure value of the instance.
   ///
-  /// - Returns: An ``TaskPhase`` instance, either from the closure or the previous
-  ///            ``TaskPhase/success(_:)``.
+  /// - Returns: An ``TaskAsyncPhase`` instance, either from the closure or the previous
+  ///            ``TaskAsyncPhase/failure(_:)``.
   public func flatMapError(
     _ transform: (any Error) -> TaskAsyncPhase<Success>
   ) -> TaskAsyncPhase<Success> {
@@ -222,13 +222,33 @@ extension TaskAsyncPhase {
           .failure
     }
   }
+  
+  /// A boolean value indicating whether `self` is ``TaskAsyncPhase/pending`` or ``TaskAsyncPhase/running``.
+  public var isLoading: Bool {
+    switch self.status {
+      case .pending, .running:
+        return true
+      case .success, .failure:
+        return false
+    }
+  }
+  
+  /// A boolean value indicating whether `self` is ``TaskAsyncPhase/success(_:)`` or ``TaskAsyncPhase/failure(_:)``.
+  public var hasResponded: Bool {
+    switch self.status {
+      case .pending, .running:
+        return false
+      case .success, .failure:
+        return true
+    }
+  }
 }
 
 extension TaskAsyncPhase {
-  /// Merge TaskPhase
+  /// Merge TaskAsyncPhase
   /// We receive Success and show to the view only If 2 phase is Success.
-  /// - Parameter other: other TaskPhase
-  /// - Returns: TaskPhase
+  /// - Parameter other: other TaskAsyncPhase
+  /// - Returns: TaskAsyncPhase
   public func merge(_ other: Self) -> TaskAsyncPhase<(Success, Success)> {
     switch (self, other) {
       case (.pending, _):
@@ -404,16 +424,13 @@ public enum AsyncPhase<Success, Failure: Error> {
   ) -> AsyncPhase<NewSuccess, Failure> {
     switch self {
       case .pending:
-        return .pending
-        
+          .pending
       case .running:
-        return .running
-        
+          .running
       case .success(let value):
-        return transform(value)
-        
+        transform(value)
       case .failure(let error):
-        return .failure(error)
+          .failure(error)
     }
   }
   
@@ -439,13 +456,16 @@ public enum AsyncPhase<Success, Failure: Error> {
 extension AsyncPhase {
   /// The status using in HookUpdateStrategy to order handle response phase.
   public enum StatusPhase: Hashable, Equatable {
-    /// Represents a pending phase.
+    /// Represents a pending phase meaning that the operation has not been started.
     case pending
-    /// Represents a running phase.
+    
+    /// Represents a running phase meaning that the operation has been started, but has not yet provided a result.
     case running
-    /// Represents a success phase.
+    
+    /// Represents a success phase meaning that the operation provided a value with success.
     case success
-    /// Represents a failure phase.
+    
+    /// Represents a failure phase meaning that the operation provided an error with failure.
     case failure
   }
   
@@ -460,6 +480,26 @@ extension AsyncPhase {
         return .success
       case .failure(_):
         return .failure
+    }
+  }
+  
+  /// A boolean value indicating whether `self` is ``AsyncPhase/pending`` or ``AsyncPhase/running``.
+  public var isLoading: Bool {
+    switch self.status {
+      case .pending, .running:
+        return true
+      case .success, .failure:
+        return false
+    }
+  }
+  
+  /// A boolean value indicating whether `self` is ``AsyncPhase/success(_:)`` or ``AsyncPhase/failure(_:)``.
+  public var hasResponded: Bool {
+    switch self.status {
+      case .pending, .running:
+        return false
+      case .success, .failure:
+        return true
     }
   }
 }
@@ -497,43 +537,43 @@ extension AsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}
 
 extension AsyncPhase: Sendable where Success: Sendable {}
 
-// MARK: Transform to TaskPhase
+// MARK: Transform to TaskAsyncPhase
 
 extension TaskResult {
   
-  /// Transform A TaskResult to TaskPhase
+  /// Transform A TaskResult to TaskAsyncPhase
   ///
   ///       let taskResult: TaskResult<Success> = ...
-  ///       let taskPhase = taskResult.toTaskPhase()
+  ///       let taskAsyncPhase = taskResult.toTaskAsyncPhase()
   ///
-  /// - Returns: TaskPhase
-  public func toTaskPhase() -> TaskAsyncPhase<Success> {
+  /// - Returns: TaskAsyncPhase
+  public func toTaskAsyncPhase() -> TaskAsyncPhase<Success> {
     TaskAsyncPhase(self)
   }
 }
 
 extension Result {
   
-  /// Transform A Result to TaskPhase
+  /// Transform A Result to TaskAsyncPhase
   ///
   ///     let result: Result<Success, any Error> = ...
-  ///     let taskPhase = result.toTaskPhase()
+  ///     let taskAsyncPhase = result.toTaskAsyncPhase()
   ///
-  /// - Returns: TaskPhase
-  public func toTaskPhase() -> TaskAsyncPhase<Success> {
+  /// - Returns: TaskAsyncPhase
+  public func toTaskAsyncPhase() -> TaskAsyncPhase<Success> {
     TaskAsyncPhase(self)
   }
 }
 
 extension AsyncPhase {
   
-  /// Transform A AsyncPhase to TaskPhase
+  /// Transform A AsyncPhase to TaskAsyncPhase
   ///
   ///     let asyncPhase: AsyncPhase<Success, any Error> = ...
-  ///     let taskPhase = asyncPhase.toTaskPhase()
+  ///     let taskAsyncPhase = asyncPhase.toTaskAsyncPhase()
   ///
-  /// - Returns: TaskPhase
-  public func toTaskPhase() -> TaskAsyncPhase<Success> {
+  /// - Returns: TaskAsyncPhase
+  public func toTaskAsyncPhase() -> TaskAsyncPhase<Success> {
     switch self {
       case .pending:
         return .pending
@@ -551,7 +591,7 @@ extension AsyncPhase {
 
 extension TaskResult {
   
-  /// Transform A TaskPhase to AsyncPhase ( ``Atom``)
+  /// Transform A TaskResult to AsyncPhase
   ///
   ///     let taskResult: TaskResult<Success> = ...
   ///     let asyncPhase = taskResult.toAsyncPhase()
@@ -565,7 +605,7 @@ extension TaskResult {
 
 extension Result {
   
-  /// Transform A TaskPhase to AsyncPhase ( ``Atom``)
+  /// Transform A Result to AsyncPhase
   ///
   ///     let result: Result<Success, any Error> = ...
   ///     let asyncPhase = result.toAsyncPhase()
@@ -579,10 +619,10 @@ extension Result {
 
 extension TaskAsyncPhase {
   
-  /// Transform A TaskPhase to AsyncPhase ( ``Atom``)
+  /// Transform A TaskAsyncPhase to AsyncPhase
   ///
-  ///     let taskPhase: TaskPhase<Success> = ...
-  ///     let asyncPhase = taskPhase.toAsyncPhase()
+  ///     let taskAsyncPhase: TaskAsyncPhase<Success> = ...
+  ///     let asyncPhase = taskAsyncPhase.toAsyncPhase()
   ///
   /// - Returns: AsyncPhase
   public func toAsyncPhase() -> AsyncPhase<Success, Error> {

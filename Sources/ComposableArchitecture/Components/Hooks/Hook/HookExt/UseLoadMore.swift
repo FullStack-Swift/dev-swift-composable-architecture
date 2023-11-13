@@ -12,64 +12,73 @@ public func useLoadMoreHookIDModel<Model>(
   useLoadMoreHookIDModel(firstPage: firstPage, loader())
 }
 
+/// use loadmore with ID:
+///
+///     let loadmore: LoadMoreHookIDModel<TodoModel> = useLoadMoreHookIDModel(firstPage: 1) { page in
+///
+///     }
+///
+/// desciption: something
 public func useLoadMoreHookIDModel<Model>(
   firstPage: Int = 1,
   _ loader: @escaping (Int) async throws -> PagedIDResponse<Model>
 ) -> LoadMoreHookIDModel<Model> where Model: Identifiable, Model: Equatable {
   
-  let isLoading = useRef(false)
+  @HRef
+  var isLoading = false
   
-  let nextModels = useRef(IdentifiedArrayOf<Model>())
+  @HRef
+  var nextModels = IdentifiedArrayOf<Model>()
   
+  // loader first phase.
   let (loadPhase, load) = useLoadIDModels(Model.self, firstPage: firstPage, loader)
   
+  // loader next phase.
   let (loadNextPhase, loadNext) = useLoadIDModels(Model.self, firstPage: firstPage, loader)
   
   var latestResponse = loadNextPhase.value ?? loadPhase.value
   
+  useLayoutEffect(.preserved(by: loadPhase.status)) {
+    if loadPhase.hasResponded {
+      isLoading = false
+      latestResponse = loadPhase.value
+    }
+    return nil
+  }
+  
+  useLayoutEffect(.preserved(by: loadNextPhase.status)) {
+    if loadNextPhase.hasResponded {
+      isLoading = false
+    }
+    return nil
+  }
+  
   useLayoutEffect(.preserved(by: loadPhase.isSuccess)) {
-    nextModels.current = []
+    nextModels = []
     latestResponse = loadPhase.value
     return nil
   }
   
   useLayoutEffect(.preserved(by: loadNextPhase.isSuccess)) {
-    nextModels.current += loadNextPhase.value?.results ?? []
-    return nil
-  }
-  
-  let resultsLoad = useNextPhaseValue(loadPhase)?.results ?? []
-  let resultsLoadNext = useNextPhaseValue(loadNextPhase)?.results ?? []
-  
-  useLayoutEffect(.preserved(by: resultsLoad)) {
-    isLoading.current = false
-    latestResponse = loadPhase.value
-    return nil
-  }
-  useLayoutEffect(.preserved(by: resultsLoadNext)) {
-    isLoading.current = false
+    nextModels += loadNextPhase.value?.results ?? []
     return nil
   }
   
   return LoadMoreHookIDModel(
-    isLoading: isLoading.current,
+    isLoading: isLoading,
     loadPhase: loadPhase.map {
-      $0.results + nextModels.current
+      $0.results + nextModels
     },
     hasNextPage: latestResponse?.hasNextPage ?? false,
     load: {
-      if isLoading.current {
-        return
-      }
-      isLoading.current = true
+      if isLoading { return }
+      isLoading = true
       try await load(firstPage)
     },
     loadNext: {
       if let currentPage = latestResponse?.page {
-        if isLoading.current {
-          return
-        }
-        isLoading.current = true
+        if isLoading { return }
+        isLoading = true
         try await loadNext(currentPage + 1)
       }
     }
@@ -81,14 +90,14 @@ private func useLoadIDModels<Model: Identifiable>(
   firstPage: Int,
   _ loader: @escaping( (Int) async throws -> PagedIDResponse<Model>)
 ) -> (phase: AsyncPhase<PagedIDResponse<Model>, Error>, load: (Int) async throws -> Void) {
-  let page = useRef(firstPage)
+  @HRef var page = firstPage
   let (phase, fetch) = useAsyncPerform { [loader] in
-    return try await loader(page.current)
+    return try await loader(page)
   }
   return (
     phase: phase,
     load: { newPage in
-      page.current = newPage
+      page = newPage
       return try await fetch()
     }
   )
@@ -130,71 +139,80 @@ extension PagedIDResponse: Hashable where T: Hashable {}
 // MARK: LoadMore Array
 // ==========================================================================================
 
-public func _useLoadMoreHookModel<Model: Equatable>(
+public func useLoadMoreHookModel<Model: Equatable>(
   firstPage: Int = 1,
   _ loader: @escaping () -> (Int) async throws -> PagedResponse<Model>
 ) -> LoadMoreHookModel<Model> {
   useLoadMoreHookModel(firstPage: firstPage, loader())
 }
 
+/// use loadmore:
+///
+///       let loadmore: LoadMoreHookModel<TodoModel> = useLoadMoreHookModel(firstPage: 1) { page in
+///
+///       }
+///
+/// desciption: something
 public func useLoadMoreHookModel<Model: Equatable>(
   firstPage: Int = 1,
   _ loader: @escaping (Int) async throws -> PagedResponse<Model>
 ) -> LoadMoreHookModel<Model> {
   
-  let isLoading = useRef(false)
+  @HRef
+  var isLoading = false
   
-  let nextModels = useRef([Model]())
+  @HRef
+  var nextModels = [Model]()
   
-  let (loadPhase, load) = useLoadModels(Model.self, firstPage: firstPage, loader) // loader first phase.
+  // loader first phase.
+  let (loadPhase, load) = useLoadModels(Model.self, firstPage: firstPage, loader)
   
-  let (loadNextPhase, loadNext) = useLoadModels(Model.self, firstPage: firstPage, loader) // loader next phase.
+  // loader next phase.
+  let (loadNextPhase, loadNext) = useLoadModels(Model.self, firstPage: firstPage, loader)
   
   var latestResponse = loadNextPhase.value ?? loadPhase.value
   
+  useLayoutEffect(.preserved(by: loadPhase.status)) {
+    if loadPhase.hasResponded {
+      isLoading = false
+      latestResponse = loadPhase.value
+    }
+    return nil
+  }
+  
+  useLayoutEffect(.preserved(by: loadNextPhase.status)) {
+    if loadNextPhase.hasResponded {
+      isLoading = false
+    }
+    return nil
+  }
+  
   useLayoutEffect(.preserved(by: loadPhase.isSuccess)) {
-    nextModels.current = []
+    nextModels = []
     latestResponse = loadPhase.value
     return nil
   }
   
   useLayoutEffect(.preserved(by: loadNextPhase.isSuccess)) {
-    nextModels.current += loadNextPhase.value?.results ?? []
-    return nil
-  }
-
-  let resultsLoad = useNextPhaseValue(loadPhase)?.results ?? []
-  let resultsLoadNext = useNextPhaseValue(loadNextPhase)?.results ?? []
-  
-  useLayoutEffect(.preserved(by: resultsLoad)) {
-    isLoading.current = false
-    latestResponse = loadPhase.value
-    return nil
-  }
-  useLayoutEffect(.preserved(by: resultsLoadNext)) {
-    isLoading.current = false
+    nextModels += loadNextPhase.value?.results ?? []
     return nil
   }
   
   return LoadMoreHookModel(
-    isLoading: isLoading.current,
+    isLoading: isLoading,
     loadPhase: loadPhase.map {
-      $0.results + nextModels.current
+      $0.results + nextModels
     },
     hasNextPage: latestResponse?.hasNextPage ?? false,
     load: {
-      if isLoading.current {
-        return
-      }
-      isLoading.current = true
+      if isLoading { return }
+      isLoading = true
       try await load(firstPage)
     },
     loadNext: {
       if let currentPage = latestResponse?.page {
-        if isLoading.current {
-          return
-        }
-        isLoading.current = true
+        if isLoading { return }
+        isLoading = true
         try await loadNext(currentPage + 1)
       }
     }
@@ -206,14 +224,14 @@ private func useLoadModels<Model>(
   firstPage: Int,
   _ loader: @escaping( (Int) async throws -> PagedResponse<Model>)
 ) -> (phase: AsyncPhase<PagedResponse<Model>, Error>, load: (Int) async throws -> Void) {
-  let page = useRef(firstPage)
+  @HRef var page = firstPage
   let (phase, fetch) = useAsyncPerform {
-    return try await loader(page.current)
+    return try await loader(page)
   }
   return (
     phase: phase,
     load: { newPage in
-      page.current = newPage
+      page = newPage
       return try await fetch()
     }
   )
@@ -322,7 +340,7 @@ public struct LoadMoreView<
     }
     .ifLet(onTap) { value, view in
       view.onTap {
-        onTap?()
+        value?()
       }
     }
   }

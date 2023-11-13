@@ -88,10 +88,12 @@ private struct LoggerHook: Hook {
     guard !coordinator.state.isDisposed else {
       return
     }
-    print(location.sourceId, name)
+#if DEBUG
+    print("⚠️", location.sourceId, name)
     for item in items {
       print(item, separator: separator, terminator: terminator)
     }
+#endif
   }
   
 }
