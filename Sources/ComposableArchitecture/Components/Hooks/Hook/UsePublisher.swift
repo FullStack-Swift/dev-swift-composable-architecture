@@ -15,7 +15,7 @@ import Combine
 /// - Returns: A most recent publisher phase.
 @discardableResult
 public func usePublisher<P: Publisher>(
-  _ updateStrategy: HookUpdateStrategy = .once,
+  _ updateStrategy: HookUpdateStrategy? = .once,
   _ makePublisher: @escaping () -> P
 ) -> AsyncPhase<P.Output, P.Failure> {
   useHook(

@@ -23,22 +23,22 @@ public extension Array where Element: Equatable {
 
 public extension Array where Element == [String: Any] {
   
-  func toData() -> Data? {
-    try? JSONSerialization.data(withJSONObject: self, options: [])
+  func toData(options opt: JSONSerialization.WritingOptions = []) -> Data? {
+    try? JSONSerialization.data(withJSONObject: self, options: opt)
   }
 }
 
 
 public extension Array where Element: Codable {
   
-  func toData() -> Data? {
-    compactMap({$0.toDictionary()}).toData()
+  func toData(options opt: JSONSerialization.WritingOptions = []) -> Data? {
+    compactMap({$0.toDictionary()}).toData(options: opt)
   }
 }
 
 public extension IdentifiedArray where Element: Codable {
   
-  func toData() -> Data? {
-    toArray().toData()
+  func toData(options opt: JSONSerialization.WritingOptions = []) -> Data? {
+    toArray().toData(options: opt)
   }
 }

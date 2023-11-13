@@ -44,7 +44,7 @@ struct HookLifecycleView: View {
             AboutView(readMe: readMe)
           }
           NavigationLink {
-            Text("HookLifecycle")
+            Text(users.toData(options: .prettyPrinted).toString() ?? "")
           } label: {
             Text("HookLifecycle")
           }

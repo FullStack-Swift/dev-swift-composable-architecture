@@ -15,65 +15,93 @@ import Combine
 public func useCountdown(
   countdown: Double,
   withTimeInterval: TimeInterval = 0.1
-) -> TimerHook {
-  let count = useState(countdown)
-  let isAutoCountdown = useState(false)
-  let phase = useState(TimerHook.TimerPhase.pending)
-  useEffect(.preserved(by: isAutoCountdown.wrappedValue)) {
-    guard isAutoCountdown.wrappedValue else { return nil }
+) -> HookCountdownState {
+  
+  @HState
+  var count = countdown
+  
+  @HState
+  var isAutoCountdown = false
+  
+  @HState
+  var phase = HookCountdownState.CountdownPhase.pending
+  
+  useEffect(.preserved(by: isAutoCountdown)) {
+    guard isAutoCountdown else { return nil }
     let timer = Timer.scheduledTimer(withTimeInterval: withTimeInterval, repeats: true) { _ in
-      if count.wrappedValue <= 0 {
-        phase.wrappedValue = .completion
-        isAutoCountdown.wrappedValue = false
+      if count <= 0 {
+        phase = .completion
+        isAutoCountdown = false
       } else {
-        count.wrappedValue -= withTimeInterval
-        phase.wrappedValue = .process(count.wrappedValue)
+        count -= withTimeInterval
+        phase = .process(count)
       }
     }
     return timer.invalidate
   }
   
-  return TimerHook(
-    value: count,
-    isAutoCountdown: isAutoCountdown,
+  return HookCountdownState(
+    value: $count,
+    isAutoCountdown: $isAutoCountdown,
     start: {
-      phase.wrappedValue = .start(countdown)
-      count.wrappedValue = countdown
-      isAutoCountdown.wrappedValue = true
+      phase = .start(countdown)
+      count = countdown
+      isAutoCountdown = true
     },
     stop: {
-      phase.wrappedValue = .stop
-      isAutoCountdown.wrappedValue = false
+      phase = .stop
+      isAutoCountdown = false
     },
     play: {
-      isAutoCountdown.wrappedValue = true
+      isAutoCountdown = true
     },
     cancel: {
-      phase.wrappedValue = .cancel
-      count.wrappedValue = countdown
-      isAutoCountdown.wrappedValue = false
+      phase = .cancel
+      count = countdown
+      isAutoCountdown = false
     },
-    phase: phase
+    phase: $phase
   )
 }
 
-public struct TimerHook {
+public struct HookCountdownState {
   public let value: Binding<Double>
   public let isAutoCountdown: Binding<Bool>
   public var start: () -> ()
   public var stop: () -> ()
   public var play: () -> ()
   public var cancel: () -> ()
-  public var phase: Binding<TimerPhase>
+  public var phase: Binding<CountdownPhase>
 }
 
-extension TimerHook {
-  public enum TimerPhase: Equatable {
+extension HookCountdownState {
+  public enum CountdownPhase: Equatable {
     case pending
     case start(Double)
     case stop
     case cancel
     case process(Double)
     case completion
+  }
+}
+
+@propertyWrapper
+public struct HCountdown {
+  
+  public var wrappedValue: Double
+  
+  public var withTimeInterval: Double
+  
+  public init(wrappedValue: Double, withTimeInterval: Double) {
+    self.wrappedValue = wrappedValue
+    self.withTimeInterval = withTimeInterval
+  }
+  
+  public var projectedValue: Self {
+    self
+  }
+  
+  public var value: HookCountdownState {
+    useCountdown(countdown: wrappedValue, withTimeInterval: withTimeInterval)
   }
 }

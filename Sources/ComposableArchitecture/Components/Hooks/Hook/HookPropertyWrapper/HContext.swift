@@ -2,14 +2,17 @@ import Foundation
 
 // MARK: HContext
 
-/// A @propertyWrapper for useContext
+/// A @propertyWrapper for useContext/
+///
+///```swift
 ///
 ///      let todos = useContext(TodoContext.self)
 ///
 ///      @HContext
 ///      var todos = TodoContext.self
+///```
 ///
-///
+///It's similar ``useContext(_:)``, but using propertyWrapper instead.
 
 @propertyWrapper
 public struct HContext<Node> {

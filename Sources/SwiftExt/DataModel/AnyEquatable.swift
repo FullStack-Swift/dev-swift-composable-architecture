@@ -26,11 +26,26 @@ struct AnyEquatable: Equatable {
 }
 
 extension Equatable {
-  func isEqual(_ other: any Equatable) -> Bool {
+  public func isEqual(_ other: any Equatable) -> Bool {
     guard let other = other as? Self else {
       return other.isExactlyEqual(self)
     }
     return self == other
+  }
+  
+  public func isEqual(_ other: any Any) -> Bool {
+    guard let other = other as? any Equatable else {
+      return false
+    }
+    return isEqual(other)
+  }
+  
+  public func isEqual(_ other: some Any) -> Bool {
+//    self == any as? Self
+    guard let other = other as? any Equatable else {
+      return false
+    }
+    return isEqual(other)
   }
   
   private func isExactlyEqual(_ other: any Equatable) -> Bool {

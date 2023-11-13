@@ -60,7 +60,8 @@ public struct MStateAtom<Node>: StateAtom {
   
   public var initialState: (Self.Context) -> Node
 
-  internal var _location: AnyLocation<((Value, Value, UpdatedContext) -> Void)?>? = .init(value: nil)
+  @SAnyRef
+  internal var _location: ((Value, Value, UpdatedContext) -> Void)? = nil
   
   public init(id: String,_ initialState: @escaping (Self.Context) -> Node) {
     self.id = id
@@ -78,14 +79,14 @@ public struct MStateAtom<Node>: StateAtom {
   }
   
   public func updated(newValue: Value, oldValue: Value, context: UpdatedContext) {
-    if let value = _location?.value {
+    if let value = _location {
       value(newValue, oldValue, context)
     }
   }
   
   @discardableResult
   public func onUpdated(_ onUpdate: @escaping (Value, Value, UpdatedContext) -> Void) -> Self {
-    _location?.value = onUpdate
+    _location = onUpdate
     return self
   }
 

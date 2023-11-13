@@ -12,12 +12,6 @@ public typealias _NavigationStack = NavigationStack
 
 public typealias _Destination = _NavigationReducer.Destination
 
-extension Equatable {
-  fileprivate func equals(_ any: some Any) -> Bool {
-    self == any as? Self
-  }
-}
-
 extension DependencyValues {
   
   @DependencyValue
@@ -89,7 +83,7 @@ public struct _NavigationReducer: Reducer {
   /// Destination
   public struct Destination: Identifiable, Equatable, Hashable {
     public static func == (lhs: _NavigationReducer.Destination, rhs: _NavigationReducer.Destination) -> Bool {
-      return lhs.id == rhs.id && ((lhs.state?.equals(rhs.state)) != nil)
+      return lhs.id == rhs.id && ((lhs.state?.isEqual(rhs.state)) != nil)
     }
     
     public var id: String = UUID().uuidString
