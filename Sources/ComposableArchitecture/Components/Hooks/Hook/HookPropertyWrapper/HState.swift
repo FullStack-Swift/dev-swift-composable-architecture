@@ -28,6 +28,14 @@ public struct HState<Node> {
     _value = useState(wrappedValue)
   }
   
+  public init(wrappedValue: @escaping () -> Binding<Node>) {
+    _value = wrappedValue()
+  }
+  
+  public init(wrappedValue: Binding<Node>) {
+    _value = wrappedValue
+  }
+  
   public var wrappedValue: Node {
     get {
       _value.wrappedValue
@@ -102,6 +110,14 @@ public struct MHState<Node> {
   
   public init(wrappedValue: Node) {
     _value = useState(wrappedValue)
+  }
+  
+  public init(wrappedValue: @escaping () -> Binding<Node>) {
+    _value = wrappedValue()
+  }
+  
+  public init(wrappedValue: Binding<Node>) {
+    _value = wrappedValue
   }
   
   public var wrappedValue: Node {
