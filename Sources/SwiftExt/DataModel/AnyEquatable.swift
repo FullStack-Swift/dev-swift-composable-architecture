@@ -56,7 +56,7 @@ extension Equatable {
   }
 }
 
-public func areEqual(_ lhs: Any, rhs: Any) -> Bool {
+public func areEqual(lhs: Any, rhs: Any) -> Bool {
   guard
     let lhs = lhs as? any Equatable,
     let rhs = rhs as? any Equatable
