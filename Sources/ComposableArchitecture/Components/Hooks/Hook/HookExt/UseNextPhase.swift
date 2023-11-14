@@ -10,14 +10,15 @@
 public func useNextPhaseValue<Success, Failure>(
   _ phase: AsyncPhase<Success, Failure>
 ) -> Success? {
-  let ref = useRef(phase.value)
-  useLayoutEffect {
+  @HRef
+  var ref = phase.value
+  useLayoutEffect(.preserved(by: phase.status)) {
     if let value = phase.value {
-      ref.current = value
+      ref = value
     }
     return nil
   }
-  return ref.current
+  return ref
 }
 
 // MARK: useNextPhaseFailure
@@ -32,14 +33,15 @@ public func useNextPhaseValue<Success, Failure>(
 public func useNextPhaseFailure<Success, Failure>(
   _ phase: AsyncPhase<Success, Failure>
 ) -> Failure? {
-  let ref = useRef(phase.error)
-  useLayoutEffect {
+  @HRef
+  var ref = phase.error
+  useLayoutEffect(.preserved(by: phase.status)) {
     if let error = phase.error {
-      ref.current = error
+      ref = error
     }
     return nil
   }
-  return ref.current
+  return ref
 }
 
 // MARK: useNextPhaseResult
@@ -54,14 +56,15 @@ public func useNextPhaseFailure<Success, Failure>(
 public func useNextPhaseResult<Success, Failure>(
   _ phase: AsyncPhase<Success, Failure>
 ) -> Result<Success, Failure>? {
-  let ref = useRef(phase.result)
-  useLayoutEffect {
+  @HRef
+  var ref = phase.result
+  useLayoutEffect(.preserved(by: phase.status)) {
     if let result = phase.result {
-      ref.current = result
+      ref = result
     }
     return nil
   }
-  return ref.current
+  return ref
 }
 
 // MARK: useNextPhaseTaskResult
@@ -76,12 +79,13 @@ public func useNextPhaseResult<Success, Failure>(
 public func useNextPhaseTaskResult<Success, Failure>(
   _ phase: AsyncPhase<Success, Failure>
 ) -> TaskResult<Success>? {
-  let ref = useRef(phase.taskResult)
-  useLayoutEffect {
+  @HRef
+  var ref = phase.taskResult
+  useLayoutEffect(.preserved(by: phase.status)) {
     if let taskResult = phase.taskResult {
-      ref.current = taskResult
+      ref = taskResult
     }
     return nil
   }
-  return ref.current
+  return ref
 }

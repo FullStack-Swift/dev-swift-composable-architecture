@@ -71,14 +71,16 @@ public func useOnceExistedPhaseStatus<Success, Failure>(
   status: AsyncPhase<Success, Failure>.StatusPhase,
   _ phase: AsyncPhase<Success, Failure>
 ) -> AsyncPhase<Success, Failure>.StatusPhase? {
-  let ref = useRef(nil as AsyncPhase<Success, Failure>.StatusPhase?)
+  @HRef
+  var ref: AsyncPhase<Success, Failure>.StatusPhase? = nil
+//  let ref = useRef(nil as AsyncPhase<Success, Failure>.StatusPhase?)
   useMemo(.preserved(by: phase.status)) {
-    if ref.current == status {
+    if ref == status {
       return
     }
     if phase.status == status {
-      ref.current = status
+      ref = status
     }
   }
-  return ref.current
+  return ref
 }

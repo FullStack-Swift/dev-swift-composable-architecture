@@ -34,5 +34,3 @@ public func useThrottle<Output>(
     .eraseToThrowingStream()
   return useAsyncThrowingSequence(.once, stream)
 }
-
-
