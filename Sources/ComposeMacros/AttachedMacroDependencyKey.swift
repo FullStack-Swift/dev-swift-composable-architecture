@@ -19,7 +19,7 @@ public struct AttachedMacroDependencyKey: PeerMacro {
       context.diagnose(
         Diagnostic(
           node: Syntax(node),
-          message: SimpleDiagnosticMessage(
+          message: CoreDiagnosticMessage(
             message: "",
             diagnosticID: MessageID(domain: "", id: ""),
             severity: .error
@@ -32,7 +32,7 @@ public struct AttachedMacroDependencyKey: PeerMacro {
     guard let identifier = binding.pattern.as(IdentifierPatternSyntax.self)?.identifier.text else {
       context.diagnose(
         Diagnostic(node: Syntax(node),
-                   message: SimpleDiagnosticMessage(
+                   message: CoreDiagnosticMessage(
                     message: "",
                     diagnosticID: MessageID(domain: "", id: ""),
                     severity: .error)
@@ -50,7 +50,7 @@ public struct AttachedMacroDependencyKey: PeerMacro {
       context.diagnose(
         Diagnostic(
           node: Syntax(node),
-          message: SimpleDiagnosticMessage(
+          message: CoreDiagnosticMessage(
             message: "",
             diagnosticID: MessageID(domain: "", id: ""),
             severity: .error
@@ -86,7 +86,7 @@ extension AttachedMacroDependencyKey: AccessorMacro {
       context.diagnose(
         Diagnostic(
           node: Syntax(node),
-          message: SimpleDiagnosticMessage(
+          message: CoreDiagnosticMessage(
             message: "",
             diagnosticID: MessageID(domain: "", id: ""),
             severity: .error
@@ -100,7 +100,7 @@ extension AttachedMacroDependencyKey: AccessorMacro {
       context.diagnose(
         Diagnostic(
           node: Syntax(node),
-          message: SimpleDiagnosticMessage(
+          message: CoreDiagnosticMessage(
             message: "",
             diagnosticID: MessageID(domain: "", id: ""),
             severity: .error
