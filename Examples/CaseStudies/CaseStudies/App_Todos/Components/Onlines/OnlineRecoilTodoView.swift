@@ -29,7 +29,7 @@ private let _todosStateAtom = selectorState { context -> IdentifiedArrayOf<Todo>
   return []
 }
   .onUpdated { oldValue, newValue, context in
-//    #mTodo("Todo something")
+    #mTodo("Todo something")
   }
 
 @MainActor

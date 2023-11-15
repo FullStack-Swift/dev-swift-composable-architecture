@@ -1,6 +1,8 @@
 import Combine
 import SwiftUI
 
+// MARK: - Use Atom
+
 /// Primitve and flexible useAtom
 
 /// Like ``useRecoilValue``

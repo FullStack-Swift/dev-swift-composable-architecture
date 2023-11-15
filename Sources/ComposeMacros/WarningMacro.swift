@@ -2,8 +2,7 @@ import SwiftDiagnostics
 import SwiftSyntax
 import SwiftSyntaxMacros
 
-/// Implementation of the `myWarning` macro, which mimics the behavior of the
-/// built-in `#warning`.
+/// Implementation of the `#mWarning` macro.
 public struct WarningMacro: ExpressionMacro {
   public static func expansion(
     of macro: some FreestandingMacroExpansionSyntax,
@@ -21,7 +20,7 @@ public struct WarningMacro: ExpressionMacro {
     context.diagnose(
       Diagnostic(
         node: Syntax(macro),
-        message: SimpleDiagnosticMessage(
+        message: CoreDiagnosticMessage(
           message: messageString.content.description,
           diagnosticID: MessageID(domain: "mWarning", id: "mWarning"),
           severity: .warning
@@ -31,10 +30,4 @@ public struct WarningMacro: ExpressionMacro {
     
     return "()"
   }
-}
-
-struct SimpleDiagnosticMessage: DiagnosticMessage, Error {
-  let message: String
-  let diagnosticID: MessageID
-  let severity: DiagnosticSeverity
 }

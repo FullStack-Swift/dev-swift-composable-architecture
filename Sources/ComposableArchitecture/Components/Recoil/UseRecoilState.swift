@@ -103,3 +103,20 @@ fileprivate extension RecoilHookRef {
     context.watch(node)
   }
 }
+
+@propertyWrapper
+@MainActor public struct RecoilReadState<Node: StateAtom> {
+  
+  public var wrappedValue: Node
+  
+  internal let _value: Binding<Node.Loader.Value>
+  
+  public init(wrappedValue: Node) {
+    self.wrappedValue = wrappedValue
+    _value = useRecoilState(updateStrategy: .once, wrappedValue)
+  }
+  
+  public var projectedValue:Binding<Node.Loader.Value> {
+    _value
+  }
+}

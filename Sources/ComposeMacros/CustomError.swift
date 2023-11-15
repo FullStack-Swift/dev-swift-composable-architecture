@@ -10,3 +10,13 @@ enum MacroError: Error, CustomStringConvertible {
     }
   }
 }
+
+import SwiftDiagnostics
+import SwiftSyntax
+import SwiftSyntaxMacros
+
+struct CoreDiagnosticMessage: DiagnosticMessage, Error {
+  let message: String
+  let diagnosticID: MessageID
+  let severity: DiagnosticSeverity
+}

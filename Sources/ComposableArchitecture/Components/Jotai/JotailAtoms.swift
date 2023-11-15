@@ -2,6 +2,8 @@ import Foundation
 import Combine
 import SwiftUI
 
+// MARK: Create Atom
+
 /// Primitive and flexible state management
 
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.

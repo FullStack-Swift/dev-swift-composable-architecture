@@ -2,7 +2,7 @@ import SwiftDiagnostics
 import SwiftSyntax
 import SwiftSyntaxMacros
 
-/// Implementation of the `mTodo` macro
+/// Implementation of the `mTodo` macro.
 public struct TodoMacro: ExpressionMacro {
   public static func expansion(
     of macro: some FreestandingMacroExpansionSyntax,
@@ -20,10 +20,10 @@ public struct TodoMacro: ExpressionMacro {
     context.diagnose(
       Diagnostic(
         node: Syntax(macro),
-        message: SimpleDiagnosticMessage(
+        message: CoreDiagnosticMessage(
           message: messageString.content.description,
           diagnosticID: MessageID(domain: "TODO", id: messageString.content.description),
-          severity: .remark
+          severity: .warning
         )
       )
     )

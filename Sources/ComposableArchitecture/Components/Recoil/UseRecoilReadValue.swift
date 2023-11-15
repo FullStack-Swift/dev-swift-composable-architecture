@@ -118,3 +118,19 @@ private extension RecoilHookRef {
   }
 }
 
+@propertyWrapper
+@MainActor public struct RecoilReadValue<Node: Atom> {
+  
+  public var wrappedValue: Node
+  
+  internal let _value: Node.Loader.Value
+  
+  public init(wrappedValue: Node) {
+    self.wrappedValue = wrappedValue
+    _value = useRecoilReadValue(updateStrategy: .once, wrappedValue)
+  }
+  
+  public var projectedValue: Node.Loader.Value {
+    _value
+  }
+}

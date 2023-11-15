@@ -2,8 +2,6 @@ import Foundation
 import SwiftSyntax
 import SwiftSyntaxMacros
 
-
-
 /// Creates a non-optional URL from a static string. The string is checked to
 /// be valid during compile time.
 public struct URLMacro: ExpressionMacro {
