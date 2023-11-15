@@ -7,7 +7,7 @@ struct UserModel: Codable, Equatable , Identifiable {
 }
 
 private let readMe = """
-This screen demostrates how to use useOnFirstAppear, useOnLastAppear.
+This screen demostrates how to use `useOnFirstAppear`, `useOnLastAppear`.
 """
 
 struct HookLifecycleView: View {
@@ -22,23 +22,39 @@ struct HookLifecycleView: View {
           }
         }
         
+        let _ = useLayoutEffect {
+          let data = users.toData()
+          log.info(Json(data as Any))
+          return nil
+        }
+        
         let _ = hOnAppear {
-          print("hOnAppear")
+          log.debug("hOnAppear")
         }
         
         let _ = hOnDisAppear {
-          print("hOnDisAppear")
+          log.debug("hOnDisAppear")
         }
         
         let _ = useOnFistAppear {
-          print("useOnFistAppear")
-          let data = users.toData()
-          log.info(Json(data as Any))
+          log.debug("useOnFistAppear")
         }
         
         let _ = useOnLastAppear {
-          print("useOnLastAppear")
+          log.debug("useOnLastAppear")
         }
+        
+        @HOnFirstAppear
+        var onFirstAppear = {
+          log.debug("HOnFirstAppear")
+        }
+
+        
+        @HOnLastAppear
+        var onLastAppear = {
+          log.debug("HOnLastAppear")
+        }
+        
         Form {
           Section {
             AboutView(readMe: readMe)

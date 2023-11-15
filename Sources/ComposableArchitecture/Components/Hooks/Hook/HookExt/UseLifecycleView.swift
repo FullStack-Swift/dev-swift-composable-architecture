@@ -9,3 +9,28 @@ public func useOnFistAppear( _ callBack:  @escaping () -> Void) {
 public func useOnLastAppear(_ callBack: @escaping () -> Void) {
   useDispose(.once, callBack)
 }
+
+@propertyWrapper
+public struct HOnFirstAppear {
+  
+  public var wrappedValue: () -> ()
+  
+  public init(wrappedValue: @escaping () -> Void) {
+    self.wrappedValue = wrappedValue
+    useOnFistAppear(wrappedValue)
+  }
+  
+}
+
+
+@propertyWrapper
+public struct HOnLastAppear {
+  
+  public var wrappedValue: () -> ()
+  
+  public init(wrappedValue: @escaping () -> Void) {
+    self.wrappedValue = wrappedValue
+    useOnLastAppear(wrappedValue)
+  }
+  
+}

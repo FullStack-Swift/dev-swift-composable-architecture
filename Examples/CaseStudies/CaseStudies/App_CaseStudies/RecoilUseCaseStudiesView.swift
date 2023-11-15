@@ -107,14 +107,14 @@ private struct _StateAtomView: HookView {
         // MARK: useRecoilRefresher
         VStack {
           let (phase,refresh) = useRecoilRefresher(_PublisherAtom(id: "useRecoilRefresher"))
-          AsyncPhaseView(phase: phase) { value in
+          AsyncPhaseView(phase) { value in
             HStack {
               Text(value.timeIntervalSince1970.description)
             }
             
-          } suspending: {
+          } loading: {
             ProgressView()
-          } failureContent: { error in
+          } catch: { error in
             Text(error.localizedDescription)
           }
           .frame(height: 60)
@@ -129,11 +129,11 @@ private struct _StateAtomView: HookView {
         // MARK: useRecoilPublisher
         VStack {
           let phase = useRecoilPublisher(_PublisherAtom(id: "_useRecoilRefresher"))
-          AsyncPhaseView(phase: phase) { value in
+          AsyncPhaseView(phase) { value in
             Text(value.timeIntervalSince1970.description)
-          } suspending: {
+          } loading: {
             ProgressView()
-          } failureContent: { error in
+          } catch: { error in
             Text(error.localizedDescription)
           }
           .frame(height: 60)
@@ -142,11 +142,11 @@ private struct _StateAtomView: HookView {
         HookScope {
           VStack {
             let phase = useRecoilTask(updateStrategy: .once, _TaskAatom(id: "1"))
-            AsyncPhaseView(phase: phase) { value in
+            AsyncPhaseView(phase) { value in
               logChanges(value)
               Text(value)
                 .lineLimit(nil)
-            } suspending: {
+            } loading: {
               ProgressView()
             }
             .frame(height: 60)
@@ -155,11 +155,11 @@ private struct _StateAtomView: HookView {
         // MARK: useRecoilThrowingTask
         VStack {
           let phase = useRecoilThrowingTask(updateStrategy: .once, _ThrowingTaskAtom())
-          AsyncPhaseView(phase: phase) { value in
+          AsyncPhaseView(phase) { value in
             Text(value.timeIntervalSince1970.description)
-          } suspending: {
+          } loading: {
             ProgressView()
-          } failureContent: { error in
+          } catch: { error in
             Text(error.localizedDescription)
           }
         }

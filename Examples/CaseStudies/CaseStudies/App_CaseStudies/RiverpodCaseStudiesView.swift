@@ -94,10 +94,10 @@ private struct _CounterView: RiverpodView {
       HStack {
 //        let phase = ref.watch(futureProvider)
         let phase = ref.watch(publisherProvider)
-        AsyncPhaseView(phase: phase) { text in
+        AsyncPhaseView(phase) { text in
           Text(text)
             .font(.largeTitle)
-        } suspending: {
+        } loading: {
           ProgressView()
         }
       }

@@ -24,6 +24,10 @@ public struct ActionListener<Action> {
     viewModel.actionSubject
   }
   
+  public var objectWillChange: AnyPublisher<Void, Never> {
+    viewModel.actionSubject.map{ _ in }.eraseToAnyPublisher()
+  }
+  
   /// send action to IOAction
   /// - Parameter action: the action send to ActionListener
   public func send(_ action: Action) {
@@ -62,6 +66,10 @@ fileprivate final class ActionListenerViewModel<Action> {
   fileprivate let actionSubject = ActionSubject<Action>()
   
   fileprivate var cancellables = SetCancellables()
+  
+  var observableEvent: AnyPublisher<Void, Never> {
+    actionSubject.map { _ in }.eraseToAnyPublisher()
+  }
   
   fileprivate init() {
     

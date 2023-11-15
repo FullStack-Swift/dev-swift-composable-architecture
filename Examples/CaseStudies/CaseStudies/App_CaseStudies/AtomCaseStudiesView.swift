@@ -109,7 +109,7 @@ private struct _TaskAtomView: View {
     HStack {
       Suspense(taskAtom) { value in
         Text(value)
-      } suspending: {
+      } loading: {
         ProgressView()
       }
       Spacer()
@@ -155,7 +155,7 @@ private struct _ThrowingTaskAtomView: View {
     HStack {
       Suspense(throwingTaskAtom) { value in
         Text(value.formatted(date: .numeric, time: .shortened))
-      } suspending: {
+      } loading: {
         ProgressView()
       } catch: { error in
         Text((error as? _ThrowingTaskAtom.DateError)?.id ?? "")
@@ -241,11 +241,11 @@ private struct _PublisherAtomView: View {
   var body: some View {
     let _ = log.info("Refresh")
     HStack {
-      AsyncPhaseView(phase: publisherAtom) { value in
+      AsyncPhaseView(publisherAtom) { value in
         Text(value.formatted(date: .numeric, time: .shortened))
-      } suspending: {
+      } loading: {
         ProgressView()
-      } failureContent: { error in
+      } catch: { error in
         Text(error.id)
       }
       Spacer()

@@ -109,3 +109,33 @@ private extension LoggerHook {
   }
   
 }
+
+@propertyWrapper
+public struct HLogger {
+  
+  public var wrappedValue: any Equatable
+  
+  let updateStrategy: HookUpdateStrategy?
+  
+  public init(
+    wrappedValue: any Equatable,
+    fileID: String = #fileID,
+    line: UInt = #line,
+    _ updateStrategy: HookUpdateStrategy? = nil,
+    name: String = "",
+    separator: String = " ",
+    terminator: String = "\n"
+  ) {
+    self.wrappedValue = wrappedValue
+    self.updateStrategy = updateStrategy
+    useLogger(
+      fileID: fileID,
+      line: line,
+      updateStrategy,
+      name: name,
+      wrappedValue,
+      separator: separator,
+      terminator: terminator
+    )
+  }
+}

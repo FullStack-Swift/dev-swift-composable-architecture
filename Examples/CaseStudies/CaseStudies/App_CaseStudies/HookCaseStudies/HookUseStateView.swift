@@ -24,6 +24,14 @@ struct HookUseStateView: View {
         0
       }
       
+      @HState var toggle = false
+      
+      @HLogger
+      var log = toggle
+      
+      @HLogger(.preserved(by: toggle))
+      var otherLog = toggle
+      
       VStack {
         Stepper(value: $state) {
           Text(state.description)
@@ -32,6 +40,9 @@ struct HookUseStateView: View {
         Stepper(value: $otherState) {
           Text(otherState.description)
         }
+        
+        Toggle("", isOn: $toggle)
+          .toggleStyle(.switch)
       }
     }
   }
@@ -45,6 +56,12 @@ struct HookUseStateView: View {
         0
       }
       
+      let toggle = useState(false)
+      
+      let _ = useLogger(nil, toggle.wrappedValue)
+      
+      let _ = useLogger(.preserved(by: toggle.wrappedValue), toggle.wrappedValue)
+      
       VStack {
         Stepper(value: state) {
           Text(state.wrappedValue.description)
@@ -53,6 +70,9 @@ struct HookUseStateView: View {
         Stepper(value: otherState) {
           Text(otherState.wrappedValue.description)
         }
+        
+        Toggle("", isOn: toggle)
+          .toggleStyle(.switch)
       }
     }
   }

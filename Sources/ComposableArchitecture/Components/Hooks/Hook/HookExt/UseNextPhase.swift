@@ -12,7 +12,7 @@ public func useNextPhaseValue<Success, Failure>(
 ) -> Success? {
   @HRef
   var ref = phase.value
-  useLayoutEffect(.preserved(by: phase.status)) {
+  useLayoutEffect {
     if let value = phase.value {
       ref = value
     }
@@ -35,7 +35,7 @@ public func useNextPhaseFailure<Success, Failure>(
 ) -> Failure? {
   @HRef
   var ref = phase.error
-  useLayoutEffect(.preserved(by: phase.status)) {
+  useLayoutEffect {
     if let error = phase.error {
       ref = error
     }
@@ -58,7 +58,7 @@ public func useNextPhaseResult<Success, Failure>(
 ) -> Result<Success, Failure>? {
   @HRef
   var ref = phase.result
-  useLayoutEffect(.preserved(by: phase.status)) {
+  useLayoutEffect {
     if let result = phase.result {
       ref = result
     }
@@ -81,7 +81,7 @@ public func useNextPhaseTaskResult<Success, Failure>(
 ) -> TaskResult<Success>? {
   @HRef
   var ref = phase.taskResult
-  useLayoutEffect(.preserved(by: phase.status)) {
+  useLayoutEffect {
     if let taskResult = phase.taskResult {
       ref = taskResult
     }

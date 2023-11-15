@@ -5,7 +5,7 @@ struct AboutView: View {
   
   var body: some View {
     DisclosureGroup("About this case study") {
-      Text(self.readMe)
+      Text(template: self.readMe)
     }
   }
 }
