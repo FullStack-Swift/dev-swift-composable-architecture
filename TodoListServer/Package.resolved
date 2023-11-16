@@ -145,6 +145,15 @@
       }
     },
     {
+      "identity" : "swift-extension",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FullStack-Swift/swift-extension",
+      "state" : {
+        "branch" : "main",
+        "revision" : "1657fb39c1bf3d862c67eef6122d17548525e31a"
+      }
+    },
+    {
       "identity" : "swift-log",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",

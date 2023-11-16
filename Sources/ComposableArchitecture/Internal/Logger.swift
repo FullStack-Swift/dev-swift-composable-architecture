@@ -76,6 +76,18 @@ public extension Logger {
       print(object)
     }
   }
+  
+  func json(
+    filename: String = #file,
+    line: Int = #line,
+    funcName: String = #function,
+    _ object: Any
+  ) {
+    if isLogEnable {
+      print("\(LogLevel.info.rawValue) INFO [[\(sourceFileName(filePath: filename))]:\(line) \(funcName)]")
+      print(Json(object))
+    }
+  }
 }
 #else
 

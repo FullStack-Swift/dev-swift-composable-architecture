@@ -117,7 +117,7 @@ private struct AsyncSequenceHook<Output>: Hook {
   }
   
   func makeState() -> State {
-    State()
+    State(operation: operation)
   }
   
   func value(coordinator: Coordinator) -> Value {
@@ -128,10 +128,8 @@ private struct AsyncSequenceHook<Output>: Hook {
     guard !coordinator.state.isDisposed else {
       return
     }
-//    coordinator.state.phase = .running
-//    coordinator.updateView()
+    let sequence = coordinator.state.operation
     coordinator.state.task = Task { @MainActor in
-      let sequence = operation
       for await element in sequence {
         if !Task.isCancelled && !coordinator.state.isDisposed {
           coordinator.state.phase = .success(element)
@@ -152,10 +150,16 @@ private extension AsyncSequenceHook {
     
     var phase: Value = .pending
     
+    let operation: AsyncStream<Output>
+    
     var task: Task<Void, Never>? {
       didSet {
         oldValue?.cancel()
       }
+    }
+    
+    init(operation: AsyncStream<Output>) {
+      self.operation = operation
     }
     
     var isDisposed = false
@@ -186,7 +190,7 @@ private struct AsyncThrowingSequenceHook<Output>: Hook {
   }
   
   func makeState() -> State {
-    State()
+    State(operation: operation)
   }
   
   func value(coordinator: Coordinator) -> Value {
@@ -197,10 +201,8 @@ private struct AsyncThrowingSequenceHook<Output>: Hook {
     guard !coordinator.state.isDisposed else {
       return
     }
-    coordinator.state.phase = .running
-    coordinator.updateView()
+    let sequence = coordinator.state.operation
     coordinator.state.task = Task { @MainActor in
-      let sequence = operation
       do {
         for try await element in sequence {
           if !Task.isCancelled && !coordinator.state.isDisposed {
@@ -209,8 +211,10 @@ private struct AsyncThrowingSequenceHook<Output>: Hook {
           }
         }
       } catch {
-        coordinator.state.phase = .failure(error)
-        coordinator.updateView()
+        if !Task.isCancelled && !coordinator.state.isDisposed {
+          coordinator.state.phase = .failure(error)
+          coordinator.updateView()
+        }
       }
     }
   }
@@ -226,10 +230,16 @@ private extension AsyncThrowingSequenceHook {
     
     var phase: Value = .pending
     
+    let operation: AsyncThrowingStream<Output, any Error>
+    
     var task: Task<Void, Never>? {
       didSet {
         oldValue?.cancel()
       }
+    }
+    
+    init(operation: AsyncThrowingStream<Output, any Error>) {
+      self.operation = operation
     }
     
     var isDisposed = false

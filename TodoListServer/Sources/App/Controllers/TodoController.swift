@@ -1,5 +1,6 @@
 import Fluent
 import Vapor
+import Transform
 
 struct TodoController: RouteCollection {
   func boot(routes: RoutesBuilder) throws {
@@ -10,7 +11,7 @@ struct TodoController: RouteCollection {
     todos.post(":todoID", use: update(req:))
     todos.patch(":todoID", use: update(req:))
   }
-  // read all todos
+  /// read all todos
   func index(req: Request) async throws -> [Todo] {
     try await Todo.query(on: req.db).all()
   }
@@ -18,6 +19,7 @@ struct TodoController: RouteCollection {
   func create(req: Request) async throws -> Todo {
     let todo = try req.content.decode(Todo.self)
     try await todo.save(on: req.db)
+    websocketClients.send(WSTodoAction(action: .create, todo: todo).toData().toString())
     return todo
   }
   /// update the todo
@@ -29,6 +31,7 @@ struct TodoController: RouteCollection {
     todo.isCompleted = update.isCompleted
     todo.text = update.text
     try await todo.save(on: req.db)
+    websocketClients.send(WSTodoAction(action: .update, todo: todo).toData().toString())
     return todo
   }
   /// delete the todo
@@ -37,6 +40,7 @@ struct TodoController: RouteCollection {
       throw Abort(.notFound)
     }
     try await todo.delete(on: req.db)
+    websocketClients.send(WSTodoAction(action: .delete, todo: todo).toData().toString())
     return todo
   }
 }
