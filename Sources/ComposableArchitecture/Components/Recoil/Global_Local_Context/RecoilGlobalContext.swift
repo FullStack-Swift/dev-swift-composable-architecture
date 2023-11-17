@@ -245,7 +245,7 @@ public struct RecoilGlobalViewContext {
 
 @propertyWrapper
 @MainActor
-struct RecoilGlobalWatch<Node: Atom> {
+public struct RecoilGlobalWatch<Node: Atom> {
   
   private let atom: Node
   
@@ -267,7 +267,7 @@ struct RecoilGlobalWatch<Node: Atom> {
 
 @propertyWrapper
 @MainActor
-struct RecoilGlobalWatchState<Node: StateAtom> {
+public struct RecoilGlobalWatchState<Node: StateAtom> {
   
   private let atom: Node
   
@@ -293,7 +293,7 @@ struct RecoilGlobalWatchState<Node: StateAtom> {
 
 @propertyWrapper
 @MainActor
-struct RecoilGlobalWatchStateObject<Node: ObservableObjectAtom> {
+public struct RecoilGlobalWatchStateObject<Node: ObservableObjectAtom> {
   
   @dynamicMemberLookup
   public struct Wrapper {
