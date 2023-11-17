@@ -321,22 +321,37 @@ extension Json {
         if let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]) {
           return data.toString()
         } else {
-          return nil
+          return rawDictionary.description
         }
         
       case .array:
         if let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]) {
           return data.toString()
         } else {
-          return nil
+          return rawArray.description
         }
         
-      case .string: return rawString
-      case .number: return rawNumber.stringValue
-      case .bool:   return rawBool.description
-      case .null:   return "null"
-      default:      return nil
+      case .string:
+        if JSONSerialization.isValidJSONObject(rawString),
+           let data = try? JSONSerialization.data(withJSONObject: rawString, options: [.prettyPrinted]) {
+          return data.toString()
+        } else {
+          return rawString.description
+        }
+        
+      case .number:
+        return rawNumber.description
+        
+      case .bool:
+        return rawBool.description
+        
+      case .null:
+        return rawNull.description
+        
+      default:
+        break
     }
+    return nil
   }
 }
 

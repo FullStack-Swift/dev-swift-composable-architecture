@@ -85,13 +85,15 @@ public extension Logger {
   ) {
     if isLogEnable {
       print("💎 JSON [[\(sourceFileName(filePath: filename))]:\(line) \(funcName)]")
-      if JSONSerialization.isValidJSONObject(object), let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]) {
-        print(Json(data))
-        return
-      } else {
-        print(Json(object))
+      if let object = object as? String, let dict = object.toDictionary() {
+        print(Json(dict))
         return
       }
+      if let object = object as? Data, let dict = object.toDictionary() {
+        print(Json(dict))
+        return
+      }
+      print(Json(object))
     }
   }
 }

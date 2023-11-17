@@ -25,6 +25,7 @@ struct HookLifecycleView: View {
         let _ = useLayoutEffect {
           let data = users.toData()
           log.json(data as Any)
+          log.json("Logger String")
           return nil
         }
         
