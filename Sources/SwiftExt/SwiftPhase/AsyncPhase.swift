@@ -48,6 +48,7 @@ public enum AsyncPhase<Success, Failure: Error> {
   public init(
     catching body: () async throws -> Success
   ) async where Failure == Error {
+    self = .running
     do {
       let value = try await body()
       self = .success(value)

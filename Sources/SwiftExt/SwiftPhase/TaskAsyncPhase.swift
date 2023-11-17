@@ -48,6 +48,7 @@ public enum TaskAsyncPhase<Success> {
   public init(
     catching body: @Sendable () async throws -> Success
   ) async {
+    self = .running
     do {
       let value = try await body()
       self = .success(value)

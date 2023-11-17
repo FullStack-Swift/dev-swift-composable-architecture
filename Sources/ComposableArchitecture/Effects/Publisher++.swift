@@ -180,7 +180,7 @@ private extension _AsyncPublisher {
     
     func receive(_ input: Element) -> Subscribers.Demand {
       continuation.yield(input)
-      Task {  [subscription] in
+      Task { [subscription] in
         subscription?.request(.max(1))
       }
       return .none
