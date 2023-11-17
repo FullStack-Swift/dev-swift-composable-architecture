@@ -173,12 +173,18 @@ private struct _ThrowingTaskAtomView: View {
 
 private struct _AsyncSequenceAtom: AsyncSequenceAtom, Hashable {
   func sequence(context: Context) -> AsyncStream<String> {
-    AsyncStream<String> { continuation in
-      Task {
-        try await Task.sleep(for: .seconds(1))
-        continuation.yield("Swift")
-      }
-    }
+    return Timer.publish(every: 1, on: .main, in: .common)
+      .autoconnect()
+      .prepend(Date())
+      .map({$0.description})
+      .ignoreError()
+      .values
+//    AsyncStream<String> { continuation in
+//      Task {
+//        try await Task.sleep(for: .seconds(1))
+//        continuation.yield("Swift")
+//      }
+//    }
   }
 }
 
