@@ -84,8 +84,14 @@ public extension Logger {
     _ object: Any
   ) {
     if isLogEnable {
-      print("\(LogLevel.info.rawValue) INFO [[\(sourceFileName(filePath: filename))]:\(line) \(funcName)]")
-      print(Json(object))
+      print("💎 JSON [[\(sourceFileName(filePath: filename))]:\(line) \(funcName)]")
+      if JSONSerialization.isValidJSONObject(object), let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]) {
+        print(Json(data))
+        return
+      } else {
+        print(Json(object))
+        return
+      }
     }
   }
 }
