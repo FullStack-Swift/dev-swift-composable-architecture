@@ -5,15 +5,23 @@
 ///   - updateStrategy: the Strategy update state.
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
+///
+///```swift
+///
+///let value = useRecoilWatch(TextAtom())
+///
+///print(value) // Prints the current value associated with ``TextAtom``.
+///
+///```
+///
 @MainActor
-public func useRecoilAsyncSequence<Node: AsyncSequenceAtom>(
+public func useRecoilWatch<Node: Atom>(
   fileID: String = #fileID,
   line: UInt = #line,
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: Node
-) -> AsyncPhase<Node.Sequence.Element, Error>
-where Node.Loader == AsyncSequenceAtomLoader<Node> {
-  useRecoilAsyncSequence(fileID: fileID, line: line, updateStrategy: updateStrategy) {
+) -> Node.Loader.Value {
+  useRecoilWatch(fileID: fileID, line: line, updateStrategy: updateStrategy) {
     initialNode
   }
 }
@@ -25,16 +33,25 @@ where Node.Loader == AsyncSequenceAtomLoader<Node> {
 ///   - updateStrategy: the Strategy update state.
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
+///
+///```swift
+///let context = ...
+///
+///let value = useRecoilWatch{TextAtom()}
+///
+///print(value) // Prints the current value associated with ``TextAtom``.
+///
+///```
+///
 @MainActor
-public func useRecoilAsyncSequence<Node: AsyncSequenceAtom>(
+public func useRecoilWatch<Node: Atom>(
   fileID: String = #fileID,
   line: UInt = #line,
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: @escaping() -> Node
-) -> AsyncPhase<Node.Sequence.Element, Error>
-where Node.Loader == AsyncSequenceAtomLoader<Node> {
+) -> Node.Loader.Value {
   useHook(
-    RecoilAsyncSequenceHook<Node>(
+    RecoilWatchHook<Node>(
       updateStrategy: updateStrategy,
       initialNode: initialNode,
       location: SourceLocation(fileID: fileID, line: line)
@@ -42,16 +59,15 @@ where Node.Loader == AsyncSequenceAtomLoader<Node> {
   )
 }
 
-private struct RecoilAsyncSequenceHook<Node: AsyncSequenceAtom>: RecoilHook
-where Node.Loader == AsyncSequenceAtomLoader<Node> {
+private struct RecoilWatchHook<Node: Atom>: RecoilHook {
   
-  typealias State = _RecoilHookRef
+  typealias State = RecoilHookRef<Node>
   
-  typealias Value = AsyncPhase<Node.Sequence.Element, Error>
-  
-  let initialNode: () -> Node
+  typealias Value = Node.Loader.Value
   
   let updateStrategy: HookUpdateStrategy?
+  
+  let initialNode: () -> Node
   
   let location: SourceLocation
   
@@ -67,7 +83,7 @@ where Node.Loader == AsyncSequenceAtomLoader<Node> {
   
   @MainActor
   func makeState() -> State {
-    State(location: location, initialNode: initialNode())
+    RecoilHookRef(location: location, initialNode: initialNode())
   }
   
   @MainActor
@@ -95,12 +111,9 @@ where Node.Loader == AsyncSequenceAtomLoader<Node> {
   }
 }
 
-private extension RecoilAsyncSequenceHook {
-  // MARK: State
-  final class _RecoilHookRef: RecoilHookRef<Node> {
-    
-    var value: Value {
-      context.watch(node)
-    }
+private extension RecoilHookRef {
+  @MainActor
+  var value: Node.Loader.Value {
+    context.watch(node)
   }
 }

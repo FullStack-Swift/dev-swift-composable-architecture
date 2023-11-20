@@ -47,21 +47,20 @@ extension IdentifiedArray where ID == Todo.ID, Element == Todo {
   ]
 }
 
-
 // MARK: Recoil Atom
 
 @MainActor
-private let _todosAtom = MStateAtom<IdentifiedArray<Todo.ID,Todo>>(id: sourceId()) { context in
-  return .mock
+private let _todosAtom = selectorState(id: sourceId()) { context in
+  IdentifiedArray<Todo.ID,Todo>.mock
 }
 
 @MainActor
-private let _filterAtom = MStateAtom<Filter>(id: sourceId()) { context in
-  return .all
+private let _filterAtom = selectorState(id: sourceId()) { context in
+  Filter.all
 }
 
 @MainActor
-private let _filteredTodosAtom = MValueAtom<IdentifiedArrayOf<Todo>>(id: sourceId()) { context in
+private let _filteredTodosAtom = selectorValue(id: sourceId()) { context in
   let filter = context.watch(_filterAtom)
   let todos = context.watch(_todosAtom)
   switch filter {
@@ -75,7 +74,7 @@ private let _filteredTodosAtom = MValueAtom<IdentifiedArrayOf<Todo>>(id: sourceI
 }
 
 @MainActor
-private let _statsAtom = MValueAtom<Stats>(id: sourceId()) { context in
+private let _statsAtom = selectorValue(id: sourceId()) { context in
   let todos = context.watch(_todosAtom)
   let total = todos.count
   let totalCompleted = todos.filter(\.isCompleted).count

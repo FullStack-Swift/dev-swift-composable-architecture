@@ -72,7 +72,7 @@ public extension AsyncSequenceAtom {
 // MARK: Make AsyncSequenceAtom
 public struct MAsyncSequenceAtom<Node: AsyncSequence>: AsyncSequenceAtom {
 
-  public typealias Value = Node
+  public typealias Value = AsyncPhase<Node.Element, Error>
   
   public typealias Sequence = Node
   
@@ -85,12 +85,12 @@ public struct MAsyncSequenceAtom<Node: AsyncSequence>: AsyncSequenceAtom {
   @SAnyRef
   internal var _location: ((Value, Value, UpdatedContext) -> Void)? = nil
 
-  public init(id: String, initialState: @escaping (Context) -> Node) {
+  public init(id: String, _ initialState: @escaping (Context) -> Node) {
     self.id = id
     self.initialState = initialState
   }
 
-  public init(id: String,initialState: Node) {
+  public init(id: String, _ initialState: Node) {
     self.init(id: id) { _ in
       initialState
     }

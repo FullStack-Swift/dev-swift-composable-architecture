@@ -215,6 +215,48 @@ public func useAtomPublisher<Node: Combine.Publisher>(
   return useRecoilPublisher(atom)
 }
 
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
+/// - Parameters:
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+@MainActor
+public func useAtomAsyncSequence<Node: AsyncSequence>(
+  fileID: String = #fileID,
+  line: UInt = #line,
+  id: String = "",
+  updateStrategy: HookUpdateStrategy? = .once,
+  _ initialNode: Node
+) -> AsyncPhase<MAsyncSequenceAtom<Node>.Sequence.Element, Error>
+where Node.Loader == AsyncSequenceAtomLoader<Node> {
+  let id = sourceId(id: id, fileID: fileID, line: line)
+  let atom: MAsyncSequenceAtom = atomAsyncSequence(id: id, initialNode)
+  return useRecoilAsyncSequence(atom)
+}
+
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
+/// - Parameters:
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+@MainActor
+public func useAtomAsyncSequence<Node: AsyncSequence>(
+  fileID: String = #fileID,
+  line: UInt = #line,
+  id: String = "",
+  updateStrategy: HookUpdateStrategy? = .once,
+  _ initialNode: @escaping (AtomTransactionContext<Void>) -> Node
+) -> AsyncPhase<MAsyncSequenceAtom<Node>.Sequence.Element, Error>
+where Node.Loader == AsyncSequenceAtomLoader<Node> {
+  let id = sourceId(id: id, fileID: fileID, line: line)
+  let atom: MAsyncSequenceAtom = atomAsyncSequence(id: id, initialNode)
+  return useRecoilAsyncSequence(atom)
+}
+
 /// Like ``useRecoilRefresher``
 /// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
 /// - Parameters:

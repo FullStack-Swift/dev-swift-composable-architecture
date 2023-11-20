@@ -191,3 +191,39 @@ public func selectorPublisher<Publisher: Combine.Publisher>(
   let id = sourceId(id: id, fileID: fileID, line: line)
   return MPublisherAtom(id: id, initialNode)
 }
+
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
+/// - Parameters:
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+@MainActor
+public func selectorAsyncSequence<Node: AsyncSequence>(
+  fileID: String = #fileID,
+  line: UInt = #line,
+  id: String = "",
+  _ initialNode: @escaping (AtomTransactionContext<Void>) -> Node
+) -> MAsyncSequenceAtom<Node> {
+  let id = sourceId(id: id, fileID: fileID, line: line)
+  return MAsyncSequenceAtom(id: id, initialNode)
+}
+
+/// Description:A hook will subscribe to the component atom to re-render if there are any changes in the Recoil state.
+/// - Parameters:
+///   - fileID: the path to the file it appears in.
+///   - line: the line number on which it appears.
+///   - updateStrategy: the Strategy update state.
+///   - initialNode: the any Atom value.
+/// - Returns: Hook Value.
+@MainActor
+public func selectorAsyncSequence<Node: AsyncSequence>(
+  fileID: String = #fileID,
+  line: UInt = #line,
+  id: String = "",
+  _ initialNode: Node
+) -> MAsyncSequenceAtom<Node> {
+  let id = sourceId(id: id, fileID: fileID, line: line)
+  return MAsyncSequenceAtom(id: id, initialNode)
+}
