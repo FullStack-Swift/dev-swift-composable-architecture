@@ -6,7 +6,7 @@ struct MainReducer: Reducer {
   // MARK: State
   struct State: BaseState {
     var counterState = CounterReducer.State()
-    @BindingState var title: String = ""
+    @BindingState var text: String = ""
     var todos: IdentifiedArrayOf<TodoModel> = []
     var isLoading: Bool = false
   }
@@ -64,13 +64,13 @@ struct MainReducer: Reducer {
         case .logout:
           return .send(.changeRootScreen(.auth))
         case .viewCreateTodo:
-          if state.title.isEmpty {
+          if state.text.isEmpty {
             return .none
           }
-          let title = state.title
-          state.title = ""
+          let text = state.text
+          state.text = ""
           let id = uuid()
-          let todo = TodoModel(id: id, title: title, isCompleted: false)
+          let todo = TodoModel(id: id, text: text, isCompleted: false)
           return .send(.createOrUpdateTodo(todo))
         case .getTodo:
           state.todos.removeAll()
@@ -268,23 +268,23 @@ extension MainView {
         }
       }
       HStack {
-        TextField("title", text: viewStore.$title)
+        TextField("title", text: viewStore.$text)
         Button(action: {
           viewStore.send(.viewCreateTodo)
         }, label: {
           Text("Create")
             .bold()
-            .foregroundColor(viewStore.title.isEmpty ? Color.gray : Color.green)
+            .foregroundColor(viewStore.text.isEmpty ? Color.gray : Color.green)
         })
-        .disabled(viewStore.title.isEmpty)
+        .disabled(viewStore.text.isEmpty)
       }
 
-      ForEach(viewStore.todos) { todo in
+      ForEach(viewStore.todos, id:  \.id) { todo in
         HStack {
           HStack {
             Image(systemName: todo.isCompleted ? "checkmark.square" : "square")
               .frame(width: 40, height: 40, alignment: .center)
-            Text(todo.title)
+            Text(todo.text)
               .underline(todo.isCompleted, color: Color.black)
             Spacer()
           }
@@ -317,7 +317,6 @@ extension MainView {
     } label: {
       Text("Count")
     }
-
   }
 
   private var trailingBarItems: some View {

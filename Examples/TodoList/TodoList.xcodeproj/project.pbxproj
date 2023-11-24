@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8770082E2A0C8FF8003326AA /* AsyncPhaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8770082D2A0C8FF8003326AA /* AsyncPhaseView.swift */; };
 		877008312A0C9B10003326AA /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008302A0C9B10003326AA /* BaseService.swift */; };
 		877008332A0C9BD5003326AA /* TodoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008322A0C9BD5003326AA /* TodoService.swift */; };
 		877008392A0CC590003326AA /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877008382A0CC590003326AA /* TimerView.swift */; };
@@ -36,7 +35,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8770082D2A0C8FF8003326AA /* AsyncPhaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncPhaseView.swift; sourceTree = "<group>"; };
 		877008302A0C9B10003326AA /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		877008322A0C9BD5003326AA /* TodoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoService.swift; sourceTree = "<group>"; };
 		877008382A0CC590003326AA /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				87B3929E2A0B5BAA0095F6A4 /* Exports.swift */,
-				8770082D2A0C8FF8003326AA /* AsyncPhaseView.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -265,7 +262,6 @@
 				90AF8A272A1A5004002A6FBD /* UserModel.swift in Sources */,
 				90AF8A2D2A1A5107002A6FBD /* Token.swift in Sources */,
 				904A24EC2A1A1E3C00AA8BD4 /* DependencyValues++.swift in Sources */,
-				8770082E2A0C8FF8003326AA /* AsyncPhaseView.swift in Sources */,
 				87B3929C2A0B5B7B0095F6A4 /* CounterView.swift in Sources */,
 				87B392932A0B5B090095F6A4 /* TodoModel.swift in Sources */,
 				87B392732A0B59010095F6A4 /* TodoListApp.swift in Sources */,

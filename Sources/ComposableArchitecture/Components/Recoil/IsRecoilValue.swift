@@ -104,3 +104,30 @@ import SwiftUI
     self
   }
 }
+
+
+@propertyWrapper
+@MainActor public struct RecoilContext {
+  
+  private let updateStrategy: HookUpdateStrategy
+  
+  let context: RecoilGlobalViewContext
+  
+  public init(
+    fileID: String = #fileID,
+    line: UInt = #line,
+    _ updateStrategy: HookUpdateStrategy = .once
+  ) {
+    self.updateStrategy = updateStrategy
+    self.context = RecoilGlobalViewContext(location: SourceLocation(fileID: fileID, line: line))
+  }
+
+  public var wrappedValue: RecoilGlobalContext {
+    context.wrappedValue
+  }
+  
+  
+  public var projectedValue: Self {
+    self
+  }
+}

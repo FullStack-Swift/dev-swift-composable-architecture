@@ -8,7 +8,7 @@ public class TodoService: BaseService {
 
   func readTodo(_ model: TodoModel?) -> MRequest {
     MRequest {
-      RUrl(urlString: urlString)
+      RUrl(urlString)
         .withPath(path)
         .withPath(model?.id.toString())
       RMethod(.get)
@@ -17,7 +17,7 @@ public class TodoService: BaseService {
 
   func readsTodo() -> MRequest {
     MRequest {
-      RUrl(urlString: urlString)
+      RUrl(urlString)
         .withPath(path)
       RMethod(.get)
     }
@@ -25,7 +25,7 @@ public class TodoService: BaseService {
 
   func createTodo(_ model: TodoModel?) -> MRequest {
     MRequest {
-      RUrl(urlString: urlString)
+      RUrl(urlString)
         .withPath(path)
       REncoding(JSONEncoding.default)
       RMethod(.post)
@@ -35,7 +35,7 @@ public class TodoService: BaseService {
 
   func updateTodo(_ model: TodoModel?) -> MRequest {
     MRequest {
-      RUrl(urlString: urlString)
+      RUrl(urlString)
         .withPath(path)
         .withPath(model?.id.toString())
       RMethod(.post)
@@ -45,7 +45,7 @@ public class TodoService: BaseService {
 
   func deleteTodo(_ model: TodoModel?) -> MRequest {
     MRequest {
-      RUrl(urlString: urlString)
+      RUrl(urlString)
         .withPath(path)
         .withPath(model?.id.toString())
       RMethod(.delete)

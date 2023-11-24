@@ -17,7 +17,7 @@ final class UseCallBackTest: XCTestCase {
     observable.scoped(environment: environment) {
       let ref = useRef(0)
       let callback = useCallback {
-        ref.current += 1
+        ref.value += 1
       }
       callback()
       XCTAssertEqual(ref.current, 1)
@@ -34,7 +34,7 @@ final class UseCallBackTest: XCTestCase {
     HookScopeTester {
       let ref = useRef(0)
       let callback = useCallback {
-        ref.current += 1
+        ref.value += 1
       }
       callback()
       XCTAssertEqual(ref.current, 1)

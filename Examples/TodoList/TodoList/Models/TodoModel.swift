@@ -1,7 +1,7 @@
 import Foundation
 
-struct TodoModel: Codable, Identifiable, Equatable {
+struct TodoModel: BaseIDModel {
   var id: UUID
-  var title: String
+  var text: String
   var isCompleted: Bool
 }

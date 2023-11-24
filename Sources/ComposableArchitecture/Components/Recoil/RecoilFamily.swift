@@ -20,7 +20,7 @@ fileprivate func curryFnRecoilFamily<A, B, C>(
         currentParamFamily = nil
       }
       if let currentParamFamily = currentParamFamily,
-         let current = currentParamFamily.current as? A {
+         let current = currentParamFamily.value as? A {
         return f(current, b)
       }
       return f(a, b)
@@ -39,7 +39,7 @@ fileprivate func curryFnTaskRecoilFamily<A, B, C>(
         currentTaskParamFamily = nil
       }
       if let currentParamFamily = currentTaskParamFamily,
-         let current = currentParamFamily.current as? A {
+         let current = currentParamFamily.value as? A {
         return await f(current, b)
       }
       return await f(a, b)
@@ -58,7 +58,7 @@ fileprivate func curryFnThrowingTaskRecoilFamily<A, B, C>(
         currentThrowingTaskParamFamily = nil
       }
       if let currentParamFamily = currentThrowingTaskParamFamily,
-         let current = currentParamFamily.current as? A {
+         let current = currentParamFamily.value as? A {
         return try await f(current, b)
       }
       return try await f(a, b)

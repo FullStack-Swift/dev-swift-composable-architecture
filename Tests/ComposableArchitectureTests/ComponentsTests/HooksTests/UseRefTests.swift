@@ -8,14 +8,14 @@ final class UseRefTests: XCTestCase {
     //    Given
     let ref = RefObject(0)
     
-    XCTAssertEqual(ref.current, 0)
     XCTAssertEqual(ref.value, 0)
+    XCTAssertEqual(ref.current, 0)
     //    When
-    ref.current = 99
+    ref.value = 99
     
     //    Expect
-    XCTAssertEqual(ref.current, 99)
     XCTAssertEqual(ref.value, 99)
+    XCTAssertEqual(ref.current, 99)
   }
 }
 
@@ -25,7 +25,8 @@ final class WeakRefTests: XCTestCase {
     // Given
     var ref: RefObject<Int>? = RefObject(0)
     
-    let weakRef = WeakRef(ref)
+    let weakRef = WeakRefObject(ref)
+    
     XCTAssertNotNil(ref)
     XCTAssertNotNil(weakRef.ref)
     // When
@@ -33,5 +34,25 @@ final class WeakRefTests: XCTestCase {
     // Expect
     XCTAssertNil(ref)
     XCTAssertNil(weakRef.ref)
+  }
+}
+
+final class SWeakRefOjbectTest: XCTestCase {
+  
+  func testSRef() {
+//    Given
+    var ref: RefObject<Int>? = RefObject(0)
+    
+    @SWeakRef
+    var weakRef = ref
+    
+    XCTAssertNotNil(ref)
+    XCTAssertNotNil(weakRef)
+    
+    // When
+    ref = nil
+    // Expect
+    XCTAssertNil(ref)
+    XCTAssertNil(weakRef)
   }
 }

@@ -965,6 +965,25 @@ extension Store {
     }
   }
 
+  private func sendMiddleware(dispatchedAction: DispatchedAction<Action>) {
+    let middlewares = middleware.middlewares
+    if middlewares.isEmpty {
+      return
+    } else {
+      for middleware in middlewares {
+        let io = handle(
+          middleware: middleware,
+          reducer: self.reducer,
+          dispatchedAction: dispatchedAction,
+          state: self.state
+        )
+        Self.runIO(io, handler: { [weak self] dispatchedAction
+          in self?.dispatch(dispatchedAction)
+        })
+      }
+    }
+  }
+  
   private func handle(
     middleware: AnyMiddleware<State, Action>,
     reducer: any Reducer<State, Action>,
@@ -987,9 +1006,9 @@ extension Store {
     _ io: IO<Action>,
     handler: @escaping (DispatchedAction<Action>) -> Void
   ) {
-    io.run(.init { dispatchedAction in
+    io.run { dispatchedAction in
       handler(dispatchedAction)
-    })
+    }
   }
 
   public func withState(_ block: (inout State) -> Void) {

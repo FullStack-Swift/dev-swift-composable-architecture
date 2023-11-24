@@ -13,7 +13,9 @@ let package = Package(
     .package(url: "https://github.com/vapor/fluent.git", from: "4.8.0"),
     // ᾫ6 Fluent driver for SQLite.
     .package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.0.0"),
-    
+    // Vapor JWT provider
+    .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
+    // A library for building for converting primitive values like String, Int Number and so so to another type in Swift
     .package(url: "https://github.com/FullStack-Swift/swift-extension", branch: "main"),
   ],
   targets: [
@@ -23,6 +25,7 @@ let package = Package(
         .product(name: "Fluent", package: "fluent"),
         .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
         .product(name: "Vapor", package: "vapor"),
+        .product(name: "JWT", package: "jwt"),
         .product(name: "Transform", package: "swift-extension"),
       ]
     ),

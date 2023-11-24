@@ -21,3 +21,23 @@ final class Todo: Model, Content {
     self.isCompleted = isCompleted
   }
 }
+
+extension Todo {
+  
+  struct Migration: AsyncMigration {
+    
+    var name: String { "CreateTodo" }
+    
+    func prepare(on database: Database) async throws {
+      try await database.schema("todos")
+        .id()
+        .field("text", .string, .required)
+        .field("isCompleted", .bool, .required)
+        .create()
+    }
+    
+    func revert(on database: Database) async throws {
+      try await database.schema("todos").delete()
+    }
+  }
+}

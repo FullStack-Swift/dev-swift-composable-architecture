@@ -3,6 +3,7 @@ import Vapor
 import Transform
 
 struct TodoController: RouteCollection {
+  
   func boot(routes: RoutesBuilder) throws {
     let todos = routes.grouped("todos")
     todos.get(use: index)
@@ -15,6 +16,12 @@ struct TodoController: RouteCollection {
   func index(req: Request) async throws -> [Todo] {
     try await Todo.query(on: req.db).all()
   }
+  
+  /// paginate
+  func paginate(req: Request) async throws -> Page<Todo> {
+    try await Todo.query(on: req.db).paginate(for: req)
+  }
+  
   /// create or update the todo
   func create(req: Request) async throws -> Todo {
     let todo = try req.content.decode(Todo.self)

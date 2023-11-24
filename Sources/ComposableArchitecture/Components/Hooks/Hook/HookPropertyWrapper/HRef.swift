@@ -33,10 +33,10 @@ public struct HRef<Node> {
   
   public var wrappedValue: Node {
     get {
-      _value.current
+      _value.value
     }
     nonmutating set {
-      _value.current = newValue
+      _value.value = newValue
       if let value = _ref {
         value(newValue)
       }
@@ -52,7 +52,7 @@ public struct HRef<Node> {
   }
   
   public func send(_ node: Node) {
-    value.current = node
+    value.value = node
   }
   
   public func onUpdated(_ onUpdate: @escaping (Node) -> Void) -> Self {

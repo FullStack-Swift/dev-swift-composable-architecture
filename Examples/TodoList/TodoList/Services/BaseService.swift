@@ -26,7 +26,7 @@ open class BaseService: ServiceProtocol {
   // MARK: Base Network API
   open func read<ID: Identifiable>(_ id: ID) -> MRequest {
     MRequest {
-      RUrl(urlString: urlString)
+      RUrl(urlString)
         .withPath(path)
         .withPath(String(describing: id))
       RMethod(.get)
@@ -35,7 +35,7 @@ open class BaseService: ServiceProtocol {
 
   open func reads() -> MRequest {
     MRequest {
-      RUrl(urlString: urlString)
+      RUrl(urlString)
         .withPath(path)
       RMethod(.get)
     }
@@ -43,7 +43,7 @@ open class BaseService: ServiceProtocol {
 
   open func create(_ data: Data?) -> MRequest {
     MRequest {
-      RUrl(urlString: urlString)
+      RUrl(urlString)
         .withPath(path)
       REncoding(JSONEncoding.default)
       RMethod(.post)
@@ -53,7 +53,7 @@ open class BaseService: ServiceProtocol {
 
   open func update<Model: Codable & Identifiable>(_ model: Model) -> MRequest {
     MRequest {
-      RUrl(urlString: urlString)
+      RUrl(urlString)
         .withPath(path)
         .withPath(String(describing: model.id))
       RMethod(.post)
@@ -63,7 +63,7 @@ open class BaseService: ServiceProtocol {
 
   open func delete<ID: Identifiable>(_ id: ID) -> MRequest {
     MRequest {
-      RUrl(urlString: urlString)
+      RUrl(urlString)
         .withPath(path)
         .withPath(String(describing: id))
       RMethod(.delete)

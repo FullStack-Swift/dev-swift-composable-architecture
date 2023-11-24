@@ -13,7 +13,12 @@ public func configure(_ app: Application) async throws {
   
   app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
   
-  app.migrations.add(CreateTodo())
+  app.migrations.add(Todo.Migration())
+  
+  app.migrations.add(User.Migration())
+  
+  app.migrations.add(UserToken.Migration())
+  
   try await app.autoMigrate()
   
   // webSocket
