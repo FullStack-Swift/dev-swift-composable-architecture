@@ -62,7 +62,7 @@ public struct ViewModel<ViewState, ViewAction>: DynamicProperty {
 
   public var wrappedValue: ViewState {
     get {
-      store.state.value
+      store.stateSubject.value
     }
     nonmutating set {
       store.withState({$0 = newValue})

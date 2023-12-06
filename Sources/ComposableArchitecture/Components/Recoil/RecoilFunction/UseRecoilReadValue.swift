@@ -21,7 +21,7 @@ public func useRecoilReadValue<Node: Atom>(
   updateStrategy: HookUpdateStrategy? = .once,
   _ initialNode: Node
 ) -> Node.Loader.Value {
-  useRecoilValue(fileID: fileID, line: line, updateStrategy: updateStrategy) {
+  useRecoilReadValue(fileID: fileID, line: line, updateStrategy: updateStrategy) {
     initialNode
   }
 }
@@ -61,7 +61,7 @@ public func useRecoilReadValue<Node: Atom>(
 
 private struct RecoilReadValueHook<Node: Atom>: RecoilHook {
   
-  typealias State = RecoilHookRef<Node>
+  typealias State = _RecoilHookRef
   
   typealias Value = Node.Loader.Value
   
@@ -83,12 +83,12 @@ private struct RecoilReadValueHook<Node: Atom>: RecoilHook {
   
   @MainActor
   func makeState() -> State {
-    RecoilHookRef(location: location, initialNode: initialNode())
+    _RecoilHookRef(location: location, initialNode: initialNode())
   }
   
   @MainActor
   func value(coordinator: Coordinator) -> Value {
-    return coordinator.state.value
+    coordinator.state.value
   }
   
   @MainActor
@@ -96,13 +96,7 @@ private struct RecoilReadValueHook<Node: Atom>: RecoilHook {
     guard !coordinator.state.isDisposed else {
       return
     }
-    coordinator.state.context.observable.publisher.sink {
-      guard !coordinator.state.isDisposed else {
-        return
-      }
-      coordinator.updateView()
-    }
-    .store(in: &coordinator.state.cancellables)
+    coordinator.state.updateState()
   }
   
   @MainActor
@@ -111,11 +105,27 @@ private struct RecoilReadValueHook<Node: Atom>: RecoilHook {
   }
 }
 
-private extension RecoilHookRef {
-  @MainActor
-  var value: Node.Loader.Value {
-    context.read(node)
+private extension RecoilReadValueHook {
+  // MARK: State
+  final class _RecoilHookRef: RecoilHookRef<Node> {
+    
+    var cache: Value?
+    
+    override init(location: SourceLocation, initialNode: Node) {
+      super.init(location: location, initialNode: initialNode)
+      updateState()
+    }
+    
+    var value: Value {
+      cache ?? _value
+    }
+    
+    var _value: Value {
+      context.read(node)
+    }
+    
+    func updateState() {
+      self.cache = _value
+    }
   }
 }
-
-

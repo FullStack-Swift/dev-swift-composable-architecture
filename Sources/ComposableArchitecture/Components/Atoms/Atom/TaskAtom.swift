@@ -69,7 +69,7 @@ public struct MTaskAtom<Node>: TaskAtom {
   
   public var initialState: (Self.Context) async -> Node
   
-  @SAnyRef
+  @SRefObject
   internal var _location: ((Value, Value, UpdatedContext) -> Void)? = nil
 
   public init(id: String,_ initialState: @escaping (Self.Context) async -> Node) {

@@ -33,20 +33,48 @@ import SwiftUI
   
   private let updateStrategy: HookUpdateStrategy
   
+  let ref: RecoilHookRef<Node>
+  
   public init(
     wrappedValue: Node,
-    _ updateStrategy: HookUpdateStrategy = .once
+    _ updateStrategy: HookUpdateStrategy = .once,
+    fileID: String = #fileID,
+    line: UInt = #line
   ) {
     self.wrappedValue = wrappedValue
     self.updateStrategy = updateStrategy
-  }
-  
-  public var value: Node.Loader.Value {
-    useRecoilWatch(updateStrategy: updateStrategy, wrappedValue)
+    ref = RecoilHookRef(location: SourceLocation(fileID: fileID, line: line), initialNode: wrappedValue)
   }
   
   public var projectedValue: Self {
     self
+  }
+}
+
+extension RecoilWatch {
+  
+  public var context: RecoilGlobalContext {
+    ref.context
+  }
+}
+
+extension RecoilWatch {
+  
+  public var value: Node.Loader.Value {
+    useRecoilWatch(updateStrategy: updateStrategy, wrappedValue)
+  }
+}
+
+extension RecoilWatch where Node: StateAtom {
+  
+  public var state: Binding<Node.Loader.Value> {
+    context.state(wrappedValue)
+  }
+}
+
+extension RecoilWatch where Node.Loader: RefreshableAtomLoader {
+  func refresh() async -> Node.Loader.Value {
+    await context.refresh(wrappedValue)
   }
 }
 

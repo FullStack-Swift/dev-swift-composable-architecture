@@ -73,7 +73,7 @@ public struct MPublisherAtom<Node: Combine.Publisher>: PublisherAtom {
   
   public typealias UpdatedContext = AtomUpdatedContext<Void>
   
-  @SAnyRef
+  @SRefObject
   internal var _location: ((Value, Value, UpdatedContext) -> Void)? = nil
   
   public init(id: String, _ initialState: @escaping (Context) -> Node) {

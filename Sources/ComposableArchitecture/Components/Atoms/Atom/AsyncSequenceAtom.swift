@@ -82,7 +82,7 @@ public struct MAsyncSequenceAtom<Node: AsyncSequence>: AsyncSequenceAtom {
   
   public var initialState: (Self.Context) -> Node
   
-  @SAnyRef
+  @SRefObject
   internal var _location: ((Value, Value, UpdatedContext) -> Void)? = nil
 
   public init(id: String, _ initialState: @escaping (Context) -> Node) {

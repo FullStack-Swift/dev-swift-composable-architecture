@@ -25,13 +25,15 @@ struct ContentView: View {
       let _ = useOnLastAppear {
         print("useOnLastAppear")
       }
-      let count = useRecoilState(MStateAtom(id: id, 0))
+      
+      @RecoilWatch
+      var count = selectorState(id: id,0)
       
       let callback = useCallback {
-        count.wrappedValue += 1
+        $count.state.wrappedValue += 1
       }
       
-      let phase = useRecoilThrowingTask(_recoilValueFamily(count.wrappedValue))
+      let phase = useRecoilThrowingTask(_recoilValueFamily($count.value))
       
       VStack {
         LogChangesView()
@@ -43,15 +45,15 @@ struct ContentView: View {
             testUnit += 1
           }
         
-        AsyncPhaseView(phase: phase) { value in
+        AsyncPhaseView(phase) { value in
           Text(value)
-        } suspending: {
+        } loading: {
           ProgressView()
-        } failureContent: { error in
+        } catch: { error in
           Text(error.localizedDescription)
         }
         .frame(height: 100)
-        Button(count.wrappedValue.description) {
+        Button($count.value.description) {
           callback()
         }
       }

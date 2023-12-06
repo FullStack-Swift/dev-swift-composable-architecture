@@ -85,9 +85,7 @@ where H: RecoilHook, H.State: RecoilHookRef<H.Node> {
       state.context.observable
         .objectWillChange
         .sink {
-          guard !state.isDisposed else {
-            return
-          }
+          guard !state.isDisposed else { return }
           updateView()
         }
         .store(in: &state.cancellables)

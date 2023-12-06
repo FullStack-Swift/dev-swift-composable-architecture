@@ -60,7 +60,7 @@ public struct MStateAtom<Node>: StateAtom {
   
   public var initialState: (Self.Context) -> Node
 
-  @SAnyRef
+  @SRefObject
   internal var _location: ((Value, Value, UpdatedContext) -> Void)? = nil
   
   public init(id: String,_ initialState: @escaping (Self.Context) -> Node) {

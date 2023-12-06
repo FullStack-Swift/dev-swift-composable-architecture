@@ -20,7 +20,7 @@ public struct HRef<Node> {
   
   private let _value: RefObject<Node>
   
-  @SAnyRef
+  @SRefObject
   internal var _ref: ((Node) -> Void)? = nil
   
   public init(wrappedValue: @escaping () -> Node) {

@@ -73,7 +73,7 @@ public struct MThrowingTaskAtom<Node>: ThrowingTaskAtom {
 
   public var initialState: (Self.Context) async throws -> Node
   
-  @SAnyRef
+  @SRefObject
   internal var _location: ((Value, Value, UpdatedContext) -> Void)? = nil
 
   public init(id: String,_ initialState: @escaping (Self.Context) async throws -> Node) {

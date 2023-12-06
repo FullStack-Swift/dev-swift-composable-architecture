@@ -52,7 +52,7 @@ public struct SharedState<Value>: DynamicProperty {
 
     init() {
       self._state = CurrentValueRelay(SharedStateReducer.State.shared)
-      self.viewCancellable = sharedStateStore.state
+      self.viewCancellable = sharedStateStore.stateSubject
         .sink(receiveValue: { [weak objectWillChange = self.objectWillChange, weak _state = self._state] in
           guard let objectWillChange = objectWillChange, let _state = _state else { return }
           objectWillChange.send()

@@ -59,6 +59,16 @@ private struct _RecoilViewContext: View {
               .labelsHidden()
           }
         }
+        HookScope {
+          HStack {
+            let state = useRecoilState(_StateAtom(id: "1"))
+            let value = useRecoilReadValue(updateStrategy: .once ,_ValueAtom(id: "1"))
+            AtomRowTextValue(state.wrappedValue)
+            AtomRowTextValue(value)
+            Stepper("Count: \(state.wrappedValue)", value: state)
+              .labelsHidden()
+          }
+        }
       }
     }
   }

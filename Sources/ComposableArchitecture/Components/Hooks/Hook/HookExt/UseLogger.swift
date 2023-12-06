@@ -89,7 +89,7 @@ private struct LoggerHook: Hook {
       return
     }
 #if DEBUG
-    print("⚠️", location.sourceId, name)
+    print("🚀", location.sourceId, name)
     for item in items {
       print(item, separator: separator, terminator: terminator)
     }

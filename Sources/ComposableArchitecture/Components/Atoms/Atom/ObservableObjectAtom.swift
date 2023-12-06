@@ -85,7 +85,7 @@ public struct MObservableObjectAtom<Node: ObservableObject>: ObservableObjectAto
   
   public var initialState: (Self.Context) -> Node
   
-  @SAnyRef
+  @SRefObject
   internal var _location: ((Value, Value, UpdatedContext) -> Void)? = nil
 
   public init(id: String, _ initialState: @escaping (Context) -> Node) {

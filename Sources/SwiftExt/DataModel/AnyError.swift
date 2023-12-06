@@ -10,7 +10,7 @@ public struct AnyError<Failure: Error>: Error {
 }
 
 public extension Error {
-  func asAnyError() -> AnyError<Self> {
+  func eraseToAnyError() -> AnyError<Self> {
     AnyError(error: self)
   }
 }
@@ -24,3 +24,18 @@ extension AnyError: Equatable where Failure: Equatable {}
 extension AnyError: Hashable where Failure: Hashable {}
 
 extension AnyError: Sendable where Failure: Sendable {}
+
+public struct MError: Error {
+  
+  public var code: Int
+  public var message: String
+  
+  public init(code: Int, message: String) {
+    self.code = code
+    self.message = message
+  }
+}
+
+extension MError: Equatable {}
+extension MError: Codable {}
+extension MError: Sendable {}

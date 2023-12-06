@@ -173,4 +173,3 @@ func debugCaseOutput(
 private func isUnlabeledArgument(_ label: String) -> Bool {
   label.firstIndex(where: { $0 != "." && !$0.isNumber }) == nil
 }
-

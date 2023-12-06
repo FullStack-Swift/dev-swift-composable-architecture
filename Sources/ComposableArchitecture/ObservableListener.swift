@@ -8,6 +8,8 @@ import Combine
 /// var observable
 ///
 /// ```
+/// Listerner to updateUI with SwiftUI.
+///
 @propertyWrapper
 public struct ObservableListener {
   
