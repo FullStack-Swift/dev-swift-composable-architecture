@@ -2,6 +2,14 @@ import Foundation
 import Combine
 import SwiftUI
 
+@MainActor
+public protocol RiverpodContextProtocol {
+  
+  func read<Node: ProviderProtocol>(_ node: Node) -> Node.Value
+  
+  func set<Node: StateAtom>(_ node: Node) -> Node.Value
+}
+
 public class RiverpodContext {
   
   private(set) weak var weakStore: RiverpodStore?
@@ -104,6 +112,15 @@ public class RiverpodContext {
   
   @discardableResult
   public func binding<Node: ProviderProtocol>(_ node: Node) -> Binding<Node.Value> {
+    Binding {
+      self.read(node)
+    } set: { newValue in
+      self.update(node: node, newValue: newValue)
+    }
+  }
+  
+  @discardableResult
+  public func state<Node: ProviderProtocol>(_ node: Node) -> Binding<Node.Value> {
     Binding {
       self.read(node)
     } set: { newValue in

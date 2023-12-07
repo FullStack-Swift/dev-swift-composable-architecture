@@ -19,19 +19,19 @@ open class BaseObservable: ObservableObject {
       guard let self else { return }
       self.count += 1
       print(Date())
-      log.warning("printChanges: \(count) id: \(id)")
+      print("\(objectId): printChanges: \(count) id: \(id)")
     }
   }
   
   public func willChange() {
-    withMainTask {
+    Task { @MainActor in
       self.objectWillChange.send()
       self.observable.send()
     }
   }
   
   public func refresh() {
-    mainAsync {
+    DispatchQueue.main.async {
       self.objectWillChange.send()
       self.observable.send()
     }
@@ -40,5 +40,4 @@ open class BaseObservable: ObservableObject {
   public var objectId: String {
     ObjectIdentifier(self).debugDescription
   }
-  
 }

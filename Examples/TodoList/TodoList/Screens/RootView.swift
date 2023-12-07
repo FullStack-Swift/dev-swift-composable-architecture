@@ -1,6 +1,7 @@
 import SwiftUI
 
-struct RootReducer: Reducer {
+@Reducer
+struct RootReducer {
 
   // MARK: State
   struct State: BaseState {

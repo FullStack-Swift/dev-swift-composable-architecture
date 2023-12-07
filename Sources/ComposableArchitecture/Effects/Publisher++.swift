@@ -54,6 +54,13 @@ extension Publisher {
       Empty()
     }.eraseToAnyPublisher()
   }
+  
+  public func void() -> AnyPublisher<(), Failure> {
+    map { _ in
+      return
+    }
+    .eraseToAnyPublisher()
+  }
 }
 
 extension AnyPublisher {

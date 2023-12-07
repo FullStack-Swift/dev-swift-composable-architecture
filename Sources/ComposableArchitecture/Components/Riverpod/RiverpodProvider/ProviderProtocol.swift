@@ -42,6 +42,12 @@ open class Provider<T>: ProviderProtocol {
   public convenience init(_ initialState: () -> T) {
     self.init(initialState())
   }
+  
+  public convenience init(_ initialState: (RiverpodContext) -> T) {
+    @Dependency(\.riverpodContext)
+    var riverpodContext
+    self.init(initialState(riverpodContext))
+  }
 }
 
 public class AnyProvider: Identifiable, Hashable {

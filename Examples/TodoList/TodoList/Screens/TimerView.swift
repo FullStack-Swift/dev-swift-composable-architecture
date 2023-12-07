@@ -1,7 +1,8 @@
 import SwiftUI
 
 // MARK: Reducer
-struct TimerReducer: Reducer {
+@Reducer
+struct TimerReducer {
 
   // MARK: State
   struct State: BaseIDState {

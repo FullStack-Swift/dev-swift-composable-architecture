@@ -9,8 +9,8 @@ struct RiverpodCaseStudiesView: View {
       Group {
         Text("Riverpod Pro")
         _CounterView()
-//        _CounterView()
-//        _CounterView()
+        _CounterView()
+        _CounterView()
         Divider()
       }
     }

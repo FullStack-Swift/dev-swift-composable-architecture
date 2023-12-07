@@ -39,3 +39,11 @@ public struct MError: Error {
 extension MError: Equatable {}
 extension MError: Codable {}
 extension MError: Sendable {}
+
+extension MError {
+  public func with(_ block: (inout Self) -> Void) -> Self {
+    var clone = self
+    block(&clone)
+    return clone
+  }
+}
