@@ -6,6 +6,14 @@ public extension IdentifiedArray where Element: Identifiable {
     identifiedArray.updateOrAppend(builder())
     self = identifiedArray
   }
+  
+  init(_ builder: () -> IdentifiedArray<ID, Element>) {
+    self = builder()
+  }
+  
+  init(_ builder: () -> Array<Element>) where ID == Element.ID {
+    self = builder().toIdentifiedArray()
+  }
 }
 
 public extension Array where Element: Identifiable {

@@ -123,8 +123,11 @@ private struct TodoCreator: View {
   
   var body: some View {
     HookScope {
-      let text = useState("")
-      let _onlCreateTodo = useParamCallBack { (param: String) async throws -> Data in
+      
+      @HState
+      var text = ""
+      
+      let request = useParamCallBack { (param: String) async throws -> Data in
         let data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -138,14 +141,14 @@ private struct TodoCreator: View {
       }
       let todos = useRecoilState(_todosStateAtom)
       HStack {
-        TextField("Enter your todo", text: text)
+        TextField("Enter your todo", text: $text)
 #if os(iOS) || os(macOS)
           .textFieldStyle(.plain)
 #endif
         Button {
           Task {
-            let data = try await _onlCreateTodo(text.wrappedValue)
-            text.wrappedValue = ""
+            let data = try await request(text)
+            text = ""
             if let item = data.toModel(Todo.self) {
               todos.wrappedValue.updateOrAppend(item)
             }
@@ -153,9 +156,9 @@ private struct TodoCreator: View {
         } label: {
           Text("Add")
             .bold()
-            .foregroundColor(text.wrappedValue.isEmpty ? .gray : .green)
+            .foregroundColor(text.isEmpty ? .gray : .green)
         }
-        .disabled(text.wrappedValue.isEmpty)
+        .disabled(text.isEmpty)
       }
       .padding(.vertical)
     }
@@ -172,7 +175,7 @@ private struct TodoItem: View {
   
   var body: some View {
     HookScope {
-      let _onlUpdateTodo = useParamCallBack { (param: Todo) async throws -> Data in
+      let request = useParamCallBack { (param: Todo) async throws -> Data in
         let data: Data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -199,7 +202,7 @@ private struct TodoItem: View {
         .onChange(of: todo.wrappedValue) { (value: Todo) in
           print(value)
           Task {
-            let data = try await _onlUpdateTodo(value)
+            let data = try await request(value)
             if let item = data.toModel(Todo.self) {
               todos.wrappedValue.updateOrAppend(item)
             }
@@ -231,7 +234,7 @@ struct OnlineRiverpodTodoview: View {
           return models
         }
       }
-      let _onlDeleteTodo = useParamCallBack { (param: UUID) async throws -> Data in
+      let requestDelete = useParamCallBack { (param: UUID) async throws -> Data in
         let data: Data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -260,7 +263,7 @@ struct OnlineRiverpodTodoview: View {
               for index in atOffsets {
                 let todo = todos.wrappedValue[index]
                 Task {
-                  _ = try await _onlDeleteTodo(todo.id)
+                  _ = try await requestDelete(todo.id)
                 }
               }
               todos.wrappedValue.remove(atOffsets: atOffsets)

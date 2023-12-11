@@ -1,13 +1,13 @@
 import SwiftUI
+import MRequest
 
 struct HookLoadMoreView: View {
   
-  let tabs = [
-    TabItemData(image: "ic_tab",selectedImage: "ic_tab_selected",title: "useID"),
-    TabItemData(image: "ic_tab", selectedImage: "ic_tab_selected", title: "useArray"),
-    TabItemData(image: "ic_tab", selectedImage: "ic_tab_selected", title: "useID"),
-    TabItemData(image: "ic_tab", selectedImage: "ic_tab_selected", title: "useArray")
-  ]
+  let tabs = Array {
+    TabItemData(image: "ic_tab",selectedImage: "ic_tab_selected",title: "useArray")
+    TabItemData(image: "ic_tab", selectedImage: "ic_tab_selected", title: "useID")
+    TabItemData(image: "ic_tab", selectedImage: "ic_tab_selected", title: "pageTodo")
+  }
   
   var body: some View {
     HookScope {
@@ -15,13 +15,11 @@ struct HookLoadMoreView: View {
       FTabBar(tabs: tabs, selectedIndex: selectedTab) { index in
         VStack {
           if index == 0 {
-            loadMoreIDContent
+            PagedResponseTodo()
           } else if index == 1 {
-            loadMoreContent
+            PagedIDResponseTodo()
           } else if index == 2 {
-            loadMoreIDContent
-          } else if index == 3 {
-            loadMoreContent
+            HookPageTodo()
           } else {
             Color.white
           }
@@ -38,107 +36,9 @@ struct HookLoadMoreView: View {
     }
     .navigationBarTitle(Text("Hook LoadMore"), displayMode: .inline)
   }
-  
-  @ViewBuilder
-  var loadMoreIDContent: some View {
-    HookScope {
-      let loadmore: LoadMoreHookIDModel<UserModel> = useLoadMoreHookIDModel(firstPage: 1) { page in
-        try await Task.sleep(seconds: 1)
-        var results: [UserModel] = []
-        for index in 0...Int.random(in: 1...5) {
-          results.append(UserModel(email: "Page: \(page) , index: " + index.description, phonenumber: index.description))
-        }
-        let pagedResponse: PagedIDResponse<UserModel> = PagedIDResponse(page: page, totalPages: 10, results: results.toIdentifiedArray())
-        return pagedResponse
-      }
-      
-      let _ = useAsync(.once) {
-        try await loadmore.load()
-      }
-      
-      let users = useNextPhaseValue(loadmore.loadPhase) ?? []
-      let status = useOnceExistedPhaseStatusSuccess(loadmore.loadPhase) ?? .pending
-      
-      switch status {
-        case .pending:
-          ProgressView()
-        case .success, .running:
-          List {
-            ForEach(users) { item in
-              NavigationLink {
-                Text(item.email)
-              } label: {
-                Text(item.email)
-              }
-            }
-            viewLoadMore(loadmore: loadmore)
-          }
-          .listStyle(.grouped)
-          .refreshable {
-            do {
-              try await loadmore.load()
-            } catch {
+}
 
-            }
-          }
-          .navigationTitle("Total: " + users.count.description + " isloading: \(loadmore.isLoading.description)")
-          .navigationBarTitleDisplayMode(.inline)
-        case .failure:
-          Text("failure")
-      }
-    }
-  }
-  @ViewBuilder
-  var loadMoreContent: some View {
-    HookScope {
-      let loadmore: LoadMoreHookModel<UserModel> = useLoadMoreHookModel(firstPage: 1) { page in
-        try await Task.sleep(seconds: 1)
-        var results: [UserModel] = []
-        for index in 0...Int.random(in: 1...5) {
-          results.append(UserModel(email: "Page: \(page) , index: " + index.description, phonenumber: index.description))
-        }
-        let pagedResponse: PagedResponse<UserModel> = PagedResponse(page: page, totalPages: 10, results: results)
-        return pagedResponse
-      }
-      
-      let _ = useAsync(.once) {
-        try await loadmore.load()
-      }
-      
-      let users = useNextPhaseValue(loadmore.loadPhase) ?? []
-      let status = useOnceExistedPhaseStatusSuccess(loadmore.loadPhase) ?? .pending
-      
-      switch status {
-        case .pending:
-          ProgressView()
-        case .success, .running:
-          List {
-            ForEach(users) { item in
-              NavigationLink {
-                Text(item.email)
-              } label: {
-                Text(item.email)
-              }
-              
-            }
-            viewLoadMore(loadmore: loadmore)
-          }
-          .listStyle(.grouped)
-          .refreshable {
-            do {
-              try await loadmore.load()
-            } catch {
-
-            }
-          }
-          .navigationTitle("Total: " + users.count.description + " isloading: \(loadmore.isLoading.description)")
-          .navigationBarTitleDisplayMode(.inline)
-        case .failure:
-          Text("failure")
-      }
-    }
-  }
-  
+fileprivate extension View {
   func viewLoadMore(loadmore: any LoadMoreProtocol) -> some View {
     LoadMoreView(loadmore: loadmore) {
       ProgressView()
@@ -150,10 +50,216 @@ struct HookLoadMoreView: View {
   }
 }
 
+
+// MARK: Model
+
+private struct Todo: Codable, Hashable, Identifiable {
+  var id: UUID
+  var text: String
+  var isCompleted: Bool
+}
+
+private enum Filter: CaseIterable, Hashable {
+  case all
+  case completed
+  case uncompleted
+}
+
+private struct Stats: Equatable {
+  let total: Int
+  let totalCompleted: Int
+  let totalUncompleted: Int
+  let percentCompleted: Double
+}
+
+struct PagedResponseTodo: View {
+  var body: some View {
+    HookScope {
+      let loadmore: LoadMoreHookModel<Todo> = useLoadMoreHookModel(firstPage: 1) { page in
+        try await Task.sleep(seconds: 1)
+        let request = MRequest {
+          RUrl("http://127.0.0.1:8080")
+            .withPath("todos")
+            .withPath("paginate")
+          RQueryItems(["page": page, "per": 5])
+          RMethod(.get)
+        }
+          .printCURLRequest()
+        let data = try await request.data
+        log.json(data)
+        let pageModel = data.toModel(Page<Todo>.self) ?? Page(items: [], metadata: .init(page: 0, per: 0, total: 0))
+        let pagedResponse: PagedResponse<Todo> = PagedResponse(page: page, totalPages: pageModel.metadata.totalPages, results: pageModel.items)
+        return pagedResponse
+      }
+      
+      let _ = useAsync(.once) {
+        try await loadmore.load()
+      }
+      
+      let todos = useNextPhaseValue(loadmore.loadPhase) ?? []
+      let status = useOnceExistedPhaseStatusSuccess(loadmore.loadPhase) ?? .pending
+      
+      switch status {
+        case .pending:
+          ProgressView()
+        case .success, .running:
+          List {
+            ForEach(todos) { todo in
+              Toggle(isOn: .constant(todo.isCompleted)) {
+                TextField("", text: .constant(todo.text)) {
+                }
+                .textFieldStyle(.plain)
+#if os(iOS) || os(macOS)
+                .textFieldStyle(.roundedBorder)
+#endif
+              }
+              .padding(.vertical, 4)
+            }
+            viewLoadMore(loadmore: loadmore)
+          }
+          .listStyle(.grouped)
+          .refreshable {
+            do {
+              try await loadmore.load()
+            } catch {
+              
+            }
+          }
+          .navigationTitle("Total: " + todos.count.description + " isloading: \(loadmore.isLoading.description)")
+          .navigationBarTitleDisplayMode(.inline)
+        case .failure:
+          Text("failure")
+      }
+    }
+  }
+}
+
+struct PagedIDResponseTodo: View {
+  var body: some View {
+    HookScope {
+      let loadmore: LoadMoreHookIDModel<Todo> = useLoadMoreHookIDModel(firstPage: 1) { page in
+        try await Task.sleep(seconds: 1)
+        let request = MRequest {
+          RUrl("http://127.0.0.1:8080")
+            .withPath("todos")
+            .withPath("paginate")
+          RQueryItems(["page": page, "per": 5])
+          RMethod(.get)
+        }
+          .printCURLRequest()
+        let data = try await request.data
+        log.json(data)
+        let pageModel = data.toModel(Page<Todo>.self) ?? Page(items: [], metadata: .init(page: 0, per: 0, total: 0))
+        let pagedResponse: PagedIDResponse<Todo> = PagedIDResponse(page: page, totalPages: pageModel.metadata.totalPages, results: pageModel.items.toIdentifiedArray())
+        return pagedResponse
+      }
+      
+      let _ = useAsync(.once) {
+        try await loadmore.load()
+      }
+      
+      let todos = useNextPhaseValue(loadmore.loadPhase) ?? []
+      let status = useOnceExistedPhaseStatusSuccess(loadmore.loadPhase) ?? .pending
+      
+      switch status {
+        case .pending:
+          ProgressView()
+        case .success, .running:
+          List {
+            ForEach(todos) { todo in
+              Toggle(isOn: .constant(todo.isCompleted)) {
+                TextField("", text: .constant(todo.text)) {
+                }
+                .textFieldStyle(.plain)
+#if os(iOS) || os(macOS)
+                .textFieldStyle(.roundedBorder)
+#endif
+              }
+              .padding(.vertical, 4)
+            }
+            viewLoadMore(loadmore: loadmore)
+          }
+          .listStyle(.grouped)
+          .refreshable {
+            do {
+              try await loadmore.load()
+            } catch {
+              
+            }
+          }
+          .navigationTitle("Total: " + todos.count.description + " isloading: \(loadmore.isLoading.description)")
+          .navigationBarTitleDisplayMode(.inline)
+        case .failure:
+          Text("failure")
+      }
+    }
+  }
+}
+
+struct HookPageTodo: View {
+  
+  var body: some View {
+    HookScope {
+      let loadmore: LoadMoreHookModel<Todo> = useLoadMorePage(firstPage: 1) { page in
+        try await Task.sleep(seconds: 1)
+        let request = MRequest {
+          RUrl("http://127.0.0.1:8080")
+            .withPath("todos")
+            .withPath("paginate")
+          RQueryItems(["page": page, "per": 5])
+          RMethod(.get)
+        }
+          .printCURLRequest()
+        let data = try await request.data
+        log.json(data)
+        return data.toModel(Page<Todo>.self) ?? Page(items: [], metadata: .init(page: 0, per: 0, total: 0))
+      }
+      
+      let _ = useAsync(.once) {
+        try await loadmore.load()
+      }
+      
+      let todos = useNextPhaseValue(loadmore.loadPhase) ?? []
+      let status = useOnceExistedPhaseStatusSuccess(loadmore.loadPhase) ?? .pending
+      
+      switch status {
+        case .pending:
+          ProgressView()
+        case .success, .running:
+          List {
+            ForEach(todos) { todo in
+              Toggle(isOn: .constant(todo.isCompleted)) {
+                TextField("", text: .constant(todo.text)) {
+                }
+                .textFieldStyle(.plain)
+#if os(iOS) || os(macOS)
+                .textFieldStyle(.roundedBorder)
+#endif
+              }
+              .padding(.vertical, 4)
+            }
+            viewLoadMore(loadmore: loadmore)
+          }
+          .listStyle(.grouped)
+          .refreshable {
+            do {
+              try await loadmore.load()
+            } catch {
+              
+            }
+          }
+          .navigationTitle("Total: " + todos.count.description + " isloading: \(loadmore.isLoading.description)")
+          .navigationBarTitleDisplayMode(.inline)
+        case .failure:
+          Text("failure")
+      }
+    }
+  }
+}
+
 #Preview {
     HookLoadMoreView()
 }
-
 
 /// Tabs organize content across different data sets in a screens.
 public struct FTabBar<Content: View>: View {

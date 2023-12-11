@@ -42,6 +42,10 @@ struct HookCaseStudiesView: View {
         NavigationLink("Hook-UseState") {
           HookUseStateView()
         }
+        
+        NavigationLink("Hook-UseValueChanged") {
+          HookUseValueChangedView()
+        }
       }
     }
     .navigationTitle("Hook")

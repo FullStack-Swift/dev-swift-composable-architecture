@@ -196,21 +196,24 @@ private struct TodoCreator: View {
 
   var body: some View {
     HookScope {
-      let text = useState("")
+      
+      @HState
+      var text = ""
+      
       HStack {
-        TextField("Enter your todo", text: text)
+        TextField("Enter your todo", text: $text)
 #if os(iOS) || os(macOS)
           .textFieldStyle(.plain)
 #endif
         Button {
-          viewStore.send(.createTodo(todo: Todo(id: UUID(), text: text.wrappedValue, isCompleted: false)))
-          text.wrappedValue = ""
+          viewStore.send(.createTodo(todo: Todo(id: UUID(), text: text, isCompleted: false)))
+          text = ""
         } label: {
           Text("Add")
             .bold()
-            .foregroundColor(text.wrappedValue.isEmpty ? .gray : .green)
+            .foregroundColor(text.isEmpty ? .gray : .green)
         }
-        .disabled(text.wrappedValue.isEmpty)
+        .disabled(text.isEmpty)
       }
       .padding(.vertical)
     }

@@ -22,22 +22,22 @@ private struct Stats: Equatable {
   let percentCompleted: Double
 }
 
-// MARK: Recoil Atom
+// MARK: Atom
 
 @MainActor
-private let _todosStateAtom = selectorState { context -> IdentifiedArrayOf<Todo> in
+private let todosAtom = atomState { context -> IdentifiedArrayOf<Todo> in
   return []
 }
 
 @MainActor
-private let _filterStateAtom = selectorState { context -> Filter in
+private let filterAtom = atomState { context -> Filter in
   return .all
 }
 
 @MainActor
-private let _todoFilterValueAtom = selectorValue { context -> IdentifiedArrayOf<Todo> in
-  let filter = context.watch(_filterStateAtom)
-  let todos = context.watch(_todosStateAtom)
+private let filteredTodosAtom = atomValue { context -> IdentifiedArrayOf<Todo> in
+  let filter = context.watch(filterAtom)
+  let todos = context.watch(todosAtom)
   switch filter {
     case .all:
       return todos
@@ -49,8 +49,8 @@ private let _todoFilterValueAtom = selectorValue { context -> IdentifiedArrayOf<
 }
 
 @MainActor
-private let _statsAtom = selectorValue { context -> Stats in
-  var todos = context.watch(_todosStateAtom)
+private let statsAtom = atomValue { context -> Stats in
+  var todos = context.watch(todosAtom)
   let total = todos.count
   let totalCompleted = todos.filter(\.isCompleted).count
   let totalUncompleted = todos.filter { !$0.isCompleted }.count
@@ -65,7 +65,7 @@ private let _statsAtom = selectorValue { context -> Stats in
 
 @MainActor
 private let totalTodos = selectorValue { context -> Int in
-  context.watch(_todosStateAtom).count
+  context.watch(todosAtom).count
 }
 
 // MARK: View
@@ -74,7 +74,7 @@ private struct TodoStats: View {
   
   var body: some View {
     HookScope {
-      let stats = useRecoilValue(_statsAtom)
+      let stats = useRecoilValue(statsAtom)
       VStack(alignment: .leading, spacing: 4) {
         stat("Total", "\(stats.total)")
         stat("Completed", "\(stats.totalCompleted)")
@@ -98,7 +98,7 @@ private struct TodoFilters: View {
   
   var body: some View {
     HookScope {
-      let filter = useRecoilState(_filterStateAtom)
+      let filter = useRecoilState(filterAtom)
       Picker("Filter", selection: filter) {
         ForEach(Filter.allCases, id: \.self) { filter in
           switch filter {
@@ -123,8 +123,10 @@ private struct TodoCreator: View {
   
   var body: some View {
     HookScope {
-      let text = useState("")
-      let _onlCreateTodo = useParamCallBack { (param: String) async throws -> Data in
+      
+      @HState var text = ""
+      
+      let request = useParamCallBack { (param: String) async throws -> Data in
         let data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -136,16 +138,16 @@ private struct TodoCreator: View {
           .data
         return data
       }
-      let todos = useRecoilState(_todosStateAtom)
+      let todos = useRecoilState(todosAtom)
       HStack {
-        TextField("Enter your todo", text: text)
+        TextField("Enter your todo", text: $text)
 #if os(iOS) || os(macOS)
           .textFieldStyle(.plain)
 #endif
         Button {
           Task {
-            let data = try await _onlCreateTodo(text.wrappedValue)
-            text.wrappedValue = ""
+            let data = try await request(text)
+            text = ""
             if let item = data.toModel(Todo.self) {
               todos.wrappedValue.updateOrAppend(item)
             }
@@ -153,9 +155,9 @@ private struct TodoCreator: View {
         } label: {
           Text("Add")
             .bold()
-            .foregroundColor(text.wrappedValue.isEmpty ? .gray : .green)
+            .foregroundColor(text.isEmpty ? .gray : .green)
         }
-        .disabled(text.wrappedValue.isEmpty)
+        .disabled(text.isEmpty)
       }
       .padding(.vertical)
     }
@@ -172,7 +174,7 @@ private struct TodoItem: View {
   
   var body: some View {
     HookScope {
-      let _onlUpdateTodo = useParamCallBack { (param: Todo) async throws -> Data in
+      let request = useParamCallBack { (param: Todo) async throws -> Data in
         let data: Data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -185,7 +187,7 @@ private struct TodoItem: View {
           .data
         return data
       }
-      let todos = useRecoilState(_todosStateAtom)
+      let todos = useRecoilState(todosAtom)
       if let todo = todos.first(where: {$0.wrappedValue.id == self.todoID}) {
         Toggle(isOn: todo.map(\.isCompleted)) {
           TextField("", text: todo.map(\.text)) {
@@ -199,7 +201,7 @@ private struct TodoItem: View {
         .onChange(of: todo.wrappedValue) { (value: Todo) in
           print(value)
           Task {
-            let data = try await _onlUpdateTodo(value)
+            let data = try await request(value)
             if let item = data.toModel(Todo.self) {
               todos.wrappedValue.updateOrAppend(item)
             }
@@ -214,10 +216,11 @@ struct OnlineJotailTodoView: View {
   
   var body: some View {
     HookScope {
-      let _todoFilter = useRecoilValue(_todoFilterValueAtom)
-      let todos = useRecoilState(_todosStateAtom)
-      let flagRefreshTodos = useState(true)
-      let phase = useRecoilThrowingTask(updateStrategy: .preserved(by: flagRefreshTodos.wrappedValue)) {
+      
+      let todos = useRecoilState(todosAtom)
+      let filteredTodos = useRecoilValue(filteredTodosAtom)
+      
+      let (phase, refresher) = useRecoilRefresher {
         selectorThrowingTask { context async throws -> IdentifiedArrayOf<Todo> in
           let request = MRequest {
             RUrl("http://127.0.0.1:8080")
@@ -225,13 +228,14 @@ struct OnlineJotailTodoView: View {
             RMethod(.get)
           }
           let data = try await request.data
-          log.info(data.toJson())
+          log.json(data.toJson())
           let models = data.toModel(IdentifiedArrayOf<Todo>.self) ?? []
-          context.set(models, for: _todosStateAtom)
+          context.set(models, for: todosAtom)
           return models
         }
       }
-      let _onlDeleteTodo = useParamCallBack { (param: UUID) async throws -> Data in
+      
+      let requestDelete = useParamCallBack { (param: UUID) async throws -> Data in
         let data: Data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -240,7 +244,7 @@ struct OnlineJotailTodoView: View {
         }
           .printCURLRequest()
           .data
-        log.info(data.toJson())
+        log.json(data.toJson())
         return data
       }
       List {
@@ -253,14 +257,14 @@ struct OnlineJotailTodoView: View {
         }
         switch phase {
           case .success:
-            ForEach(_todoFilter, id: \.id) { todo in
+            ForEach(filteredTodos, id: \.id) { todo in
               TodoItem(todoID: todo.id)
             }
             .onDelete { atOffsets in
               for index in atOffsets {
                 let todo = todos.wrappedValue[index]
                 Task {
-                  _ = try await _onlDeleteTodo(todo.id)
+                  _ = try await requestDelete(todo.id)
                 }
               }
               todos.wrappedValue.remove(atOffsets: atOffsets)
@@ -275,12 +279,12 @@ struct OnlineJotailTodoView: View {
             ProgressView()
         }
       }
-      .refreshable(action: {
-        flagRefreshTodos.wrappedValue.toggle()
-      })
+      .refreshable {
+        refresher()
+      }
       .listStyle(.sidebar)
       .toolbar {
-        if useRecoilValue(_filterStateAtom) == .all {
+        if useRecoilValue(filterAtom) == .all {
 #if os(iOS)
           EditButton()
 #endif

@@ -22,59 +22,72 @@ private struct Stats: Equatable {
   let percentCompleted: Double
 }
 
-// MARK: Recoil Atom
+// MARK: Atom
 
 @MainActor
-private let _todosStateAtom = selectorState { context -> IdentifiedArrayOf<Todo> in
-  return []
-}
-
-@MainActor
-private let _filterStateAtom = selectorState { context -> Filter in
-  return .all
-}
-
-@MainActor
-private let _todoFilterValueAtom = selectorValue { context -> IdentifiedArrayOf<Todo> in
-  let filter = context.watch(_filterStateAtom)
-  let todos = context.watch(_todosStateAtom)
-  switch filter {
-    case .all:
-      return todos
-    case .completed:
-      return todos.filter(\.isCompleted)
-    case .uncompleted:
-      return todos.filter { !$0.isCompleted }
+private struct TodosAtom: StateAtom, Hashable, KeepAlive {
+  func defaultValue(context: Context) -> IdentifiedArrayOf<Todo> {
+    []
   }
 }
 
-@MainActor
-private let _statsAtom = selectorValue { context -> Stats in
-  var todos = context.watch(_todosStateAtom)
-  let total = todos.count
-  let totalCompleted = todos.filter(\.isCompleted).count
-  let totalUncompleted = todos.filter { !$0.isCompleted }.count
-  let percentCompleted = total <= 0 ? 0 : (Double(totalCompleted) / Double(total))
-  return Stats(
-    total: total,
-    totalCompleted: totalCompleted,
-    totalUncompleted: totalUncompleted,
-    percentCompleted: percentCompleted
-  )
+private struct FilterAtom: StateAtom, Hashable {
+  func defaultValue(context: Context) -> Filter {
+    .all
+  }
 }
 
-@MainActor
-private let totalTodos = selectorValue { context -> Int in
-  context.watch(_todosStateAtom).count
+private struct FilteredTodosAtom: ValueAtom, Hashable {
+  func value(context: Context) -> IdentifiedArrayOf<Todo> {
+    let filter = context.watch(FilterAtom())
+    let todos = context.watch(TodosAtom())
+    switch filter {
+      case .all:
+        return todos
+      case .completed:
+        return todos.filter(\.isCompleted)
+      case .uncompleted:
+        return todos.filter { !$0.isCompleted }
+    }
+  }
+}
+
+private struct StatsAtom: ValueAtom, Hashable {
+  func value(context: Context) -> Stats {
+    let todos = context.watch(TodosAtom())
+    let total = todos.count
+    let totalCompleted = todos.filter(\.isCompleted).count
+    let totalUncompleted = todos.filter { !$0.isCompleted }.count
+    let percentCompleted = total <= 0 ? 0 : (Double(totalCompleted) / Double(total))
+    return Stats(
+      total: total,
+      totalCompleted: totalCompleted,
+      totalUncompleted: totalUncompleted,
+      percentCompleted: percentCompleted
+    )
+  }
+}
+
+private struct TodosCount: ValueAtom, Hashable {
+  
+  func value(context: Context) -> Int {
+    context.watch(TodosAtom()).count
+  }
+  
 }
 
 // MARK: View
 
 private struct TodoStats: View {
   
+  @ViewContext
+  private var context
+  
+  @Watch(StatsAtom())
+  private var stats
+  
   var body: some View {
     HookScope {
-      let stats = useRecoilValue(_statsAtom)
       VStack(alignment: .leading, spacing: 4) {
         stat("Total", "\(stats.total)")
         stat("Completed", "\(stats.totalCompleted)")
@@ -96,10 +109,15 @@ private struct TodoStats: View {
 
 private struct TodoFilters: View {
   
+  @ViewContext
+  private var context
+  
+  @WatchState(FilterAtom())
+  private var filter
+  
   var body: some View {
     HookScope {
-      let filter = useRecoilState(_filterStateAtom)
-      Picker("Filter", selection: filter) {
+      Picker("Filter", selection: $filter) {
         ForEach(Filter.allCases, id: \.self) { filter in
           switch filter {
             case .all:
@@ -121,10 +139,19 @@ private struct TodoFilters: View {
 
 private struct TodoCreator: View {
   
+  @ViewContext
+  private var context
+  
+  @WatchState(TodosAtom())
+  private var todos
+  
   var body: some View {
     HookScope {
-      let text = useState("")
-      let _onlCreateTodo = useParamCallBack { (param: String) async throws -> Data in
+      
+      @HState
+      var text = ""
+      
+      let request = useParamCallBack { (param: String) async throws -> Data in
         let data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -134,28 +161,28 @@ private struct TodoCreator: View {
         }
           .printCURLRequest()
           .data
+        log.json(data)
         return data
       }
-      let todos = useRecoilState(_todosStateAtom)
       HStack {
-        TextField("Enter your todo", text: text)
+        TextField("Enter your todo", text: $text)
 #if os(iOS) || os(macOS)
           .textFieldStyle(.plain)
 #endif
         Button {
           Task {
-            let data = try await _onlCreateTodo(text.wrappedValue)
-            text.wrappedValue = ""
+            let data = try await request(text)
+            text = ""
             if let item = data.toModel(Todo.self) {
-              todos.wrappedValue.updateOrAppend(item)
+              todos.updateOrAppend(item)
             }
           }
         } label: {
           Text("Add")
             .bold()
-            .foregroundColor(text.wrappedValue.isEmpty ? .gray : .green)
+            .foregroundColor(text.isEmpty ? .gray : .green)
         }
-        .disabled(text.wrappedValue.isEmpty)
+        .disabled(text.isEmpty)
       }
       .padding(.vertical)
     }
@@ -163,6 +190,12 @@ private struct TodoCreator: View {
 }
 
 private struct TodoItem: View {
+  
+  @ViewContext
+  private var context
+  
+  @WatchState(TodosAtom())
+  private var todos
   
   fileprivate let todoID: UUID
   
@@ -172,7 +205,7 @@ private struct TodoItem: View {
   
   var body: some View {
     HookScope {
-      let _onlUpdateTodo = useParamCallBack { (param: Todo) async throws -> Data in
+      let request = useParamCallBack { (param: Todo) async throws -> Data in
         let data: Data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -183,10 +216,10 @@ private struct TodoItem: View {
         }
           .printCURLRequest()
           .data
+        log.json(data)
         return data
       }
-      let todos = useRecoilState(_todosStateAtom)
-      if let todo = todos.first(where: {$0.wrappedValue.id == self.todoID}) {
+      if let todo = $todos.first(where: {$0.wrappedValue.id == self.todoID}) {
         Toggle(isOn: todo.map(\.isCompleted)) {
           TextField("", text: todo.map(\.text)) {
           }
@@ -199,9 +232,9 @@ private struct TodoItem: View {
         .onChange(of: todo.wrappedValue) { (value: Todo) in
           print(value)
           Task {
-            let data = try await _onlUpdateTodo(value)
+            let data = try await request(value)
             if let item = data.toModel(Todo.self) {
-              todos.wrappedValue.updateOrAppend(item)
+              todos.updateOrAppend(item)
             }
           }
         }
@@ -212,12 +245,25 @@ private struct TodoItem: View {
 
 struct OnlineAtomTodoView: View {
   
+  @ViewContext
+  private var context
+  
+  @Watch(FilteredTodosAtom())
+  private var filteredTodos
+  
+  @WatchState(TodosAtom())
+  private var todos
+  
+  @Watch(FilterAtom())
+  private var filter
+  
+  @Watch(TodosCount())
+  private var todosCount
+  
   var body: some View {
     HookScope {
-      let _todoFilter = useRecoilValue(_todoFilterValueAtom)
-      let todos = useRecoilState(_todosStateAtom)
-      let flagRefreshTodos = useState(true)
-      let phase = useRecoilThrowingTask(updateStrategy: .preserved(by: flagRefreshTodos.wrappedValue)) {
+      
+      let (phase, refresher) = useRecoilRefresher {
         selectorThrowingTask { context async throws -> IdentifiedArrayOf<Todo> in
           let request = MRequest {
             RUrl("http://127.0.0.1:8080")
@@ -225,13 +271,13 @@ struct OnlineAtomTodoView: View {
             RMethod(.get)
           }
           let data = try await request.data
-          log.info(data.toJson())
           let models = data.toModel(IdentifiedArrayOf<Todo>.self) ?? []
-          context.set(models, for: _todosStateAtom)
+          todos = models
+          log.json(data)
           return models
         }
       }
-      let _onlDeleteTodo = useParamCallBack { (param: UUID) async throws -> Data in
+      let requestDelete = useParamCallBack { (param: UUID) async throws -> Data in
         let data: Data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -240,7 +286,7 @@ struct OnlineAtomTodoView: View {
         }
           .printCURLRequest()
           .data
-        log.info(data.toJson())
+        log.json(data)
         return data
       }
       List {
@@ -253,21 +299,21 @@ struct OnlineAtomTodoView: View {
         }
         switch phase {
           case .success:
-            ForEach(_todoFilter, id: \.id) { todo in
+            ForEach(filteredTodos, id: \.id) { todo in
               TodoItem(todoID: todo.id)
             }
             .onDelete { atOffsets in
               for index in atOffsets {
-                let todo = todos.wrappedValue[index]
+                let todo = todos[index]
                 Task {
-                  _ = try await _onlDeleteTodo(todo.id)
+                  _ = try await requestDelete(todo.id)
                 }
               }
-              todos.wrappedValue.remove(atOffsets: atOffsets)
+              todos.remove(atOffsets: atOffsets)
             }
             .onMove { fromOffsets, toOffset in
               // Move only in local
-              todos.wrappedValue.move(fromOffsets: fromOffsets, toOffset: toOffset)
+              todos.move(fromOffsets: fromOffsets, toOffset: toOffset)
             }
           case .failure(let error):
             Text(error.localizedDescription)
@@ -275,18 +321,18 @@ struct OnlineAtomTodoView: View {
             ProgressView()
         }
       }
-      .refreshable(action: {
-        flagRefreshTodos.wrappedValue.toggle()
-      })
+      .refreshable {
+        refresher()
+      }
       .listStyle(.sidebar)
       .toolbar {
-        if useRecoilValue(_filterStateAtom) == .all {
+        if filter == .all {
 #if os(iOS)
           EditButton()
 #endif
         }
       }
-      .navigationTitle("Recoil-Todos-" + useRecoilValue(totalTodos).description)
+      .navigationTitle("Atom-Todos-" + todosCount.description)
 #if os(iOS)
       .navigationBarTitleDisplayMode(.inline)
 #endif

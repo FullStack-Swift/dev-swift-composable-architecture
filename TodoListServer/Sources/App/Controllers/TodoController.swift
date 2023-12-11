@@ -7,6 +7,7 @@ struct TodoController: RouteCollection {
   func boot(routes: RoutesBuilder) throws {
     let todos = routes.grouped("todos")
     todos.get(use: index)
+    todos.get("paginate", use: paginate)
     todos.post(use: create)
     todos.delete(":todoID", use: delete(req:))
     todos.post(":todoID", use: update(req:))

@@ -50,19 +50,19 @@ extension IdentifiedArray where ID == Todo.ID, Element == Todo {
 // MARK: Jotail Atom
 
 @MainActor
-private let _todosAtom = atomState { context in
+private let todosAtom = atomState { context in
   IdentifiedArray<Todo.ID,Todo>.mock
 }
 
 @MainActor
-private let _filterAtom = atomState { context in
+private let filterAtom = atomState { context in
   Filter.all
 }
 
 @MainActor
-private let _filteredTodosAtom = atomValue { context in
-  let filter = context.watch(_filterAtom)
-  let todos = context.watch(_todosAtom)
+private let filteredTodosAtom = atomValue { context in
+  let filter = context.watch(filterAtom)
+  let todos = context.watch(todosAtom)
   switch filter {
     case .all:
       return todos
@@ -74,8 +74,8 @@ private let _filteredTodosAtom = atomValue { context in
 }
 
 @MainActor
-private let _statsAtom = atomValue { context in
-  let todos = context.watch(_todosAtom)
+private let statsAtom = atomValue { context in
+  let todos = context.watch(todosAtom)
   let total = todos.count
   let totalCompleted = todos.filter(\.isCompleted).count
   let totalUncompleted = todos.filter { !$0.isCompleted }.count
@@ -90,7 +90,7 @@ private let _statsAtom = atomValue { context in
 
 @MainActor
 private let totalTodos = atomValue { context in
-  context.watch(_todosAtom).count
+  context.watch(todosAtom).count
 }
 
 // MARK: View
@@ -99,7 +99,7 @@ private struct TodoStats: View {
   
   var body: some View {
     HookScope {
-      let stats = useRecoilValue(_statsAtom)
+      let stats = useRecoilValue(statsAtom)
       VStack(alignment: .leading, spacing: 4) {
         stat("Total", "\(stats.total)")
         stat("Completed", "\(stats.totalCompleted)")
@@ -123,7 +123,7 @@ private struct TodoFilters: View {
   
   var body: some View {
     HookScope {
-      let filter = useRecoilState(_filterAtom)
+      let filter = useRecoilState(filterAtom)
       Picker("Filter", selection: filter) {
         ForEach(Filter.allCases, id: \.self) { filter in
           switch filter {
@@ -148,22 +148,25 @@ private struct TodoCreator: View {
   
   var body: some View {
     HookScope {
-      let text = useState("")
-      let todos = useRecoilState(_todosAtom)
+      
+      @HState
+      var text = ""
+      
+      let todos = useRecoilState(todosAtom)
       HStack {
-        TextField("Enter your todo", text: text)
+        TextField("Enter your todo", text: $text)
 #if os(iOS) || os(macOS)
           .textFieldStyle(.plain)
 #endif
         Button {
-          todos.wrappedValue.append(Todo(id: UUID(), text: text.wrappedValue, isCompleted: false))
-          text.wrappedValue = ""
+          todos.wrappedValue.append(Todo(id: UUID(), text: text, isCompleted: false))
+          text = ""
         } label: {
           Text("Add")
             .bold()
-            .foregroundColor(text.wrappedValue.isEmpty ? .gray : .green)
+            .foregroundColor(text.isEmpty ? .gray : .green)
         }
-        .disabled(text.wrappedValue.isEmpty)
+        .disabled(text.isEmpty)
       }
       .padding(.vertical)
     }
@@ -180,7 +183,7 @@ private struct TodoItem: View {
   
   var body: some View {
     HookScope {
-      let todos = useRecoilState(_todosAtom)
+      let todos = useRecoilState(todosAtom)
       if let todo = todos.first(where: {$0.wrappedValue.id == self.todoID}) {
         Toggle(isOn: todo.map(\.isCompleted)) {
           TextField("", text: todo.map(\.text)) {
@@ -200,8 +203,8 @@ private struct TodoItem: View {
 struct JotailTodoView: View {
   var body: some View {
     HookScope {
-      let filteredTodos = useRecoilValue(_filteredTodosAtom)
-      let todos = useRecoilState(_todosAtom)
+      let filteredTodos = useRecoilValue(filteredTodosAtom)
+      let todos = useRecoilState(todosAtom)
       List {
         Section(header: Text("Information")) {
           TodoStats()
@@ -222,7 +225,7 @@ struct JotailTodoView: View {
       }
       .listStyle(.sidebar)
       .toolbar {
-        if useRecoilState(_filterAtom).wrappedValue == .all {
+        if useRecoilState(filterAtom).wrappedValue == .all {
 #if os(iOS)
           EditButton()
 #endif

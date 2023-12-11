@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser",
       "state" : {
-        "revision" : "8f4d2753f0e4778c76d5f05ad16c74f707390531",
-        "version" : "1.2.3"
+        "revision" : "c8ed701b513cf5177118a175d85fbbbcd707ab41",
+        "version" : "1.3.0"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-case-paths",
       "state" : {
-        "revision" : "ed7facdd4a361514b46e3bbc6238cd41c84be4ec",
-        "version" : "1.1.1"
+        "revision" : "a5521dde99570789d8cb7c43e51418d7cd1a87ca",
+        "version" : "1.1.2"
       }
     },
     {
@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-clocks",
       "state" : {
-        "revision" : "d1fd837326aa719bee979bdde1f53cd5797443eb",
-        "version" : "1.0.0"
+        "revision" : "a8421d68068d8f45fbceb418fbf22c5dad4afd33",
+        "version" : "1.0.2"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-custom-dump",
       "state" : {
-        "revision" : "65fc9e2b62727cacfab9fc60d580c284a4b9308c",
-        "version" : "1.1.1"
+        "revision" : "aedcf6f4cd486ccef5b312ccac85d4b3f6e58605",
+        "version" : "1.1.2"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-dependencies",
       "state" : {
-        "revision" : "63301f4a181ed9aefb46dccef2dfb66466798341",
-        "version" : "1.1.1"
+        "revision" : "9783b58167f7618cb86011156e741cbc6f4cc864",
+        "version" : "1.1.2"
       }
     },
     {
@@ -186,7 +186,7 @@
       "location" : "https://github.com/FullStack-Swift/swift-networking",
       "state" : {
         "branch" : "main",
-        "revision" : "4491d655008e2ea27f136cf5dddf42647e4dec87"
+        "revision" : "bbc2f643505e7c365647819f603335a7f21f8223"
       }
     },
     {

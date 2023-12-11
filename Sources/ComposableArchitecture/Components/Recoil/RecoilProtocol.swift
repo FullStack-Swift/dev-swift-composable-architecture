@@ -87,7 +87,7 @@ extension AtomWatchableContext {
   ///
   ///```
   ///
-  public func useRecoilValue<Node: ValueAtom>(
+  public func useRecoilValue<Node: Atom>(
     fileID: String = #fileID,
     line: UInt = #line,
     updateStrategy: HookUpdateStrategy? = .once,
@@ -121,7 +121,7 @@ extension AtomWatchableContext {
   ///
   ///```
   ///
-  public func useRecoilValue<Node: ValueAtom>(
+  public func useRecoilValue<Node: Atom>(
     fileID: String = #fileID,
     line: UInt = #line,
     updateStrategy: HookUpdateStrategy? = .once,
@@ -535,7 +535,7 @@ public func useRecoilRefresher<Node: TaskAtom>(
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
 @MainActor
-public func useRecoilValue<Node: ValueAtom, Context: AtomWatchableContext>(
+public func useRecoilValue<Node: Atom, Context: AtomWatchableContext>(
   fileID: String = #fileID,
   line: UInt = #line,
   updateStrategy: HookUpdateStrategy? = .once,
@@ -556,7 +556,7 @@ public func useRecoilValue<Node: ValueAtom, Context: AtomWatchableContext>(
 ///   - initialNode: the any Atom value.
 /// - Returns: Hook Value.
 @MainActor
-public func useRecoilValue<Node: ValueAtom, Context: AtomWatchableContext>(
+public func useRecoilValue<Node: Atom, Context: AtomWatchableContext>(
   fileID: String = #fileID,
   line: UInt = #line,
   updateStrategy: HookUpdateStrategy? = .once,
@@ -931,7 +931,7 @@ where Node.Loader: AsyncAtomLoader {
 
 // MARK: RecoilValueHook
 private struct RecoilValueHook<
-  Node: ValueAtom,
+  Node: Atom,
   Context: AtomWatchableContext
 >: RecoilHook {
   

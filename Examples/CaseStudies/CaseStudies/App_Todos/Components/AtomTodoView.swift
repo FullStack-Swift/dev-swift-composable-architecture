@@ -107,9 +107,11 @@ private struct TodoStats: View {
   @ViewContext
   private var context
   
+  @Watch(StatsAtom())
+  private var stats
+  
   var body: some View {
     HookScope {
-      let stats = context.useRecoilValue(StatsAtom())
       VStack(alignment: .leading, spacing: 4) {
         stat("Total", "\(stats.total)")
         stat("Completed", "\(stats.totalCompleted)")
@@ -134,10 +136,12 @@ private struct TodoFilters: View {
   @ViewContext
   private var context
   
+  @WatchState(FilterAtom())
+  private var filter
+  
   var body: some View {
     HookScope {
-      let filter = context.useRecoilState(FilterAtom())
-      Picker("Filter", selection: filter) {
+      Picker("Filter", selection: $filter) {
         ForEach(Filter.allCases, id: \.self) { filter in
           switch filter {
             case .all:
@@ -163,24 +167,29 @@ private struct TodoCreator: View {
   @ViewContext
   private var context
   
+  @WatchState(TodosAtom())
+  private var todos
+  
   var body: some View {
     HookScope {
-      let text = useState("")
-      let todos = context.useRecoilState(TodosAtom())
+      
+      @HState
+      var text = ""
+      
       HStack {
-        TextField("Enter your todo", text: text)
+        TextField("Enter your todo", text: $text)
 #if os(iOS) || os(macOS)
           .textFieldStyle(.plain)
 #endif
         Button {
-          todos.wrappedValue.append(Todo(id: UUID(), text: text.wrappedValue, isCompleted: false))
-          text.wrappedValue = ""
+          todos.append(Todo(id: UUID(), text: text, isCompleted: false))
+          text = ""
         } label: {
           Text("Add")
             .bold()
-            .foregroundColor(text.wrappedValue.isEmpty ? .gray : .green)
+            .foregroundColor(text.isEmpty ? .gray : .green)
         }
-        .disabled(text.wrappedValue.isEmpty)
+        .disabled(text.isEmpty)
       }
       .padding(.vertical)
     }
@@ -192,6 +201,9 @@ private struct TodoItem: View {
   @ViewContext
   private var context
   
+  @WatchState(TodosAtom())
+  private var todos
+  
   fileprivate let todoID: UUID
   
   fileprivate init(todoID: UUID) {
@@ -200,8 +212,7 @@ private struct TodoItem: View {
   
   var body: some View {
     HookScope {
-      let todos = context.useRecoilState(TodosAtom())
-      if let todo = todos.first(where: {$0.wrappedValue.id == self.todoID}) {
+      if let todo = $todos.first(where: {$0.id == self.todoID}) {
         Toggle(isOn: todo.map(\.isCompleted)) {
           TextField("", text: todo.map(\.text)) {
           }
@@ -222,10 +233,20 @@ struct AtomTodoView: View {
   @ViewContext
   private var context
   
+  @Watch(FilteredTodosAtom())
+  private var filteredTodos
+  
+  @WatchState(TodosAtom())
+  private var todos
+  
+  @Watch(FilterAtom())
+  private var filter
+  
+  @Watch(TodosCount())
+  private var todosCount
+  
   var body: some View {
     HookScope {
-      let filteredTodos = context.useRecoilValue(FilteredTodosAtom())
-      let todos = context.useRecoilState(TodosAtom())
       List {
         Section(header: Text("Information")) {
           TodoStats()
@@ -238,10 +259,10 @@ struct AtomTodoView: View {
           TodoItem(todoID: todo.id)
         }
         .onDelete { atOffsets in
-          todos.wrappedValue.remove(atOffsets: atOffsets)
+          todos.remove(atOffsets: atOffsets)
         }
         .onMove { fromOffsets, toOffset in
-          todos.wrappedValue.move(fromOffsets: fromOffsets, toOffset: toOffset)
+          todos.move(fromOffsets: fromOffsets, toOffset: toOffset)
         }
       }
       .onFirstAppear {
@@ -252,13 +273,13 @@ struct AtomTodoView: View {
       }
       .listStyle(.sidebar)
       .toolbar {
-        if context.useRecoilState(FilterAtom()).wrappedValue == .all {
+        if filter == .all {
 #if os(iOS)
           EditButton()
 #endif
         }
       }
-      .navigationTitle("Atom-Todos-" + context.watch(TodosCount()).description)
+      .navigationTitle("Atom-Todos-" + todosCount.description)
 #if os(iOS)
       .navigationBarItems(leading: leading, trailing: trailing)
       .navigationBarTitleDisplayMode(.inline)
@@ -271,7 +292,9 @@ struct AtomTodoView: View {
   }
   
   private var trailing: some View {
-    EmptyView()
+    NavigationLink(destination: OnlineAtomTodoView()) {
+      Text("online")
+    }
   }
 }
 

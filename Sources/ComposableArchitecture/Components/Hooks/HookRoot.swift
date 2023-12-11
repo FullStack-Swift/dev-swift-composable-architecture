@@ -3,9 +3,9 @@ import SwiftUI
 /// A view that hosts the state of hooks.
 /// All hooks should be called within the evaluation of this view's body.
 /// The state of hooks are hosted by this view, and changes in state will cause re-evaluation the body of this view.
-/// It is possible to limit the scope of re-evaluation by wrapping the views that use hooks in a `HookScope`.
+/// It is possible to limit the scope of re-evaluation by wrapping the views that use hooks in a `HookRoot`.
 ///
-///     struct HookRoot: View {
+///     struct ContentView: View {
 ///         var body: some View {
 ///             HookRoot {
 ///                 let count = useState(0)

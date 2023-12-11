@@ -90,9 +90,14 @@ private struct TodoCreator: View {
   
   var body: some View {
     HookScope {
-      let todos = useContext(TodoContext.self)
-      let text = useState("")
-      let _onlCreateTodo = useParamCallBack { (param: String) async throws -> Data in
+      
+      @HContext
+      var context = TodoContext.self
+      let todos = $context.value
+      
+      @HState var text = ""
+      
+      let request = useParamCallBack { (param: String) async throws -> Data in
         let data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -105,14 +110,14 @@ private struct TodoCreator: View {
         return data
       }
       HStack {
-        TextField("Enter your todo", text: text)
+        TextField("Enter your todo", text: $text)
 #if os(iOS) || os(macOS)
           .textFieldStyle(.plain)
 #endif
         Button {
           Task {
-            let data = try await _onlCreateTodo(text.wrappedValue)
-            text.wrappedValue = ""
+            let data = try await request(text)
+            text = ""
             if let item = data.toModel(Todo.self) {
               todos.wrappedValue.updateOrAppend(item)
             }
@@ -120,9 +125,9 @@ private struct TodoCreator: View {
         } label: {
           Text("Add")
             .bold()
-            .foregroundColor(text.wrappedValue.isEmpty ? .gray : .green)
+            .foregroundColor(text.isEmpty ? .gray : .green)
         }
-        .disabled(text.wrappedValue.isEmpty)
+        .disabled(text.isEmpty)
       }
       .padding(.vertical)
     }
@@ -139,7 +144,7 @@ private struct TodoItem: View {
   
   var body: some View {
     HookScope {
-      let _onlUpdateTodo = useParamCallBack { (param: Todo) async throws -> Data in
+      let request = useParamCallBack { (param: Todo) async throws -> Data in
         let data: Data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -152,7 +157,11 @@ private struct TodoItem: View {
           .data
         return data
       }
-      let todos = useContext(TodoContext.self)
+      
+      @HContext
+      var context = TodoContext.self
+      let todos = $context.value
+      
       if let todo = todos.first(where: {$0.wrappedValue.id == self.todoID}) {
         Toggle(isOn: todo.map(\.isCompleted)) {
           TextField("", text: todo.map(\.text)) {
@@ -166,7 +175,7 @@ private struct TodoItem: View {
         .onChange(of: todo.wrappedValue) { (value: Todo) in
           print(value)
           Task {
-            let data = try await _onlUpdateTodo(value)
+            let data = try await request(value)
             if let item = data.toModel(Todo.self) {
               todos.wrappedValue.updateOrAppend(item)
             }
@@ -183,24 +192,23 @@ struct OnlineHookTodoView: View {
   var body: some View {
     HookScope {
       
-      let todos = useState(IdentifiedArrayOf<Todo>())
+      @HState
+      var todos: IdentifiedArrayOf<Todo> = []
       
-      let filter = useState<Filter> {
-        return Filter.all
-      }
+      @HState
+      var filter: Filter = .all
       
-      let flag = useState(false)
+      let onChange: [AnyHashable] = [filter, todos]
       
-      let filteredTodos = useMemo(.preserved(by: flag.wrappedValue)) { () -> IdentifiedArrayOf<Todo> in
-        let filter = filter.wrappedValue
-        let todos = todos.wrappedValue
+      @HMemo(.preserved(by: onChange))
+      var filteredTodos = IdentifiedArrayOf<Todo> {
         switch filter {
           case .all:
-            return todos
+            todos
           case .completed:
-            return todos.filter(\.isCompleted)
+            todos.filter(\.isCompleted)
           case .uncompleted:
-            return todos.filter { !$0.isCompleted }
+            todos.filter { !$0.isCompleted }
         }
       }
       
@@ -214,19 +222,18 @@ struct OnlineHookTodoView: View {
         let models = data.toModel(IdentifiedArrayOf<Todo>.self) ?? []
         return models
       }
-      
+
       let _ = useLayoutEffect(.preserved(by: phase.status)) {
         switch phase {
           case .success(let items):
-            todos.wrappedValue = items
-            flag.wrappedValue.toggle()
+            todos = items
           default:
             break
         }
         return nil
       }
       
-      let _onlDeleteTodo = useParamCallBack { (param: UUID) async throws -> Data in
+      let requestDelete = useParamCallBack { (param: UUID) async throws -> Data in
         let data: Data = try await MRequest {
           RUrl("http://127.0.0.1:8080")
             .withPath("todos")
@@ -239,20 +246,14 @@ struct OnlineHookTodoView: View {
         return data
       }
       
-      TodoContext.Provider(value: todos) {
+      TodoContext.Provider(value: $todos) {
         List {
           Section(header: Text("Information")) {
             TodoStats()
             TodoCreator()
-              .onChange(of: todos.wrappedValue) { newValue in
-                flag.wrappedValue.toggle()
-              }
           }
           Section(header: Text("Filters")) {
-            TodoFilters(filter: filter)
-              .onChange(of: filter.wrappedValue) { newValue in
-                flag.wrappedValue.toggle()
-              }
+            TodoFilters(filter: $filter)
           }
           switch phase {
             case .success:
@@ -261,16 +262,16 @@ struct OnlineHookTodoView: View {
               }
               .onDelete { atOffsets in
                 for index in atOffsets {
-                  let todo = todos.wrappedValue[index]
+                  let todo = todos[index]
                   Task {
-                    _ = try await _onlDeleteTodo(todo.id)
+                    _ = try await requestDelete(todo.id)
                   }
                 }
-                todos.wrappedValue.remove(atOffsets: atOffsets)
+                todos.remove(atOffsets: atOffsets)
               }
               .onMove { fromOffsets, toOffset in
                 // Move only in local
-                todos.wrappedValue.move(fromOffsets: fromOffsets, toOffset: toOffset)
+                todos.move(fromOffsets: fromOffsets, toOffset: toOffset)
               }
             case .failure(let error):
               Text(error.localizedDescription)
@@ -290,7 +291,7 @@ struct OnlineHookTodoView: View {
         }
         .listStyle(.sidebar)
         .toolbar {
-          if filter.wrappedValue == .all {
+          if filter == .all {
 #if os(iOS)
             EditButton()
 #endif

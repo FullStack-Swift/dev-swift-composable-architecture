@@ -13,7 +13,7 @@ struct CaseStudiesApp: App {
         }
       }
       .observe { snapShot in
-        log.info(snapShot)
+//        log.info(snapShot)
       }
     }
   }

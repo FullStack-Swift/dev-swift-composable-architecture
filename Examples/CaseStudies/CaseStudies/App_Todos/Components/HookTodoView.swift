@@ -111,22 +111,27 @@ private struct TodoCreator: View {
   
   var body: some View {
     HookScope {
-      let todos = useContext(TodoContext.self)
-      let text = useState("")
+      
+      @HContext
+      var context = TodoContext.self
+      let todos = $context.value
+      
+      @HState var text = ""
+      
       HStack {
-        TextField("Enter your todo", text: text)
+        TextField("Enter your todo", text: $text)
 #if os(iOS) || os(macOS)
           .textFieldStyle(.plain)
 #endif
         Button {
-          todos.wrappedValue.append(Todo(id: UUID(), text: text.wrappedValue, isCompleted: false))
-          text.wrappedValue = ""
+          todos.wrappedValue.append(Todo(id: UUID(), text: text, isCompleted: false))
+          text = ""
         } label: {
           Text("Add")
             .bold()
-            .foregroundColor(text.wrappedValue.isEmpty ? .gray : .green)
+            .foregroundColor(text.isEmpty ? .gray : .green)
         }
-        .disabled(text.wrappedValue.isEmpty)
+        .disabled(text.isEmpty)
       }
       .padding(.vertical)
     }
@@ -143,7 +148,11 @@ private struct TodoItem: View {
 
   var body: some View {
     HookScope {
-      let todos = useContext(TodoContext.self)
+      
+      @HContext
+      var context = TodoContext.self
+      let todos = $context.value
+      
       if let todo = todos.first(where: {$0.wrappedValue.id == self.todoID}) {
         Toggle(isOn: todo.map(\.isCompleted)) {
           TextField("", text: todo.map(\.text)) {
@@ -163,58 +172,49 @@ struct HookTodoView: View {
   
   var body: some View {
     HookScope {
-
-      let todos = useState {
-        IdentifiedArrayOf<Todo>.mock
-      }
       
-      let filter = useState<Filter> {
-        return Filter.all
-      }
+      @HState
+      var todos: IdentifiedArrayOf<Todo> = .mock
       
-      let flag = useState(false)
+      @HState
+      var filter: Filter = .all
       
-      let filteredTodos = useMemo(.preserved(by: flag.wrappedValue)) { () -> IdentifiedArrayOf<Todo> in
-        let filter = filter.wrappedValue
-        let todos = todos.wrappedValue
+      let onChange: [AnyHashable] = [filter, todos]
+      
+      @HMemo(.preserved(by: onChange))
+      var filteredTodos = IdentifiedArrayOf<Todo> {
         switch filter {
           case .all:
-            return todos
+            todos
           case .completed:
-            return todos.filter(\.isCompleted)
+            todos.filter(\.isCompleted)
           case .uncompleted:
-            return todos.filter { !$0.isCompleted }
+            todos.filter { !$0.isCompleted }
         }
       }
       
-      TodoContext.Provider(value: todos) {
+      TodoContext.Provider(value: $todos) {
         List {
           Section(header: Text("Information")) {
             TodoStats()
             TodoCreator()
-              .onChange(of: todos.wrappedValue) { newValue in
-                flag.wrappedValue.toggle()
-              }
           }
           Section(header: Text("Filters")) {
-            TodoFilters(filter: filter)
-              .onChange(of: filter.wrappedValue) { newValue in
-                flag.wrappedValue.toggle()
-              }
+            TodoFilters(filter: $filter)
           }
           ForEach(filteredTodos, id: \.id) { todo in
             TodoItem(todoID: todo.id)
           }
           .onDelete { atOffsets in
-            todos.wrappedValue.remove(atOffsets: atOffsets)
+            todos.remove(atOffsets: atOffsets)
           }
           .onMove { fromOffsets, toOffset in
-            todos.wrappedValue.move(fromOffsets: fromOffsets, toOffset: toOffset)
+            todos.move(fromOffsets: fromOffsets, toOffset: toOffset)
           }
         }
         .listStyle(.sidebar)
         .toolbar {
-          if filter.wrappedValue == .all {
+          if filter == .all {
 #if os(iOS)
             EditButton()
 #endif

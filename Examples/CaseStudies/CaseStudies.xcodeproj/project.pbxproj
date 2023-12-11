@@ -41,6 +41,7 @@
 		EBB036F22A7B9ECB0091B953 /* JotaiCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036F12A7B9ECB0091B953 /* JotaiCaseStudiesView.swift */; };
 		EBB036F42A7BA06B0091B953 /* VIPTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036F32A7BA06B0091B953 /* VIPTodoView.swift */; };
 		EBBC4A412A6A930B0052FD1F /* APIRequestPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */; };
+		EBBD465E2B26A2A3005A4790 /* HookUseValueChangedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBD465D2B26A2A3005A4790 /* HookUseValueChangedView.swift */; };
 		EBDA41742AAEAD2B00B6CC68 /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDA41732AAEAD2B00B6CC68 /* SwiftUI++.swift */; };
 		EBDCE14B2AF0E531008AF97D /* HookUseNetworkStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE14A2AF0E531008AF97D /* HookUseNetworkStateView.swift */; };
 		EBDCE14D2AF0E571008AF97D /* HookUseMemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE14C2AF0E571008AF97D /* HookUseMemoView.swift */; };
@@ -90,6 +91,7 @@
 		EBB036F12A7B9ECB0091B953 /* JotaiCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotaiCaseStudiesView.swift; sourceTree = "<group>"; };
 		EBB036F32A7BA06B0091B953 /* VIPTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIPTodoView.swift; sourceTree = "<group>"; };
 		EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestPage.swift; sourceTree = "<group>"; };
+		EBBD465D2B26A2A3005A4790 /* HookUseValueChangedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseValueChangedView.swift; sourceTree = "<group>"; };
 		EBDA41732AAEAD2B00B6CC68 /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		EBDCE14A2AF0E531008AF97D /* HookUseNetworkStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseNetworkStateView.swift; sourceTree = "<group>"; };
 		EBDCE14C2AF0E571008AF97D /* HookUseMemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseMemoView.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				EBDCE14E2AF0E599008AF97D /* HookUseAsyncView.swift */,
 				EBDCE1502AF0E5E2008AF97D /* HookUseEnvironmentView.swift */,
 				EBDCE1522AF0E608008AF97D /* HookUseStateView.swift */,
+				EBBD465D2B26A2A3005A4790 /* HookUseValueChangedView.swift */,
 			);
 			path = HookCaseStudies;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				EBB036E82A7A2F1D0091B953 /* OnlineHookTodoView.swift in Sources */,
 				EBF60EC32A777EB8001E34D3 /* JotailTodoView.swift in Sources */,
 				EB132B442AE8AF48002CC1DF /* AboutView.swift in Sources */,
+				EBBD465E2B26A2A3005A4790 /* HookUseValueChangedView.swift in Sources */,
 				EBDCE1532AF0E608008AF97D /* HookUseStateView.swift in Sources */,
 				EBB036EE2A7A2F4F0091B953 /* OnlineRiverpodTodoview.swift in Sources */,
 				90FDE91D2A4B4D5A00342E0B /* RiverpodCaseStudiesView.swift in Sources */,
