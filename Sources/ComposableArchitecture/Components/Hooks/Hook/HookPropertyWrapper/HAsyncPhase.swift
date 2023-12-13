@@ -33,6 +33,20 @@ extension HAsyncPhase {
 }
 
 // MARK: HUseAsync
+
+///A @propertyWrapper for useAsync
+///
+///```swift
+///   @HState var state = false
+///
+///   @HUseAsync(.preserved(by: state))
+///   var phase = blockBuilder { () -> Int in
+///     try? await Task.sleep(seconds: 2)
+///     return Int.random(in: 1...1000)
+///   }
+///```
+///
+
 @propertyWrapper
 public struct HUseAsync<Output>: HAsyncPhase {
   

@@ -7,13 +7,13 @@
 @discardableResult
 public func useValueChanged<Node: Equatable>(
   _ value: Node,
-  callBack: @escaping (Node, Node) -> Void
+  effect: ((Node, Node) -> Void)? = nil
 ) -> Node {
   @HRef
   var cache = value
   useLayoutEffect(.preserved(by: value)) {
     if cache != value {
-      callBack(cache, value)
+      effect?(cache, value)
       cache = value
     }
     return nil

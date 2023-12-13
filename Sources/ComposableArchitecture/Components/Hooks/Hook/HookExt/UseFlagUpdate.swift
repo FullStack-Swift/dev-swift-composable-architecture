@@ -16,6 +16,7 @@ public func useFlagChanged<Node: Equatable>(_ node: Node) -> Bool {
   @HState var flag = false
   @HRef var ref = node
   if ref != node {
+    ref = node
     flag.toggle()
   }
   return flag

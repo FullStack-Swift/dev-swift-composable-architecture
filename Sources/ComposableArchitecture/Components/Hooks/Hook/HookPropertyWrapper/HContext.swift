@@ -2,14 +2,16 @@ import Foundation
 
 // MARK: HContext
 
-/// A @propertyWrapper for useContext/
+/// A @propertyWrapper for useContext
 ///
 ///```swift
 ///
 ///      let todos = useContext(TodoContext.self)
 ///
 ///      @HContext
-///      var todos = TodoContext.self
+///      var context = TodoContext.self
+///
+///       let todos = $context.value
 ///```
 ///
 ///It's similar ``useContext(_:)``, but using propertyWrapper instead.
