@@ -46,7 +46,7 @@ public func useEffect(
 ///             It is able to return a closure that to do something when this hook is unmount from the view or when the side-effect function is called again.
 public func useEffect(
   _ updateStrategy: HookUpdateStrategy? = nil,
-  where condition: Bool,
+  where condition: Bool = true,
   effect: (() -> Void)?
 ) {
   useEffect(updateStrategy) {
@@ -99,7 +99,7 @@ public func useLayoutEffect(
 ///             It is able to return a closure that to do something when this hook is unmount from the view or when the side-effect function is called again.
 public func useLayoutEffect(
   _ updateStrategy: HookUpdateStrategy? = nil,
-  where condition: Bool,
+  where condition: Bool = true,
   effect: (() -> Void)? = nil
 ) {
   useLayoutEffect(updateStrategy) {

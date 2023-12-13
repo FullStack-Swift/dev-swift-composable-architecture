@@ -13,6 +13,14 @@ struct HookUseValueChangedView: View {
       }
       
       VStack {
+        useToggle()
+        useInput("task", text: newValue.description) { value in
+          log.info(value)
+          if let value = value.toInt() {
+            state = value
+          }
+        }
+        
         Stepper(value: $state) {
           Text(newValue.description)
         }
