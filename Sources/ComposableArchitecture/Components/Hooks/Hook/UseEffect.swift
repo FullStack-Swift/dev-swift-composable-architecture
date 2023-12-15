@@ -33,10 +33,6 @@ public func useEffect(
 ///
 ///     useEffect {
 ///         print("Do side effects")
-///
-///         return {
-///             print("Do cleanup")
-///         }
 ///     }
 ///
 /// - Parameters:
@@ -89,7 +85,6 @@ public func useLayoutEffect(
 ///
 ///     useLayoutEffect {
 ///         print("Do side effects")
-///         return nil
 ///     }
 ///
 /// - Parameters:

@@ -28,7 +28,7 @@ public func useAsync<Output>(
 /// The function will be performed at the first update and will be re-performed according to the given `updateStrategy`.
 ///
 ///     let phase = useAsync(.once) {
-///         try await URLSession.shared.data(from: url)
+///         try! await URLSession.shared.data(from: url)
 ///     }
 ///
 /// - Parameters:

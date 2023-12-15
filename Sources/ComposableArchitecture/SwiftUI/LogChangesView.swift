@@ -51,7 +51,7 @@ extension View {
   
   /// A helper function that returns a platform-specific value.
   public func valueFor<V>(iOS: V, tvOS: V, visionOS: V) -> V {
-#if os(xrOS)
+#if os(visionOS)
     visionOS
 #elseif os(tvOS)
     tvOS
@@ -64,7 +64,7 @@ extension View {
   ///
   /// If the value is `true`, `isMobile` is also true.
   public var isVision: Bool {
-#if os(xrOS)
+#if os(visionOS)
     true
 #else
     false

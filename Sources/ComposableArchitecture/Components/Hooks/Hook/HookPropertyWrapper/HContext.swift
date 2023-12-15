@@ -19,17 +19,15 @@ import Foundation
 @propertyWrapper
 public struct HContext<Node> {
   
-  public typealias Context = HookContext<Node>
-  
-  public init(wrappedValue: @escaping () -> Context.Type) {
+  public init(wrappedValue: @escaping () -> HookContext<Node>.Type) {
     self.wrappedValue = wrappedValue()
   }
   
-  public init(wrappedValue: Context.Type) {
+  public init(wrappedValue: HookContext<Node>.Type) {
     self.wrappedValue = wrappedValue
   }
   
-  public var wrappedValue: Context.Type
+  public var wrappedValue: HookContext<Node>.Type
   
   public var projectedValue: Self {
     self
