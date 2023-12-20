@@ -13,7 +13,7 @@ import Combine
 public func useThrottle<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: AnyAsyncSequence<Output>,
-  seconds timeInterval: Double = 2
+  seconds timeInterval: Double = 0.5
 ) -> AsyncPhase<Output, any Error> {
   let stream = operation
     ._throttle(for: .seconds(timeInterval))
@@ -26,7 +26,7 @@ public func useThrottle<Output>(
 public func useThrottle<Output>(
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ operation: some Publisher<Output, any Error>,
-  seconds timeInterval: TimeInterval = 2
+  seconds timeInterval: TimeInterval = 0.5
 ) -> AsyncPhase<Output, any Error> {
   let stream = operation
     .backport.values
@@ -34,3 +34,39 @@ public func useThrottle<Output>(
     .eraseToThrowingStream()
   return useAsyncThrowingSequence(.once, stream)
 }
+
+/// A hook to use memoized value preserved until it is updated at the timing determined with given `updateStrategy`.
+@discardableResult
+public func useOnChangedThrottle<Node: Equatable>(
+  _ value: Node,
+  second: Double = 0.5,
+  effect: (() -> Void)? = nil
+) -> Node {
+  @HRef
+  var cache: Node? = nil
+  
+  let ps = useMemo(.once) {
+    PassthroughSubject<Node, Never>()
+  }
+  
+  useLayoutEffect(.preserved(by: value)) {
+    ps.send(value)
+    return nil
+  }
+  
+  let asyncPhase = usePublisher(.preserved(by: value)) {
+    return ps
+      .throttle(for: .seconds(second), scheduler: DispatchQueue.main, latest: true)
+      .eraseToAnyPublisher()
+  }
+  
+  useLayoutEffect(.preserved(by: asyncPhase.status), where: asyncPhase.status == .success) {
+    if cache != value {
+      effect?()
+      cache = value
+    }
+  }
+  return cache ?? value
+}
+
+

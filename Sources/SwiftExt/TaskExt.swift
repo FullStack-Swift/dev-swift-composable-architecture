@@ -13,6 +13,19 @@ extension Task where Success == Never, Failure == Never {
     let duration = UInt64(seconds.toNanoseconds)
     try await Task.sleep(nanoseconds: duration)
   }
+  
+  /// Suspends the current task for at least the given duration
+  /// in nanoseconds.
+  ///
+  /// If the task is canceled before the time ends,
+  /// this function don't do anything.
+  ///
+  /// This function doesn't block the underlying thread.
+
+  public static func sleepOptional(seconds: Double) async {
+    let duration = UInt64(seconds.toNanoseconds)
+    try? await Task.sleep(nanoseconds: duration)
+  }
 }
 
 extension Task where Failure == Error {

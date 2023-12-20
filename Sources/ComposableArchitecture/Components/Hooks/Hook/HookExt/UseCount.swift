@@ -3,7 +3,7 @@ import Foundation
 public func useCount(
   _ updateStrategy: HookUpdateStrategy = .once
 ) -> Int {
-  @HState var count = 0
+  @HRef var count = 0
   useMemo(updateStrategy) {
     count += 1
   }
