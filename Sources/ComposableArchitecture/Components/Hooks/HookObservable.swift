@@ -243,8 +243,3 @@ private protocol HookRecordProtocol {
   
   func dispose()
 }
-
-/// HookObservable Ext
-extension HookObservable {
-  
-}

@@ -198,9 +198,7 @@ struct OnlineHookTodoView: View {
       @HState
       var filter: Filter = .all
       
-      let onChange: [AnyHashable] = [filter, todos]
-      
-      @HMemo(.preserved(by: onChange))
+      @HMemo(.preserved(by: filter, todos))
       var filteredTodos = IdentifiedArrayOf<Todo> {
         switch filter {
           case .all:

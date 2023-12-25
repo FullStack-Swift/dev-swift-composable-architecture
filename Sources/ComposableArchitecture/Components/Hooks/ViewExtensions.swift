@@ -17,3 +17,12 @@ public extension View {
     environment(\.hooksRulesAssertionDisabled, isDisabled)
   }
 }
+
+public extension View {
+  
+  /// A func that wrapper around the `HookScope` to use hooks inside.
+  /// The view that is returned from `hookScope` will be encluded with `HookScope` and be able to use hooks.
+  func hookScope() -> some View {
+    HookScope(self)
+  }
+}

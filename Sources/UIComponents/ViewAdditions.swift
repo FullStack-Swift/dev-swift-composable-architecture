@@ -334,3 +334,38 @@ public struct LazyView<Content: View>: View {
     body
   }
 }
+
+public struct AdapterView<Content: View, Adapter: View>: View {
+  
+  var content: () -> Content
+  var contentModifier: (Content) -> Adapter
+  
+  public init(
+    content: Content,
+    contentModifier: @escaping (Content) -> Adapter
+  ) {
+    self.content = { content }
+    self.contentModifier = contentModifier
+  }
+  
+  public init(
+    content: @escaping () -> Content,
+    contentModifier: @escaping (Content) -> Adapter
+  ) {
+    self.content = content
+    self.contentModifier = contentModifier
+  }
+  
+  public var body: some View {
+    contentModifier(content())
+  }
+}
+
+extension View {
+  
+  @ViewBuilder
+  public func adapter<Adapter: View>(adapter: @escaping ((Self) -> Adapter)) -> some View {
+    AdapterView(content: self, contentModifier: adapter)
+  }
+  
+}

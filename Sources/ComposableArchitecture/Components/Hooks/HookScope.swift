@@ -1,28 +1,5 @@
 import SwiftUI
 
-/// Description
-private class DeInitViewModel: ObservableObject {
-  
-  var disposeAll: (() -> ())?
-  
-  var objectId: String {
-    ObjectIdentifier(self).debugDescription
-  }
-  
-  init() {
-    
-  }
-  
-  deinit {
-    let clone = disposeAll
-    disposeAll = nil
-    Task { @MainActor in
-      try await Task.sleep(seconds: 0.03)
-      clone?()
-    }
-  }
-}
-
 /// A view that hosts the state of hooks.
 /// All hooks should be called within the evaluation of this view's body.
 /// The state of hooks are hosted by this view, and changes in state will cause re-evaluation the body of this view.
@@ -48,6 +25,10 @@ public struct HookScope<Content: View>: View {
     self.content = content
   }
   
+  public init(_ content: Content) {
+    self.content = { content }
+  }
+  
   /// The content and behavior of the hook scoped view.
   public var body: some View {
     if #available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *) {
@@ -63,7 +44,7 @@ public struct HookScope<Content: View>: View {
 private struct HookScopeBody<Content: View>: View {
   
   @StateObject 
-  private var viewModel: DeInitViewModel
+  private var viewModel: ViewModelObservable
   
   @StateObject
   private var hookObservable: HookObservable
@@ -75,7 +56,7 @@ private struct HookScopeBody<Content: View>: View {
   
   init(@ViewBuilder _ content: @escaping () -> Content) {
     self.content = content
-    let viewModel = DeInitViewModel()
+    let viewModel = ViewModelObservable()
     let hookObservable = HookObservable()
     viewModel.disposeAll = hookObservable.disposeAll
     _viewModel = StateObject(wrappedValue: viewModel)
@@ -95,7 +76,7 @@ private struct HookScopeCompatBody<Content: View>: View {
   struct Body: View {
     
     @ObservedObject
-    private var viewModel: DeInitViewModel
+    private var viewModel: ViewModelObservable
     
     @ObservedObject
     private var hookObservable: HookObservable
@@ -105,7 +86,11 @@ private struct HookScopeCompatBody<Content: View>: View {
     
     private let content: () -> Content
     
-    init(viewModel: DeInitViewModel, hookObservable: HookObservable, @ViewBuilder _ content: @escaping () -> Content) {
+    init(
+      viewModel: ViewModelObservable,
+      hookObservable: HookObservable,
+      @ViewBuilder _ content: @escaping () -> Content
+    ) {
       self.viewModel = viewModel
       self.hookObservable = hookObservable
       self.content = content
@@ -117,7 +102,7 @@ private struct HookScopeCompatBody<Content: View>: View {
   }
   
   @State
-  private var viewModel = DeInitViewModel()
+  private var viewModel = ViewModelObservable()
   
   @State
   private var hookObservable = HookObservable()

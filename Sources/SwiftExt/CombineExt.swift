@@ -266,3 +266,25 @@ fileprivate final class StateListenerViewModel<State> {
     stateSubject.send(state)
   }
 }
+
+open class ViewModelObservable: ObservableObject {
+  
+  open var disposeAll: (() -> ())?
+  
+  open var objectId: String {
+    ObjectIdentifier(self).debugDescription
+  }
+  
+  public init() {
+    
+  }
+  
+  deinit {
+    let clone = disposeAll
+    disposeAll = nil
+    Task { @MainActor in
+      try await Task.sleep(seconds: 0.03)
+      clone?()
+    }
+  }
+}
