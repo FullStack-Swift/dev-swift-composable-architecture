@@ -40,6 +40,18 @@ public struct VScrollView<Content: View>: ContainerView {
   }
 }
 
+extension ForEach {
+  
+  public init<T: RandomAccessCollection>(
+    _ data: T,
+    @ViewBuilder content: @escaping (T.Index, T.Element) -> Content
+  ) where T.Element: Identifiable, T.Element: Hashable, Content: View, Data == [(T.Index, T.Element)], ID == T.Element  {
+    self.init(Array(zip(data.indices, data)), id: \.1) { index, element in
+      content(index, element)
+    }
+  }
+}
+
 public struct If<TrueContent: View, FalseContent: View>: View {
   
   var value: Bool

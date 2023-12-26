@@ -53,7 +53,8 @@ extension View {
   /// - Returns: Either the original `View` or the modified `View` if the condition is `true`.
   @ViewBuilder
   public func `if`<Transform: View>(
-    _ condition: Bool, @ViewBuilder transform: (Self) -> Transform
+    _ condition: Bool,
+    @ViewBuilder transform: (Self) -> Transform
   ) -> some View {
     if condition {
       transform(self)
@@ -73,7 +74,8 @@ extension View {
   /// - Returns: Either the original `View` or the modified `View` based on the condition`.
   @ViewBuilder
   public func `if`<Content: View>(
-    _ condition: Bool, transform: (Self) -> Content,
+    _ condition: Bool,
+    transform: (Self) -> Content,
     @ViewBuilder else: (Self) -> Content
   ) -> some View {
     if condition {

@@ -25,6 +25,19 @@ public extension HookUpdateStrategy {
   static func preserved(by value: [AnyHashable]) -> Self {
     self.init(dependency: value)
   }
+  
+  
+  static func preserved(by value: () -> any Equatable) -> Self {
+    .preserved(by: value())
+  }
+  
+  static func preserved(by value: (() -> AnyHashable)...) -> Self {
+    .preserved(by: value.compactMap({$0()}))
+  }
+  
+  static func preserved(by value: () -> [AnyHashable]) -> Self {
+    .preserved(by: value())
+  }
 }
 
 /// Represents a strategy that determines when to update the state of hooks.
