@@ -32,6 +32,10 @@ public struct LocalViewContext: DynamicProperty {
         state.objectWillChange.send()
       }
   }
+  
+  public var projectedValue: Self {
+    self
+  }
 }
 
 private extension LocalViewContext {
@@ -54,6 +58,11 @@ public struct LocalWatch<Node: Atom>: DynamicProperty {
     self.atom = atom
     self._context = LocalViewContext(fileID: fileID, line: line)
   }
+  
+  public init(context: LocalViewContext,_ atom: Node) {
+    self.atom = atom
+    self._context = context
+  }
 
   public var wrappedValue: Node.Loader.Value {
     context.watch(atom)
@@ -70,6 +79,11 @@ public struct LocalWatchState<Node: StateAtom>: DynamicProperty {
   public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
     self.atom = atom
     self._context = LocalViewContext(fileID: fileID, line: line)
+  }
+  
+  public init(context: LocalViewContext,_ atom: Node) {
+    self.atom = atom
+    self._context = context
   }
 
   public var wrappedValue: Node.Loader.Value {
@@ -111,6 +125,11 @@ public struct LocalWatchStateObject<Node: ObservableObjectAtom>: DynamicProperty
   public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
     self.atom = atom
     self._context = LocalViewContext(fileID: fileID, line: line)
+  }
+  
+  public init(context: LocalViewContext,_ atom: Node) {
+    self.atom = atom
+    self._context = context
   }
 
   public var wrappedValue: Node.Loader.Value {
@@ -194,4 +213,23 @@ public struct AtomLocalViewContext: AtomWatchableContext {
   public func restore(_ snapshot: Snapshot) {
     _store.restore(snapshot)
   }
+}
+
+
+public class AtomScopeObservable: ObservableObject {
+  
+  internal private(set) static weak var current: AtomScopeObservable?
+  
+  /// A publisher that emits before the object has changed.
+  public private(set) lazy var objectWillChange = ObservableObjectPublisher()
+}
+
+public func scoped<Result>(
+  evironment: EnvironmentValues,
+  _ body: () throws -> Result
+) rethrows -> Result {
+  
+  let value = try body()
+  return value
+  
 }

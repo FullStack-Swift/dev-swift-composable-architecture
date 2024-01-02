@@ -42,6 +42,7 @@
 		EBB036F42A7BA06B0091B953 /* VIPTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036F32A7BA06B0091B953 /* VIPTodoView.swift */; };
 		EBBC4A412A6A930B0052FD1F /* APIRequestPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */; };
 		EBBD465E2B26A2A3005A4790 /* HookUseValueChangedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBD465D2B26A2A3005A4790 /* HookUseValueChangedView.swift */; };
+		EBC0590A2B43B3DA00F97044 /* AtomLocalViewContextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC059092B43B3DA00F97044 /* AtomLocalViewContextView.swift */; };
 		EBDA41742AAEAD2B00B6CC68 /* SwiftUI++.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDA41732AAEAD2B00B6CC68 /* SwiftUI++.swift */; };
 		EBDCE14B2AF0E531008AF97D /* HookUseNetworkStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE14A2AF0E531008AF97D /* HookUseNetworkStateView.swift */; };
 		EBDCE14D2AF0E571008AF97D /* HookUseMemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDCE14C2AF0E571008AF97D /* HookUseMemoView.swift */; };
@@ -92,6 +93,7 @@
 		EBB036F32A7BA06B0091B953 /* VIPTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIPTodoView.swift; sourceTree = "<group>"; };
 		EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestPage.swift; sourceTree = "<group>"; };
 		EBBD465D2B26A2A3005A4790 /* HookUseValueChangedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseValueChangedView.swift; sourceTree = "<group>"; };
+		EBC059092B43B3DA00F97044 /* AtomLocalViewContextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomLocalViewContextView.swift; sourceTree = "<group>"; };
 		EBDA41732AAEAD2B00B6CC68 /* SwiftUI++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI++.swift"; sourceTree = "<group>"; };
 		EBDCE14A2AF0E531008AF97D /* HookUseNetworkStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseNetworkStateView.swift; sourceTree = "<group>"; };
 		EBDCE14C2AF0E571008AF97D /* HookUseMemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseMemoView.swift; sourceTree = "<group>"; };
@@ -195,6 +197,8 @@
 		90FDE91F2A4B4DBD00342E0B /* App_CaseStudies */ = {
 			isa = PBXGroup;
 			children = (
+				EBC059082B43B3BB00F97044 /* AtomCaseStudies */,
+				EBC059062B43B31D00F97044 /* RecoilCaseStudies */,
 				EB132B402AE8ACC0002CC1DF /* HookCaseStudies */,
 				876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */,
 				87DF96EE2A3991060006B774 /* HookCaseStudiesView.swift */,
@@ -245,6 +249,21 @@
 				EBDCE1552AF229A0008AF97D /* UIComponentView.swift */,
 			);
 			path = Examples;
+			sourceTree = "<group>";
+		};
+		EBC059062B43B31D00F97044 /* RecoilCaseStudies */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = RecoilCaseStudies;
+			sourceTree = "<group>";
+		};
+		EBC059082B43B3BB00F97044 /* AtomCaseStudies */ = {
+			isa = PBXGroup;
+			children = (
+				EBC059092B43B3DA00F97044 /* AtomLocalViewContextView.swift */,
+			);
+			path = AtomCaseStudies;
 			sourceTree = "<group>";
 		};
 		EBF60EC42A778A14001E34D3 /* Components */ = {
@@ -375,6 +394,7 @@
 				90ACBBB72A4B4EE10041D7E2 /* AtomTodoView.swift in Sources */,
 				87ABACAE2A4D1C2A00545682 /* MVVMTodoView.swift in Sources */,
 				EBB036EA2A7A2F330091B953 /* OnlineJotailTodoView.swift in Sources */,
+				EBC0590A2B43B3DA00F97044 /* AtomLocalViewContextView.swift in Sources */,
 				EB92CD102A5C1705007640AF /* RecoilUseCaseStudies2View.swift in Sources */,
 				EB132B422AE8AD0B002CC1DF /* HookLifecycleView.swift in Sources */,
 				90ACBBB42A4B4EE10041D7E2 /* TCATodoView.swift in Sources */,
