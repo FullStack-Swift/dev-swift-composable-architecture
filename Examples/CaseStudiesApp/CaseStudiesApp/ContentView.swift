@@ -26,14 +26,14 @@ struct ContentView: View {
         print("useOnLastAppear")
       }
       
-      @RecoilWatch
-      var count = selectorState(id: id,0)
+      @RecoilWatchState(selectorState(id: id,0))
+      var count
       
       let callback = useCallback {
-        $count.state.wrappedValue += 1
+        count += 1
       }
       
-      let phase = useRecoilThrowingTask(_recoilValueFamily($count.value))
+      let phase = useRecoilThrowingTask(_recoilValueFamily(count))
       
       VStack {
         LogChangesView()
@@ -53,7 +53,7 @@ struct ContentView: View {
           Text(error.localizedDescription)
         }
         .frame(height: 100)
-        Button($count.value.description) {
+        Button(count.description) {
           callback()
         }
       }
