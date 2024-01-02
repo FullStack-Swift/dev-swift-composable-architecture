@@ -27,3 +27,15 @@ import SwiftUI
     ref.context.binding(ref.node)
   }
 }
+
+extension RecoilWatchState {
+  public var context: RecoilGlobalContext {
+    ref.context
+  }
+}
+
+extension RecoilWatchState where Node.Loader: RefreshableAtomLoader {
+  func refresh() async -> Node.Loader.Value {
+    await context.refresh(ref.node)
+  }
+}

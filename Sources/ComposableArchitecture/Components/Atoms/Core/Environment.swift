@@ -24,3 +24,9 @@ extension DependencyValues {
   @DependencyValue
   var riverpodContext: RiverpodContext  = RiverpodContext(weakStore: .identity)
 }
+
+extension EnvironmentValues {
+  
+  @EnvironmentValue
+  var localStore: AtomStore = AtomStore()
+}

@@ -105,7 +105,7 @@ public struct RecoilLocalViewContext {
   }
   
   public var wrappedValue: RecoilLocalContext {
-    RecoilLocalContext(fileID: location.fileID, line: location.line)
+    RecoilLocalContext(location: location)
   }
 }
 
@@ -236,37 +236,35 @@ public protocol _RecoilLocalView: View {
 extension _RecoilLocalView {
   public var body: some View {
     HookScope {
-      build(context: context)
+      RecoilLocalScope { context in
+        build(context: context)
+      }
     }
-  }
-  
-  @MainActor
-  var context: RecoilLocalContext {
-    @RecoilLocalViewContext
-    var context
-    return context
   }
 }
 
-/// A view that wrapper around the `RecoilLocalScope` to use hooks inside.
+/// A view that wrapper around the ``RecoilLocalScope`` to use hooks inside.
 /// The view that is returned from `recoilBody` will be encluded with `RecoilLocalScope` and `HookScope` and be able to use hooks.
 ///
 /// ```swift
-/// private struct _RecoilLocalView: RecoilLocalView {
+///     private struct _RecoilLocalView: RecoilLocalView {
 ///
-///  func recoilBody(context: RecoilLocalContext) -> some View {
+///       func recoilBody(context: RecoilLocalContext) -> some View {
 ///
-///  }
-///}
+///       }
+///     }
 ///```
+///
 @MainActor
 public protocol RecoilLocalView: View {
   // The type of view representing the body of this view that can use recoil.
   associatedtype RecoilBody: View
   
+  typealias Context = RecoilLocalContext
+  
   /// The content and behavior of the hook scoped view.
   @ViewBuilder
-  func recoilBody(context: RecoilLocalContext) -> RecoilBody
+  func recoilBody(context: Context) -> RecoilBody
 }
 
 extension RecoilLocalView {
@@ -277,13 +275,15 @@ extension RecoilLocalView {
     }
   }
 }
-/// A view that wrapper around "RecoilLocalScope"  to use hooks inside.
-/// ```swift
-///RecoilLocalScope { localViewContext in
-///
-///}
-/// ```
 
+
+/// A view that wrapper around "RecoilLocalScope"  to use hooks inside.
+/// ```
+///     RecoilLocalScope { localViewContext in
+///
+///     }
+/// ```
+///
 public struct RecoilLocalScope<Content: View>: View {
   private let content: (RecoilLocalContext) -> Content
   

@@ -1,10 +1,3 @@
-//
-//  AtomLocalViewContextView.swift
-//  CaseStudies
-//
-//  Created by PhongND on 1/2/24.
-//
-
 import SwiftUI
 
 @MainActor
@@ -14,8 +7,7 @@ private let value = selectorState { context in
 
 @MainActor
 private let readValue = selectorValue { context in
-  return context.read(value)
-  
+  return context.watch(value)
 }
 
 
@@ -24,19 +16,24 @@ struct AtomLocalViewContextView: View {
   @LocalViewContext
   var context
   
-  @LocalWatchState(context: $context, value)
-  var localWathState
-
-  
   var body: some View {
     
+    let localWathState = context.binding(value)
     
     return VStack {
-      Text(localWathState.description)
+      NavigationLink {
+        AtomLocalViewContextView()
+      } label: {
+        Text("Push")
+      }
+      Text(localWathState.wrappedValue.description)
         .onTap {
-          localWathState += 1
+          localWathState.wrappedValue += 1
         }
       Text(context.watch(readValue).description)
+        .onTap {
+          localWathState.wrappedValue += 1
+        }
       Text(context.read(readValue).description)
     }
   }

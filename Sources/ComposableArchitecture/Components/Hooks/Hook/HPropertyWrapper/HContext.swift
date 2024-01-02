@@ -37,3 +37,23 @@ public struct HContext<Node> {
     useContext(wrappedValue)
   }
 }
+
+
+@propertyWrapper
+public struct HMContext<Node> {
+  
+  public var type: HookContext<Node>.Type
+  
+  public init(_ type: HookContext<Node>.Type) {
+    self.type = type
+  }
+  
+  
+  public var projectedValue: Self {
+    self
+  }
+  
+  public var wrappedValue: Node {
+    useContext(type)
+  }
+}

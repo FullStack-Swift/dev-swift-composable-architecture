@@ -312,45 +312,66 @@ private struct _ObservableObjectAtomView: View {
   }
 }
 
-
 struct AtomCaseStudiesView: View {
-  
   var body: some View {
-    let _ = log.info("Refresh")
-    ZStack {
-      ScrollView {
-        VStack(spacing: 8) {
-          AtomRowView("_ValueAtom") {
-            _ValueAtomView()
-          }
-          AtomRowView("_StateAtom") {
-            _StateAtomView()
-          }
-          AtomRowView("_TaskAtom") {
-            _TaskAtomView()
-          }
-          AtomRowView("_ThrowingTaskAtom") {
-            _ThrowingTaskAtomView()
-          }
-          AtomRowView("_AsyncSequenceAtom") {
-            _AsyncSequenceAtomView()
-          }
-          AtomRowView("_PublisherAtom") {
-            _PublisherAtomView()
-          }
-          AtomRowView("_ObservableObjectAtom") {
-            _ObservableObjectAtomView()
-          }
+    Form {
+      Section(header: Text("Use Case")) {
+        
+        NavigationLink("PropertyWrapper") {
+          AtomLocalViewContextView()
         }
-        .padding()
+        
+        NavigationLink("PropertyWrapper") {
+          AtomLocalViewContextView()
+        }
+        
+        NavigationLink("PropertyWrapper") {
+          AtomLocalViewContextView()
+        }
       }
-#if os(iOS)
-      .background(Color(.systemBackground).ignoresSafeArea())
-      .navigationBarTitle(Text("Atom"), displayMode: .inline)
-#endif
     }
   }
 }
+
+
+//struct AtomCaseStudiesView: View {
+//  
+//  var body: some View {
+//    let _ = log.info("Refresh")
+//    ZStack {
+//      ScrollView {
+//        VStack(spacing: 8) {
+//          AtomRowView("_ValueAtom") {
+//            _ValueAtomView()
+//          }
+//          AtomRowView("_StateAtom") {
+//            _StateAtomView()
+//          }
+//          AtomRowView("_TaskAtom") {
+//            _TaskAtomView()
+//          }
+//          AtomRowView("_ThrowingTaskAtom") {
+//            _ThrowingTaskAtomView()
+//          }
+//          AtomRowView("_AsyncSequenceAtom") {
+//            _AsyncSequenceAtomView()
+//          }
+//          AtomRowView("_PublisherAtom") {
+//            _PublisherAtomView()
+//          }
+//          AtomRowView("_ObservableObjectAtom") {
+//            _ObservableObjectAtomView()
+//          }
+//        }
+//        .padding()
+//      }
+//#if os(iOS)
+//      .background(Color(.systemBackground).ignoresSafeArea())
+//      .navigationBarTitle(Text("Atom"), displayMode: .inline)
+//#endif
+//    }
+//  }
+//}
 
 private struct AtomRowView<Content: View>: View {
   let title: String

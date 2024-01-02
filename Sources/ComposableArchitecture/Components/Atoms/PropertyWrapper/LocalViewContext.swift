@@ -2,10 +2,16 @@ import Combine
 import SwiftUI
 import Foundation
 
+@available(*, deprecated, message: "use `LocalViewContext instead.")
+public typealias LocalViewModel = LocalViewContext
+
 @propertyWrapper
 public struct LocalViewContext: DynamicProperty {
   @StateObject
   private var state = State()
+  
+  @Environment(\.localStore)
+  private var _store
   
   private var overrides = [OverrideKey: any AtomOverrideProtocol]()
   private var observers = [Observer]()

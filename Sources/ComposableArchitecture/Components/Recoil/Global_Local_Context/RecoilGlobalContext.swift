@@ -406,7 +406,7 @@ extension _RecoilGlobalView {
 /// The view that is returned from `recoilBody` will be encluded with `RecoilGlobalScope` and `HookScope` and be able to use hooks.
 ///
 /// ```swift
-/// private struct _RecoilGlobalView: RecoilGlobalView {
+/// private struct ContentView: RecoilGlobalView {
 ///
 ///  func recoilBody(context: RecoilGlobalContext) -> some View {
 ///

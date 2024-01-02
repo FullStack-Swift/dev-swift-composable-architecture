@@ -7,6 +7,7 @@ struct HookCaseStudiesView: View {
   var body: some View {
     Form {
       Section(header: Text("Use Case")) {
+        
         NavigationLink("Hook-Lifecycle") {
           HookLifecycleView()
         }

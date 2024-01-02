@@ -37,6 +37,32 @@ public struct HRef<Node> {
     }
     nonmutating set {
       _value.value = newValue
+    }
+  }
+}
+
+@propertyWrapper
+public struct MHRef<Node> {
+  
+  private let _value: RefObject<Node>
+  
+  @SRefObject
+  internal var _ref: ((Node) -> Void)? = nil
+  
+  public init(wrappedValue: @escaping () -> Node) {
+    _value = useRef(wrappedValue)
+  }
+  
+  public init(wrappedValue: Node) {
+    _value = useRef(wrappedValue)
+  }
+  
+  public var wrappedValue: Node {
+    get {
+      _value.value
+    }
+    nonmutating set {
+      _value.value = newValue
       if let value = _ref {
         value(newValue)
       }
