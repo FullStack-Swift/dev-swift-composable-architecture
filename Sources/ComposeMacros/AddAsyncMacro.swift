@@ -6,7 +6,11 @@ import Foundation
 
 public struct AddAsyncMacro: PeerMacro {
   
-  public static func expansion(of node: AttributeSyntax, providingPeersOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
+  public static func expansion(
+    of node: AttributeSyntax,
+    providingPeersOf declaration: some DeclSyntaxProtocol,
+    in context: some MacroExpansionContext
+  ) throws -> [DeclSyntax] {
     guard let functionDecl = declaration.as(FunctionDeclSyntax.self) else {
       throw MacroError.message("@AddAsync can be attached only to functions.")
     }

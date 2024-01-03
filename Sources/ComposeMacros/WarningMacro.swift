@@ -16,7 +16,6 @@ public struct WarningMacro: ExpressionMacro {
     else {
       throw MacroError.message("#mWarning macro requires a string literal")
     }
-    
     context.diagnose(
       Diagnostic(
         node: Syntax(macro),

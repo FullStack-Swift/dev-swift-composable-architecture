@@ -191,19 +191,16 @@
 //}
 //
 //extension ObservableMacro: MemberMacro {
-//  public static func expansion<
-//    Declaration: DeclGroupSyntax,
-//    Context: MacroExpansionContext
-//  >(
+//  public static func expansion(
 //    of node: AttributeSyntax,
-//    providingMembersOf declaration: Declaration,
-//    in context: Context
+//    providingMembersOf declaration: some DeclGroupSyntax,
+//    in context: some MacroExpansionContext
 //  ) throws -> [DeclSyntax] {
-//    guard let identified = declaration.asProtocol(IdentifiedDeclSyntax.self) else {
+//    guard let identified = declaration.asProtocol(NamedDeclSyntax.self) else {
 //      return []
 //    }
 //    
-//    let observableType = identified.identifier
+//    let observableType = identified.name
 //    
 //    if declaration.isEnum {
 //      // enumerations cannot store properties

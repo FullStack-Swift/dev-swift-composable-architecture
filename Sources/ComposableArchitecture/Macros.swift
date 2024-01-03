@@ -215,3 +215,10 @@ public macro DependencyValue() = #externalMacro(module: "ComposeMacros", type: "
 @attached(peer, names: prefixed(DependencyKey_))
 @attached(accessor, names: named(get), named(set))
 public macro StorageValue() = #externalMacro(module: "ComposeMacros", type: "AttachedMacroStorageKey")
+
+
+import ObjectiveC
+
+@attached(peer, names: arbitrary)
+@attached(accessor)
+public macro AssociatedObject(_ policy: objc_AssociationPolicy) = #externalMacro(module: "ComposeMacros", type: "AssociatedObjectMacro")

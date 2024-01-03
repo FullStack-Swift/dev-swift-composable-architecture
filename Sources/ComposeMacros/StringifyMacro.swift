@@ -15,11 +15,10 @@ public struct StringifyMacro: ExpressionMacro {
   public static func expansion(
     of node: some FreestandingMacroExpansionSyntax,
     in context: some MacroExpansionContext
-  ) -> ExprSyntax {
+  ) throws -> ExprSyntax {
     guard let argument = node.argumentList.first?.expression else {
-      fatalError("compiler bug: the macro does not have any arguments")
+      throw MacroError.message("#stringify macro requires arguments")
     }
-    
     return "(\(argument), \(literal: argument.description))"
   }
 }
