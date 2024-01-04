@@ -8,7 +8,7 @@ import IdentifiedCollections
 public func useLoadMoreHookIDModel<Model>(
   firstPage: Int = 1,
   _ loader: @escaping () -> (Int) async throws -> PagedIDResponse<Model>
-) -> LoadMoreHookIDModel<Model> where Model: Identifiable, Model: Equatable {
+) -> LoadMoreIdentifiedArray<Model> where Model: Identifiable, Model: Equatable {
   useLoadMoreHookIDModel(firstPage: firstPage, loader())
 }
 
@@ -23,7 +23,7 @@ public func useLoadMoreHookIDModel<Model>(
 public func useLoadMoreHookIDModel<Model>(
   firstPage: Int = 1,
   _ loader: @escaping (Int) async throws -> PagedIDResponse<Model>
-) -> LoadMoreHookIDModel<Model> where Model: Identifiable, Model: Equatable {
+) -> LoadMoreIdentifiedArray<Model> where Model: Identifiable, Model: Equatable {
   
   @HRef
   var isLoading = false
@@ -65,7 +65,7 @@ public func useLoadMoreHookIDModel<Model>(
     return nil
   }
   
-  return LoadMoreHookIDModel(
+  return LoadMoreIdentifiedArray(
     isLoading: isLoading,
     loadPhase: loadPhase.map {
       $0.results + nextModels
@@ -104,37 +104,6 @@ private func useLoadIDModels<Model: Identifiable>(
   )
 }
 
-public struct LoadMoreHookIDModel<Model: Identifiable>: LoadMoreProtocol {
-  public let isLoading: Bool
-  public let loadPhase: AsyncPhase<IdentifiedArrayOf<Model>, Error>
-  public let hasNextPage: Bool
-  public let load: ThrowingAsyncCompletion
-  public let loadNext: ThrowingAsyncCompletion
-}
-
-public struct PagedIDResponse<T: Identifiable> {
-  public let page: Int
-  public let totalPages: Int
-  public let results: IdentifiedArrayOf<T>
-  
-  public init(page: Int, totalPages: Int, results: IdentifiedArrayOf<T>) {
-    self.page = page
-    self.totalPages = totalPages
-    self.results = results
-  }
-  
-  public var hasNextPage: Bool {
-    page < totalPages
-  }
-}
-
-extension PagedIDResponse: Encodable where T: Encodable {}
-
-extension PagedIDResponse: Decodable where T: Decodable {}
-
-extension PagedIDResponse: Equatable where T: Equatable {}
-
-extension PagedIDResponse: Hashable where T: Hashable {}
 
 
 // MARK: LoadMore Array
@@ -143,7 +112,7 @@ extension PagedIDResponse: Hashable where T: Hashable {}
 public func useLoadMoreHookModel<Model: Equatable>(
   firstPage: Int = 1,
   _ loader: @escaping () -> (Int) async throws -> PagedResponse<Model>
-) -> LoadMoreHookModel<Model> {
+) -> LoadMoreAray<Model> {
   useLoadMoreHookModel(firstPage: firstPage, loader())
 }
 
@@ -157,7 +126,7 @@ public func useLoadMoreHookModel<Model: Equatable>(
 public func useLoadMoreHookModel<Model: Equatable>(
   firstPage: Int = 1,
   _ loader: @escaping (Int) async throws -> PagedResponse<Model>
-) -> LoadMoreHookModel<Model> {
+) -> LoadMoreAray<Model> {
   
   @HRef
   var isLoading = false
@@ -199,7 +168,7 @@ public func useLoadMoreHookModel<Model: Equatable>(
     return nil
   }
   
-  return LoadMoreHookModel(
+  return LoadMoreAray(
     isLoading: isLoading,
     loadPhase: loadPhase.map {
       $0.results + nextModels
@@ -238,134 +207,13 @@ private func useLoadModels<Model>(
   )
 }
 
-public struct LoadMoreHookModel<Model>: LoadMoreProtocol {
-  public let isLoading: Bool
-  public let loadPhase: AsyncPhase<[Model], Error>
-  public let hasNextPage: Bool
-  public let load: ThrowingAsyncCompletion
-  public let loadNext: ThrowingAsyncCompletion
-}
-
-public struct PagedResponse<T> {
-  public let page: Int
-  public let totalPages: Int
-  public let results: [T]
-  
-  public init(page: Int, totalPages: Int, results: [T]) {
-    self.page = page
-    self.totalPages = totalPages
-    self.results = results
-  }
-  
-  public var hasNextPage: Bool {
-    page < totalPages
-  }
-}
-
-extension PagedResponse: Encodable where T: Encodable {}
-
-extension PagedResponse: Decodable where T: Decodable {}
-
-extension PagedResponse: Equatable where T: Equatable {}
-
-extension PagedResponse: Hashable where T: Hashable {}
-
-extension PagedResponse: Sendable where T: Sendable {}
-
-public protocol LoadMoreProtocol {
-  
-  associatedtype Success
-  
-  var isLoading: Bool {get}
-  var loadPhase: AsyncPhase<Success, Error> {get}
-  var hasNextPage: Bool {get}
-  var load: ThrowingAsyncCompletion {get}
-  var loadNext: ThrowingAsyncCompletion {get}
-  
-}
-
-
-public struct LoadMoreView<
-  LoadingContent: View,
-  MoreContent: View,
-  EndContent: View
->: MView {
-  
-  var loadmore: (any LoadMoreProtocol)?
-  
-  let loadingContent: () -> LoadingContent
-  let moreContent: () -> MoreContent
-  let endContent: () -> EndContent
-  
-  private var onTap: MCallBack?
-  
-  public init(
-    loadmore: (any LoadMoreProtocol)? = nil,
-    loadingContent: @escaping () -> LoadingContent,
-    moreContent: @escaping () -> MoreContent,
-    endContent: @escaping () -> EndContent
-  ) {
-    self.loadingContent = loadingContent
-    self.moreContent = moreContent
-    self.endContent = endContent
-    self.loadmore = loadmore
-  }
-  
-  public var anyBody: any View {
-    IfLet(loadmore) { loadmore in
-      HStack {
-        If(loadmore.isLoading) {
-          loadingContent()
-            .alignment(horizontal: .center)
-        } false: {
-          Button {
-            
-          } label: {
-            If(loadmore.hasNextPage) {
-              moreContent()
-            } false: {
-              endContent()
-            }
-          }
-          .disabled(!loadmore.hasNextPage)
-          .onAppear {
-            Task {
-              if loadmore.hasNextPage {
-                try await loadmore.loadNext()
-              }
-            }
-          }
-          .alignment(horizontal: .center)
-        }
-      }
-    }
-    .ifLet(onTap) { value, view in
-      view.onTap {
-        value?()
-      }
-    }
-  }
-  
-  public func withLoadMore(loadmore: (any LoadMoreProtocol)? = nil) -> Self {
-    with {
-      $0.loadmore = loadmore
-    }
-  }
-  
-  public func onTap(_ onTap: @escaping MCallBack) -> Self {
-    with {
-      $0.onTap = onTap
-    }
-  }
-}
-
 // MARK: Refresh LoadMore Array
 // ==========================================================================================
 
 public func useLoadMoreHookRefreshModel<Model: Equatable>(
   firstPage: Int = 1,
   _ loader: @escaping () -> (Int) async throws -> PagedResponse<Model>
-) -> LoadMoreHookModel<Model> {
+) -> LoadMoreAray<Model> {
   useLoadMoreHookModel(firstPage: firstPage, loader())
 }
 
@@ -379,7 +227,7 @@ public func useLoadMoreHookRefreshModel<Model: Equatable>(
 public func useLoadMoreHookRefreshModel<Model: Equatable>(
   firstPage: Int = 1,
   _ loader: @escaping (Int) async throws -> PagedResponse<Model>
-) -> LoadMoreHookModel<Model> {
+) -> LoadMoreAray<Model> {
   
   @HRef
   var isLoading = false
@@ -421,7 +269,7 @@ public func useLoadMoreHookRefreshModel<Model: Equatable>(
     return nil
   }
   
-  return LoadMoreHookModel(
+  return LoadMoreAray(
     isLoading: isLoading,
     loadPhase: loadPhase.map {
       $0.results + nextModels

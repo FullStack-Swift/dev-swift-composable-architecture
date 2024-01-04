@@ -75,7 +75,7 @@ private struct Stats: Equatable {
 struct PagedResponseTodo: View {
   var body: some View {
     HookScope {
-      let loadmore: LoadMoreHookModel<Todo> = useLoadMoreHookModel(firstPage: 1) { page in
+      let loadmore: LoadMoreAray<Todo> = useLoadMoreHookModel(firstPage: 1) { page in
         try await Task.sleep(seconds: 1)
         let request = MRequest {
           RUrl("http://127.0.0.1:8080")
@@ -137,7 +137,7 @@ struct PagedResponseTodo: View {
 struct PagedIDResponseTodo: View {
   var body: some View {
     HookScope {
-      let loadmore: LoadMoreHookIDModel<Todo> = useLoadMoreHookIDModel(firstPage: 1) { page in
+      let loadmore: LoadMoreIdentifiedArray<Todo> = useLoadMoreHookIDModel(firstPage: 1) { page in
         try await Task.sleep(seconds: 1)
         let request = MRequest {
           RUrl("http://127.0.0.1:8080")
@@ -200,7 +200,7 @@ struct HookPageTodo: View {
   
   var body: some View {
     HookScope {
-      let loadmore: LoadMoreHookModel<Todo> = useLoadMorePage(firstPage: 1) { page in
+      let loadmore: LoadMoreAray<Todo> = useLoadMorePage(firstPage: 1) { page in
         try await Task.sleep(seconds: 1)
         let request = MRequest {
           RUrl("http://127.0.0.1:8080")

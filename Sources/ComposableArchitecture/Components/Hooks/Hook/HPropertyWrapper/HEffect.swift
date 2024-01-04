@@ -19,7 +19,10 @@ public struct HEffect {
   
   public var wrappedValue: (() -> Void)?
   
-  public init(updateStrategy: HookUpdateStrategy = .once, wrappedValue: ( () -> Void)? = nil) {
+  public init(
+    updateStrategy: HookUpdateStrategy = .once,
+    wrappedValue: (() -> Void)? = nil
+  ) {
     self.updateStrategy = updateStrategy
     self.wrappedValue = wrappedValue
     useEffect(effect: wrappedValue)
@@ -49,7 +52,10 @@ public struct HLayoutEffect {
   
   public var wrappedValue: (() -> Void)?
   
-  public init(updateStrategy: HookUpdateStrategy = .once, wrappedValue: ( () -> Void)? = nil) {
+  public init(
+    updateStrategy: HookUpdateStrategy = .once,
+    wrappedValue: (() -> Void)? = nil
+  ) {
     self.updateStrategy = updateStrategy
     self.wrappedValue = wrappedValue
     useLayoutEffect(effect: wrappedValue)

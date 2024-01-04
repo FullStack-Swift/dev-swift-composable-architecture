@@ -48,6 +48,16 @@ public func mainAsync(
 ///
 /// This method enforces the work item to be sendable.
 ///
+public func delay(second: Double, execute: @escaping () -> ()) {
+  DispatchQueue.main.asyncAfter(deadline: .now() + second, execute: execute)
+}
+
+///
+/// Submits a work item to a dispatch queue for asynchronous execution after
+/// a specified time.
+///
+/// This method enforces the work item to be sendable.
+///
 /// - parameter: deadline the time after which the work item should be executed,
 /// given as a `DispatchTime`.
 public func mainAsyncAfter(
