@@ -1,5 +1,6 @@
 import SwiftUI
 import Observation
+import SwiftObservation
 import ComposableArchitecture
 
 struct AsyncFunctions {

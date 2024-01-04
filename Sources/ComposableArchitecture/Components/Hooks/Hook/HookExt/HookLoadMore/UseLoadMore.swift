@@ -2,27 +2,39 @@ import Foundation
 import SwiftUI
 import IdentifiedCollections
 
-// MARK: LoadMore ID
+// MARK: LoadMoreIdentifiedArray
 // ==========================================================================================
-
-public func useLoadMoreHookIDModel<Model>(
-  firstPage: Int = 1,
-  _ loader: @escaping () -> (Int) async throws -> PagedIDResponse<Model>
-) -> LoadMoreIdentifiedArray<Model> where Model: Identifiable, Model: Equatable {
-  useLoadMoreHookIDModel(firstPage: firstPage, loader())
-}
-
-/// use loadmore with ID:
-///```swift
-///     let loadmore: LoadMoreHookIDModel<TodoModel> = useLoadMoreHookIDModel(firstPage: 1) { page in
 ///
-///     }
+///- The hook func to loadMore Items with ``Array``.
+///```swift
+///let loadmore: LoadMoreIdentifiedArray<Todo> = useLoadMoreIdentifiedArray(firstPage: 1) { page in
+///   try await Task.sleep(seconds: 1)
+///   let request = MRequest {
+///     RUrl("http://127.0.0.1:8080")
+///       .withPath("todos")
+///       .withPath("paginate")
+///     RQueryItems(["page": page, "per": 5])
+///     RMethod(.get)
+///   }
+///  .printCURLRequest()
+///   let data = try await request.data
+///   log.json(data)
+///   let pageModel = data.toModel(Page<Todo>.self) ?? Page(items: [], metadata: .init(page: 0, per: 0, total: 0))
+///   let pagedResponse: PagedIdentifiedArray<Todo> = PagedIdentifiedArray(page: page, totalPages: pageModel.metadata.totalPages, results: pageModel.items.toIdentifiedArray())
+///   return pagedResponse
+///}
 ///```
 ///
-/// desciption: something
-public func useLoadMoreHookIDModel<Model>(
+public func useLoadMoreIdentifiedArray<Model>(
   firstPage: Int = 1,
-  _ loader: @escaping (Int) async throws -> PagedIDResponse<Model>
+  _ loader: @escaping () -> (Int) async throws -> PagedIdentifiedArray<Model>
+) -> LoadMoreIdentifiedArray<Model> where Model: Identifiable, Model: Equatable {
+  useLoadMoreIdentifiedArray(firstPage: firstPage, loader())
+}
+
+public func useLoadMoreIdentifiedArray<Model>(
+  firstPage: Int = 1,
+  _ loader: @escaping (Int) async throws -> PagedIdentifiedArray<Model>
 ) -> LoadMoreIdentifiedArray<Model> where Model: Identifiable, Model: Equatable {
   
   @HRef
@@ -31,11 +43,11 @@ public func useLoadMoreHookIDModel<Model>(
   @HRef
   var nextModels = IdentifiedArrayOf<Model>()
   
-  // loader first phase.
-  let (loadPhase, load) = useLoadIDModels(Model.self, firstPage: firstPage, loader)
+  /// loader first phase.
+  let (loadPhase, load) = useLoadIdentifiedArray(Model.self, firstPage: firstPage, loader)
   
-  // loader next phase.
-  let (loadNextPhase, loadNext) = useLoadIDModels(Model.self, firstPage: firstPage, loader)
+  /// loader next phase.
+  let (loadNextPhase, loadNext) = useLoadIdentifiedArray(Model.self, firstPage: firstPage, loader)
   
   var latestResponse = loadNextPhase.value ?? loadPhase.value
   
@@ -86,11 +98,11 @@ public func useLoadMoreHookIDModel<Model>(
   )
 }
 
-private func useLoadIDModels<Model: Identifiable>(
+private func useLoadIdentifiedArray<Model: Identifiable>(
   _ type: Model.Type,
   firstPage: Int,
-  _ loader: @escaping( (Int) async throws -> PagedIDResponse<Model>)
-) -> (phase: AsyncPhase<PagedIDResponse<Model>, Error>, load: (Int) async throws -> Void) {
+  _ loader: @escaping( (Int) async throws -> PagedIdentifiedArray<Model>)
+) -> (phase: AsyncPhase<PagedIdentifiedArray<Model>, Error>, load: (Int) async throws -> Void) {
   @HRef var page = firstPage
   let (phase, fetch) = useAsyncPerform { [loader] in
     return try await loader(page)
@@ -108,22 +120,34 @@ private func useLoadIDModels<Model: Identifiable>(
 
 // MARK: LoadMore Array
 // ==========================================================================================
-
-public func useLoadMoreHookModel<Model: Equatable>(
+///- The hook func to loadMore Items with ``Array``.
+///```swift
+///      let loadmore: LoadMoreAray<Todo> = useLoadMoreAray(firstPage: 1) { page in
+///         try await Task.sleep(seconds: 1)
+///         let request = MRequest {
+///           RUrl("http://127.0.0.1:8080")
+///             .withPath("todos")
+///             .withPath("paginate")
+///            RQueryItems(["page": page, "per": 5])
+///            RMethod(.get)
+///          }
+///           .printCURLRequest()
+///         let data = try await request.data
+///         log.json(data)
+///         let pageModel = data.toModel(Page<Todo>.self) ?? Page(items: [], metadata: .init(page: 0, per: 0, total: 0))
+///         let pagedResponse: PagedResponse<Todo> = PagedResponse(page: page, totalPages: pageModel.metadata.totalPages, results: pageModel.items)
+///         return pagedResponse
+///      }
+///```
+///
+public func useLoadMoreAray<Model: Equatable>(
   firstPage: Int = 1,
   _ loader: @escaping () -> (Int) async throws -> PagedResponse<Model>
 ) -> LoadMoreAray<Model> {
-  useLoadMoreHookModel(firstPage: firstPage, loader())
+  useLoadMoreAray(firstPage: firstPage, loader())
 }
 
-/// use loadmore:
-///
-///       let loadmore: LoadMoreHookModel<TodoModel> = useLoadMoreHookModel(firstPage: 1) { page in
-///
-///       }
-///
-/// desciption: something
-public func useLoadMoreHookModel<Model: Equatable>(
+public func useLoadMoreAray<Model: Equatable>(
   firstPage: Int = 1,
   _ loader: @escaping (Int) async throws -> PagedResponse<Model>
 ) -> LoadMoreAray<Model> {
@@ -134,11 +158,11 @@ public func useLoadMoreHookModel<Model: Equatable>(
   @HRef
   var nextModels = [Model]()
   
-  // loader first phase.
-  let (loadPhase, load) = useLoadModels(Model.self, firstPage: firstPage, loader)
+  /// loader first phase.
+  let (loadPhase, load) = useLoadArray(Model.self, firstPage: firstPage, loader)
   
-  // loader next phase.
-  let (loadNextPhase, loadNext) = useLoadModels(Model.self, firstPage: firstPage, loader)
+  /// loader next phase.
+  let (loadNextPhase, loadNext) = useLoadArray(Model.self, firstPage: firstPage, loader)
   
   var latestResponse = loadNextPhase.value ?? loadPhase.value
   
@@ -189,7 +213,7 @@ public func useLoadMoreHookModel<Model: Equatable>(
   )
 }
 
-private func useLoadModels<Model>(
+private func useLoadArray<Model>(
   _ type: Model.Type,
   firstPage: Int,
   _ loader: @escaping( (Int) async throws -> PagedResponse<Model>)
@@ -207,39 +231,48 @@ private func useLoadModels<Model>(
   )
 }
 
-// MARK: Refresh LoadMore Array
-// ==========================================================================================
-
-public func useLoadMoreHookRefreshModel<Model: Equatable>(
+// MARK: LoadMorePage
+//==========================================================================================
+///- The hook func to loadMore with ``Page`` in Vapor.
+///```swift
+///let loadmore: LoadMoreAray<Todo> = useLoadMorePage(firstPage: 1) { page in
+///try await Task.sleep(seconds: 1)
+///let request = MRequest {
+///  RUrl("http://127.0.0.1:8080")
+///    .withPath("todos")
+///    .withPath("paginate")
+///  RQueryItems(["page": page, "per": 5])
+///  RMethod(.get)
+///}
+/// .printCURLRequest()
+///let data = try await request.data
+///log.json(data)
+///return data.toModel(Page<Todo>.self) ?? Page(items: [], metadata: .init(page: 0, per: 0, total: 0))
+///}
+///```
+///
+public func useLoadMorePage<Model: Equatable>(
   firstPage: Int = 1,
-  _ loader: @escaping () -> (Int) async throws -> PagedResponse<Model>
+  _ loader: @escaping () -> (Int) async throws -> Page<Model>
 ) -> LoadMoreAray<Model> {
-  useLoadMoreHookModel(firstPage: firstPage, loader())
+  useLoadMorePage(firstPage: firstPage, loader())
 }
 
-/// use loadmore:
-///
-///       let loadmore: LoadMoreHookModel<TodoModel> = useLoadMoreHookModel(firstPage: 1) { page in
-///
-///       }
-///
-/// desciption: something
-public func useLoadMoreHookRefreshModel<Model: Equatable>(
+public func useLoadMorePage<Model: Equatable>(
   firstPage: Int = 1,
-  _ loader: @escaping (Int) async throws -> PagedResponse<Model>
+  _ loader: @escaping (Int) async throws -> Page<Model>
 ) -> LoadMoreAray<Model> {
-  
   @HRef
   var isLoading = false
   
   @HRef
   var nextModels = [Model]()
   
-  // loader first phase.
-  let (loadPhase, load) = useLoadRefreshModels(Model.self, firstPage: firstPage, loader)
+  /// loader first phase.
+  let (loadPhase, load) = useLoadPage(Model.self, firstPage: firstPage, loader)
   
-  // loader next phase.
-  let (loadNextPhase, loadNext) = useLoadRefreshModels(Model.self, firstPage: firstPage, loader)
+  /// loader next phase.
+  let (loadNextPhase, loadNext) = useLoadPage(Model.self, firstPage: firstPage, loader)
   
   var latestResponse = loadNextPhase.value ?? loadPhase.value
   
@@ -265,23 +298,23 @@ public func useLoadMoreHookRefreshModel<Model: Equatable>(
   }
   
   useLayoutEffect(.preserved(by: loadNextPhase.isSuccess)) {
-    nextModels += loadNextPhase.value?.results ?? []
+    nextModels += loadNextPhase.value?.items ?? []
     return nil
   }
   
   return LoadMoreAray(
     isLoading: isLoading,
     loadPhase: loadPhase.map {
-      $0.results + nextModels
+      $0.items + nextModels
     },
-    hasNextPage: latestResponse?.hasNextPage ?? false,
+    hasNextPage: latestResponse?.metadata.hasNextPage ?? false,
     load: {
       if isLoading { return }
       isLoading = true
       try await load(firstPage)
     },
     loadNext: {
-      if let currentPage = latestResponse?.page {
+      if let currentPage = latestResponse?.metadata.page {
         if isLoading { return }
         isLoading = true
         try await loadNext(currentPage + 1)
@@ -290,13 +323,13 @@ public func useLoadMoreHookRefreshModel<Model: Equatable>(
   )
 }
 
-private func useLoadRefreshModels<Model>(
+private func useLoadPage<Model>(
   _ type: Model.Type,
   firstPage: Int,
-  _ loader: @escaping( (Int) async throws -> PagedResponse<Model>)
-) -> (phase: AsyncPhase<PagedResponse<Model>, Error>, load: (Int) async throws -> Void) {
+  _ loader: @escaping( (Int) async throws -> Page<Model>)
+) -> (phase: AsyncPhase<Page<Model>, Error>, load: (Int) async throws -> Void) {
   @HRef var page = firstPage
-  let (phase, fetch) = useAsyncRefresh {
+  let (phase, fetch) = useAsyncPerform {
     return try await loader(page)
   }
   return (

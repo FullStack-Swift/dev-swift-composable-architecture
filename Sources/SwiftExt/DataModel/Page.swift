@@ -1,7 +1,19 @@
 import Foundation
 
+public protocol PageProtocol {
+  
+  associatedtype Success
+  
+  /// The page's items. Usually models.
+  var items: [Success] { get }
+  
+  /// Metadata containing information about current page, items per page, and total items.
+  var metadata: PageMetadata { get }
+  
+}
+
 /// A single section of a larger, traversable result set.
-public struct Page<T> {
+public struct Page<T>: PageProtocol {
   /// The page's items. Usually models.
   public let items: [T]
   
@@ -24,10 +36,47 @@ public struct Page<T> {
 }
 
 extension Page: Encodable where T: Encodable {}
+
 extension Page: Decodable where T: Decodable {}
 
+extension Page: Equatable where T: Equatable {}
+
+extension Page: Hashable where T: Hashable {}
+
+extension Page: Sendable where T: Sendable {}
+
+public protocol PageMetadataProtocol {
+  
+  /// Current page number. Starts at `1`.
+  var page: Int { get }
+  
+  /// Max items per page.
+  var per: Int { get }
+  
+  /// Total number of items available.
+  var total: Int { get }
+}
+
+extension PageMetadataProtocol {
+  
+  /// Computed total number of pages with `1` being the minimum.
+  public var pageCount: Int {
+    let count = Int((Double(self.total)/Double(self.per)).rounded(.up))
+    return count < 1 ? 1 : count
+  }
+  
+  public var hasNextPage: Bool {
+    self.page * self.per < total
+  }
+  
+  public var totalPages: Int {
+    pageCount
+  }
+  
+}
+
 /// Metadata for a given `Page`.
-public struct PageMetadata: Codable {
+public struct PageMetadata: Codable, PageMetadataProtocol {
   /// Current page number. Starts at `1`.
   public let page: Int
   
@@ -36,12 +85,6 @@ public struct PageMetadata: Codable {
   
   /// Total number of items available.
   public let total: Int
-  
-  /// Computed total number of pages with `1` being the minimum.
-  public var pageCount: Int {
-    let count = Int((Double(self.total)/Double(self.per)).rounded(.up))
-    return count < 1 ? 1 : count
-  }
   
   /// Creates a new `PageMetadata` instance.
   ///
@@ -53,14 +96,6 @@ public struct PageMetadata: Codable {
     self.page = page
     self.per = per
     self.total = total
-  }
-  
-  public var hasNextPage: Bool {
-    self.page * self.per < total
-  }
-  
-  public var totalPages: Int {
-    pageCount
   }
 }
 

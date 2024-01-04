@@ -6,19 +6,19 @@ public protocol LoadMoreProtocol {
   /// A success, storeing in a ``AsyncPhase``
   associatedtype Success
   /// A status is loading data from async await
-  var isLoading: Bool {get}
+  var isLoading: Bool { get }
   /// phase for loadmore
-  var loadPhase: AsyncPhase<Success, Error> {get}
+  var loadPhase: AsyncPhase<Success, Error> { get }
   /// return if it has load next page.
-  var hasNextPage: Bool {get}
+  var hasNextPage: Bool { get }
   /// a async await function for load first, or refreshing a ``View``
-  var load: ThrowingAsyncCompletion {get}
+  var load: ThrowingAsyncCompletion { get }
   /// a sync await function for load next data.
-  var loadNext: ThrowingAsyncCompletion {get}
+  var loadNext: ThrowingAsyncCompletion { get }
 }
 
 ///
-/// A implement for ``LoadMoreProtocol`` for Array in Swift.
+/// A implement for ``LoadMoreProtocol`` for`` Array`` in Swift.
 ///
 public struct LoadMoreAray<Model>: LoadMoreProtocol {
   public let isLoading: Bool
@@ -26,6 +26,20 @@ public struct LoadMoreAray<Model>: LoadMoreProtocol {
   public let hasNextPage: Bool
   public let load: ThrowingAsyncCompletion
   public let loadNext: ThrowingAsyncCompletion
+  
+  public init(
+    isLoading: Bool,
+    loadPhase: AsyncPhase<[Model], Error>,
+    hasNextPage: Bool,
+    load: @escaping ThrowingAsyncCompletion,
+    loadNext: @escaping ThrowingAsyncCompletion
+  ) {
+    self.isLoading = isLoading
+    self.loadPhase = loadPhase
+    self.hasNextPage = hasNextPage
+    self.load = load
+    self.loadNext = loadNext
+  }
 }
 
 public struct PagedResponse<T> {
@@ -56,7 +70,7 @@ extension PagedResponse: Sendable where T: Sendable {}
 
 
 ///
-/// A implement for ``LoadMoreProtocol`` for IdentifiedArray in Swift.
+/// A implement for ``LoadMoreProtocol`` for ``IdentifiedArray`` in Swift.
 ///
 public struct LoadMoreIdentifiedArray<Model: Identifiable>: LoadMoreProtocol {
   public let isLoading: Bool
@@ -64,9 +78,23 @@ public struct LoadMoreIdentifiedArray<Model: Identifiable>: LoadMoreProtocol {
   public let hasNextPage: Bool
   public let load: ThrowingAsyncCompletion
   public let loadNext: ThrowingAsyncCompletion
+  
+  public init(
+    isLoading: Bool,
+    loadPhase: AsyncPhase<IdentifiedArrayOf<Model>, Error>,
+    hasNextPage: Bool,
+    load: @escaping ThrowingAsyncCompletion,
+    loadNext: @escaping ThrowingAsyncCompletion
+  ) {
+    self.isLoading = isLoading
+    self.loadPhase = loadPhase
+    self.hasNextPage = hasNextPage
+    self.load = load
+    self.loadNext = loadNext
+  }
 }
 
-public struct PagedIDResponse<T: Identifiable> {
+public struct PagedIdentifiedArray<T: Identifiable> {
   public let page: Int
   public let totalPages: Int
   public let results: IdentifiedArrayOf<T>
@@ -82,60 +110,80 @@ public struct PagedIDResponse<T: Identifiable> {
   }
 }
 
-extension PagedIDResponse: Encodable where T: Encodable {}
+extension PagedIdentifiedArray: Encodable where T: Encodable {}
 
-extension PagedIDResponse: Decodable where T: Decodable {}
+extension PagedIdentifiedArray: Decodable where T: Decodable {}
 
-extension PagedIDResponse: Equatable where T: Equatable {}
+extension PagedIdentifiedArray: Equatable where T: Equatable {}
 
-extension PagedIDResponse: Hashable where T: Hashable {}
+extension PagedIdentifiedArray: Hashable where T: Hashable {}
 
-//@available(iOS 16.0.0, *)
-//public struct AnyLoadMoreHookModel<Model: Identifiable>: LoadMoreProtocol {
-//  public typealias Success = any Collection<Model>
-//  
-//  public let isLoading: Bool
-//  public let loadPhase: AsyncPhase<Success, Error>
-//  public let hasNextPage: Bool
-//  public let load: ThrowingAsyncCompletion
-//  public let loadNext: ThrowingAsyncCompletion
-//  
-//  public init(isLoading: Bool,
-//       loadPhase: AsyncPhase<Success, Error>,
-//       hasNextPage: Bool,
-//       load: @escaping ThrowingAsyncCompletion,
-//       loadNext: @escaping ThrowingAsyncCompletion
-//  ) {
-//    self.isLoading = isLoading
-//    self.loadPhase = loadPhase
-//    self.hasNextPage = hasNextPage
-//    self.load = load
-//    self.loadNext = loadNext
-//  }
-//  
-//  public init(loadMore: some LoadMoreProtocol) {
-//    self.isLoading = loadMore.isLoading
-////    self.loadPhase = loadMore.loadPhase
-//    self.loadPhase = .pending
-//    self.hasNextPage = loadMore.hasNextPage
-//    self.load = loadMore.load
-//    self.loadNext = loadMore.loadNext
-//  }
-//  
-//}
+public struct AnyLoadMoreHookModel<Success>: LoadMoreProtocol {
+  public let isLoading: Bool
+  public let loadPhase: AsyncPhase<Success, Error>
+  public let hasNextPage: Bool
+  public let load: ThrowingAsyncCompletion
+  public let loadNext: ThrowingAsyncCompletion
+  
+  public init(
+    isLoading: Bool,
+    loadPhase: AsyncPhase<Success, Error>,
+    hasNextPage: Bool,
+    load: @escaping ThrowingAsyncCompletion,
+    loadNext: @escaping ThrowingAsyncCompletion
+  ) {
+    self.isLoading = isLoading
+    self.loadPhase = loadPhase
+    self.hasNextPage = hasNextPage
+    self.load = load
+    self.loadNext = loadNext
+  }
+  
+  public init<T: LoadMoreProtocol>(loadMore: T) where T.Success == Success {
+    self.isLoading = loadMore.isLoading
+    self.loadPhase = loadMore.loadPhase
+    self.hasNextPage = loadMore.hasNextPage
+    self.load = loadMore.load
+    self.loadNext = loadMore.loadNext
+  }
+}
 
-public struct AnyPagedResponse<T: Identifiable> {
+public protocol HPageProtocol {
+  /// The type of items that this items returns.
+  associatedtype Success
+  
+  /// current page number. Starts at `1`.
+  var page: Int { get }
+  
+  /// Total number of page avaliable.
+  var totalPages: Int { get }
+  /// The pages's items. Usualy models
+  var results: [Success] { get }
+}
+
+public extension HPageProtocol {
+  
+  /// return ``Page`` frome SwiftExt
+  func toPage() -> Page<Success> {
+    Page(
+      items: results,
+      metadata: PageMetadata(page: page, per: 20, total: totalPages)
+    )
+  }
+  
+  var hasNextPage: Bool {
+    page < totalPages
+  }
+}
+
+public struct HAnyPage<T>: HPageProtocol {
   public let page: Int
   public let totalPages: Int
-  public let results: any Collection<T>
+  public let results: [T]
   
-  public init(page: Int, totalPages: Int, results: any Collection<T>) {
+  public init(page: Int, totalPages: Int, results: [T]) {
     self.page = page
     self.totalPages = totalPages
     self.results = results
-  }
-  
-  public var hasNextPage: Bool {
-    page < totalPages
   }
 }

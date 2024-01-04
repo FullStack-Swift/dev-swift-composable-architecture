@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB4BAB8B2B46975600573741 /* SwiftObservation in Frameworks */ = {isa = PBXBuildFile; productRef = EB4BAB8A2B46975600573741 /* SwiftObservation */; };
 		EB92CD1E2A5E8EDB007640AF /* TheMovieApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92CD1D2A5E8EDB007640AF /* TheMovieApp.swift */; };
 		EB92CD202A5E8EDB007640AF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92CD1F2A5E8EDB007640AF /* ContentView.swift */; };
 		EB92CD222A5E8EDC007640AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB92CD212A5E8EDC007640AF /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBD7DC292ABC220E0097F114 /* ComposableArchitecture in Frameworks */,
+				EB4BAB8B2B46975600573741 /* SwiftObservation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +159,7 @@
 			name = TheMovie;
 			packageProductDependencies = (
 				EBD7DC282ABC220E0097F114 /* ComposableArchitecture */,
+				EB4BAB8A2B46975600573741 /* SwiftObservation */,
 			);
 			productName = TheMovie;
 			productReference = EB92CD1A2A5E8EDB007640AF /* TheMovie.app */;
@@ -641,6 +644,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EB4BAB8A2B46975600573741 /* SwiftObservation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftObservation;
+		};
 		EBD7DC282ABC220E0097F114 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;

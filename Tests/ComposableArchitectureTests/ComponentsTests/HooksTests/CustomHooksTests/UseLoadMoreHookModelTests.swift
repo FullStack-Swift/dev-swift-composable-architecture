@@ -9,7 +9,7 @@ final class UseLoadMoreHookModelTests: XCTestCase {
   func test_useLoadMoreHookModel() async throws {
     let results = ["A", "B", "C"].map({TodoModel(text: $0)})
     let tester = HookTester {
-      let loadmore: LoadMoreHookModel<TodoModel> = useLoadMoreHookModel(firstPage: 1) { page in
+      let loadmore: LoadMoreAray<TodoModel> = useLoadMoreAray(firstPage: 1) { page in
         try await Task.sleep(seconds: 1)
         let pagedResponse = PagedResponse(page: page, totalPages: 100, results: results)
         return pagedResponse
@@ -43,9 +43,9 @@ final class UseLoadMoreHookModelTests: XCTestCase {
   func test_useLoadMoreHookIDModel() async throws {
     let results = ["A", "B", "C"].map({TodoModel(text: $0)}).toIdentifiedArray()
     let tester = HookTester {
-      let loadmore: LoadMoreHookIDModel<TodoModel> = useLoadMoreHookIDModel(firstPage: 1) { page in
+      let loadmore: LoadMoreIdentifiedArray<TodoModel> = useLoadMoreIdentifiedArray(firstPage: 1) { page in
         try await Task.sleep(seconds: 1)
-        let pagedResponse = PagedIDResponse(page: page, totalPages: 100, results: results)
+        let pagedResponse = PagedIdentifiedArray(page: page, totalPages: 100, results: results)
         return pagedResponse
       }
       return loadmore

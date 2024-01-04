@@ -44,7 +44,7 @@ public struct LoadMoreView<
           }
           .disabled(!loadmore.hasNextPage)
           .onAppear {
-            Task {
+            Task { @MainActor in
               if loadmore.hasNextPage {
                 try await loadmore.loadNext()
               }

@@ -3,9 +3,7 @@ import SwiftUI
 
 struct TCACaseStudiesView: View {
   var body: some View {
-    Form {
-      Text("TCA")
-    }
+    AtomLoadMoreView()
 #if os(iOS)
     .navigationBarTitle(Text("TCA"), displayMode: .inline)
 #endif

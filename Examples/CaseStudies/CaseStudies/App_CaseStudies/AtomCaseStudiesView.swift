@@ -317,8 +317,8 @@ struct AtomCaseStudiesView: View {
     Form {
       Section(header: Text("Use Case")) {
         
-        NavigationLink("PropertyWrapper") {
-          AtomLocalViewContextView()
+        NavigationLink("Atom LoadMore") {
+          AtomLoadMoreView()
         }
         
         NavigationLink("PropertyWrapper") {
@@ -330,6 +330,7 @@ struct AtomCaseStudiesView: View {
         }
       }
     }
+    .navigationTitle("Atom")
   }
 }
 
