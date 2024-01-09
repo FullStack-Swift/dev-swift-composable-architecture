@@ -48,7 +48,10 @@ public func mainAsync(
 ///
 /// This method enforces the work item to be sendable.
 ///
-public func delay(second: Double, execute: @escaping () -> ()) {
+public func delay(
+  second: Double,
+  execute: @escaping () -> ()
+) {
   DispatchQueue.main.asyncAfter(deadline: .now() + second, execute: execute)
 }
 

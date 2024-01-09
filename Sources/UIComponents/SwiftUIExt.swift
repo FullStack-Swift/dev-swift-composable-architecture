@@ -27,6 +27,27 @@ extension MView where Body: View {
   }
 }
 
+// MARK: View EndEdit
+public extension View {
+   func resignFirstResponderDragGresture() -> some View {
+    gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
+  }
+}
+
+// MARK: PlaceHolder for view
+public extension View {
+   func placeholder<Content: View>(
+    when shouldShow: Bool,
+    alignment: Alignment = .topLeading,
+    @ViewBuilder placeholder: () -> Content
+  ) -> some View {
+    ZStack(alignment: alignment) {
+      placeholder().opacity(shouldShow ? 1 : 0)
+      self
+    }
+  }
+}
+
 // MARK: View Changed view
 extension View {
   

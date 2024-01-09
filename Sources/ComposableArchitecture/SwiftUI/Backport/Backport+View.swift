@@ -169,3 +169,87 @@ extension Backport where Base: View {
     }
   }
 }
+
+extension Backport where Base: View {
+  
+  /// Masks this view using the alpha channel of the given view.
+  ///
+  /// Use `mask(_:)` when you want to apply the alpha (opacity) value of
+  /// another view to the current view.
+  ///
+  /// This example shows an image masked by rectangle with a 10% opacity:
+  ///
+  ///     Image(systemName: "envelope.badge.fill")
+  ///         .foregroundColor(Color.blue)
+  ///         .font(.system(size: 128, weight: .regular))
+  ///         .mask {
+  ///             Rectangle().opacity(0.1)
+  ///         }
+  ///
+  /// ![A screenshot of a view masked by a rectangle with 10%
+  /// opacity.](SwiftUI-View-mask.png)
+  ///
+  /// - Parameters:
+  ///     - alignment: The alignment for `mask` in relation to this view.
+  ///     - mask: The view whose alpha the rendering system applies to
+  ///       the specified view.
+  @ViewBuilder
+  public func mask<Mask>(
+    alignment: Alignment = .center,
+    @ViewBuilder _ mask: () -> Mask
+  ) -> some View where Mask : View {
+    if #available(iOS 15.0, *) {
+      base.mask(alignment: alignment, mask)
+    } else {
+      // Fallback on earlier versions
+      // #mTodo("Write code for fallback")
+    }
+  }
+  
+  /// Layers the given view behind this view.
+  ///
+  /// Use `background(_:alignment:)` when you need to place one view behind
+  /// another, with the background view optionally aligned with a specified
+  /// edge of the frontmost view.
+  ///
+  /// The example below creates two views: the `Frontmost` view, and the
+  /// `DiamondBackground` view. The `Frontmost` view uses the
+  /// `DiamondBackground` view for the background of the image element inside
+  /// the `Frontmost` view's ``VStack``.
+  ///
+  ///     struct DiamondBackground: View {
+  ///         var body: some View {
+  ///             VStack {
+  ///                 Rectangle()
+  ///                     .fill(.gray)
+  ///                     .frame(width: 250, height: 250, alignment: .center)
+  ///                     .rotationEffect(.degrees(45.0))
+  ///             }
+  ///         }
+  ///     }
+  ///
+  ///     struct Frontmost: View {
+  ///         var body: some View {
+  ///             VStack {
+  ///                 Image(systemName: "folder")
+  ///                     .font(.system(size: 128, weight: .ultraLight))
+  ///                     .background(DiamondBackground())
+  ///             }
+  ///         }
+  ///     }
+  ///
+  /// ![A view showing a large folder image with a gray diamond placed behind
+  /// it as its background view.](View-background-1)
+  ///
+  /// - Parameters:
+  ///   - background: The view to draw behind this view.
+  ///   - alignment: The alignment with a default value of
+  ///     ``Alignment/center`` that you use to position the background view.
+  @ViewBuilder
+  public func background<Background: View>(
+    @ViewBuilder _ builder: () -> Background,
+    alignment: Alignment = .center
+  ) -> some View {
+    base.background(builder(), alignment: alignment)
+  }
+}
