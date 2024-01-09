@@ -53,7 +53,7 @@ extension IdentifiedArray where ID == Todo.ID, Element == Todo {
 private var testNoContent: Bool = true
 
 @MainActor
-fileprivate let loadMoreAtom = MObservableObjectAtom(id: "AAA") { context in
+fileprivate let loadMoreAtom = MObservableObjectAtom(id: sourceId()) { context in
   LoadMoreObservableAtom<Todo>(firstPage: 1) { page in
     try? await Task.sleep(seconds: 1)
     var todos = IdentifiedArrayOf<Todo>.mock.toArray()

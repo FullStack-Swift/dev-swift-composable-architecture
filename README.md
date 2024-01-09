@@ -10,20 +10,20 @@ A library for building applications in a consistent and understandable way, with
 
 ```
 swift package --allow-writing-to-directory ./docs \
-    generate-documentation --target ComposableArchitecture --output-path ./docs
+    generate-documentation --target Documentation --output-path ./docs
 ```
 
 ```
-swift package --disable-sandbox preview-documentation --target ComposableArchitecture
+swift package --disable-sandbox preview-documentation --target Documentation
 ```
 
 ### Publishing to GitHub Pages
 
 ```
 sudo swift package --allow-writing-to-directory ./docs \
-    generate-documentation --target ComposableArchitecture \
+    generate-documentation --target Documentation \
     --disable-indexing \
     --transform-for-static-hosting \
-    --hosting-base-path ComposableArchitecture \
+    --hosting-base-path Documentation \
     --output-path ./docs
 ```

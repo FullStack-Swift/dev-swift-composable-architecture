@@ -34,6 +34,10 @@ let package = Package(
       name: "ArchitectureExt",
       targets: ["ArchitectureExt"]
     ),
+    .library(
+      name: "Documentation",
+      targets: ["Documentation"]
+    ),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-collections", from: "1.0.2"),
@@ -102,6 +106,13 @@ let package = Package(
       ],
       path: "Sources/UIComponents"
     ),
+    .target(
+      name: "Documentation",
+      dependencies: [
+        "ComposableArchitecture",
+      ],
+      path: "Sources/Documentation"
+    ),
     // Targets are the basic building blocks of a package, defining a module or a test suite.
     // Targets can depend on other targets in this package and products from dependencies.
     // Macro implementation that performs the source transformation of a macro.
@@ -119,18 +130,18 @@ let package = Package(
         .product(name: "MacroTesting", package: "swift-macro-testing"),
       ]
     ),
-      .macro(
-        name: "ComposeMacros",
-        dependencies: [
-          .product(name: "SwiftSyntax", package: "swift-syntax"),
-          .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-          .product(name: "SwiftOperators", package: "swift-syntax"),
-          .product(name: "SwiftParser", package: "swift-syntax"),
-          .product(name: "SwiftParserDiagnostics", package: "swift-syntax"),
-          .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-        ],
-        path: "Sources/ComposeMacros"
-      ),
+    .macro(
+      name: "ComposeMacros",
+      dependencies: [
+        .product(name: "SwiftSyntax", package: "swift-syntax"),
+        .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+        .product(name: "SwiftOperators", package: "swift-syntax"),
+        .product(name: "SwiftParser", package: "swift-syntax"),
+        .product(name: "SwiftParserDiagnostics", package: "swift-syntax"),
+        .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+      ],
+      path: "Sources/ComposeMacros"
+    ),
     .testTarget(
       name: "ComposableArchitectureTests",
       dependencies: [

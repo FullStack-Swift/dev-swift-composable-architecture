@@ -6,9 +6,9 @@ import Combine
 ///  What you can do with class:
 ///  1: - LoadFirst function when view visible.
 ///  2: - LoadMore function when you want loadmore data items.
-///  3: - refreshing UI when you pull refresh in a view
+///  3: - refreshing UI when you pull refresh in a view.
 ///
-/// This is commom object for loadmore, you can using it with nomal of Observable or with the ObservableObjectAtom to cache data item.
+/// This is commom object for loadmore, you can using it with normal of Observable or with the ObservableObjectAtom to cache data item.
 ///
 /// Happy to using LoadMore.
 

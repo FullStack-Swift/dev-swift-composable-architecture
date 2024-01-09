@@ -187,3 +187,11 @@ public struct HAnyPage<T>: HPageProtocol {
     self.results = results
   }
 }
+
+extension HAnyPage : Equatable where T: Equatable {}
+
+extension HAnyPage: Sendable where T: Sendable {}
+
+extension HAnyPage: Encodable where T: Encodable {}
+
+extension HAnyPage: Decodable where T: Decodable {}
