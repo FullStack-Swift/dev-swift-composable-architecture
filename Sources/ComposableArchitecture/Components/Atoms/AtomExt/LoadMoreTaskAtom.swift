@@ -1,6 +1,18 @@
 import SwiftUI
 import Combine
+///
+///  LoadMore with ObservableObject, It's class for loadMore data in a view.
+///
+///  What you can do with class:
+///  1: - LoadFirst function when view visible.
+///  2: - LoadMore function when you want loadmore data items.
+///  3: - refreshing UI when you pull refresh in a view
+///
+/// This is commom object for loadmore, you can using it with nomal of Observable or with the ObservableObjectAtom to cache data item.
+///
+/// Happy to using LoadMore.
 
+// MARK: LoadMore with ObservableObject
 public class LoadMoreObservableAtom<Model>: ObservableObject {
   
   public typealias Success = PagedResponse<Model>
@@ -16,10 +28,13 @@ public class LoadMoreObservableAtom<Model>: ObservableObject {
   
   private let loader: ((Int) async throws -> PagedResponse<Model>)
   
+  /// The firstPage you used to load
   private var firstPage: Int
   
+  /// currentPage you loaded .
   private var currentPage: Int
   
+  /// The func ``init`` the `` LoadMoreObservable``
   public init(
     firstPage: Int = 1,
     _ loader: @escaping( (Int) async throws -> PagedResponse<Model>)
@@ -29,6 +44,7 @@ public class LoadMoreObservableAtom<Model>: ObservableObject {
     self.loader = loader
   }
   
+  /// The function loadFirst items in list items, you using it when you want load first items.
   @MainActor
   public func loadFirst() async throws {
     /// set to load first
@@ -42,6 +58,7 @@ public class LoadMoreObservableAtom<Model>: ObservableObject {
     isLoading = false
   }
   
+  /// The function loadNext items in list items, you using it when you want load next items.
   @MainActor
   public func loadNext() async throws {
     /// check condition load next.
@@ -62,6 +79,7 @@ public class LoadMoreObservableAtom<Model>: ObservableObject {
     isLoading = false
   }
   
+  /// The func refresh to refresh item with async, you using it when you want refresh view but you don't want loading with progress.
   @MainActor
   public func refresh() async throws {
     
