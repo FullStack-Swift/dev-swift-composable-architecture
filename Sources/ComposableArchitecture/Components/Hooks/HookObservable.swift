@@ -46,8 +46,8 @@ public final class HookObservable: ObservableObject {
     }
     
     func updateView() {
-      Task { @MainActor in
-        self.objectWillChange.send()
+      Task { @MainActor [weak self] in
+        self?.objectWillChange.send()
       }
     }
     

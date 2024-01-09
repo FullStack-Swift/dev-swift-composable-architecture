@@ -88,15 +88,18 @@ public final class LinkedList<T> {
   /// Append a value to the end of the list
   ///
   /// - Parameter value: The data value to be appended
-  public func append(_ value: T) {
+  @discardableResult
+  public func append(_ value: T) -> Node {
     let newNode = Node(value: value)
     append(newNode)
+    return newNode
   }
   
   /// Append a copy of a LinkedListNode to the end of the list.
   ///
   /// - Parameter node: The node containing the value to be appended
-  public func append(_ node: Node) {
+  @discardableResult
+  public func append(_ node: Node) -> Node {
     let newNode = node
     if let lastNode = last {
       newNode.previous = lastNode
@@ -104,17 +107,20 @@ public final class LinkedList<T> {
     } else {
       head = newNode
     }
+    return newNode
   }
   
   /// Append a copy of a LinkedList to the end of the list.
   ///
   /// - Parameter list: The list to be copied and appended.
-  public func append(_ list: LinkedList) {
+  @discardableResult
+  public func append(_ list: LinkedList) -> Node? {
     var nodeToCopy = list.head
     while let node = nodeToCopy {
       append(node.value)
       nodeToCopy = node.next
     }
+    return nodeToCopy
   }
   
   /// Insert a value at a specific index. Crashes if index is out of bounds (0...self.count)

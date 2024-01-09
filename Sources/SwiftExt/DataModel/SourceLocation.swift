@@ -8,8 +8,23 @@ public struct SourceLocation: Codable, Equatable {
   }
 }
 
+// MARK: Generating sourceId
+///```swift
+///   let sourceLocation: SourceLocation = ...
+///   let sourceId = sorceLocation.sourceId
+/// ```
 extension SourceLocation {
   public var sourceId: String {
     "fileID: \(fileID) line: \(line)"
+  }
+}
+
+// MARK: SourceLocation: Identifiable
+///```swift
+/// let sourceIds = IdentifiedArrayOf<SourceLocation>()
+///```
+extension SourceLocation: Identifiable {
+  public var id: String {
+    sourceId
   }
 }
