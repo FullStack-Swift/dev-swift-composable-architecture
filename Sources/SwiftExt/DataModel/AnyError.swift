@@ -36,9 +36,11 @@ public struct MError: Error {
   }
 }
 
+extension MError: Codable {}
+
 extension MError: Equatable {}
 
-extension MError: Codable {}
+extension MError: Hashable {}
 
 extension MError: Sendable {}
 
