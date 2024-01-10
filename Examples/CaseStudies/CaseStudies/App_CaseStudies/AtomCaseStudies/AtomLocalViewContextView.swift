@@ -21,11 +21,6 @@ struct AtomLocalViewContextView: View {
     let localWathState = context.binding(value)
     
     return VStack {
-      NavigationLink {
-        AtomLocalViewContextView()
-      } label: {
-        Text("Push")
-      }
       Text(localWathState.wrappedValue.description)
         .onTap {
           localWathState.wrappedValue += 1
@@ -36,6 +31,16 @@ struct AtomLocalViewContextView: View {
         }
       Text(context.read(readValue).description)
     }
+    .navigationBarItems(
+      leading: EmptyView(),
+      trailing: viewBuilder {
+        NavigationLink {
+          AtomLocalViewContextView()
+        } label: {
+          Text("Push")
+        }
+      }
+    )
   }
 }
 

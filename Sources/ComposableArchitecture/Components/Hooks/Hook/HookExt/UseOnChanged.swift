@@ -6,13 +6,19 @@ import Foundation
 ///`useOnChanged` can also be used to interpolate Whenever useValueChanged is called with a different value, calls valueChange. The value returned by useValueChanged is the latest returned value of valueChange.
 
 @discardableResult
+/// ``useOnChanged``
+/// - Parameters:
+///   - value: value to see onChange, it's is an object extends from Equatable
+///   - skip: skip number of value change
+///   - effect: a call back perform onChange like View in SwiftUI. It's will be (oldValue, newValue)
+/// - Returns: return latest value.
 public func useOnChanged<Node: Equatable>(
   _ value: Node,
   skip: Int,
   effect: ((Node?, Node) -> Void)? = nil
 ) -> Node {
   @HRef
-  var cache: Node? = nil
+  var cache: Node? = nil /// The oldValue
   
   @HRef
   var count = useCount(.preserved(by: value))
@@ -20,7 +26,7 @@ public func useOnChanged<Node: Equatable>(
   useLayouEffectChanged(.preserved(by: value)) {
     if cache != value {
       if count > skip {
-        effect?(cache, value)
+        effect?(cache, value) /// (oldValue, newValue)
       }
       cache = value
     }
@@ -39,6 +45,7 @@ public func useOnChanged<Node: Equatable>(
   }
 }
 
+// MARK: SkipFirst like ``onChange`` in SwiftUI
 @discardableResult
 public func useOnChanged<Node: Equatable>(
   _ value: Node,

@@ -30,6 +30,7 @@
 		EB132B482AE8EB56002CC1DF /* HookUseInitalAndDisposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB132B472AE8EB56002CC1DF /* HookUseInitalAndDisposeView.swift */; };
 		EB132B4A2AE8F775002CC1DF /* HookLoadMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB132B492AE8F775002CC1DF /* HookLoadMoreView.swift */; };
 		EB467EC42AEB991300177A77 /* HookUseDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB467EC32AEB991300177A77 /* HookUseDateView.swift */; };
+		EB4867332B4E6B9600383023 /* AtomCountDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4867322B4E6B9600383023 /* AtomCountDownView.swift */; };
 		EB4BAB8D2B4697A000573741 /* AtomLoadMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4BAB8C2B4697A000573741 /* AtomLoadMoreView.swift */; };
 		EB5B50F12AF376FE0018BF84 /* NavigationStackBackport in Frameworks */ = {isa = PBXBuildFile; productRef = EB5B50F02AF376FE0018BF84 /* NavigationStackBackport */; };
 		EB5B50F32AF37CC00018BF84 /* SwiftExt in Frameworks */ = {isa = PBXBuildFile; productRef = EB5B50F22AF37CC00018BF84 /* SwiftExt */; };
@@ -85,6 +86,7 @@
 		EB132B472AE8EB56002CC1DF /* HookUseInitalAndDisposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseInitalAndDisposeView.swift; sourceTree = "<group>"; };
 		EB132B492AE8F775002CC1DF /* HookLoadMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookLoadMoreView.swift; sourceTree = "<group>"; };
 		EB467EC32AEB991300177A77 /* HookUseDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseDateView.swift; sourceTree = "<group>"; };
+		EB4867322B4E6B9600383023 /* AtomCountDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomCountDownView.swift; sourceTree = "<group>"; };
 		EB4BAB8C2B4697A000573741 /* AtomLoadMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomLoadMoreView.swift; sourceTree = "<group>"; };
 		EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoilUseCaseStudies2View.swift; sourceTree = "<group>"; };
 		EBB036E72A7A2F1D0091B953 /* OnlineHookTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineHookTodoView.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 			children = (
 				EBC059092B43B3DA00F97044 /* AtomLocalViewContextView.swift */,
 				EB4BAB8C2B4697A000573741 /* AtomLoadMoreView.swift */,
+				EB4867322B4E6B9600383023 /* AtomCountDownView.swift */,
 			);
 			path = AtomCaseStudies;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				EB132B422AE8AD0B002CC1DF /* HookLifecycleView.swift in Sources */,
 				90ACBBB42A4B4EE10041D7E2 /* TCATodoView.swift in Sources */,
 				87DF96E02A39904F0006B774 /* CaseStudiesApp.swift in Sources */,
+				EB4867332B4E6B9600383023 /* AtomCountDownView.swift in Sources */,
 				EB4BAB8D2B4697A000573741 /* AtomLoadMoreView.swift in Sources */,
 				EBDCE14F2AF0E599008AF97D /* HookUseAsyncView.swift in Sources */,
 				876C21B52A4023A600B980DA /* TCACaseStudiesView.swift in Sources */,

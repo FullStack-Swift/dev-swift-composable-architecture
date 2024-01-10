@@ -55,7 +55,7 @@ private var testNoContent: Bool = true
 @MainActor
 fileprivate let loadMoreAtom = MObservableObjectAtom(id: sourceId()) { context in
   LoadMoreObservableAtom<Todo>(firstPage: 1) { page in
-    try? await Task.sleep(seconds: 1)
+    try? await Task.sleep(seconds: 2)
     var todos = IdentifiedArrayOf<Todo>.mock.toArray()
     if testNoContent {
       todos = []
@@ -109,7 +109,11 @@ struct AtomLoadMoreView: View {
                   }
               }
             }
-            .navigationTitle("Todos-" + todos.count.description + " isLoading: " + (loadMore.isLoading).description)
+            .navigationBarItems(leading: EmptyView(), trailing: refreshView)
+            .navigationTitle(
+              loadMore.isRefresh ? "is Refreshing" : "Todos-" + todos.count.description + " isLoading: " + (loadMore.isLoading).description
+            )
+            .navigationBarTitleDisplayMode(.inline)
             .listStyle(.grouped)
             .refreshable {
               refresh()
@@ -120,6 +124,12 @@ struct AtomLoadMoreView: View {
     }
     .onFirstAppear {
       refresh()
+    }
+  }
+  
+  private var refreshView: some View {
+    If(loadMore.isRefresh) {
+      ProgressView()
     }
   }
   

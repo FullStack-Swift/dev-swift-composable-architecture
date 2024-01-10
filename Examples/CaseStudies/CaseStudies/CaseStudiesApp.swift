@@ -10,6 +10,9 @@ struct CaseStudiesApp: App {
       AtomRoot {
         HookRoot {
           ContentView()
+            .onFirstAppear {
+              log.debug("App Already")
+            }
         }
       }
       .observe { snapShot in

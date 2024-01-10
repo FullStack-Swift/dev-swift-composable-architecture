@@ -28,7 +28,10 @@ public func useCountdown(
   
   useEffect(.preserved(by: isAutoCountdown)) {
     guard isAutoCountdown else { return nil }
-    let timer = Timer.scheduledTimer(withTimeInterval: withTimeInterval, repeats: true) { _ in
+    let timer = Timer.scheduledTimer(
+      withTimeInterval: withTimeInterval,
+      repeats: true
+    ) { _ in
       if count <= 0 {
         phase = .completion
         isAutoCountdown = false
@@ -92,7 +95,10 @@ public struct HCountdown {
   
   public var withTimeInterval: Double
   
-  public init(wrappedValue: Double, withTimeInterval: Double) {
+  public init(
+    wrappedValue: Double,
+    withTimeInterval: Double
+  ) {
     self.wrappedValue = wrappedValue
     self.withTimeInterval = withTimeInterval
   }
@@ -102,6 +108,9 @@ public struct HCountdown {
   }
   
   public var value: HookCountdownState {
-    useCountdown(countdown: wrappedValue, withTimeInterval: withTimeInterval)
+    useCountdown(
+      countdown: wrappedValue,
+      withTimeInterval: withTimeInterval
+    )
   }
 }

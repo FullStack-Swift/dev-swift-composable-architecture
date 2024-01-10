@@ -16,16 +16,20 @@ import Combine
 public class LoadMoreObservableAtom<Model>: ObservableObject {
   
   public typealias Success = PagedResponse<Model>
-
+  
+  /// The status represent for call async await.
   @Published
   public private(set) var isLoading: Bool  = false
   
+  /// The status represent for call refresh.
   @Published
   public private(set) var isRefresh: Bool  = false
   
+  /// The status represent for loadMore.
   @Published
   public private(set) var loadPhase: AsyncPhase<PagedResponse<Model>, Error> = .pending
   
+  /// The function represent for load more, it's a closure.
   private let loader: ((Int) async throws -> PagedResponse<Model>)
   
   /// The firstPage you used to load
@@ -93,7 +97,10 @@ public class LoadMoreObservableAtom<Model>: ObservableObject {
     isRefresh = true
     
     /// perform async
-    let pageResponse = try await withThrowingTaskGroup(of: PagedResponse<Model>.self, returning: PagedResponse<Model>.self) { taskGroup in
+    let pageResponse = try await withThrowingTaskGroup(
+      of: PagedResponse<Model>.self,
+      returning: PagedResponse<Model>.self
+    ) { taskGroup in
       for page in firstPage...currentPage {
         taskGroup.addTask {
           await AsyncPhase {

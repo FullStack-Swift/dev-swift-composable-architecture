@@ -321,11 +321,11 @@ struct AtomCaseStudiesView: View {
           AtomLoadMoreView()
         }
         
-        NavigationLink("PropertyWrapper") {
-          AtomLocalViewContextView()
+        NavigationLink("Atom CountDown") {
+          AtomCountDownView()
         }
         
-        NavigationLink("PropertyWrapper") {
+        NavigationLink("Atom Local View Context") {
           AtomLocalViewContextView()
         }
       }

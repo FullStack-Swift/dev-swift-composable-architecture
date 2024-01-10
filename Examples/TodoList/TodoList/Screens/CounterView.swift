@@ -8,7 +8,7 @@ struct CounterReducer {
   struct State: BaseIDState {
     var count: Int = 0
     var id: UUID = UUID()
-    @BindingState var text: String = "viewStoreText"
+    @BindingState var text: String = ""
   }
   
   // MARK: Action
