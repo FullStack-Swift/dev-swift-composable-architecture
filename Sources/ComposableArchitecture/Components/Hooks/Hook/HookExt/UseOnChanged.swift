@@ -6,12 +6,12 @@ import Foundation
 ///`useOnChanged` can also be used to interpolate Whenever useValueChanged is called with a different value, calls valueChange. The value returned by useValueChanged is the latest returned value of valueChange.
 
 @discardableResult
-/// ``useOnChanged``
+/// `onChanged`
 /// - Parameters:
 ///   - value: value to see onChange, it's is an object extends from Equatable
 ///   - skip: skip number of value change
 ///   - effect: a call back perform onChange like View in SwiftUI. It's will be (oldValue, newValue)
-/// - Returns: return latest value.
+/// - Returns: latest valuechanged .
 public func useOnChanged<Node: Equatable>(
   _ value: Node,
   skip: Int,
@@ -34,7 +34,14 @@ public func useOnChanged<Node: Equatable>(
   return cache ?? value
 }
 
+
 @discardableResult
+/// `onChanged`
+/// - Parameters:
+///   - value: value tracking onChange.
+///   - skip: is number of time skip value change.
+///   - effect: effect onChange value.
+/// - Returns: lastest value changed.
 public func useOnChanged<Node: Equatable>(
   _ value: Node,
   skip: Int,
@@ -47,6 +54,12 @@ public func useOnChanged<Node: Equatable>(
 
 // MARK: SkipFirst like ``onChange`` in SwiftUI
 @discardableResult
+/// onChange
+/// - Parameters:
+///   - value: value tracking.
+///   - skipFirst: is condition to skip first value change.
+///   - effect: effect fire 2 value, `oldValue` and` newValue`.
+/// - Returns: lastest value changed.
 public func useOnChanged<Node: Equatable>(
   _ value: Node,
   skipFirst: Bool = true,
@@ -55,7 +68,14 @@ public func useOnChanged<Node: Equatable>(
   useOnChanged(value, skip: 1, effect: effect)
 }
 
+
 @discardableResult
+/// `onChange`
+/// - Parameters:
+///   - value: value for tracking.
+///   - skipFirst: is condiion to skip first value change.
+///   - effect: effect onChange value.
+/// - Returns: lasted value changed.
 public func useOnChanged<Node: Equatable>(
   _ value: Node,
   skipFirst: Bool = true,

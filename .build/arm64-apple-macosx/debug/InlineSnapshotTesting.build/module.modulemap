@@ -1,4 +1,0 @@
-module InlineSnapshotTesting {
-    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/InlineSnapshotTesting.build/InlineSnapshotTesting-Swift.h"
-    requires objc
-}

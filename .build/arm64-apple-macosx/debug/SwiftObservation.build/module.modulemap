@@ -1,4 +1,0 @@
-module SwiftObservation {
-    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftObservation.build/SwiftObservation-Swift.h"
-    requires objc
-}

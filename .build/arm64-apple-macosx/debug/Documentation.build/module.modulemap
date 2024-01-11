@@ -1,4 +1,0 @@
-module Documentation {
-    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Documentation.build/Documentation-Swift.h"
-    requires objc
-}

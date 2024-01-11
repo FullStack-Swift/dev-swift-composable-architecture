@@ -1,4 +1,0 @@
-module Clocks {
-    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Clocks.build/Clocks-Swift.h"
-    requires objc
-}

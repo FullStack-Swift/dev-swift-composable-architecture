@@ -1,4 +1,0 @@
-module UIComponents {
-    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/UIComponents-Swift.h"
-    requires objc
-}

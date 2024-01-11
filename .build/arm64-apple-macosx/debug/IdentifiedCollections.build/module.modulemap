@@ -1,4 +1,0 @@
-module IdentifiedCollections {
-    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedCollections-Swift.h"
-    requires objc
-}

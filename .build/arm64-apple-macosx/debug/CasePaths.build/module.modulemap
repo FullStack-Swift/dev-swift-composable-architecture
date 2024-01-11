@@ -1,4 +1,0 @@
-module CasePaths {
-    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/CasePaths.build/CasePaths-Swift.h"
-    requires objc
-}

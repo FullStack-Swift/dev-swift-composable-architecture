@@ -25,7 +25,7 @@ public class CountDownAtom: ObservableObject {
   private var timer: Timer?
   
   @Published
-  public var phase = HookCountdownState.CountdownPhase.pending
+  public var phase: CountdownPhase = .pending
   
   public var value: Double {
     count

@@ -1,4 +1,0 @@
-module SwiftUINavigation {
-    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigation.build/SwiftUINavigation-Swift.h"
-    requires objc
-}

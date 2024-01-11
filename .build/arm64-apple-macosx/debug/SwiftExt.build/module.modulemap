@@ -1,4 +1,0 @@
-module SwiftExt {
-    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftExt-Swift.h"
-    requires objc
-}
