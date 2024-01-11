@@ -1,0 +1,4 @@
+module AsyncAlgorithms {
+    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncAlgorithms-Swift.h"
+    requires objc
+}

@@ -1,0 +1,4 @@
+module CustomDump {
+    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/CustomDump.build/CustomDump-Swift.h"
+    requires objc
+}

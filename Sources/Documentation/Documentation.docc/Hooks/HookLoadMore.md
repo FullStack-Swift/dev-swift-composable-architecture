@@ -25,7 +25,7 @@ The hook function to load more items with Array or IdentifiedArrayOf.
         let pagedResponse: PagedIdentifiedArray<Todo> = PagedIdentifiedArray(page: page, totalPages: pageModel.metadata.totalPages, results: pageModel.items.toIdentifiedArray())
         return pagedResponse
       }
-      ```
+```
 ### The example for using load more items with IdentifiedArrayOf.
 
 ```swift

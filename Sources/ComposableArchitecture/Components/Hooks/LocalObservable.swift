@@ -4,126 +4,169 @@ import SwiftUI
 import SwiftExt
 
 // MARK: LocalObsrvable
-/// LocalObservable like HookObservable, button it support multi hook state, with this, you can using hook in ForEach, Condition or ``do\catch`` controlflow. this is target of this object.
+/// LocalObservable like ``HookObservable``, button it support multi hook state, with this, you can using hook in ``ForEach``, Condition or ``do\catch`` controlflow. this is target of this object.
 /// Do you have any  idea for this.
-
-open class LocalObservable: ObservableObject {
-  internal private(set) static weak var current: LocalObservable?
+///
+/// Happy coding:
+///
+/// A class that manages list of states of hooks used inside `LocalObsrvable.scoped(environment:_)`.
+public final class LocalObsrvable: ObservableObject {
+  internal private(set) static weak var current: LocalObsrvable?
   
   /// A publisher that emits before the object has changed.
   public private(set) lazy var objectWillChange = ObservableObjectPublisher()
   
-  private var records = SwiftExt.LinkedList<HookRecordProtocol>()
+  private var records = LinkedList<HookRecordProtocol>()
   private var scopedState: ScopedHookState?
   
-  /// Creates a new `LocalObservable`.
+  /// Creates a new `HookObservable`.
   public init() {}
   
   deinit {
     disposeAll()
   }
   
-  /// Disposes all state that already manaed with this instance.
+  /// Disposes all hooks that already managed with this instance.
   public func disposeAll() {
     for record in records.reversed() {
-      record.dispose()
+      record.element.dispose()
     }
-    records = SwiftExt.LinkedList()
+    
+    records = LinkedList()
   }
   
-//  public func use<H: Hook>(_ hook: H) -> H.State {
-//    assertMainThread()
-//    
-//    guard let scopedState = scopedState else {
-//      fatalErrorHooksRules()
-//    }
-//    
-//    func makeCoordinator(state: H.State) -> HookCoordinator<H> {
-//      HookCoordinator(
-//        state: state,
-//        environment: scopedState.environment,
-//        updateView: updateView
-//      )
-//    }
-//    
-//    func updateView() {
-//      Task { @MainActor [weak self] in
-//        self?.objectWillChange.send()
-//      }
-//    }
-//    
-//    func appendNew() -> H.Value {
-//      let state = hook.makeState()
-//      let coordinator = makeCoordinator(state: state)
-//      let record = HookRecord(hook: hook, coordinator: coordinator)
-//      
-//      scopedState.currentRecord = records.append(record)
-//      
-//      if hook.shouldDeferredUpdate {
-//        scopedState.deferredUpdateRecords.append(record)
-//      }
-//      else {
-//        hook.updateState(coordinator: coordinator)
-//      }
-//      
-//      return hook.value(coordinator: coordinator)
-//    }
-//    
-//    defer {
-//      scopedState.currentRecord = scopedState.currentRecord?.next
-//    }
-//    
-//    guard let record = scopedState.currentRecord else {
-//      return appendNew()
-//    }
-//    
-//    if let state = record.state(of: H.self) {
-//      let coordinator = makeCoordinator(state: state)
-//      let newRecord = HookRecord(hook: hook, coordinator: coordinator)
-//      let oldRecord = record.swap(element: newRecord)
-//      
-//      if oldRecord.shouldUpdate(newHook: hook) {
-//        if hook.shouldDeferredUpdate {
-//          scopedState.deferredUpdateRecords.append(newRecord)
-//        } else {
-//          hook.updateState(coordinator: coordinator)
-//        }
-//      }
-//      return hook.value(coordinator: coordinator)
-//    } else {
-//      scopedState.assertRecordingFailure(hook: hook, record: record.element)
-//      // Fallback process for wrong usage.
-//      sweepRemainingRecords()
-//      return appendNew()
-//    }
-//
-//  }
+  /// Returns given hooks value with managing its state and update it if needed.
+  /// - Parameter hook: A hook to be used.
+  /// - Returns: A value that provided from the given hook.
+  public func use<H: Hook>(_ hook: H) -> H.Value {
+    assertMainThread()
+    
+    guard let scopedState = scopedState else {
+      fatalErrorHooksRules()
+    }
+    
+    func makeCoordinator(state: H.State) -> HookCoordinator<H> {
+      HookCoordinator(
+        state: state,
+        environment: scopedState.environment,
+        updateView: updateView
+      )
+    }
+    
+    func updateView() {
+      Task { @MainActor [weak self] in
+        self?.objectWillChange.send()
+      }
+    }
+    
+    func appendNew() -> H.Value {
+      let state = hook.makeState()
+      let coordinator = makeCoordinator(state: state)
+      let record = HookRecord(hook: hook, coordinator: coordinator)
+      
+      scopedState.currentRecord = records.append(record)
+      
+      if hook.shouldDeferredUpdate {
+        scopedState.deferredUpdateRecords.append(record)
+      }
+      else {
+        hook.updateState(coordinator: coordinator)
+      }
+      
+      return hook.value(coordinator: coordinator)
+    }
+    
+    defer {
+      scopedState.currentRecord = scopedState.currentRecord?.next
+    }
+    
+    guard let record = scopedState.currentRecord else {
+      return appendNew()
+    }
+    
+    if let state = record.element.state(of: H.self) {
+      let coordinator = makeCoordinator(state: state)
+      let newRecord = HookRecord(hook: hook, coordinator: coordinator)
+      let oldRecord = record.swap(element: newRecord)
+      
+      if oldRecord.shouldUpdate(newHook: hook) {
+        if hook.shouldDeferredUpdate {
+          scopedState.deferredUpdateRecords.append(newRecord)
+        } else {
+          hook.updateState(coordinator: coordinator)
+        }
+      }
+      return hook.value(coordinator: coordinator)
+    } else {
+      scopedState.assertRecordingFailure(hook: hook, record: record.element)
+      // Fallback process for wrong usage.
+      sweepRemainingRecords()
+      return appendNew()
+    }
+  }
   
-  @discardableResult
+  /// Executes the given `body` function that needs `HookObservable` instance with managing hooks state.
+  /// - Parameters:
+  ///   - environment: A environment values that can be used for hooks used inside the `body`.
+  ///   - body: A function that needs `HookObservable` and is executed inside.
+  /// - Throws: Rethrows an error if the given function throws.
+  /// - Returns: A result value that the given `body` function returns.
   public func scoped<Result>(
     environment: EnvironmentValues,
     _ body: () throws -> Result
   ) rethrows -> Result {
+    
+    assertMainThread()
+    
+    let previous = Self.current
+    
+    Self.current = self
+    
+    let scopedState = ScopedHookState(
+      environment: environment,
+      currentRecord: records.first
+    )
+    
+    self.scopedState = scopedState
+    
     let value = try body()
+    
+    scopedState.deferredUpdate()
+    scopedState.assertConsumedState()
+    sweepRemainingRecords()
+    
+    self.scopedState = nil
+    
+    Self.current = previous
+    
     return value
   }
-  
-  
-  func updateView() {
-    Task { @MainActor [weak self] in
-      self?.objectWillChange.send()
+}
+
+private extension LocalObsrvable {
+  func sweepRemainingRecords() {
+    guard let scopedState = scopedState, let currentRecord = scopedState.currentRecord else {
+      return
     }
+    
+    let remaining = records.dropSuffix(from: currentRecord)
+    
+    for record in remaining.reversed() {
+      record.element.dispose()
+    }
+    
+    scopedState.currentRecord = records.last
   }
 }
 
 private final class ScopedHookState {
   let environment: EnvironmentValues
-  var currentRecord: SwiftExt.LinkedList<HookRecordProtocol>.Node?
-  var deferredUpdateRecords = SwiftExt.LinkedList<HookRecordProtocol>()
+  var currentRecord: LinkedList<HookRecordProtocol>.Node?
+  var deferredUpdateRecords = LinkedList<HookRecordProtocol>()
   
   init(
     environment: EnvironmentValues,
-    currentRecord: SwiftExt.LinkedList<HookRecordProtocol>.Node?
+    currentRecord: LinkedList<HookRecordProtocol>.Node?
   ) {
     self.environment = environment
     self.currentRecord = currentRecord
@@ -131,7 +174,7 @@ private final class ScopedHookState {
   
   func deferredUpdate() {
     for record in deferredUpdateRecords {
-      record.updateState()
+      record.element.updateState()
     }
   }
   

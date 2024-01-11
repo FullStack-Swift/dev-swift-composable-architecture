@@ -1,0 +1,17 @@
+{
+  "": {
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Snippets.build/master.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-docc-plugin/Sources/Snippets/Model/Snippet.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Snippets.build/Model/Snippet.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Snippets.build/Model/Snippet.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Snippets.build/Model/Snippet~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Snippets.build/Model/Snippet.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-docc-plugin/Sources/Snippets/Parsing/SnippetParser.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Snippets.build/Parsing/SnippetParser.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Snippets.build/Parsing/SnippetParser.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Snippets.build/Parsing/SnippetParser~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Snippets.build/Parsing/SnippetParser.swiftdeps"
+  }
+}

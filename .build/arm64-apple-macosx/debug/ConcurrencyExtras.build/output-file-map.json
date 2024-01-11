@@ -1,0 +1,59 @@
+{
+  "": {
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/master.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/ActorIsolated.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/ActorIsolated.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/ActorIsolated.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/ActorIsolated~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/ActorIsolated.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/AsyncStream.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/AsyncStream.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/AsyncStream.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/AsyncStream~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/AsyncStream.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/AsyncThrowingStream.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/AsyncThrowingStream.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/AsyncThrowingStream.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/AsyncThrowingStream~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/AsyncThrowingStream.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/Internal/Locking.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Internal/Locking.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Internal/Locking.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Internal/Locking~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Internal/Locking.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/LockIsolated.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/LockIsolated.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/LockIsolated.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/LockIsolated~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/LockIsolated.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/MainSerialExecutor.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/MainSerialExecutor.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/MainSerialExecutor.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/MainSerialExecutor~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/MainSerialExecutor.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/Result.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Result.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Result.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Result~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Result.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/Task.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Task.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Task.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Task~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/Task.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/UncheckedSendable.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/UncheckedSendable.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/UncheckedSendable.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/UncheckedSendable~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ConcurrencyExtras.build/UncheckedSendable.swiftdeps"
+  }
+}

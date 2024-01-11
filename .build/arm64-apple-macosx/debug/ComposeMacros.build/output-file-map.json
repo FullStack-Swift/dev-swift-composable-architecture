@@ -1,0 +1,107 @@
+{
+  "": {
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/master.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/AddAsyncMacro.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AddAsyncMacro.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AddAsyncMacro.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AddAsyncMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AddAsyncMacro.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/AssociatedObjectMacro.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AssociatedObjectMacro.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AssociatedObjectMacro.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AssociatedObjectMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AssociatedObjectMacro.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/AttachedMacroDependencyKey.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroDependencyKey.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroDependencyKey.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroDependencyKey~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroDependencyKey.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/AttachedMacroEnvironmentKey.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroEnvironmentKey.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroEnvironmentKey.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroEnvironmentKey~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroEnvironmentKey.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/AttachedMacroStorageKey.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroStorageKey.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroStorageKey.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroStorageKey~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/AttachedMacroStorageKey.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/EnvironmentStorage.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/EnvironmentStorage.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/EnvironmentStorage.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/EnvironmentStorage~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/EnvironmentStorage.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/Ext/CustomError.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Ext/CustomError.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Ext/CustomError.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Ext/CustomError~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Ext/CustomError.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/Ext/MacrosExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Ext/MacrosExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Ext/MacrosExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Ext/MacrosExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Ext/MacrosExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/Extensions.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Extensions.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Extensions.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Extensions~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Extensions.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/MObservationMacro.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/MObservationMacro.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/MObservationMacro.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/MObservationMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/MObservationMacro.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/Plugin.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Plugin.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Plugin.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Plugin~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/Plugin.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/RenameMacro.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/RenameMacro.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/RenameMacro.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/RenameMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/RenameMacro.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/SingletonMacro.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/SingletonMacro.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/SingletonMacro.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/SingletonMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/SingletonMacro.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/StringifyMacro.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/StringifyMacro.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/StringifyMacro.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/StringifyMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/StringifyMacro.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/TodoMacro.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/TodoMacro.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/TodoMacro.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/TodoMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/TodoMacro.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/URLMacro.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/URLMacro.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/URLMacro.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/URLMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/URLMacro.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposeMacros/WarningMacro.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/WarningMacro.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/WarningMacro.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/WarningMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposeMacros.build/WarningMacro.swiftdeps"
+  }
+}

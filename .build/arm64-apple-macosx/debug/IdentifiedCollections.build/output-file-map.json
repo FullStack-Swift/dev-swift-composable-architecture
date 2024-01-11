@@ -1,0 +1,107 @@
+{
+  "": {
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/master.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/Identified/Identified.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/Identified/Identified.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/Identified/Identified.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/Identified/Identified~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/Identified/Identified.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+Codable.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Codable.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Codable.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Codable~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Codable.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+Collection.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Collection.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Collection.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Collection~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Collection.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+CollectionAlgorithms.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CollectionAlgorithms.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CollectionAlgorithms.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CollectionAlgorithms~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CollectionAlgorithms.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+CustomDebugStringConvertible.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomDebugStringConvertible.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomDebugStringConvertible.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomDebugStringConvertible~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomDebugStringConvertible.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+CustomReflectable.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomReflectable.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomReflectable.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomReflectable~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomReflectable.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+CustomStringConvertible.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomStringConvertible.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomStringConvertible.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomStringConvertible~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+CustomStringConvertible.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+Equatable.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Equatable.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Equatable.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Equatable~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Equatable.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+ExpressibleByArrayLiteral.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+ExpressibleByArrayLiteral.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+ExpressibleByArrayLiteral.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+ExpressibleByArrayLiteral~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+ExpressibleByArrayLiteral.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+Hashable.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Hashable.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Hashable.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Hashable~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Hashable.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+Initializers.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Initializers.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Initializers.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Initializers~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Initializers.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+Insertions.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Insertions.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Insertions.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Insertions~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Insertions.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+MutableCollection.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+MutableCollection.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+MutableCollection.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+MutableCollection~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+MutableCollection.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+RandomAccessCollection.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+RandomAccessCollection.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+RandomAccessCollection.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+RandomAccessCollection~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+RandomAccessCollection.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+RangeReplaceableCollection.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+RangeReplaceableCollection.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+RangeReplaceableCollection.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+RangeReplaceableCollection~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+RangeReplaceableCollection.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray+Sendable.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Sendable.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Sendable.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Sendable~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray+Sendable.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-identified-collections/Sources/IdentifiedCollections/IdentifiedArray/IdentifiedArray.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/IdentifiedCollections.build/IdentifiedArray/IdentifiedArray.swiftdeps"
+  }
+}

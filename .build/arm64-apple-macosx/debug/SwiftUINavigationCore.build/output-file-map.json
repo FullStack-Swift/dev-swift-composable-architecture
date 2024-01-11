@@ -1,0 +1,53 @@
+{
+  "": {
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/master.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swiftui-navigation/Sources/SwiftUINavigationCore/AlertState.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/AlertState.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/AlertState.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/AlertState~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/AlertState.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swiftui-navigation/Sources/SwiftUINavigationCore/Bind.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Bind.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Bind.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Bind~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Bind.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swiftui-navigation/Sources/SwiftUINavigationCore/ButtonState.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ButtonState.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ButtonState.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ButtonState~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ButtonState.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swiftui-navigation/Sources/SwiftUINavigationCore/ButtonStateBuilder.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ButtonStateBuilder.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ButtonStateBuilder.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ButtonStateBuilder~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ButtonStateBuilder.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swiftui-navigation/Sources/SwiftUINavigationCore/ConfirmationDialogState.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ConfirmationDialogState.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ConfirmationDialogState.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ConfirmationDialogState~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/ConfirmationDialogState.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swiftui-navigation/Sources/SwiftUINavigationCore/Internal/Deprecations.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Internal/Deprecations.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Internal/Deprecations.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Internal/Deprecations~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Internal/Deprecations.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swiftui-navigation/Sources/SwiftUINavigationCore/Internal/RuntimeWarnings.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Internal/RuntimeWarnings.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Internal/RuntimeWarnings.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Internal/RuntimeWarnings~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/Internal/RuntimeWarnings.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swiftui-navigation/Sources/SwiftUINavigationCore/TextState.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/TextState.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/TextState.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/TextState~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftUINavigationCore.build/TextState.swiftdeps"
+  }
+}

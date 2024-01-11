@@ -1,0 +1,299 @@
+{
+  "": {
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/master.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncAdjacentPairsSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncAdjacentPairsSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncAdjacentPairsSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncAdjacentPairsSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncAdjacentPairsSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncBufferedByteIterator.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncBufferedByteIterator.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncBufferedByteIterator.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncBufferedByteIterator~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncBufferedByteIterator.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncChain2Sequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChain2Sequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChain2Sequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChain2Sequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChain2Sequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncChain3Sequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChain3Sequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChain3Sequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChain3Sequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChain3Sequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncChunkedByGroupSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunkedByGroupSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunkedByGroupSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunkedByGroupSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunkedByGroupSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncChunkedOnProjectionSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunkedOnProjectionSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunkedOnProjectionSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunkedOnProjectionSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunkedOnProjectionSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncChunksOfCountOrSignalSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunksOfCountOrSignalSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunksOfCountOrSignalSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunksOfCountOrSignalSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunksOfCountOrSignalSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncChunksOfCountSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunksOfCountSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunksOfCountSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunksOfCountSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncChunksOfCountSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncCompactedSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncCompactedSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncCompactedSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncCompactedSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncCompactedSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncExclusiveReductionsSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncExclusiveReductionsSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncExclusiveReductionsSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncExclusiveReductionsSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncExclusiveReductionsSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncInclusiveReductionsSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncInclusiveReductionsSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncInclusiveReductionsSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncInclusiveReductionsSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncInclusiveReductionsSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncJoinedBySeparatorSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncJoinedBySeparatorSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncJoinedBySeparatorSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncJoinedBySeparatorSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncJoinedBySeparatorSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncJoinedSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncJoinedSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncJoinedSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncJoinedSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncJoinedSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncRemoveDuplicatesSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncRemoveDuplicatesSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncRemoveDuplicatesSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncRemoveDuplicatesSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncRemoveDuplicatesSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncSyncSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncSyncSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncSyncSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncSyncSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncSyncSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncThrottleSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrottleSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrottleSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrottleSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrottleSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncThrowingExclusiveReductionsSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrowingExclusiveReductionsSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrowingExclusiveReductionsSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrowingExclusiveReductionsSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrowingExclusiveReductionsSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncThrowingInclusiveReductionsSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrowingInclusiveReductionsSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrowingInclusiveReductionsSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrowingInclusiveReductionsSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncThrowingInclusiveReductionsSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/AsyncTimerSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncTimerSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncTimerSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncTimerSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/AsyncTimerSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Buffer/AsyncBufferSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/AsyncBufferSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/AsyncBufferSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/AsyncBufferSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/AsyncBufferSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Buffer/BoundedBufferStateMachine.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/BoundedBufferStateMachine.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/BoundedBufferStateMachine.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/BoundedBufferStateMachine~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/BoundedBufferStateMachine.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Buffer/BoundedBufferStorage.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/BoundedBufferStorage.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/BoundedBufferStorage.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/BoundedBufferStorage~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/BoundedBufferStorage.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Buffer/UnboundedBufferStateMachine.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/UnboundedBufferStateMachine.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/UnboundedBufferStateMachine.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/UnboundedBufferStateMachine~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/UnboundedBufferStateMachine.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Buffer/UnboundedBufferStorage.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/UnboundedBufferStorage.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/UnboundedBufferStorage.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/UnboundedBufferStorage~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Buffer/UnboundedBufferStorage.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Channels/AsyncChannel.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/AsyncChannel.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/AsyncChannel.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/AsyncChannel~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/AsyncChannel.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Channels/AsyncThrowingChannel.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/AsyncThrowingChannel.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/AsyncThrowingChannel.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/AsyncThrowingChannel~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/AsyncThrowingChannel.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Channels/ChannelStateMachine.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/ChannelStateMachine.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/ChannelStateMachine.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/ChannelStateMachine~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/ChannelStateMachine.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Channels/ChannelStorage.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/ChannelStorage.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/ChannelStorage.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/ChannelStorage~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Channels/ChannelStorage.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/CombineLatest/AsyncCombineLatest2Sequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/AsyncCombineLatest2Sequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/AsyncCombineLatest2Sequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/AsyncCombineLatest2Sequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/AsyncCombineLatest2Sequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/CombineLatest/AsyncCombineLatest3Sequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/AsyncCombineLatest3Sequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/AsyncCombineLatest3Sequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/AsyncCombineLatest3Sequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/AsyncCombineLatest3Sequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/CombineLatest/CombineLatestStateMachine.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/CombineLatestStateMachine.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/CombineLatestStateMachine.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/CombineLatestStateMachine~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/CombineLatestStateMachine.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/CombineLatest/CombineLatestStorage.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/CombineLatestStorage.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/CombineLatestStorage.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/CombineLatestStorage~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/CombineLatest/CombineLatestStorage.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Debounce/AsyncDebounceSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/AsyncDebounceSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/AsyncDebounceSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/AsyncDebounceSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/AsyncDebounceSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Debounce/DebounceStateMachine.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/DebounceStateMachine.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/DebounceStateMachine.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/DebounceStateMachine~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/DebounceStateMachine.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Debounce/DebounceStorage.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/DebounceStorage.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/DebounceStorage.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/DebounceStorage~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Debounce/DebounceStorage.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Dictionary.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Dictionary.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Dictionary.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Dictionary~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Dictionary.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Interspersed/AsyncInterspersedSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Interspersed/AsyncInterspersedSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Interspersed/AsyncInterspersedSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Interspersed/AsyncInterspersedSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Interspersed/AsyncInterspersedSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Locking.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Locking.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Locking.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Locking~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Locking.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Merge/AsyncMerge2Sequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/AsyncMerge2Sequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/AsyncMerge2Sequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/AsyncMerge2Sequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/AsyncMerge2Sequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Merge/AsyncMerge3Sequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/AsyncMerge3Sequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/AsyncMerge3Sequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/AsyncMerge3Sequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/AsyncMerge3Sequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Merge/MergeStateMachine.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/MergeStateMachine.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/MergeStateMachine.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/MergeStateMachine~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/MergeStateMachine.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Merge/MergeStorage.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/MergeStorage.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/MergeStorage.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/MergeStorage~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Merge/MergeStorage.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/RangeReplaceableCollection.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/RangeReplaceableCollection.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/RangeReplaceableCollection.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/RangeReplaceableCollection~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/RangeReplaceableCollection.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Rethrow.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Rethrow.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Rethrow.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Rethrow~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Rethrow.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/SetAlgebra.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/SetAlgebra.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/SetAlgebra.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/SetAlgebra~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/SetAlgebra.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Zip/AsyncZip2Sequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/AsyncZip2Sequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/AsyncZip2Sequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/AsyncZip2Sequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/AsyncZip2Sequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Zip/AsyncZip3Sequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/AsyncZip3Sequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/AsyncZip3Sequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/AsyncZip3Sequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/AsyncZip3Sequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Zip/ZipStateMachine.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/ZipStateMachine.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/ZipStateMachine.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/ZipStateMachine~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/ZipStateMachine.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/swift-async-algorithms/Sources/AsyncAlgorithms/Zip/ZipStorage.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/ZipStorage.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/ZipStorage.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/ZipStorage~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/AsyncAlgorithms.build/Zip/ZipStorage.swiftdeps"
+  }
+}

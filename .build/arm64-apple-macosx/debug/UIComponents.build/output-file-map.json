@@ -1,0 +1,53 @@
+{
+  "": {
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/master.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/UIComponents/AnyView.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/AnyView.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/AnyView.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/AnyView~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/AnyView.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/UIComponents/PhaseView/AsyncPhaseView.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/AsyncPhaseView.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/AsyncPhaseView.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/AsyncPhaseView~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/AsyncPhaseView.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/UIComponents/PhaseView/Suspense.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/Suspense.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/Suspense.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/Suspense~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/Suspense.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/UIComponents/PhaseView/TaskAsyncPhaseView.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/TaskAsyncPhaseView.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/TaskAsyncPhaseView.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/TaskAsyncPhaseView~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/TaskAsyncPhaseView.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/UIComponents/PhaseView/TaskSuspense.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/TaskSuspense.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/TaskSuspense.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/TaskSuspense~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/PhaseView/TaskSuspense.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/UIComponents/SwiftUIExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/SwiftUIExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/SwiftUIExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/SwiftUIExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/SwiftUIExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/UIComponents/ViewAdditions.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/ViewAdditions.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/ViewAdditions.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/ViewAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/ViewAdditions.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/UIComponents/ViewModifier.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/ViewModifier.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/ViewModifier.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/ViewModifier~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/UIComponents.build/ViewModifier.swiftdeps"
+  }
+}

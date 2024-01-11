@@ -1,0 +1,4 @@
+module SnapshotTesting {
+    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SnapshotTesting.build/SnapshotTesting-Swift.h"
+    requires objc
+}

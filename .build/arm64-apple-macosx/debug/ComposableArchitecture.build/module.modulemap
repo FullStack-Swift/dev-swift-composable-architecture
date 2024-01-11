@@ -1,0 +1,4 @@
+module ComposableArchitecture {
+    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposableArchitecture.build/ComposableArchitecture-Swift.h"
+    requires objc
+}

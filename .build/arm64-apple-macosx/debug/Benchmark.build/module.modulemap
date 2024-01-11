@@ -1,0 +1,4 @@
+module Benchmark {
+    header "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/Benchmark.build/Benchmark-Swift.h"
+    requires objc
+}

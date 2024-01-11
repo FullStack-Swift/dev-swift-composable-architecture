@@ -27,12 +27,15 @@ extension MView where Body: View {
   }
 }
 
+#if canImport(UIKit)
+import UIKit
 // MARK: View EndEdit
 public extension View {
    func resignFirstResponderDragGresture() -> some View {
     gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
   }
 }
+#endif
 
 // MARK: PlaceHolder for view
 public extension View {

@@ -1,0 +1,359 @@
+{
+  "": {
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/master.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/AnyAsyncSequence.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/AnyAsyncSequence.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/AnyAsyncSequence.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/AnyAsyncSequence~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/AnyAsyncSequence.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/AsyncExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/AsyncExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/AsyncExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/AsyncExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/AsyncExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/CombineExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/CombineExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/CombineExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/CombineExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/CombineExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataModel/AnyEquatable.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/AnyEquatable.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/AnyEquatable.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/AnyEquatable~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/AnyEquatable.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataModel/AnyError.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/AnyError.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/AnyError.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/AnyError~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/AnyError.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataModel/BaseModel.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/BaseModel.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/BaseModel.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/BaseModel~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/BaseModel.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataModel/BaseState.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/BaseState.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/BaseState.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/BaseState~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/BaseState.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataModel/Indirect.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Indirect.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Indirect.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Indirect~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Indirect.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataModel/Page.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Page.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Page.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Page~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Page.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataModel/Pair.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Pair.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Pair.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Pair~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Pair.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataModel/Proxy.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Proxy.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Proxy.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Proxy~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/Proxy.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataModel/RefObject.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/RefObject.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/RefObject.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/RefObject~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/RefObject.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataModel/SourceLocation.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/SourceLocation.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/SourceLocation.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/SourceLocation~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/SourceLocation.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataModel/UniqueKey.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/UniqueKey.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/UniqueKey.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/UniqueKey~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataModel/UniqueKey.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataStructures/LinkedList.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/LinkedList.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/LinkedList.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/LinkedList~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/LinkedList.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataStructures/Queue.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/Queue.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/Queue.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/Queue~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/Queue.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataStructures/Stack.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/Stack.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/Stack.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/Stack~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/Stack.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/DataStructures/TreeNode.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/TreeNode.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/TreeNode.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/TreeNode~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/DataStructures/TreeNode.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/FuncExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/FuncExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/FuncExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/FuncExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/FuncExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/IdentifiedArrayExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/IdentifiedArrayExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/IdentifiedArrayExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/IdentifiedArrayExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/IdentifiedArrayExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Json/ExtensionJson+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/ExtensionJson+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/ExtensionJson+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/ExtensionJson+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/ExtensionJson+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Json/Json.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/Json.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/Json.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/Json~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/Json.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Json/JsonKey.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonKey.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonKey.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonKey~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonKey.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Json/JsonLiteral+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonLiteral+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonLiteral+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonLiteral+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonLiteral+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Json/JsonResultBuilder.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonResultBuilder.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonResultBuilder.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonResultBuilder~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/JsonResultBuilder.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Json/Type.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/Type.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/Type.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/Type~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/Type.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Json/extension+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/extension+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/extension+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/extension+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Json/extension+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/MutableCollectionExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/MutableCollectionExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/MutableCollectionExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/MutableCollectionExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/MutableCollectionExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/ResultExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/ResultExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/ResultExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/ResultExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/ResultExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/StringProtocolExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/StringProtocolExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/StringProtocolExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/StringProtocolExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/StringProtocolExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/SwiftBuilder/ArrayBuilder.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/ArrayBuilder.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/ArrayBuilder.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/ArrayBuilder~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/ArrayBuilder.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/SwiftBuilder/DictionaryBuilder.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/DictionaryBuilder.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/DictionaryBuilder.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/DictionaryBuilder~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/DictionaryBuilder.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/SwiftBuilder/SetBuilder.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/SetBuilder.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/SetBuilder.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/SetBuilder~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/SetBuilder.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/SwiftBuilder/StringBuilder.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/StringBuilder.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/StringBuilder.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/StringBuilder~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/StringBuilder.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/SwiftBuilder/TaskBuilder.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/TaskBuilder.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/TaskBuilder.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/TaskBuilder~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftBuilder/TaskBuilder.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/SwiftPhase/AsyncPhase.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftPhase/AsyncPhase.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftPhase/AsyncPhase.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftPhase/AsyncPhase~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftPhase/AsyncPhase.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/SwiftPhase/TaskAsyncPhase.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftPhase/TaskAsyncPhase.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftPhase/TaskAsyncPhase.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftPhase/TaskAsyncPhase~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/SwiftPhase/TaskAsyncPhase.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/TaskExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TaskExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TaskExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TaskExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TaskExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/TaskResult.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TaskResult.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TaskResult.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TaskResult~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TaskResult.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/TimeIntervalExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TimeIntervalExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TimeIntervalExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TimeIntervalExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/TimeIntervalExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Collection/Array+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Array+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Array+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Array+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Array+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Collection/Dictionary+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Dictionary+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Dictionary+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Dictionary+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Dictionary+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Collection/Set+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Set+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Set+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Set+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Collection/Set+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Fundamental/Bool+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Bool+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Bool+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Bool+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Bool+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Fundamental/Double+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Double+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Double+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Double+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Double+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Fundamental/Float+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Float+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Float+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Float+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Float+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Fundamental/Int+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Int+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Int+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Int+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Int+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Fundamental/NSNumber+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/NSNumber+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/NSNumber+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/NSNumber+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/NSNumber+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Fundamental/Optional+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Optional+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Optional+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Optional+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/Optional+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Fundamental/String+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/String+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/String+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/String+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/String+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Fundamental/URL+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/URL+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/URL+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/URL+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/URL+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Fundamental/UUID+.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/UUID+.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/UUID+.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/UUID+~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Fundamental/UUID+.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Important/ArrayExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/ArrayExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/ArrayExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/ArrayExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/ArrayExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Important/DataExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DataExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DataExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DataExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DataExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Important/DecodableExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DecodableExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DecodableExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DecodableExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DecodableExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Important/DictionaryExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DictionaryExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DictionaryExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DictionaryExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/DictionaryExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Important/EncodableExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/EncodableExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/EncodableExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/EncodableExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/EncodableExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Important/SetExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/SetExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/SetExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/SetExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/SetExt.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/SwiftExt/Transform/Important/StringExt.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/StringExt.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/StringExt.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/StringExt~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/SwiftExt.build/Transform/Important/StringExt.swiftdeps"
+  }
+}

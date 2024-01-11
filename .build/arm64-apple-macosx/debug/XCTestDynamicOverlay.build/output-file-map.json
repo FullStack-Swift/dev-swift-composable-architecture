@@ -1,0 +1,53 @@
+{
+  "": {
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/master.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Internal/DefaultInitializable.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/DefaultInitializable.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/DefaultInitializable.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/DefaultInitializable~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/DefaultInitializable.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Internal/Deprecations.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/Deprecations.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/Deprecations.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/Deprecations~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/Deprecations.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Internal/GeneratePlaceholder.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/GeneratePlaceholder.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/GeneratePlaceholder.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/GeneratePlaceholder~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/GeneratePlaceholder.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Internal/RuntimeWarnings.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/RuntimeWarnings.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/RuntimeWarnings.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/RuntimeWarnings~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/RuntimeWarnings.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Internal/XCTCurrentTestCase.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/XCTCurrentTestCase.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/XCTCurrentTestCase.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/XCTCurrentTestCase~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Internal/XCTCurrentTestCase.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Unimplemented.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Unimplemented.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Unimplemented.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Unimplemented~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/Unimplemented.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/XCTFail.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/XCTFail.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/XCTFail.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/XCTFail~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/XCTFail.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/XCTIsTesting.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/XCTIsTesting.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/XCTIsTesting.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/XCTIsTesting~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/XCTestDynamicOverlay.build/XCTIsTesting.swiftdeps"
+  }
+}

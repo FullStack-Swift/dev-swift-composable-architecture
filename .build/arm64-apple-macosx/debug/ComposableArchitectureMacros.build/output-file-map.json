@@ -1,0 +1,17 @@
+{
+  "": {
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposableArchitectureMacros.build/master.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposableArchitectureMacros/Plugins.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposableArchitectureMacros.build/Plugins.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposableArchitectureMacros.build/Plugins.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposableArchitectureMacros.build/Plugins~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposableArchitectureMacros.build/Plugins.swiftdeps"
+  },
+  "/Users/phongnd/Desktop/dev-swift-composable-architecture/Sources/ComposableArchitectureMacros/ReducerMacro.swift": {
+    "dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposableArchitectureMacros.build/ReducerMacro.d",
+    "object": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposableArchitectureMacros.build/ReducerMacro.swift.o",
+    "swiftmodule": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposableArchitectureMacros.build/ReducerMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/phongnd/Desktop/dev-swift-composable-architecture/.build/arm64-apple-macosx/debug/ComposableArchitectureMacros.build/ReducerMacro.swiftdeps"
+  }
+}

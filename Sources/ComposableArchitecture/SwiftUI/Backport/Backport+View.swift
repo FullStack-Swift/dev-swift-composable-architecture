@@ -198,7 +198,7 @@ extension Backport where Base: View {
     alignment: Alignment = .center,
     @ViewBuilder _ mask: () -> Mask
   ) -> some View where Mask : View {
-    if #available(iOS 15.0, *) {
+    if #available(iOS 15.0,macOS 12.0, *) {
       base.mask(alignment: alignment, mask)
     } else {
       // Fallback on earlier versions
