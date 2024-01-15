@@ -38,7 +38,7 @@ public class LoadMoreObservableAtom<Model>: ObservableObject {
   /// currentPage you loaded .
   private var currentPage: Int
   
-  /// The func ``init`` the `` LoadMoreObservable``
+  /// The function ``init`` the `` LoadMoreObservable``
   public init(
     firstPage: Int = 1,
     _ loader: @escaping( (Int) async throws -> PagedResponse<Model>)

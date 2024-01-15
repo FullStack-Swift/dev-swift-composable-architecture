@@ -1,6 +1,5 @@
 import Combine
 import SwiftUI
-
 ///
 ///   Countdown with ObservableObject, It's class for countdown using Timer.
 ///

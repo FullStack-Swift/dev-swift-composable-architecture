@@ -1,6 +1,8 @@
 import SwiftUI
 import SwiftExt
 
+/// ``TaskAsyncPhaseView`` lets you display an ``TaskAsyncPhase`` status in a `View`.
+
 public struct TaskAsyncPhaseView<
   Success,
   Pending: View,
@@ -8,10 +10,15 @@ public struct TaskAsyncPhaseView<
   FailureContent: View,
   SuccessContent: View
 >: View {
+  /// The TaskAsyncPhase represented.
   private let phase: TaskAsyncPhase<Success>
+  /// The view for pending status.
   private let pending: () -> Pending
+  /// The view for running status.
   private let running: () -> Running
+  /// The view for success status.
   private let content: (Success) -> SuccessContent
+  /// The view for failure status.
   private let failure: (Error) -> FailureContent
   
   public init(

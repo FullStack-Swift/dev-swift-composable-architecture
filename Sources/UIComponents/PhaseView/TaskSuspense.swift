@@ -1,6 +1,8 @@
 import SwiftUI
 import SwiftExt
 
+/// ``TaskSuspense`` lets you display an ``Task`` status in a `View`.
+
 public struct TaskSuspense<
   Success,
   Pending: View,
@@ -8,10 +10,15 @@ public struct TaskSuspense<
   SuccessContent: View,
   FailureContent: View
 >: View {
+  /// The Task represent for async await programming.
   private let task: Task<Success, Error>
+  /// The view for pending status
   private let pending: () -> Pending
+  /// The view for running status
   private let running: () -> Running
+  /// The view for success status
   private let content: (Success) -> SuccessContent
+  /// The view for failure status
   private let failure: (Error) -> FailureContent
   
   @StateObject

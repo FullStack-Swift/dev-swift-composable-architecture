@@ -26,12 +26,6 @@ public typealias _NavigationStack = NavigationStack
 
 public typealias _Destination = _NavigationReducer.Destination
 
-extension Equatable {
-  fileprivate func equals(_ any: some Any) -> Bool {
-    self == any as? Self
-  }
-}
-
 struct _NavigationDependencyKey: DependencyKey {
   static var liveValue = Store<_NavigationReducer.State, _NavigationReducer.Action>(initialState: .init()) {
     _NavigationReducer()
@@ -107,7 +101,7 @@ public struct _NavigationReducer: Reducer {
   /// Destination
   public struct Destination: Identifiable, Equatable, Hashable {
     public static func == (lhs: _NavigationReducer.Destination, rhs: _NavigationReducer.Destination) -> Bool {
-      return lhs.id == rhs.id && ((lhs.state?.equals(rhs.state)) != nil)
+      return lhs.id == rhs.id && areEqual(lhs.state as Any, rhs.state as Any)
     }
     
     
