@@ -5,7 +5,8 @@
 ///
 ///
 // MARK: Make ValueAtom
-public struct MValueAtom<Node>: ValueAtom {
+@ValueAtom
+public struct MValueAtom<Node> {
   
   public typealias Value = Node
   

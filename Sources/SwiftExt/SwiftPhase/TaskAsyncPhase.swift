@@ -319,3 +319,7 @@ extension AsyncPhase {
     }
   }
 }
+
+import Foundation.NSData
+
+public typealias TaskAsyncData = TaskAsyncPhase<Data>

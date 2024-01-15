@@ -1,5 +1,6 @@
 // MARK: Make ThrowingTaskAtom
-public struct MThrowingTaskAtom<Node>: ThrowingTaskAtom {
+@ThrowingTaskAtom
+public struct MThrowingTaskAtom<Node> {
   
   public typealias Value = Node
   

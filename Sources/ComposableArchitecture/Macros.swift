@@ -157,6 +157,45 @@ public macro Reducer() =
 #externalMacro(
   module: "ComposableArchitectureMacros", type: "ReducerMacro"
 )
+
+// MARK: Atom Macro
+
+/// ``ValueAtom``
+@attached(memberAttribute)
+@attached(extension, conformances: ValueAtom)
+public macro ValueAtom() = #externalMacro(module: "ComposableArchitectureMacros", type: "ValueAtomMacro")
+
+
+/// ``StateAtom``
+@attached(memberAttribute)
+@attached(extension, conformances: StateAtom)
+public macro StateAtom() = #externalMacro(module: "ComposableArchitectureMacros", type: "StateAtomMacro")
+
+/// ``TaskAtom``
+@attached(memberAttribute)
+@attached(extension, conformances: TaskAtom)
+public macro TaskAtom() = #externalMacro(module: "ComposableArchitectureMacros", type: "TaskAtomMacro")
+
+/// ``ThrowingTaskAtom``
+@attached(memberAttribute)
+@attached(extension, conformances: ThrowingTaskAtom)
+public macro ThrowingTaskAtom() = #externalMacro(module: "ComposableArchitectureMacros", type: "ThrowingTaskAtomMacro")
+
+/// ``PublisherAtom``
+@attached(memberAttribute)
+@attached(extension, conformances: PublisherAtom)
+public macro PublisherAtom() = #externalMacro(module: "ComposableArchitectureMacros", type: "PublisherAtomMacro")
+
+/// ``ObservableObjectAtom``
+@attached(memberAttribute)
+@attached(extension, conformances: ObservableObjectAtom)
+public macro ObservableObjectAtom() = #externalMacro(module: "ComposableArchitectureMacros", type: "ObservableObjectAtomMacro")
+
+/// ``AsyncSequenceAtom``
+@attached(memberAttribute)
+@attached(extension, conformances: AsyncSequenceAtom)
+public macro AsyncSequenceAtom() = #externalMacro(module: "ComposableArchitectureMacros", type: "AsyncSequenceAtomMacro")
+
 #endif
 
 

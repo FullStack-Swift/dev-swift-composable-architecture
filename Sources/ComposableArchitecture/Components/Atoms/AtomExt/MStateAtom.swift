@@ -1,5 +1,6 @@
 // MARK: MStateAtom
-public struct MStateAtom<Node>: StateAtom {
+@StateAtom
+public struct MStateAtom<Node> {
   
   public typealias Value = Node
   

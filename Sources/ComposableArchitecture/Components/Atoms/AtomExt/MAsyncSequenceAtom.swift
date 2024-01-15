@@ -1,5 +1,6 @@
 // MARK: Make AsyncSequenceAtom
-public struct MAsyncSequenceAtom<Node: AsyncSequence>: AsyncSequenceAtom {
+@AsyncSequenceAtom
+public struct MAsyncSequenceAtom<Node: AsyncSequence> {
   
   public typealias Value = AsyncPhase<Node.Element, Error>
   

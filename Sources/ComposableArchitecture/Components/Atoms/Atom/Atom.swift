@@ -30,6 +30,9 @@ public protocol Atom: Identifiable {
   /// If this atom conforms to `Hashable`, it will adopt itself as the `key` by default.
   var key: Key { get }
   
+  /// A key that indicates that value will continue to retained even after thay are no logger watched to. see ``KeepAlive``
+  var keepAlive: Bool { get }
+  
   /// Creates the custom coordinator instance that you use to preserve arbitrary state of
   /// the atom.
   ///
@@ -62,6 +65,11 @@ public protocol Atom: Identifiable {
 }
 
 public extension Atom {
+  
+  var keepAlive: Bool {
+    false
+  }
+  
   func makeCoordinator() -> Coordinator where Coordinator == Void {
     ()
   }

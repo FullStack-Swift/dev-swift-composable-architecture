@@ -1,7 +1,8 @@
 import Combine
 
 // MARK: Make ObservableObjectAtom
-public struct MObservableObjectAtom<Node: ObservableObject>: ObservableObjectAtom {
+@ObservableObjectAtom
+public struct MObservableObjectAtom<Node: ObservableObject> {
   
   public typealias Value = Node
   

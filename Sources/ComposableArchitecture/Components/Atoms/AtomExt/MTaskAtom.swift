@@ -1,7 +1,8 @@
 ///  An Atom type that provides a nonthrowing ``Task`` f orm the given asynchorouns function.
 ///
 // MARK: Make TaskAtom
-public struct MTaskAtom<Node>: TaskAtom {
+@TaskAtom
+public struct MTaskAtom<Node> {
   
   public typealias Value = Node
   

@@ -319,3 +319,7 @@ extension AsyncPhase: Equatable where Success: Equatable, Failure: Equatable {}
 extension AsyncPhase: Hashable where Success: Hashable, Failure: Hashable {}
 
 extension AsyncPhase: Sendable where Success: Sendable {}
+
+import Foundation.NSData
+
+public typealias AsyncData = AsyncPhase<Data, any Error>
