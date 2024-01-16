@@ -1,13 +1,20 @@
-public final class LinkedList<T> {
+public final class LinkedList<T>: Sequence {
   
   /// Linked List's Node Class Declaration
   public class LinkedListNode {
-    var value: T
-    var next: LinkedListNode?
-    weak var previous: LinkedListNode?
+    public var value: T
+    public var next: LinkedListNode?
+    public weak var previous: LinkedListNode?
     
     public init(value: T) {
       self.value = value
+    }
+    
+    @discardableResult
+    public func swap(element newElement: Element) -> Element {
+      let oldElement = value
+      value = newElement
+      return oldElement
     }
   }
   
@@ -16,7 +23,7 @@ public final class LinkedList<T> {
   
   
   /// The head of the Linked List
-  private(set) var head: Node?
+  public private(set) var head: Node?
   
   /// Computed property to iterate through the linked list and return the last node in the list (if any)
   public var last: Node? {
@@ -216,6 +223,25 @@ public final class LinkedList<T> {
   @discardableResult public func remove(at index: Int) -> T {
     let node = self.node(at: index)
     return remove(node: node)
+  }
+  
+  public func dropSuffix(from node: Node) -> LinkedList {
+    let previousLast = last
+    
+    if let previous = node.previous {
+      previous.next = nil
+    }
+    else {
+      head = nil
+    }
+    
+//    last = node.previous
+    node.previous = nil
+    
+    let link: Self = []
+    link.head = node
+    
+    return link
   }
 }
 

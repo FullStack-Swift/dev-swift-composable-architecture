@@ -16,7 +16,7 @@ public final class LocalObsrvable: ObservableObject {
   /// A publisher that emits before the object has changed.
   public private(set) lazy var objectWillChange = ObservableObjectPublisher()
   
-  private var records = LinkedList<HookRecordProtocol>()
+  private var records = SwiftExt.LinkedList<HookRecordProtocol>()
   private var scopedState: ScopedHookState?
   
   /// Creates a new `HookObservable`.
@@ -29,10 +29,10 @@ public final class LocalObsrvable: ObservableObject {
   /// Disposes all hooks that already managed with this instance.
   public func disposeAll() {
     for record in records.reversed() {
-      record.element.dispose()
+      record.dispose()
     }
     
-    records = LinkedList()
+    records = SwiftExt.LinkedList()
   }
   
   /// Returns given hooks value with managing its state and update it if needed.
@@ -84,7 +84,7 @@ public final class LocalObsrvable: ObservableObject {
       return appendNew()
     }
     
-    if let state = record.element.state(of: H.self) {
+    if let state = record.value.state(of: H.self) {
       let coordinator = makeCoordinator(state: state)
       let newRecord = HookRecord(hook: hook, coordinator: coordinator)
       let oldRecord = record.swap(element: newRecord)
@@ -98,7 +98,7 @@ public final class LocalObsrvable: ObservableObject {
       }
       return hook.value(coordinator: coordinator)
     } else {
-      scopedState.assertRecordingFailure(hook: hook, record: record.element)
+      scopedState.assertRecordingFailure(hook: hook, record: record.value)
       // Fallback process for wrong usage.
       sweepRemainingRecords()
       return appendNew()
@@ -124,7 +124,7 @@ public final class LocalObsrvable: ObservableObject {
     
     let scopedState = ScopedHookState(
       environment: environment,
-      currentRecord: records.first
+      currentRecord: records.head
     )
     
     self.scopedState = scopedState
@@ -152,7 +152,7 @@ private extension LocalObsrvable {
     let remaining = records.dropSuffix(from: currentRecord)
     
     for record in remaining.reversed() {
-      record.element.dispose()
+      record.dispose()
     }
     
     scopedState.currentRecord = records.last
@@ -161,12 +161,12 @@ private extension LocalObsrvable {
 
 private final class ScopedHookState {
   let environment: EnvironmentValues
-  var currentRecord: LinkedList<HookRecordProtocol>.Node?
-  var deferredUpdateRecords = LinkedList<HookRecordProtocol>()
+  var currentRecord: SwiftExt.LinkedList<HookRecordProtocol>.Node?
+  var deferredUpdateRecords = SwiftExt.LinkedList<HookRecordProtocol>()
   
   init(
     environment: EnvironmentValues,
-    currentRecord: LinkedList<HookRecordProtocol>.Node?
+    currentRecord: SwiftExt.LinkedList<HookRecordProtocol>.Node?
   ) {
     self.environment = environment
     self.currentRecord = currentRecord
@@ -174,7 +174,7 @@ private final class ScopedHookState {
   
   func deferredUpdate() {
     for record in deferredUpdateRecords {
-      record.element.updateState()
+      record.updateState()
     }
   }
   
