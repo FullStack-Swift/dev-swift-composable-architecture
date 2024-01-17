@@ -20,8 +20,7 @@ public func useOnChanged<Node: Equatable>(
   @HRef
   var cache: Node? = nil /// The oldValue
   
-  @HRef
-  var count = useCount(.preserved(by: value))
+  let count = useCount(.preserved(by: value))
   
   useLayouEffectChanged(.preserved(by: value)) {
     if cache != value {

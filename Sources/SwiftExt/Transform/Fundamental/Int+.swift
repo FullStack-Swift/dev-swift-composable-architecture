@@ -29,3 +29,9 @@ public extension Int {
     self.toDouble()/1_000_000_000
   }
 }
+
+extension UInt64 {
+  public init(seconds: Double) {
+    self.init(seconds.nano)
+  }
+}

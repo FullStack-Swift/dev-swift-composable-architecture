@@ -195,3 +195,5 @@ extension HAnyPage: Sendable where T: Sendable {}
 extension HAnyPage: Encodable where T: Encodable {}
 
 extension HAnyPage: Decodable where T: Decodable {}
+
+extension HAnyPage: Hashable where T: Hashable {}

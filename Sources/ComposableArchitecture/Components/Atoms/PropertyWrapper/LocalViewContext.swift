@@ -34,9 +34,10 @@ public struct LocalViewContext: DynamicProperty {
         observers: observers,
         overrides: overrides
       ),
-      container: state.container.wrapper(location: location)) {
-        state.objectWillChange.send()
-      }
+      container: state.container.wrapper(location: location)
+    ) {
+      state.objectWillChange.send()
+    }
   }
   
   public var projectedValue: Self {
@@ -219,23 +220,4 @@ public struct AtomLocalViewContext: AtomWatchableContext {
   public func restore(_ snapshot: Snapshot) {
     _store.restore(snapshot)
   }
-}
-
-
-public class AtomScopeObservable: ObservableObject {
-  
-  internal private(set) static weak var current: AtomScopeObservable?
-  
-  /// A publisher that emits before the object has changed.
-  public private(set) lazy var objectWillChange = ObservableObjectPublisher()
-}
-
-public func scoped<Result>(
-  evironment: EnvironmentValues,
-  _ body: () throws -> Result
-) rethrows -> Result {
-  
-  let value = try body()
-  return value
-  
 }

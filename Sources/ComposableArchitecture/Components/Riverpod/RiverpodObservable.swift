@@ -4,20 +4,17 @@ import SwiftUI
 public class RiverpodObservable: BaseObservable {
 
   @Dependency(\.riverpodContext) var context
-
-  var watchProviders: IdentifiedArrayOf<AnyProvider> = .init()
   
-  override init() {
-    super.init()
-    context.observable.sink { [ weak self] in
-      self?.refresh()
-    }
+  private let location: SourceLocation
+  
+  init(location: SourceLocation) {
+    self.location = location
   }
   
-  deinit {
-    for item in watchProviders {
-      context.unsubscribe(id: id, for: item)
-    }
+  public init(fileID: String = #fileID, line: UInt = #line) {
+    location = SourceLocation(fileID: fileID, line: line)
+    super.init()
+    context.observable.sink(refresh)
   }
   
   @discardableResult

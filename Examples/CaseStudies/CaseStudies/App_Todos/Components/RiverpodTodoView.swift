@@ -117,7 +117,7 @@ private let filterProvier = FilterProvier()
 private let filterTodoProvider = FilterTodoProvider()
 
 // MARK: TodoStats
-private struct TodoStats: RiverpodView {
+private struct TodoStats: ConsumerWidget {
   func build(context: Context, ref: ViewRef) -> some View {
     let todos = ref.watch(todoProvider)
     let total = todos.count
@@ -150,7 +150,7 @@ private struct TodoStats: RiverpodView {
 }
 
 // MARK: TodoFilters
-private struct TodoFilters: RiverpodView {
+private struct TodoFilters: ConsumerWidget {
   
   func build(context: Context, ref: ViewRef) -> some View {
     let filter = ref.binding(filterProvier)
@@ -176,7 +176,7 @@ private struct TodoFilters: RiverpodView {
 }
 
 // MARK: TodoCreator
-private struct TodoCreator: RiverpodView {
+private struct TodoCreator: ConsumerWidget {
   
   @State private var text: String = ""
   
@@ -202,7 +202,7 @@ private struct TodoCreator: RiverpodView {
 }
 
 // MARK: TodoItem
-private struct TodoItem: RiverpodView {
+private struct TodoItem: ConsumerWidget {
   
   fileprivate let todoID: UUID
   
@@ -227,7 +227,7 @@ private struct TodoItem: RiverpodView {
 }
 
 // MARK: RiverpodTodoView
-struct RiverpodTodoView: RiverpodView {
+struct RiverpodTodoView: ConsumerWidget {
   
   func build(context: Context, ref: ViewRef) -> some View {
     let filterTodos = ref.watch(filterTodoProvider)

@@ -44,7 +44,7 @@ public struct HookScope<Content: View>: View {
 private struct HookScopeBody<Content: View>: View {
   
   @StateObject 
-  private var viewModel: ViewModelObservable
+  private var viewModel: DisposeObservable
   
   @StateObject
   private var hookObservable: HookObservable
@@ -56,7 +56,7 @@ private struct HookScopeBody<Content: View>: View {
   
   init(@ViewBuilder _ content: @escaping () -> Content) {
     self.content = content
-    let viewModel = ViewModelObservable()
+    let viewModel = DisposeObservable()
     let hookObservable = HookObservable()
     viewModel.disposeAll = hookObservable.disposeAll
     _viewModel = StateObject(wrappedValue: viewModel)
@@ -76,7 +76,7 @@ private struct HookScopeCompatBody<Content: View>: View {
   struct Body: View {
     
     @ObservedObject
-    private var viewModel: ViewModelObservable
+    private var viewModel: DisposeObservable
     
     @ObservedObject
     private var hookObservable: HookObservable
@@ -87,7 +87,7 @@ private struct HookScopeCompatBody<Content: View>: View {
     private let content: () -> Content
     
     init(
-      viewModel: ViewModelObservable,
+      viewModel: DisposeObservable,
       hookObservable: HookObservable,
       @ViewBuilder _ content: @escaping () -> Content
     ) {
@@ -102,7 +102,7 @@ private struct HookScopeCompatBody<Content: View>: View {
   }
   
   @State
-  private var viewModel = ViewModelObservable()
+  private var viewModel = DisposeObservable()
   
   @State
   private var hookObservable = HookObservable()

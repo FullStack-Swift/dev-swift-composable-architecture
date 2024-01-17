@@ -1,7 +1,7 @@
-import Combine
 import Foundation
+import Combine
 
-// MARK: Combine
+// MARK: Combine TypeAlias
 public typealias SetCancellables = Set<AnyCancellable>
 
 public typealias ActionSubject<Action> = PassthroughSubject<Action, Never>
@@ -10,6 +10,15 @@ public typealias StateSubject<State> = CurrentValueSubject<State, Never>
 
 public typealias ObservableEvent = PassthroughSubject<(), Never>
 
+///
+///```swift
+///
+///let cancellable = Set<AnyCancellable>()
+///
+///cancellable.dispose() /// => dispose all element in cancellable
+///
+///```
+///
 extension Set where Element: AnyCancellable {
   public func dispose() {
     for item in self {
@@ -18,6 +27,7 @@ extension Set where Element: AnyCancellable {
   }
 }
 
+// MARK: Combine Extension
 extension Publisher where Output == Never, Failure == Never {
   public func start() -> Cancellable {
     return sink(receiveValue: { _ in })
@@ -36,20 +46,23 @@ extension Publisher where Self.Failure == Never {
 }
 
 extension Publisher {
-  public func onReceiveValue(_ receiveValue: @escaping () -> ()) -> AnyCancellable {
-    sink { completion in }
-  receiveValue: { _ in
-    receiveValue()
-  }
+  public func onReceiveValue(
+    _ receiveValue: @escaping () -> ()
+  ) -> AnyCancellable {
+    sink { _ in
+    } receiveValue: { _ in
+      receiveValue()
+    }
   }
   
-  public func onCompletion(_ receiveCompletion: @escaping () -> ()) -> AnyCancellable {
+  public func onCompletion(
+    _ receiveCompletion: @escaping () -> ()
+  ) -> AnyCancellable {
     sink { _ in
       receiveCompletion()
     } receiveValue: { _ in }
   }
 }
-
 
 extension Publisher {
   public func replaceError(
@@ -102,13 +115,14 @@ extension CurrentValueSubject {
 }
 
 // MARK: @propertyWrapper - ActionListener
+/// Listtener Action for App.
 @propertyWrapper
 public struct ActionListener<Action> {
   
-  private let viewModel = ActionListenerViewModel<Action>()
+  private let viewModel: ViewModel
   
   public init() {
-    
+    viewModel = ViewModel()
   }
   
   public var wrappedValue: Self {
@@ -161,37 +175,42 @@ public struct ActionListener<Action> {
   }
 }
 
-fileprivate final class ActionListenerViewModel<Action> {
+extension ActionListener {
   
-  fileprivate let actionSubject = ActionSubject<Action>()
-  
-  fileprivate var cancellables = SetCancellables()
-  
-  var observableEvent: AnyPublisher<Void, Never> {
-    actionSubject.map { _ in }.eraseToAnyPublisher()
-  }
-  
-  fileprivate init() {
+  fileprivate final class ViewModel {
     
+    fileprivate let actionSubject = ActionSubject<Action>()
+    
+    fileprivate var cancellables = SetCancellables()
+    
+    var observableEvent: AnyPublisher<Void, Never> {
+      actionSubject.map { _ in }.eraseToAnyPublisher()
+    }
+    
+    fileprivate init() {
+      
+    }
+    
+    deinit {
+      cancellables.dispose()
+    }
+    
+    fileprivate func send(_ action: Action) {
+      actionSubject.send(action)
+    }
   }
-  
-  deinit {
-    cancellables.dispose()
-  }
-  
-  fileprivate func send(_ action: Action) {
-    actionSubject.send(action)
-  }
+
 }
 
 // MARK: @propertyWrapper - StateListener
+/// Listener StateChange for State.
 @propertyWrapper
 public struct StateListener<State> {
   
-  private let viewModel: StateListenerViewModel<State>
+  private let viewModel: ViewModel
   
   public init(_ initialValue: State) {
-    viewModel = StateListenerViewModel(initialValue)
+    viewModel = ViewModel(initialValue)
   }
   
   public var wrappedValue: Self {
@@ -227,87 +246,26 @@ public struct StateListener<State> {
   }
 }
 
-fileprivate final class StateListenerViewModel<State> {
+extension StateListener {
   
-  fileprivate let stateSubject: StateSubject<State>
-  
-  fileprivate var cancellables = SetCancellables()
-  
-  fileprivate init(_ initialValue: State) {
-    stateSubject = StateSubject(initialValue)
-  }
-  
-  deinit {
-    for cancellable in cancellables {
-      cancellable.cancel()
-    }
-  }
-  
-  fileprivate func send(_ state: State) {
-    stateSubject.send(state)
-  }
-}
-
-open class BaseObservable: ObservableObject {
-  
-  public private(set) lazy var objectWillChange = ObservableObjectPublisher()
-  
-  public var cancellables = SetCancellables()
-  
-  private var count: Int = 0
-  
-  public let id: UUID = UUID()
-  
-  @ObservableListener
-  private var observable
-  
-  public init() {
-    observable.sink { [ weak self] in
-      guard let self else { return }
-      self.count += 1
-      print(Date())
-      print("\(objectId): printChanges: \(count) id: \(id)")
-    }
-  }
-  
-  public func willChange() {
-    Task { @MainActor in
-      self.objectWillChange.send()
-      self.observable.send()
-    }
-  }
-  
-  public func refresh() {
-    DispatchQueue.main.async {
-      self.objectWillChange.send()
-      self.observable.send()
-    }
-  }
-  
-  public var objectId: String {
-    ObjectIdentifier(self).debugDescription
-  }
-}
-
-
-open class ViewModelObservable: ObservableObject {
-  
-  open var disposeAll: (() -> ())?
-  
-  open var objectId: String {
-    ObjectIdentifier(self).debugDescription
-  }
-  
-  public init() {
+  fileprivate final class ViewModel {
     
-  }
-  
-  deinit {
-    let clone = disposeAll
-    disposeAll = nil
-    Task { @MainActor in
-      try await Task.sleep(seconds: 0.03)
-      clone?()
+    fileprivate let stateSubject: StateSubject<State>
+    
+    fileprivate var cancellables = SetCancellables()
+    
+    fileprivate init(_ initialValue: State) {
+      stateSubject = StateSubject(initialValue)
+    }
+    
+    deinit {
+      for cancellable in cancellables {
+        cancellable.cancel()
+      }
+    }
+    
+    fileprivate func send(_ state: State) {
+      stateSubject.send(state)
     }
   }
 }
@@ -320,12 +278,12 @@ open class ViewModelObservable: ObservableObject {
 /// var observable
 ///
 /// ```
-/// Listerner to updateUI with SwiftUI.
+/// Listerner to updateUI for SwiftUI or UIKit.
 ///
 @propertyWrapper
 public struct ObservableListener {
   
-  private let viewModel = ObservableListenerViewModel()
+  private let viewModel = ViewModel()
   
   public init() {
     
@@ -387,20 +345,22 @@ public struct ObservableListener {
   }
 }
 
-/// ViewModel
-fileprivate final class ObservableListenerViewModel {
-  
-  fileprivate let observableEvent = ObservableEvent()
-  
-  fileprivate var cancellables = SetCancellables()
-  
-  deinit {
-    for cancellable in cancellables {
-      cancellable.cancel()
+extension ObservableListener {
+  /// ViewModel
+  fileprivate final class ViewModel {
+    
+    fileprivate let observableEvent = ObservableEvent()
+    
+    fileprivate var cancellables = SetCancellables()
+    
+    deinit {
+      for cancellable in cancellables {
+        cancellable.cancel()
+      }
     }
-  }
-  
-  fileprivate func send() {
-    observableEvent.send()
+    
+    fileprivate func send() {
+      observableEvent.send()
+    }
   }
 }

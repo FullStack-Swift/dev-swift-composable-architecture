@@ -21,7 +21,7 @@ public class RiverpodContext {
   
   let id = UUID()
   
-  public var subscribesId: IdentifiedArrayOf<SubscribeId> = .init()
+//  public var subscribesId: IdentifiedArrayOf<SubscribeId> = .init()
   
   init() {
     
@@ -38,9 +38,9 @@ public class RiverpodContext {
   
   init(weakStore: RiverpodStore? = nil) {
     self.weakStore = weakStore ?? .init()
-    weakStore?.state.map({_ in ()})
-      .sink(receiveValue: observable.send)
-    .store(in: &cancellables)
+//    weakStore?.state.map({_ in ()})
+//      .sink(receiveValue: observable.send)
+//    .store(in: &cancellables)
   }
   
   static func scoped(store: RiverpodStore) -> RiverpodContext {
@@ -49,13 +49,13 @@ public class RiverpodContext {
   
   func subscribes(ids: [UUID], for item: AnyProvider) {
     for id in ids {
-      subscribesId.updateOrAppend(SubscribeId(id: id))
+//      subscribesId.updateOrAppend(SubscribeId(id: id))
     }
   }
   
   func unsubscribes(ids: [UUID], for item: AnyProvider) {
     for id in ids {
-      subscribesId.remove(id: id)
+//      subscribesId.remove(id: id)
     }
   }
   
@@ -83,7 +83,7 @@ public class RiverpodContext {
     if let node = store.state.value[id: node.id]?.wrapped as? Node {
       return node.value
     } else {
-      node.observable.sink(observable.send)
+//      node.observable.sink(observable.send)
       store.state.value.updateOrAppend(node.eraseAnyProvider())
       return node.value
     }
@@ -94,7 +94,7 @@ public class RiverpodContext {
     if let node = store.state.value[id: node.id]?.wrapped as? Node {
       return node.value
     } else {
-      node.observable.sink(observable.send)
+//      node.observable.sink(observable.send)
       store.state.value.updateOrAppend(node.eraseAnyProvider())
       return node.value
     }
@@ -106,14 +106,14 @@ public class RiverpodContext {
     var newNode = node
     newNode.value = newValue
     store.state.value[id: node.id] = newNode.eraseAnyProvider()
-    observable.send()
+//    observable.send()
     return newNode.value
   }
   
   @discardableResult
   public func binding<Node: ProviderProtocol>(_ node: Node) -> Binding<Node.Value> {
     Binding {
-      self.read(node)
+      self.watch(node)
     } set: { newValue in
       self.update(node: node, newValue: newValue)
     }
@@ -122,7 +122,7 @@ public class RiverpodContext {
   @discardableResult
   public func state<Node: ProviderProtocol>(_ node: Node) -> Binding<Node.Value> {
     Binding {
-      self.read(node)
+      self.watch(node)
     } set: { newValue in
       self.update(node: node, newValue: newValue)
     }

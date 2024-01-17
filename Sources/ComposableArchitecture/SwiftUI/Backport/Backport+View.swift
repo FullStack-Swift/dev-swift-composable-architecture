@@ -56,6 +56,24 @@ public extension Backport where Base: View {
     )
   }
   
+  /// Attach an async task to this view, which will be performed
+  /// when the view first appears, and cancelled if the view
+  /// disappears (or is removed from the view hierarchy).
+  /// - parameter priority: Any explicit priority that the async
+  ///   task should have.
+  /// - parameter action: The async action that the task should run.
+  func task(
+    priority: TaskPriority = .userInitiated,
+    _ action: @escaping () async throws -> Void
+  ) -> some View {
+    base.modifier(
+      TaskModifier(
+        priority: priority,
+        action: action
+      )
+    )
+  }
+  
   @ViewBuilder
   func focused() -> some View {
     if #available(iOS 15.0, macOS 12.0, *) {
@@ -88,15 +106,15 @@ public extension Backport where Base: View {
 extension Backport where Base: View {
   private struct TaskModifier: ViewModifier {
     var priority: TaskPriority
-    var action: () async -> Void
+    var action: () async throws -> Void
     
-    @State private var task: Task<Void, Never>?
+    @State private var task: Task<Void, any Error>?
     
     func body(content: Content) -> some View {
       content
         .onAppear {
           task = Task(priority: priority) {
-            await action()
+            try await action()
           }
         }
         .onDisappear {
@@ -251,5 +269,22 @@ extension Backport where Base: View {
     alignment: Alignment = .center
   ) -> some View {
     base.background(builder(), alignment: alignment)
+  }
+  
+  /// ```swift
+  ///     List(mailbox.conversations) { conversation in
+  ///         ConversationCell(conversation)
+  ///     }
+  ///     .backport.refreshable {
+  ///         await mailbox.fetch()
+  ///     }
+  ///```
+  @ViewBuilder
+  public func refreshable(
+    _ action: @escaping @Sendable () async throws -> Void
+  ) -> some View {
+    if #available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) {
+      base.refreshable(action)
+    }
   }
 }

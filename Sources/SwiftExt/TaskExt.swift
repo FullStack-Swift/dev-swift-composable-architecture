@@ -10,7 +10,7 @@ extension Task where Success == Never, Failure == Never {
   ///
   /// This function doesn't block the underlying thread.
   public static func sleep(seconds: Double) async throws {
-    let duration = UInt64(seconds.toNanoseconds)
+    let duration = UInt64(seconds.toseconds)
     try await Task.sleep(nanoseconds: duration)
   }
   
@@ -23,7 +23,7 @@ extension Task where Success == Never, Failure == Never {
   /// This function doesn't block the underlying thread.
 
   public static func sleepOptional(seconds: Double) async {
-    let duration = UInt64(seconds.toNanoseconds)
+    let duration = UInt64(seconds: seconds)
     try? await Task.sleep(nanoseconds: duration)
   }
 }

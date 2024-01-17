@@ -3,7 +3,22 @@ import Combine
 
 public typealias MCallBack = () -> Void
 
+public typealias MTaskCallBack = () async throws -> Void
+
+public typealias MTapGesture = () -> Void
+
 public typealias MCompletion<T> = (T) -> Void
+
+// MARK: Design Pattern Prototype
+public protocol MViewStateProtocol: Equatable {}
+
+extension MViewStateProtocol {
+  public func with(_ block: (inout Self) -> Void) -> Self {
+    var clone = self
+    block(&clone)
+    return clone
+  }
+}
 
 // MARK: Function Builder SwiftUI
 
@@ -166,6 +181,21 @@ extension View {
   }
 }
 
+// MARK: refreshable
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+extension View {
+  @ViewBuilder
+  public func refreshable(
+    _ action: @escaping @Sendable () async throws -> Void
+  ) -> some View {
+    refreshable {
+      Task.init {
+        try await action()
+      }
+    }
+  }
+}
+
 // MARK: View onTap
 extension View {
   
@@ -204,9 +234,13 @@ extension View {
   ///    - count: The number of taps or clicks required to trigger the action
   ///      closure provided in `action`. Defaults to `1`.
   ///    - action: The action to perform.
-  public func onTap(count: Int = 1, perform: @escaping MCallBack) -> some View {
+  public func onTap(count: Int = 1, perform: @escaping MTaskCallBack) -> some View {
     contentShape(Rectangle())
-      .onTapGesture(count: count, perform: perform)
+      .onTapGesture(count: count) {
+        Task.init {
+          try await perform()
+        }
+      }
   }
 }
 
@@ -309,6 +343,13 @@ public extension Color {
       blue: .random(in: 0.0...1),
       opacity: 1.0
     )
+  }
+}
+
+/// Transform `String` text to a` Color` in SwiftUI.
+extension String {
+  public func toColor() -> Color {
+    Color(hexString: self)
   }
 }
 

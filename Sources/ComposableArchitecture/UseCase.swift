@@ -7,10 +7,10 @@ public protocol PublisherUseCaseProtocol {
   /// The Input Type
   associatedtype Input
 
-  /// THe Ouput Type
+  /// The Ouput Type
   associatedtype Output
    
-  /// THe Failure Type
+  /// The Failure Type
   associatedtype Failure: Error
 
   /// func excute task

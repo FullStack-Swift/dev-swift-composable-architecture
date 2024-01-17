@@ -3,23 +3,23 @@ import SwiftUI
 
 #if os(iOS)
 import NavigationStackBackport
-public typealias _NavigationStack = NavigationStackBackport.NavigationStack
+public typealias MNavigationStack = NavigationStackBackport.NavigationStack
 
 #else
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-public typealias _NavigationStack = NavigationStack
+public typealias NavigationStack = NavigationStack
 #endif
 
-public typealias _Destination = _NavigationReducer.Destination
+public typealias MDestination = MNavigationReducer.Destination
 
 extension DependencyValues {
   
   @DependencyValue
-  public var navigationPath: StoreOf<_NavigationReducer> = Store<_NavigationReducer.State, _NavigationReducer.Action>(initialState: .init()) {
-    _NavigationReducer()
+  public var navigationPath: StoreOf<MNavigationReducer> = Store(initialState: .init()) {
+    MNavigationReducer()
   }
   
-  public var pathViewStore: ViewStoreOf<_NavigationReducer> {
+  public var pathViewStore: ViewStoreOf<MNavigationReducer> {
     ViewStore(navigationPath)
   }
 }
@@ -27,7 +27,7 @@ extension DependencyValues {
 extension View {
   @available(macOS 13.0, tvOS 16.0, watchOS 9.0, *)
   @ViewBuilder
-  public func _navigationDestination<D: Hashable, C: View>(
+  public func mNavigationDestination<D: Hashable, C: View>(
     for data: D.Type,
     @ViewBuilder destination: @escaping (D) -> C
   ) -> some View {
@@ -39,25 +39,25 @@ extension View {
   }
 }
 @available(macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-public struct _NavigationView<Root: View>: View {
+public struct MNavigationView<Root: View>: View {
   
   @StateObject
-  var viewStore: ViewStoreOf<_NavigationReducer>
+  var viewStore: ViewStoreOf<MNavigationReducer>
   
   let rootView: () -> Root
   
   public init(@ViewBuilder rootView: @escaping () -> Root) {
     @Dependency(\.navigationPath) var store
-    self._viewStore = StateObject(wrappedValue: ViewStoreOf<_NavigationReducer>(store))
+    self._viewStore = StateObject(wrappedValue: ViewStoreOf<MNavigationReducer>(store))
     self.rootView = rootView
     
   }
   
   public var body: some View {
-    _NavigationStack(
+    MNavigationStack(
       path: viewStore.binding(
         get: {$0.path},
-        send: _NavigationReducer.Action.set
+        send: MNavigationReducer.Action.set
       )
     ) {
       rootView()
@@ -65,7 +65,7 @@ public struct _NavigationView<Root: View>: View {
   }
 }
 
-public struct _NavigationReducer: Reducer {
+public struct MNavigationReducer: Reducer {
   
   public struct State: BaseState {
     public var path: IdentifiedArrayOf<Destination> = []
@@ -82,7 +82,7 @@ public struct _NavigationReducer: Reducer {
   }
   /// Destination
   public struct Destination: Identifiable, Equatable, Hashable {
-    public static func == (lhs: _NavigationReducer.Destination, rhs: _NavigationReducer.Destination) -> Bool {
+    public static func == (lhs: MNavigationReducer.Destination, rhs: MNavigationReducer.Destination) -> Bool {
       return lhs.id == rhs.id && ((lhs.state?.isEqual(rhs.state)) != nil)
     }
     

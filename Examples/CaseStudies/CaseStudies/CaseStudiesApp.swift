@@ -11,6 +11,7 @@ struct CaseStudiesApp: App {
         HookRoot {
           ContentView()
             .onFirstAppear {
+              try await Task.sleep(seconds: 1/3)
               log.debug("App Already")
             }
         }

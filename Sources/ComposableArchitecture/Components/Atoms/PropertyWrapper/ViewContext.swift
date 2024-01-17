@@ -54,7 +54,8 @@ public struct ViewContext: DynamicProperty {
   public var wrappedValue: GlobalViewContext {
     GlobalViewContext(
       store: _store,
-      container: state.container.wrapper(location: location)) {
+      container: state.container.wrapper(location: location)
+    ) {
       state.objectWillChange.send()
     }
   }

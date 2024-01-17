@@ -11,7 +11,7 @@ import Combine
 /// - Returns: The debounced value. After the delay time has passed without the value changing, this will be updated to the latest value.
 @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
 public func useDebounce<Output>(
-  _ updateStrategy: HookUpdateStrategy? = .once,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ operation: AsyncThrowingStream<Output, any Error>,
   seconds timeInterval: TimeInterval = 2
 ) -> AsyncPhase<Output, any Error> {
@@ -30,7 +30,7 @@ public func useDebounce<Output>(
 /// - Returns: The debounced value. After the delay time has passed without the value changing, this will be updated to the latest value.
 @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
 public func useDebounce<Output>(
-  _ updateStrategy: HookUpdateStrategy? = .once,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ operation: some Publisher<Output, any Error>,
   seconds timeInterval: TimeInterval = 2
 ) -> AsyncPhase<Output, any Error> {
@@ -106,7 +106,7 @@ public func useOnChangedDebounce<Node: Equatable>(
     PassthroughSubject<Node, Never>()
   }
   
-  let asyncPhase = usePublisher(.preserved(by: value)) {
+  let asyncPhase = usePublisher(.once) {
     return ps
       .debounce(for: .seconds(second), scheduler: DispatchQueue.main)
       .eraseToAnyPublisher()
@@ -117,9 +117,14 @@ public func useOnChangedDebounce<Node: Equatable>(
     return nil
   }
   
-  useLayoutEffect(.preserved(by: asyncPhase.status), where: asyncPhase.status == .success) {
+  useLayoutEffect(
+    .preserved(by: asyncPhase.value),
+    where: asyncPhase.status == .success
+  ) {
     if cache != value {
-      effect?()
+      if cache != nil {
+        effect?()
+      }
       cache = value
     }
   }

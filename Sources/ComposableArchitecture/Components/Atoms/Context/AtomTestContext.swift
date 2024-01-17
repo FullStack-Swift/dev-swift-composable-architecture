@@ -89,7 +89,7 @@ public struct AtomTestContext: AtomWatchableContext {
       
       if let interval {
         group.addTask {
-          try? await Task.sleep(nanoseconds: UInt64(interval.toNanoseconds))
+          try? await Task.sleep(seconds: interval)
           return false
         }
       }

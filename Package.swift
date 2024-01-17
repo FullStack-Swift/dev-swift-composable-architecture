@@ -23,6 +23,11 @@ let package = Package(
       targets: ["SwiftObservation"]
     ),
     .library(
+      name: "StateManagement",
+      targets: ["StateManagement"]
+    ),
+
+    .library(
       name: "UIComponents",
       targets: ["UIComponents"]
     ),
@@ -80,6 +85,13 @@ let package = Package(
       path: "Sources/ComposableArchitecture"
     ),
     .target(
+      name: "StateManagement",
+      dependencies: [
+        "ComposableArchitecture",
+      ],
+      path: "Sources/StateManagement"
+    ),
+    .target(
       name: "SwiftExt",
       dependencies: [
         .product(name: "IdentifiedCollections", package: "swift-identified-collections"),
@@ -104,7 +116,8 @@ let package = Package(
       dependencies: [
         "SwiftExt",
       ],
-      path: "Sources/UIComponents"
+      path: "Sources/UIComponents",
+      resources: [.process("Fonts")]
     ),
     .target(
       name: "Documentation",

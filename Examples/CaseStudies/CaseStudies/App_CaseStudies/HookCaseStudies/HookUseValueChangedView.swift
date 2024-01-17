@@ -3,69 +3,33 @@ import Combine
 
 struct HookUseValueChangedView: View {
   
-  @State var cancellable: AnyCancellable?
-  
   var body: some View {
     HookScope {
       
       @HState
       var state = 0
       
+      @HRef
+      var oldState: Int? = nil
+      
+      @HRef
+      var newState: Int = state
+      
       let newValue = useOnChanged(state) { old, new in
-//        log.info("oldValue: \(old)")
-//        log.info("newValue: \(new)")
+        oldState = old
+        newState = new
       }
-      
-      let _ = useLayoutEffect(.once) {
-        let bounces:[(Int,TimeInterval)] = [
-          (0, 0),
-          (1, 0.25),  // 0.25s interval since last index
-          (2, 1),     // 0.75s interval since last index
-          (3, 1.25),  // 0.25s interval since last index
-          (4, 1.5),   // 0.25s interval since last index
-          (5, 2.1)      // 0.5s interval since last index
-        ]
-        
-        
-        let subject = PassthroughSubject<Int, Never>()
-        let cancellable = subject
-          .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
-          .sink { index in
-            print ("Received index \(index)")
-          }
-        
-        
-        for bounce in bounces {
-          DispatchQueue.main.asyncAfter(deadline: .now() + bounce.1) {
-            subject.send(bounce.0)
-            state = bounce.0
-          }
-        }
-        
-        return {
-          cancellable.cancel()
-        }
-      }
-      
-      let _ = useOnChangedDebounce(state) {
-        print ("Received state \(state)")
-      }
-      
+            
       VStack {
-        useToggle()
-        useInput("task", text: newValue.description) { value in
-//          log.info(value)
-          if let value = value.toInt() {
-            state = value
-          }
-        }
-        
+        Text("oldValue: \(oldState?.description ?? "Nil")")
+        Text("newState: \(newState)")
         Stepper(value: $state) {
           Text(newValue.description)
         }
       }
       .padding()
       .font(.largeTitle)
+      .navigationBarTitle(Text("Hook OnChanged"), displayMode: .inline)
     }
   }
 }

@@ -35,7 +35,7 @@ struct HookCaseStudiesView: View {
         NavigationLink("Hook-UseAsync") {
           HookUseAsyncView()
         }
-               
+        
         NavigationLink("Hook-UseEnvironment") {
           HookUseEnvironmentView()
         }
@@ -46,6 +46,10 @@ struct HookCaseStudiesView: View {
         
         NavigationLink("Hook-UseValueChanged") {
           HookUseValueChangedView()
+        }
+        
+        NavigationLink("Hook-UseOnChangedExt") {
+          HookUseOnChangedExtView()
         }
       }
     }

@@ -39,8 +39,6 @@ public func useNumber<N: Numeric>(
   useState(initialNode)
 }
 
-
-
 public func useSet<Node: Hashable>(
   _ node: Set<Node>
 ) -> Binding<Set<Node>> {

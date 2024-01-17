@@ -7,14 +7,14 @@ public extension View {
   /// Description
   /// - Parameter action: action description
   /// - Returns: description
-  func onLastDisappear(perform action: MCallBack? = nil) -> some View {
+  func onLastDisappear(perform action: MTaskCallBack? = nil) -> some View {
     modifier(OnLastDisappearViewModifier(action: action))
   }
   
   /// Description
   /// - Parameter action: action description
   /// - Returns: description
-  func onFirstAppear(perform action: MCallBack? = nil) -> some View {
+  func onFirstAppear(perform action: MTaskCallBack? = nil) -> some View {
     modifier(OnFirstAppearViewModifier(action: action))
   }
 }
@@ -140,11 +140,11 @@ public extension View {
 
 public struct OnFirstAppearViewModifier: ViewModifier {
   
-  private let action: MCallBack?
+  private let action: MTaskCallBack?
   
   @State private var hasAppeared = false
   
-  public init(action: MCallBack? = nil) {
+  public init(action: MTaskCallBack? = nil) {
     self.action = action
   }
   
@@ -153,7 +153,9 @@ public struct OnFirstAppearViewModifier: ViewModifier {
       .onAppear {
         if !hasAppeared {
           hasAppeared = true
-          action?()
+          Task.init { @MainActor in
+           try await action?()
+          }
         }
       }
       .onDisappear()
@@ -162,11 +164,11 @@ public struct OnFirstAppearViewModifier: ViewModifier {
 
 public struct OnLastDisappearViewModifier: ViewModifier {
   
-  fileprivate final class OnLastDisappearViewModel: ObservableObject {
+  fileprivate final class ViewModel: ObservableObject {
     
-    fileprivate var action: MCallBack?
+    fileprivate var action: MTaskCallBack?
     
-    fileprivate init(action: MCallBack? = nil) {
+    fileprivate init(action: MTaskCallBack? = nil) {
       self.action = action
     }
     
@@ -174,17 +176,17 @@ public struct OnLastDisappearViewModifier: ViewModifier {
       let clone = action
       action = nil
       Task.init { @MainActor in
-        try await Task.sleep(seconds:0.03)
-        clone?()
+        try await Task.sleep(seconds: 0.03)
+        try await clone?()
       }
     }
   }
   
   @StateObject
-  private var viewModel: OnLastDisappearViewModel
+  private var viewModel: ViewModel
   
-  public init(action: (() -> Void)? = nil) {
-    _viewModel = StateObject(wrappedValue: OnLastDisappearViewModel(action: action))
+  public init(action: MTaskCallBack? = nil) {
+    _viewModel = StateObject(wrappedValue: ViewModel(action: action))
   }
   
   public func body(content: Content) -> some View {
@@ -330,5 +332,36 @@ public struct PreviewFrameViewModifier: ViewModifier {
   
   private func rounded(_ value: CGFloat) -> Float {
     return Float(round(100 * value) / 100)
+  }
+}
+
+extension View {
+  
+  @ViewBuilder
+  public func task(
+    priority: TaskPriority = .userInitiated,
+    _ action: @escaping () async throws -> Void
+  ) -> some View {
+    modifier(TaskModifier(priority: priority, action: action))
+  }
+}
+
+public struct TaskModifier: ViewModifier {
+  var priority: TaskPriority
+  var action: () async throws -> Void
+  
+  @State private var task: Task<Void, any Error>?
+  
+  public func body(content: Content) -> some View {
+    content
+      .onAppear {
+        task = Task(priority: priority) {
+          try await action()
+        }
+      }
+      .onDisappear {
+        task?.cancel()
+        task = nil
+      }
   }
 }

@@ -11,20 +11,20 @@ import Combine
 /// - Returns: The throttled value that is updated at most once per interval.
 @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
 public func useThrottle<Output>(
-  _ updateStrategy: HookUpdateStrategy? = .once,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ operation: AnyAsyncSequence<Output>,
   seconds timeInterval: Double = 0.5
 ) -> AsyncPhase<Output, any Error> {
   let stream = operation
     ._throttle(for: .seconds(timeInterval))
     .eraseToThrowingStream()
-  return useAsyncThrowingSequence(.once, stream)
+  return useAsyncThrowingSequence(updateStrategy, stream)
 }
 
 
 @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
 public func useThrottle<Output>(
-  _ updateStrategy: HookUpdateStrategy? = .once,
+  updateStrategy: HookUpdateStrategy? = .once,
   _ operation: some Publisher<Output, any Error>,
   seconds timeInterval: TimeInterval = 0.5
 ) -> AsyncPhase<Output, any Error> {
@@ -32,7 +32,7 @@ public func useThrottle<Output>(
     .backport.values
     ._throttle(for: .seconds(timeInterval))
     .eraseToThrowingStream()
-  return useAsyncThrowingSequence(.once, stream)
+  return useAsyncThrowingSequence(updateStrategy, stream)
 }
 
 /// A hook to use memoized value preserved until it is updated at the timing determined with given `updateStrategy`.
@@ -54,15 +54,20 @@ public func useOnChangedThrottle<Node: Equatable>(
     return nil
   }
   
-  let asyncPhase = usePublisher(.preserved(by: value)) {
+  let asyncPhase = usePublisher(.once) {
     return ps
       .throttle(for: .seconds(second), scheduler: DispatchQueue.main, latest: true)
       .eraseToAnyPublisher()
   }
   
-  useLayoutEffect(.preserved(by: asyncPhase.status), where: asyncPhase.status == .success) {
+  useLayoutEffect(
+    .preserved(by: asyncPhase.value),
+    where: asyncPhase.status == .success
+  ) {
     if cache != value {
-      effect?()
+      if cache != nil {
+        effect?()
+      }
       cache = value
     }
   }

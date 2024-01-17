@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 
 @MainActor
-public protocol RiverpodView: View {
+public protocol ConsumerWidget: View {
 
   associatedtype RiverBody: View
   
@@ -14,7 +14,7 @@ public protocol RiverpodView: View {
   
 }
 
-extension RiverpodView {
+extension ConsumerWidget {
   public var body:  some View {
     RiverpodScope { store, viewModel in
       build(context: store, ref: viewModel)

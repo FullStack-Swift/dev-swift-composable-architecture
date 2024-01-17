@@ -11,7 +11,7 @@ struct HookUseStateView: View {
     }
     .padding()
     .font(.largeTitle)
-    .navigationBarTitle(Text("Hook HState"), displayMode: .inline)
+    .navigationBarTitle(Text("Hook State"), displayMode: .inline)
     
   }
   

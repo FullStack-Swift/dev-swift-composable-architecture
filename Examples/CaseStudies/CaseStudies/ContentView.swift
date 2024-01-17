@@ -17,7 +17,7 @@ struct ContentView: View {
   var context
   
   var body: some View {
-    _NavigationView {
+    MNavigationView {
       Form {
         Section(header: Text("Test")) {
           HookScope {
@@ -165,7 +165,7 @@ struct ContentView: View {
         }
       }
       .navigationTitle(Text("CaseStudies"))
-      ._navigationDestination(for: _Destination.self) { destination in
+      .mNavigationDestination(for: MDestination.self) { destination in
         switch destination.id {
           case "UIComponents":
             UIComponentView()

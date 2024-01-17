@@ -42,6 +42,8 @@
 		EBB036F02A7B8F180091B953 /* ReduxTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036EF2A7B8F180091B953 /* ReduxTodoView.swift */; };
 		EBB036F22A7B9ECB0091B953 /* JotaiCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036F12A7B9ECB0091B953 /* JotaiCaseStudiesView.swift */; };
 		EBB036F42A7BA06B0091B953 /* VIPTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036F32A7BA06B0091B953 /* VIPTodoView.swift */; };
+		EBB20DF42B5F96B100F5E885 /* HookUseOnChangedExtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB20DF32B5F96B100F5E885 /* HookUseOnChangedExtView.swift */; };
+		EBB20DF82B5FBF2500F5E885 /* CounterRiverpodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB20DF72B5FBF2500F5E885 /* CounterRiverpodView.swift */; };
 		EBBC4A412A6A930B0052FD1F /* APIRequestPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */; };
 		EBBD465E2B26A2A3005A4790 /* HookUseValueChangedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBD465D2B26A2A3005A4790 /* HookUseValueChangedView.swift */; };
 		EBC0590A2B43B3DA00F97044 /* AtomLocalViewContextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC059092B43B3DA00F97044 /* AtomLocalViewContextView.swift */; };
@@ -96,6 +98,8 @@
 		EBB036EF2A7B8F180091B953 /* ReduxTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReduxTodoView.swift; sourceTree = "<group>"; };
 		EBB036F12A7B9ECB0091B953 /* JotaiCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotaiCaseStudiesView.swift; sourceTree = "<group>"; };
 		EBB036F32A7BA06B0091B953 /* VIPTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIPTodoView.swift; sourceTree = "<group>"; };
+		EBB20DF32B5F96B100F5E885 /* HookUseOnChangedExtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseOnChangedExtView.swift; sourceTree = "<group>"; };
+		EBB20DF72B5FBF2500F5E885 /* CounterRiverpodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterRiverpodView.swift; sourceTree = "<group>"; };
 		EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestPage.swift; sourceTree = "<group>"; };
 		EBBD465D2B26A2A3005A4790 /* HookUseValueChangedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseValueChangedView.swift; sourceTree = "<group>"; };
 		EBC059092B43B3DA00F97044 /* AtomLocalViewContextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomLocalViewContextView.swift; sourceTree = "<group>"; };
@@ -203,6 +207,8 @@
 		90FDE91F2A4B4DBD00342E0B /* App_CaseStudies */ = {
 			isa = PBXGroup;
 			children = (
+				EBB20DF62B5FBF0800F5E885 /* JotailCaseStudies */,
+				EBB20DF52B5FBEE100F5E885 /* RiverpodCaseStudies */,
 				EBC059082B43B3BB00F97044 /* AtomCaseStudies */,
 				EBC059062B43B31D00F97044 /* RecoilCaseStudies */,
 				EB132B402AE8ACC0002CC1DF /* HookCaseStudies */,
@@ -232,6 +238,7 @@
 				EBDCE1502AF0E5E2008AF97D /* HookUseEnvironmentView.swift */,
 				EBDCE1522AF0E608008AF97D /* HookUseStateView.swift */,
 				EBBD465D2B26A2A3005A4790 /* HookUseValueChangedView.swift */,
+				EBB20DF32B5F96B100F5E885 /* HookUseOnChangedExtView.swift */,
 			);
 			path = HookCaseStudies;
 			sourceTree = "<group>";
@@ -246,6 +253,21 @@
 				EBB036ED2A7A2F4F0091B953 /* OnlineRiverpodTodoview.swift */,
 			);
 			path = Onlines;
+			sourceTree = "<group>";
+		};
+		EBB20DF52B5FBEE100F5E885 /* RiverpodCaseStudies */ = {
+			isa = PBXGroup;
+			children = (
+				EBB20DF72B5FBF2500F5E885 /* CounterRiverpodView.swift */,
+			);
+			path = RiverpodCaseStudies;
+			sourceTree = "<group>";
+		};
+		EBB20DF62B5FBF0800F5E885 /* JotailCaseStudies */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = JotailCaseStudies;
 			sourceTree = "<group>";
 		};
 		EBBC4A3F2A6A92FD0052FD1F /* Examples */ = {
@@ -400,10 +422,12 @@
 				EBF60ED42A77A15F001E34D3 /* OnlineRecoilTodoView.swift in Sources */,
 				90ACBBB62A4B4EE10041D7E2 /* RecoilTodoView.swift in Sources */,
 				EBB036F42A7BA06B0091B953 /* VIPTodoView.swift in Sources */,
+				EBB20DF82B5FBF2500F5E885 /* CounterRiverpodView.swift in Sources */,
 				EBDCE1512AF0E5E2008AF97D /* HookUseEnvironmentView.swift in Sources */,
 				90ACBBB72A4B4EE10041D7E2 /* AtomTodoView.swift in Sources */,
 				87ABACAE2A4D1C2A00545682 /* MVVMTodoView.swift in Sources */,
 				EBB036EA2A7A2F330091B953 /* OnlineJotailTodoView.swift in Sources */,
+				EBB20DF42B5F96B100F5E885 /* HookUseOnChangedExtView.swift in Sources */,
 				EBC0590A2B43B3DA00F97044 /* AtomLocalViewContextView.swift in Sources */,
 				EB92CD102A5C1705007640AF /* RecoilUseCaseStudies2View.swift in Sources */,
 				EB132B422AE8AD0B002CC1DF /* HookLifecycleView.swift in Sources */,

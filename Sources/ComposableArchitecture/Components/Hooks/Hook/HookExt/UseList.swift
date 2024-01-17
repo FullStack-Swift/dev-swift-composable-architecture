@@ -3,8 +3,14 @@ import Combine
 
 // MARK: Hook Content View.
 
-public func useToggle(_ title: String = "") -> some View {
+public func useToggle(
+  _ title: String = "",
+  onChange: @escaping (Bool) -> Void
+) -> some View {
   @HState var isOn = false
+  useOnChanged(isOn) {
+    onChange(isOn)
+  }
   return Toggle(title, isOn: $isOn)
 }
 
