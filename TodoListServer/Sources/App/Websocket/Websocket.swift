@@ -14,6 +14,8 @@ open class WebsocketClients {
   var eventLoop: EventLoop
   var storage: [UUID: WebSocketClient]
   
+  static var websocketClients: WebsocketClients!
+  
   var active: [WebSocketClient] {
     self.storage.values.filter { !$0.socket.isClosed }
   }

@@ -77,14 +77,7 @@ private extension RecoilLocalContext {
   }
   
   var store: StoreContext {
-    @Dependency(\.recoilStoreContext) var store
-    return store
-      .scoped(
-        weakStore: state.store,
-        key: ScopeKey(token: state.token),
-        observers: [],
-        overrides: state.overrides
-      )
+    StoreContext(state.store)
   }
   
   var container: SubscriptionContainer.Wrapper {

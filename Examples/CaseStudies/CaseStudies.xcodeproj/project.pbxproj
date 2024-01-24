@@ -34,6 +34,7 @@
 		EB4BAB8D2B4697A000573741 /* AtomLoadMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4BAB8C2B4697A000573741 /* AtomLoadMoreView.swift */; };
 		EB5B50F12AF376FE0018BF84 /* NavigationStackBackport in Frameworks */ = {isa = PBXBuildFile; productRef = EB5B50F02AF376FE0018BF84 /* NavigationStackBackport */; };
 		EB5B50F32AF37CC00018BF84 /* SwiftExt in Frameworks */ = {isa = PBXBuildFile; productRef = EB5B50F22AF37CC00018BF84 /* SwiftExt */; };
+		EB63B2EE2B69FA2A00D791F6 /* JotailAtomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB63B2ED2B69FA2A00D791F6 /* JotailAtomView.swift */; };
 		EB92CD102A5C1705007640AF /* RecoilUseCaseStudies2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */; };
 		EBB036E82A7A2F1D0091B953 /* OnlineHookTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036E72A7A2F1D0091B953 /* OnlineHookTodoView.swift */; };
 		EBB036EA2A7A2F330091B953 /* OnlineJotailTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB036E92A7A2F330091B953 /* OnlineJotailTodoView.swift */; };
@@ -90,6 +91,7 @@
 		EB467EC32AEB991300177A77 /* HookUseDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookUseDateView.swift; sourceTree = "<group>"; };
 		EB4867322B4E6B9600383023 /* AtomCountDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomCountDownView.swift; sourceTree = "<group>"; };
 		EB4BAB8C2B4697A000573741 /* AtomLoadMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomLoadMoreView.swift; sourceTree = "<group>"; };
+		EB63B2ED2B69FA2A00D791F6 /* JotailAtomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotailAtomView.swift; sourceTree = "<group>"; };
 		EB92CD0F2A5C1705007640AF /* RecoilUseCaseStudies2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoilUseCaseStudies2View.swift; sourceTree = "<group>"; };
 		EBB036E72A7A2F1D0091B953 /* OnlineHookTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineHookTodoView.swift; sourceTree = "<group>"; };
 		EBB036E92A7A2F330091B953 /* OnlineJotailTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineJotailTodoView.swift; sourceTree = "<group>"; };
@@ -207,7 +209,7 @@
 		90FDE91F2A4B4DBD00342E0B /* App_CaseStudies */ = {
 			isa = PBXGroup;
 			children = (
-				EBB20DF62B5FBF0800F5E885 /* JotailCaseStudies */,
+				EB63B2E92B69D9F100D791F6 /* JotailCaseStudies */,
 				EBB20DF52B5FBEE100F5E885 /* RiverpodCaseStudies */,
 				EBC059082B43B3BB00F97044 /* AtomCaseStudies */,
 				EBC059062B43B31D00F97044 /* RecoilCaseStudies */,
@@ -243,6 +245,14 @@
 			path = HookCaseStudies;
 			sourceTree = "<group>";
 		};
+		EB63B2E92B69D9F100D791F6 /* JotailCaseStudies */ = {
+			isa = PBXGroup;
+			children = (
+				EB63B2ED2B69FA2A00D791F6 /* JotailAtomView.swift */,
+			);
+			path = JotailCaseStudies;
+			sourceTree = "<group>";
+		};
 		EBB036E62A7A2E420091B953 /* Onlines */ = {
 			isa = PBXGroup;
 			children = (
@@ -261,13 +271,6 @@
 				EBB20DF72B5FBF2500F5E885 /* CounterRiverpodView.swift */,
 			);
 			path = RiverpodCaseStudies;
-			sourceTree = "<group>";
-		};
-		EBB20DF62B5FBF0800F5E885 /* JotailCaseStudies */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = JotailCaseStudies;
 			sourceTree = "<group>";
 		};
 		EBBC4A3F2A6A92FD0052FD1F /* Examples */ = {
@@ -347,7 +350,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1510;
 				TargetAttributes = {
 					87DF96DB2A39904F0006B774 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -421,6 +424,7 @@
 				87DF96EF2A3991060006B774 /* HookCaseStudiesView.swift in Sources */,
 				EBF60ED42A77A15F001E34D3 /* OnlineRecoilTodoView.swift in Sources */,
 				90ACBBB62A4B4EE10041D7E2 /* RecoilTodoView.swift in Sources */,
+				EB63B2EE2B69FA2A00D791F6 /* JotailAtomView.swift in Sources */,
 				EBB036F42A7BA06B0091B953 /* VIPTodoView.swift in Sources */,
 				EBB20DF82B5FBF2500F5E885 /* CounterRiverpodView.swift in Sources */,
 				EBDCE1512AF0E5E2008AF97D /* HookUseEnvironmentView.swift in Sources */,
@@ -571,6 +575,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CaseStudies/Preview Content\"";
 				DEVELOPMENT_TEAM = VQ7XHLJJ2T;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CaseStudies/Info.plist;
@@ -612,6 +617,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CaseStudies/Preview Content\"";
 				DEVELOPMENT_TEAM = VQ7XHLJJ2T;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CaseStudies/Info.plist;

@@ -30,17 +30,31 @@ struct ListCounterRiverpodView: View {
 
 struct CounterRiverpodView: ConsumerWidget {
   
-  func build(context: Context, ref: ViewRef) -> some View {
-    VStack {
-      Stepper(value: ref.binding(counter)) {
-        Text(counter.value.description)
+  @State var countState = 0
+  
+  func build(context: Context, ref: ViewRef) -> any View {
+    let count = ref.watch(counter)
+    print(count.description)
+    return HStack {
+      Button {
+//        counter.decrement()
+        ref.update(node: counter, newValue: count - 1)
+      } label: {
+        Text("-")
+      }
+      Text(count.description)
+      Button {
+//        counter.increment()
+        ref.update(node: counter, newValue: count + 1)
+      } label: {
+        Text("+")
       }
     }
     .padding()
     .font(.largeTitle)
-    .onTap {
-      ref.refresh()
-    }
+//    .onTap {
+//      ref.refresh()
+//    }
   }
 }
 

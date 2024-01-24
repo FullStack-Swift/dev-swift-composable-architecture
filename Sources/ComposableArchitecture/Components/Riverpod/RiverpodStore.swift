@@ -19,12 +19,12 @@ class RiverpodStore: Equatable {
   
   var state: StateSubject<IdentifiedArrayOf<AnyProvider>>
   
-  @ObservableListener
-  var observable
+//  @ObservableListener
+//  var observable
   
   init() {
     state = StateSubject([])
-    observableCancellable = state.eraseToAnyPublisher()
-      .onReceiveValue(observable.send)
+//    observableCancellable = state.eraseToAnyPublisher()
+//      .onReceiveValue(observable.send)
   }
 }

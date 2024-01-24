@@ -8,12 +8,12 @@ public typealias ActionSubject<Action> = PassthroughSubject<Action, Never>
 
 public typealias StateSubject<State> = CurrentValueSubject<State, Never>
 
-public typealias ObservableEvent = PassthroughSubject<(), Never>
+public typealias ObservableEvent = ActionSubject<()>
 
 ///
 ///```swift
 ///
-///let cancellable = Set<AnyCancellable>()
+///var cancellable = Set<AnyCancellable>()
 ///
 ///cancellable.dispose() /// => dispose all element in cancellable
 ///
@@ -183,12 +183,18 @@ extension ActionListener {
     
     fileprivate var cancellables = SetCancellables()
     
+    var action: Action?
+    
     var observableEvent: AnyPublisher<Void, Never> {
       actionSubject.map { _ in }.eraseToAnyPublisher()
     }
     
     fileprivate init() {
-      
+      actionSubject
+        .sink {
+          self.action = $0
+        }
+        .store(in: &cancellables)
     }
     
     deinit {
@@ -213,8 +219,8 @@ public struct StateListener<State> {
     viewModel = ViewModel(initialValue)
   }
   
-  public var wrappedValue: Self {
-    self
+  public var wrappedValue: State {
+    viewModel.stateSubject.value
   }
   
   public var projectedValue: StateSubject<State> {

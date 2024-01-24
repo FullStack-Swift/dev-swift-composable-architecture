@@ -9,12 +9,6 @@ public typealias LocalViewModel = LocalViewContext
 public struct LocalViewContext: DynamicProperty {
   @StateObject
   private var state = State()
-  
-  @Environment(\.localStore)
-  private var _store
-  
-  private var overrides = [OverrideKey: any AtomOverrideProtocol]()
-  private var observers = [Observer]()
 
   private let location: SourceLocation
   
@@ -31,8 +25,8 @@ public struct LocalViewContext: DynamicProperty {
       store: StoreContext.scoped(
         key: ScopeKey(token: state.token),
         store: state.store,
-        observers: observers,
-        overrides: overrides
+        observers: [],
+        overrides: [:]
       ),
       container: state.container.wrapper(location: location)
     ) {
@@ -54,99 +48,101 @@ private extension LocalViewContext {
   }
 }
 
-@propertyWrapper
-public struct LocalWatch<Node: Atom>: DynamicProperty {
-  private let atom: Node
-  
-  @LocalViewContext
-  private var context
-  
-  public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
-    self.atom = atom
-    self._context = LocalViewContext(fileID: fileID, line: line)
-  }
-  
-  public init(context: LocalViewContext,_ atom: Node) {
-    self.atom = atom
-    self._context = context
-  }
-
-  public var wrappedValue: Node.Loader.Value {
-    context.watch(atom)
-  }
-}
-
-@propertyWrapper
-public struct LocalWatchState<Node: StateAtom>: DynamicProperty {
-  private let atom: Node
-  
-  @LocalViewContext
-  private var context
-  
-  public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
-    self.atom = atom
-    self._context = LocalViewContext(fileID: fileID, line: line)
-  }
-  
-  public init(context: LocalViewContext,_ atom: Node) {
-    self.atom = atom
-    self._context = context
-  }
-
-  public var wrappedValue: Node.Loader.Value {
-    get { context.watch(atom) }
-    nonmutating set { context.set(newValue, for: atom) }
-  }
-
-  public var projectedValue: Binding<Node.Loader.Value> {
-    context.state(atom)
-  }
-}
-
-@propertyWrapper
-public struct LocalWatchStateObject<Node: ObservableObjectAtom>: DynamicProperty {
-
-  @dynamicMemberLookup
-  public struct Wrapper {
-    private let object: Node.Loader.Value
-
-    public subscript<T>(
-      dynamicMember keyPath: ReferenceWritableKeyPath<Node.Loader.Value, T>
-    ) -> Binding<T> {
-      Binding(
-        get: { object[keyPath: keyPath] },
-        set: { object[keyPath: keyPath] = $0 }
-      )
-    }
-    
-    fileprivate init(_ object: Node.Loader.Value) {
-      self.object = object
-    }
-  }
-  
-  private let atom: Node
-  
-  @LocalViewContext
-  private var context
-
-  public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
-    self.atom = atom
-    self._context = LocalViewContext(fileID: fileID, line: line)
-  }
-  
-  public init(context: LocalViewContext,_ atom: Node) {
-    self.atom = atom
-    self._context = context
-  }
-
-  public var wrappedValue: Node.Loader.Value {
-    context.watch(atom)
-  }
-  
-  public var projectedValue: Wrapper {
-    Wrapper(wrappedValue)
-  }
-}
+//@propertyWrapper
+//public struct LocalWatch<Node: Atom>: DynamicProperty {
+//  private let atom: Node
+//  
+//  @LocalViewContext
+//  private var context
+//  
+//  public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
+//    self.atom = atom
+//    self._context = LocalViewContext(fileID: fileID, line: line)
+//  }
+//  
+//  public init(context: LocalViewContext,_ atom: Node) {
+//    self.atom = atom
+//    self._context = context
+//  }
+//
+//  public var wrappedValue: Node.Loader.Value {
+//    context.watch(atom)
+//  }
+//}
+//
+//// MARK: LocalWatchState
+//@propertyWrapper
+//public struct LocalWatchState<Node: StateAtom>: DynamicProperty {
+//  private let atom: Node
+//  
+//  @LocalViewContext
+//  private var context
+//  
+//  public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
+//    self.atom = atom
+//    self._context = LocalViewContext(fileID: fileID, line: line)
+//  }
+//  
+//  public init(context: LocalViewContext,_ atom: Node) {
+//    self.atom = atom
+//    self._context = context
+//  }
+//
+//  public var wrappedValue: Node.Loader.Value {
+//    get { context.watch(atom) }
+//    nonmutating set { context.set(newValue, for: atom) }
+//  }
+//
+//  public var projectedValue: Binding<Node.Loader.Value> {
+//    context.state(atom)
+//  }
+//}
+//
+//// MARK: LocalWatchStateObject
+//@propertyWrapper
+//public struct LocalWatchStateObject<Node: ObservableObjectAtom>: DynamicProperty {
+//
+//  @dynamicMemberLookup
+//  public struct Wrapper {
+//    private let object: Node.Loader.Value
+//
+//    public subscript<T>(
+//      dynamicMember keyPath: ReferenceWritableKeyPath<Node.Loader.Value, T>
+//    ) -> Binding<T> {
+//      Binding(
+//        get: { object[keyPath: keyPath] },
+//        set: { object[keyPath: keyPath] = $0 }
+//      )
+//    }
+//    
+//    fileprivate init(_ object: Node.Loader.Value) {
+//      self.object = object
+//    }
+//  }
+//  
+//  private let atom: Node
+//  
+//  @LocalViewContext
+//  private var context
+//
+//  public init(_ atom: Node, fileID: String = #fileID, line: UInt = #line) {
+//    self.atom = atom
+//    self._context = LocalViewContext(fileID: fileID, line: line)
+//  }
+//  
+//  public init(context: LocalViewContext,_ atom: Node) {
+//    self.atom = atom
+//    self._context = context
+//  }
+//
+//  public var wrappedValue: Node.Loader.Value {
+//    context.watch(atom)
+//  }
+//  
+//  public var projectedValue: Wrapper {
+//    Wrapper(wrappedValue)
+//  }
+//}
 
 @MainActor
 public struct AtomLocalViewContext: AtomWatchableContext {

@@ -10,17 +10,32 @@ public typealias CompletionFunction<C> = (C) -> Void
 // Return
 public typealias AsyncReturn<Output> = () async -> Output
 
+public typealias ThrowingAsyncReturn<Output> = () async throws -> Output
+
 public typealias MainAsyncReturn<Output> = @MainActor () async -> Output
+
+public typealias MainThrowingAsyncReturn<Output> = @MainActor () async throws -> Output
+
+public typealias Callback<R> = () -> R
+
+//public typealias AsyncReturn<R> = () async -> R
+
+//public typealias ThrowingAsyncCallback<R> = () async throws -> R
+
+public typealias ThrowingAsyncCompletion = ThrowingAsyncReturn<Void>
+
+// Param
+public typealias ParamCallback<Param, R> = (Param) -> R
+
+public typealias ParamAsyncCallback<Param, R> = (Param) async -> R
+
+public typealias ParamThrowingAsyncCallback<Param, R> = (Param) async throws -> R
 
 public func blockBuilder<V>(
   _ block: @escaping AsyncReturn<V>
 ) -> AsyncReturn<V> {
   block
 }
-
-public typealias ThrowingAsyncReturn<Output> = () async throws -> Output
-
-public typealias MainThrowingAsyncReturn<Output> = @MainActor () async throws -> Output
 
 public func blockBuilder<V>(
   _ block: @escaping ThrowingAsyncReturn<V>
@@ -37,7 +52,7 @@ public func blockBuilder(
   block
 }
 
-public typealias ThrowingAsyncCompletion = ThrowingAsyncReturn<Void>
+
 
 public func blockBuilder(
   _ block: @escaping ThrowingAsyncCompletion
@@ -45,21 +60,11 @@ public func blockBuilder(
   block
 }
 
-// Callback
-public typealias Callback<R> = () -> R
-
 public func blockBuilder<V>(
   _ block: @escaping Callback<V>
 ) -> Callback<V> {
   block
 }
-
-public typealias AsyncCallback<R> = () async -> R
-
-public typealias ThrowingAsyncCallback<R> = () async throws -> R
-
-// Param
-public typealias ParamCallback<Param, R> = (Param) -> R
 
 public func blockBuilder<Param, R>(
   _ block: @escaping ParamCallback<Param, R>
@@ -67,15 +72,12 @@ public func blockBuilder<Param, R>(
   block
 }
 
-public typealias ParamAsyncCallback<Param, R> = (Param) async -> R
 
 public func blockBuilder<Param, R>(
   _ block: @escaping ParamAsyncCallback<Param, R>
 ) -> ParamAsyncCallback<Param, R> {
   block
 }
-
-public typealias ParamThrowingAsyncCallback<Param, R> = (Param) async throws -> R
 
 public func blockBuilder<Param, R>(
   _ block: @escaping ParamThrowingAsyncCallback<Param, R>

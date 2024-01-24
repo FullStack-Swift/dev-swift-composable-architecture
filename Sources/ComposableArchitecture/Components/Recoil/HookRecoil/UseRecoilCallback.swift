@@ -51,7 +51,7 @@ public func useRecoilCallback<Node>(
   line: UInt = #line,
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ fn: @escaping RecoilAsyncCallback<Node>
-) -> AsyncCallback<Node> {
+) -> AsyncReturn<Node> {
   useHook(
     UseRecoilAsyncCallBackHook(
       updateStrategy: updateStrategy,
@@ -76,7 +76,7 @@ public func useRecoilCallback<Node>(
   line: UInt = #line,
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ fn: @escaping RecoilThrowingAsyncCallback<Node>
-) -> ThrowingAsyncCallback<Node> {
+) -> ThrowingAsyncReturn<Node> {
   useHook(
     UseRecoilThrowingAsyncCallBackHook(
       updateStrategy: updateStrategy,
@@ -126,7 +126,7 @@ public func useRecoilLayoutCallback<Node>(
   line: UInt = #line,
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ fn: @escaping RecoilAsyncCallback<Node>
-) -> AsyncCallback<Node> {
+) -> AsyncReturn<Node> {
   useHook(
     UseRecoilAsyncCallBackHook(
       updateStrategy: updateStrategy,
@@ -151,7 +151,7 @@ public func useRecoilLayoutCallback<Node>(
   line: UInt = #line,
   _ updateStrategy: HookUpdateStrategy? = .once,
   _ fn: @escaping RecoilThrowingAsyncCallback<Node>
-) -> ThrowingAsyncCallback<Node> {
+) -> ThrowingAsyncReturn<Node> {
   useHook(
     UseRecoilThrowingAsyncCallBackHook(
       updateStrategy: updateStrategy,
@@ -242,7 +242,7 @@ private struct UseRecoilAsyncCallBackHook<Node>: Hook {
   }
   
   @MainActor
-  func value(coordinator: Coordinator) -> AsyncCallback<Node> {
+  func value(coordinator: Coordinator) -> AsyncReturn<Node> {
     return {
       await (coordinator.state.fn ?? fn)(coordinator.state.context)
     }
@@ -305,7 +305,7 @@ private struct UseRecoilThrowingAsyncCallBackHook<Node>: Hook {
   }
   
   @MainActor
-  func value(coordinator: Coordinator) -> ThrowingAsyncCallback<Node> {
+  func value(coordinator: Coordinator) -> ThrowingAsyncReturn<Node> {
     return {
       try await (coordinator.state.fn ?? fn)(coordinator.state.context)
     }

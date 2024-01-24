@@ -15,6 +15,7 @@
 		EB92CD302A5E8EDD007640AF /* TheMovieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92CD2F2A5E8EDD007640AF /* TheMovieTests.swift */; };
 		EB92CD3A2A5E8EDD007640AF /* TheMovieUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92CD392A5E8EDD007640AF /* TheMovieUITests.swift */; };
 		EB92CD3C2A5E8EDD007640AF /* TheMovieUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92CD3B2A5E8EDD007640AF /* TheMovieUITestsLaunchTests.swift */; };
+		EBAD7A7B2B689FE600DDC25B /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAD7A7A2B689FE600DDC25B /* AuthView.swift */; };
 		EBD7DC292ABC220E0097F114 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = EBD7DC282ABC220E0097F114 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		EB92CD352A5E8EDD007640AF /* TheMovieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TheMovieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB92CD392A5E8EDD007640AF /* TheMovieUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMovieUITests.swift; sourceTree = "<group>"; };
 		EB92CD3B2A5E8EDD007640AF /* TheMovieUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMovieUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		EBAD7A7A2B689FE600DDC25B /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 		EB92CD1C2A5E8EDB007640AF /* TheMovie */ = {
 			isa = PBXGroup;
 			children = (
+				EBAD7A792B689FD800DDC25B /* AuthScreen */,
 				EB92CD1D2A5E8EDB007640AF /* TheMovieApp.swift */,
 				EB92CD1F2A5E8EDB007640AF /* ContentView.swift */,
 				EB92CD212A5E8EDC007640AF /* Assets.xcassets */,
@@ -132,6 +135,14 @@
 				EB92CD3B2A5E8EDD007640AF /* TheMovieUITestsLaunchTests.swift */,
 			);
 			path = TheMovieUITests;
+			sourceTree = "<group>";
+		};
+		EBAD7A792B689FD800DDC25B /* AuthScreen */ = {
+			isa = PBXGroup;
+			children = (
+				EBAD7A7A2B689FE600DDC25B /* AuthView.swift */,
+			);
+			path = AuthScreen;
 			sourceTree = "<group>";
 		};
 		EBD7DC272ABC220E0097F114 /* Frameworks */ = {
@@ -277,6 +288,7 @@
 			files = (
 				EB92CD202A5E8EDB007640AF /* ContentView.swift in Sources */,
 				EB92CD1E2A5E8EDB007640AF /* TheMovieApp.swift in Sources */,
+				EBAD7A7B2B689FE600DDC25B /* AuthView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

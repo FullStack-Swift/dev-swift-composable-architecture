@@ -203,7 +203,8 @@ public struct RecoilGlobalContext: AtomWatchableContext {
 @propertyWrapper
 public struct RecoilGlobalViewContext {
   
-  @Dependency(\.recoilStoreContext)
+  @Environment(\.store)
+//  @Dependency(\.recoilStoreContext)
   private var _store
   
   private var state = State()

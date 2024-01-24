@@ -16,55 +16,57 @@ public class RiverpodContext {
   
   private var cancellables = SetCancellables()
   
-  @ObservableListener
+  @StateListener<IdentifiedArrayOf<SubscribeId>>([])
   var observable
   
-  let id = UUID()
-  
-//  public var subscribesId: IdentifiedArrayOf<SubscribeId> = .init()
-  
+  var _ids = IdentifiedArrayOf<SubscribeId>()
+
   init() {
     
   }
   
   deinit {
-    guard let weakStore else {
-      return
-    }
-    for item in weakStore.state.value {
-      unsubscribe(id: id, for: item)
-    }
+
   }
   
   init(weakStore: RiverpodStore? = nil) {
     self.weakStore = weakStore ?? .init()
-//    weakStore?.state.map({_ in ()})
-//      .sink(receiveValue: observable.send)
-//    .store(in: &cancellables)
+    weakStore?.state
+//      .map({_ in self._ids})
+//      .sink(receiveValue: $observable.send)
+      .sink(receiveValue: { providers in
+        for item in providers {
+          item.wrapped.observable.sink {
+            let id = self._ids
+            self.$observable.send(id)
+          }
+        }
+      })
+      .store(in: &cancellables)
   }
   
   static func scoped(store: RiverpodStore) -> RiverpodContext {
     RiverpodContext.init(weakStore: store)
   }
   
-  func subscribes(ids: [UUID], for item: AnyProvider) {
+  func subscribes(ids: [UUID]) {
     for id in ids {
-//      subscribesId.updateOrAppend(SubscribeId(id: id))
+      _ids.updateOrAppend(SubscribeId(id: id))
     }
   }
   
-  func unsubscribes(ids: [UUID], for item: AnyProvider) {
+  func unsubscribes(ids: [UUID]) {
     for id in ids {
-//      subscribesId.remove(id: id)
+      _ids.remove(id: id)
     }
   }
   
-  func subscribe(id: UUID, for item: AnyProvider) {
-    subscribes(ids: [id], for: item)
+  func subscribe(id: UUID) {
+    subscribes(ids: [id])
   }
   
-  func unsubscribe(id: UUID, for item: AnyProvider) {
-    unsubscribes(ids: [id], for: item)
+  func unsubscribe(id: UUID) {
+    unsubscribes(ids: [id])
   }
   
   @discardableResult
@@ -73,7 +75,6 @@ public class RiverpodContext {
       return node.value
     } else {
       store.state.value.updateOrAppend(node.eraseAnyProvider())
-      node.observable.sink(observable.send)
       return node.value
     }
   }
@@ -83,7 +84,6 @@ public class RiverpodContext {
     if let node = store.state.value[id: node.id]?.wrapped as? Node {
       return node.value
     } else {
-//      node.observable.sink(observable.send)
       store.state.value.updateOrAppend(node.eraseAnyProvider())
       return node.value
     }
@@ -94,7 +94,6 @@ public class RiverpodContext {
     if let node = store.state.value[id: node.id]?.wrapped as? Node {
       return node.value
     } else {
-//      node.observable.sink(observable.send)
       store.state.value.updateOrAppend(node.eraseAnyProvider())
       return node.value
     }
@@ -106,7 +105,6 @@ public class RiverpodContext {
     var newNode = node
     newNode.value = newValue
     store.state.value[id: node.id] = newNode.eraseAnyProvider()
-//    observable.send()
     return newNode.value
   }
   

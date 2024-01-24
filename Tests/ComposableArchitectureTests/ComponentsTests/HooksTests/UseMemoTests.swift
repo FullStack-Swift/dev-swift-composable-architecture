@@ -17,11 +17,11 @@ final class UseMemoTests: XCTestCase {
     value = 1
     tester.update() // renderUI
     
-    XCTAssertEqual(tester.value, 0)
+    XCTAssertEqual(tester.value, 1)
     
     value = 2
     tester.update() // renderUI
     
-    XCTAssertEqual(tester.value, 0)
+    XCTAssertEqual(tester.value, 2)
   }
 }

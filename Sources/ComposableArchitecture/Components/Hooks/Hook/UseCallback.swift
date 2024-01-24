@@ -35,8 +35,8 @@ public func useCallback<Value>(
 @discardableResult
 public func useCallBack<Value>(
   _ updateStrategy: HookUpdateStrategy? = .once,
-  _ fn: @escaping AsyncCallback<Value>
-) -> AsyncCallback<Value> {
+  _ fn: @escaping AsyncReturn<Value>
+) -> AsyncReturn<Value> {
   useHook(
     UseAsyncCallBackHook(
       updateStrategy: updateStrategy,
@@ -49,8 +49,8 @@ public func useCallBack<Value>(
 @discardableResult
 public func useCallBack<Value>(
   _ updateStrategy: HookUpdateStrategy? = .once,
-  _ fn: @escaping ThrowingAsyncCallback<Value>
-) -> ThrowingAsyncCallback<Value> {
+  _ fn: @escaping ThrowingAsyncReturn<Value>
+) -> ThrowingAsyncReturn<Value> {
   useHook(
     UseThrowingAsyncCallBackHook(
       updateStrategy: updateStrategy,
@@ -91,8 +91,8 @@ public func useLayoutCallback<Value>(
 @discardableResult
 public func useLayoutCallback<Value>(
   _ updateStrategy: HookUpdateStrategy? = .once,
-  _ fn: @escaping AsyncCallback<Value>
-) -> AsyncCallback<Value> {
+  _ fn: @escaping AsyncReturn<Value>
+) -> AsyncReturn<Value> {
   useHook(
     UseAsyncCallBackHook(
       updateStrategy: updateStrategy,
@@ -105,8 +105,8 @@ public func useLayoutCallback<Value>(
 @discardableResult
 public func useLayoutCallback<Value>(
   _ updateStrategy: HookUpdateStrategy? = .once,
-  _ fn: @escaping ThrowingAsyncCallback<Value>
-) -> ThrowingAsyncCallback<Value> {
+  _ fn: @escaping ThrowingAsyncReturn<Value>
+) -> ThrowingAsyncReturn<Value> {
   useHook(
     UseThrowingAsyncCallBackHook(
       updateStrategy: updateStrategy,
@@ -169,13 +169,13 @@ private struct UseAsyncCallBackHook<Value>: Hook {
   
   let shouldDeferredUpdate: Bool
   
-  let fn: AsyncCallback<Value>
+  let fn: AsyncReturn<Value>
   
   func makeState() -> State {
     State()
   }
   
-  func value(coordinator: Coordinator) -> AsyncCallback<Value> {
+  func value(coordinator: Coordinator) -> AsyncReturn<Value> {
     coordinator.state.fn ?? fn
   }
   
@@ -195,7 +195,7 @@ private extension UseAsyncCallBackHook {
   // MARK: State
   final class _HookRef {
     
-    var fn: AsyncCallback<Value>?
+    var fn: AsyncReturn<Value>?
     
     var isDisposed = false
     
@@ -214,13 +214,13 @@ private struct UseThrowingAsyncCallBackHook<Value>: Hook {
   
   let shouldDeferredUpdate: Bool
   
-  let fn: ThrowingAsyncCallback<Value>
+  let fn: ThrowingAsyncReturn<Value>
   
   func makeState() -> State {
     State()
   }
   
-  func value(coordinator: Coordinator) -> ThrowingAsyncCallback<Value> {
+  func value(coordinator: Coordinator) -> ThrowingAsyncReturn<Value> {
     coordinator.state.fn ?? fn
   }
   
@@ -240,7 +240,7 @@ private extension UseThrowingAsyncCallBackHook {
   // MARK: State
   final class _HookRef {
     
-    var fn: ThrowingAsyncCallback<Value>?
+    var fn: ThrowingAsyncReturn<Value>?
     
     var isDisposed = false
     

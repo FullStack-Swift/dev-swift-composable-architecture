@@ -2,7 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 
 @main
-struct CaseStudiesAppApp: App {
+struct CaseStudiesApp: App {
   var body: some Scene {
     WindowGroup {
       AtomRoot {

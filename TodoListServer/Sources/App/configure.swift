@@ -3,9 +3,6 @@ import Fluent
 import FluentSQLiteDriver
 import Vapor
 
-// cache websocket
-var websocketClients: WebsocketClients!
-
 // configures your application
 public func configure(_ app: Application) async throws {
   // uncomment to serve files from /Public folder
@@ -22,12 +19,12 @@ public func configure(_ app: Application) async throws {
   try await app.autoMigrate()
   
   // webSocket
-  websocketClients = WebsocketClients(eventLoop: app.eventLoopGroup.next())
+  WebsocketClients.websocketClients = WebsocketClients(eventLoop: app.eventLoopGroup.next())
   app.webSocket("todo-list") { request, webSocket in
     webSocket.send("Connected Socket", promise: request.eventLoop.makePromise())
-    websocketClients.add(WebSocketClient(id: UUID(), socket: webSocket))
+    WebsocketClients.websocketClients.add(WebSocketClient(id: UUID(), socket: webSocket))
     webSocket.onText { ws, text in
-      websocketClients.active.forEach { client in
+      WebsocketClients.websocketClients.active.forEach { client in
         client.socket.send(text, promise: request.eventLoop.makePromise())
       }
     }

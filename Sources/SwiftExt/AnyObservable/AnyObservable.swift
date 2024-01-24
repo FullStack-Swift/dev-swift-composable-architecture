@@ -47,14 +47,14 @@ open class BaseObservable: ObservableObject {
     }
   }
   
-  public func willChange() {
+  open func willChange() {
     Task { @MainActor in
       self.objectWillChange.send()
       self.observable.send()
     }
   }
   
-  public func refresh() {
+  open func refresh() {
     DispatchQueue.main.async {
       self.objectWillChange.send()
       self.observable.send()

@@ -118,7 +118,7 @@ private let filterTodoProvider = FilterTodoProvider()
 
 // MARK: TodoStats
 private struct TodoStats: ConsumerWidget {
-  func build(context: Context, ref: ViewRef) -> some View {
+  func build(context: Context, ref: ViewRef) -> any View {
     let todos = ref.watch(todoProvider)
     let total = todos.count
     let totalCompleted = todos.filter(\.isCompleted).count
@@ -152,7 +152,7 @@ private struct TodoStats: ConsumerWidget {
 // MARK: TodoFilters
 private struct TodoFilters: ConsumerWidget {
   
-  func build(context: Context, ref: ViewRef) -> some View {
+  func build(context: Context, ref: ViewRef) -> any View {
     let filter = ref.binding(filterProvier)
     Picker("Filter", selection: filter) {
       ForEach(Filter.allCases, id: \.self) { filter in
@@ -180,7 +180,7 @@ private struct TodoCreator: ConsumerWidget {
   
   @State private var text: String = ""
   
-  func build(context: Context, ref: ViewRef) -> some View {
+  func build(context: Context, ref: ViewRef) -> any View {
     let todos = ref.binding(todoProvider)
     HStack {
       TextField("Enter your todo", text: $text)
@@ -210,7 +210,7 @@ private struct TodoItem: ConsumerWidget {
     self.todoID = todoID
   }
   
-  func build(context: Context, ref: ViewRef) -> some View {
+  func build(context: Context, ref: ViewRef) -> any View {
     let todos = ref.binding(todoProvider)
     if let todo = todos.first(where: {$0.wrappedValue.id == self.todoID}) {
       Toggle(isOn: todo.map(\.isCompleted)) {
@@ -229,7 +229,7 @@ private struct TodoItem: ConsumerWidget {
 // MARK: RiverpodTodoView
 struct RiverpodTodoView: ConsumerWidget {
   
-  func build(context: Context, ref: ViewRef) -> some View {
+  func build(context: Context, ref: ViewRef) -> any View {
     let filterTodos = ref.watch(filterTodoProvider)
     List {
       Section(header: Text("Information")) {

@@ -1,7 +1,7 @@
 import SwiftUI
+import MCombineRequest
 
 // MARK: Model
-
 private struct Todo: Codable, Hashable, Identifiable {
   var id: UUID
   var text: String
@@ -21,48 +21,21 @@ private struct Stats: Equatable {
   let percentCompleted: Double
 }
 
-// MARK: Mock Data
-extension IdentifiedArray where ID == Todo.ID, Element == Todo {
-  static var mock: Self {
-    [
-      Todo(
-        id: UUID(),
-        text: "A",
-        isCompleted: false
-      ),
-      Todo(
-        id: UUID(),
-        text: "B",
-        isCompleted: true
-      ),
-      Todo(
-        id: UUID(),
-        text: "C",
-        isCompleted: false
-      ),
-      Todo(
-        id: UUID(),
-        text: "D",
-        isCompleted: true
-      ),
-    ]
-  }
-}
-
-
-private var testNoContent: Bool = true
-
 @MainActor
 fileprivate let loadMoreAtom = MObservableObjectAtom(id: sourceId()) { context in
   LoadMoreObservableAtom<Todo>(firstPage: 1) { page in
-    try? await Task.sleep(seconds: 2)
-    var todos = IdentifiedArrayOf<Todo>.mock.toArray()
-    if testNoContent {
-      todos = []
-      testNoContent.toggle()
+    let request = MRequest {
+      RUrl("http://127.0.0.1:8080")
+        .withPath("todos")
+        .withPath("paginate")
+      RQueryItems(["page": page.description, "per": 10.description])
+      RMethod(.get)
     }
-//    var todos = IdentifiedArrayOf<Todo>().toArray()
-    return PagedResponse(page: page, totalPages: 10, results: todos)
+    await Task.sleepOptional(seconds: 2)
+    let data = try await request.data
+    log.json(data)
+    var response = data.toModel(Page<Todo>.self) ?? Page(items: [], metadata: .init(page: 0, per: 0, total: 0))
+    return PagedResponse(page: page, totalPages: response.metadata.totalPages, results: response.items)
   }
 }
 
@@ -99,7 +72,7 @@ struct AtomLoadMoreView: View {
                 Text(todo.text)
                 Text(todo.id.description)
               }
-              //            if loadMore.hasNextPage {
+              
               if loadMore.loadPhase.value?.hasNextPage == true {
                 ProgressView()
                   .frame(maxWidth: .infinity, idealHeight: 40)

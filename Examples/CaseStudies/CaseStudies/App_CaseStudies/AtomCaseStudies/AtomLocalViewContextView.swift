@@ -13,23 +13,11 @@ private let readValue = selectorValue { context in
 
 struct AtomLocalViewContextView: View {
   
-  @LocalViewContext
-  var context
-  
   var body: some View {
-    
-    let localWathState = context.binding(value)
-    
-    return VStack {
-      Text(localWathState.wrappedValue.description)
-        .onTap {
-          localWathState.wrappedValue += 1
-        }
-      Text(context.watch(readValue).description)
-        .onTap {
-          localWathState.wrappedValue += 1
-        }
-      Text(context.read(readValue).description)
+    List {
+      ForEach(1..<100) { _ in
+        ContentLocalView()
+      }
     }
     .navigationBarItems(
       leading: EmptyView(),
@@ -41,6 +29,39 @@ struct AtomLocalViewContextView: View {
         }
       }
     )
+  }
+}
+
+private struct ContentLocalView: View {
+  
+  @LocalViewContext
+  var context
+  
+  var readValueLocal: String {
+    context.read(readValue.select(\.description))
+  }
+  
+  var body: some View {
+    
+    let localWathState = context.binding(value)
+    HStack {
+      Text(localWathState.wrappedValue.description)
+        .alignment(horizontal: .center)
+        .onTap {
+          localWathState.wrappedValue += 1
+        }
+      Text(context.watch(readValue).description)
+        .alignment(horizontal: .center)
+        .onTap {
+          localWathState.wrappedValue += 1
+        }
+      Text(readValueLocal)
+        .alignment(horizontal: .center)
+      Text(readValueLocal)
+        .alignment(horizontal: .center)
+    }
+    .font(.largeTitle)
+    .padding()
   }
 }
 

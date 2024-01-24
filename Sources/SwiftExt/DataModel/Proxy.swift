@@ -4,6 +4,7 @@ public protocol ProxyContainer {
   typealias Proxy<T> = AnyProxy<Self, T>
 }
 
+extension NSObject: ProxyContainer {}
 
 @propertyWrapper
 public struct AnyProxy<EnclosingType, Value> {
