@@ -16,7 +16,7 @@ public class RiverpodContext {
   
   private var cancellables = SetCancellables()
   
-  @StateListener<IdentifiedArrayOf<SubscribeId>>([])
+  @StateListener<IdentifiedArrayOf<SubscribeId>>(wrappedValue: [])
   var observable
   
   var _ids = IdentifiedArrayOf<SubscribeId>()
@@ -38,7 +38,7 @@ public class RiverpodContext {
         for item in providers {
           item.wrapped.observable.sink {
             let id = self._ids
-            self.$observable.send(id)
+//            self.$observable.send(id)
           }
         }
       })

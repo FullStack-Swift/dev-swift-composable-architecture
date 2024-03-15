@@ -61,7 +61,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/phongnd/Desktop/dev-swift-composable-architecture/TodoListServer"
+      customWorkingDirectory = "/Users/admin/Desktop/dev-swift-composable-architecture/TodoListServer"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"

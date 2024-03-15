@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		843120732BA4A0BE003D2364 /* MVVMDemo1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843120722BA4A0BE003D2364 /* MVVMDemo1.swift */; };
+		843120752BA4A1F4003D2364 /* MVVMDemo2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843120742BA4A1F4003D2364 /* MVVMDemo2.swift */; };
+		843120772BA4A3D0003D2364 /* MVVMDemo3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843120762BA4A3D0003D2364 /* MVVMDemo3.swift */; };
 		87647C862A42C932009BD13F /* RecoilUseCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87647C852A42C932009BD13F /* RecoilUseCaseStudiesView.swift */; };
 		876C21B52A4023A600B980DA /* TCACaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */; };
 		87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */; };
@@ -65,6 +68,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		843120722BA4A0BE003D2364 /* MVVMDemo1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMDemo1.swift; sourceTree = "<group>"; };
+		843120742BA4A1F4003D2364 /* MVVMDemo2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMDemo2.swift; sourceTree = "<group>"; };
+		843120762BA4A3D0003D2364 /* MVVMDemo3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMDemo3.swift; sourceTree = "<group>"; };
 		87647C852A42C932009BD13F /* RecoilUseCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoilUseCaseStudiesView.swift; sourceTree = "<group>"; };
 		876C21B42A4023A600B980DA /* TCACaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCACaseStudiesView.swift; sourceTree = "<group>"; };
 		87A974FD2A3AEB3900589EAE /* AtomCaseStudiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomCaseStudiesView.swift; sourceTree = "<group>"; };
@@ -278,6 +284,9 @@
 			children = (
 				EBBC4A402A6A930B0052FD1F /* APIRequestPage.swift */,
 				EBDCE1552AF229A0008AF97D /* UIComponentView.swift */,
+				843120722BA4A0BE003D2364 /* MVVMDemo1.swift */,
+				843120742BA4A1F4003D2364 /* MVVMDemo2.swift */,
+				843120762BA4A3D0003D2364 /* MVVMDemo3.swift */,
 			);
 			path = Examples;
 			sourceTree = "<group>";
@@ -406,6 +415,7 @@
 				87ABACAC2A4D1BAE00545682 /* MVCTodoView.swift in Sources */,
 				EB467EC42AEB991300177A77 /* HookUseDateView.swift in Sources */,
 				EB132B462AE8C0F7002CC1DF /* HookUseCountDownView.swift in Sources */,
+				843120732BA4A0BE003D2364 /* MVVMDemo1.swift in Sources */,
 				EBB036E82A7A2F1D0091B953 /* OnlineHookTodoView.swift in Sources */,
 				EBF60EC32A777EB8001E34D3 /* JotailTodoView.swift in Sources */,
 				EB132B442AE8AF48002CC1DF /* AboutView.swift in Sources */,
@@ -416,6 +426,7 @@
 				EBDCE1562AF229A0008AF97D /* UIComponentView.swift in Sources */,
 				87A974FE2A3AEB3900589EAE /* AtomCaseStudiesView.swift in Sources */,
 				87647C862A42C932009BD13F /* RecoilUseCaseStudiesView.swift in Sources */,
+				843120772BA4A3D0003D2364 /* MVVMDemo3.swift in Sources */,
 				90ACBBB82A4B4EE10041D7E2 /* RiverpodTodoView.swift in Sources */,
 				EBC0590C2B43F72000F97044 /* RecoilPropertyWrapperView.swift in Sources */,
 				EBDCE14B2AF0E531008AF97D /* HookUseNetworkStateView.swift in Sources */,
@@ -425,6 +436,7 @@
 				EBF60ED42A77A15F001E34D3 /* OnlineRecoilTodoView.swift in Sources */,
 				90ACBBB62A4B4EE10041D7E2 /* RecoilTodoView.swift in Sources */,
 				EB63B2EE2B69FA2A00D791F6 /* JotailAtomView.swift in Sources */,
+				843120752BA4A1F4003D2364 /* MVVMDemo2.swift in Sources */,
 				EBB036F42A7BA06B0091B953 /* VIPTodoView.swift in Sources */,
 				EBB20DF82B5FBF2500F5E885 /* CounterRiverpodView.swift in Sources */,
 				EBDCE1512AF0E5E2008AF97D /* HookUseEnvironmentView.swift in Sources */,

@@ -24,6 +24,25 @@ open class DisposeObservable: ObservableObject {
   }
 }
 
+  // MARK: MVVMObservable
+open class MVVMObservable: ObservableObject {
+  
+  public private(set) lazy var objectWillChange = ObservableObjectPublisher()
+  
+  public var cancellables = SetCancellables()
+  
+  @ObservableListener
+  public var observable
+  
+  public let id: UUID = UUID()
+  
+  public init() {
+    observable.publisher
+      .sink(receiveValue: objectWillChange.send)
+      .store(in: &cancellables)
+  }
+}
+
 // MARK: BaseObservable
 open class BaseObservable: ObservableObject {
   
@@ -39,6 +58,10 @@ open class BaseObservable: ObservableObject {
   private var observable
   
   public init() {
+    objectWillChange
+      .eraseToAnyPublisher()
+      .sink(receiveValue: observable.send)
+      .store(in: &cancellables)
     observable.sink { [ weak self] in
       guard let self else { return }
       self.count += 1
@@ -50,14 +73,12 @@ open class BaseObservable: ObservableObject {
   open func willChange() {
     Task { @MainActor in
       self.objectWillChange.send()
-      self.observable.send()
     }
   }
   
   open func refresh() {
     DispatchQueue.main.async {
       self.objectWillChange.send()
-      self.observable.send()
     }
   }
   
