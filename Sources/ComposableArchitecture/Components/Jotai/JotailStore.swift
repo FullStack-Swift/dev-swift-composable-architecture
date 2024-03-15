@@ -161,17 +161,17 @@ private extension ReducerHook {
 /// - Parameters:
 ///   - store: A store tca.
 /// - Returns: A store tca.
-public func useStore<R: Reducer>(
-  _ store: StoreOf<R>
-) -> StoreOf<R> {
-  useHook(StoreHook<R>(initialState: {store}))
-}
-
-public func useStore<R: Reducer>(
-  _ store: @escaping () -> StoreOf<R>
-) -> StoreOf<R> {
-  useHook(StoreHook<R>(initialState: store))
-}
+//public func useStore<R: Reducer>(
+//  _ store: StoreOf<R>
+//) -> StoreOf<R> {
+//  useHook(StoreHook<R>(initialState: {store}))
+//}
+//
+//public func useStore<R: Reducer>(
+//  _ store: @escaping () -> StoreOf<R>
+//) -> StoreOf<R> {
+//  useHook(StoreHook<R>(initialState: store))
+//}
 
 private struct StoreHook<R: Reducer>: Hook {
   

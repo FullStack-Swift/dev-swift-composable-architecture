@@ -17,8 +17,8 @@ public class RiverpodObservable: BaseObservable {
     location = SourceLocation(fileID: fileID, line: line)
     super.init()
     context.subscribe(id: id)
-    context.$observable
-      .filter({$0.ids.contains(self.id)})
+    context.observable.publisher
+//      .filter({$0.ids.contains(self.id)})
       .void()
       .sink(receiveValue: refresh)
       .store(in: &cancellables)

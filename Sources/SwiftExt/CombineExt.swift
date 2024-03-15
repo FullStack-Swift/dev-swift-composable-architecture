@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import Combine
 
 // MARK: Combine TypeAlias
@@ -215,16 +216,22 @@ public struct StateListener<State> {
   
   private let viewModel: ViewModel
   
-  public init(_ initialValue: State) {
-    viewModel = ViewModel(initialValue)
+  public init(wrappedValue: State) {
+    viewModel = ViewModel(wrappedValue)
   }
   
   public var wrappedValue: State {
     viewModel.stateSubject.value
   }
   
-  public var projectedValue: StateSubject<State> {
-    viewModel.stateSubject
+  public var projectedValue: Binding<State> {
+    Binding {
+      viewModel.stateSubject.value
+    } set: { newValue, transaction in
+      withTransaction(transaction) {
+        viewModel.stateSubject.value = newValue
+      }
+    }
   }
   
   /// the publisher State
